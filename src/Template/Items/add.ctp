@@ -2,25 +2,35 @@
 $this->set('title', 'Add');
 
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('List Items'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Companies'), ['controller' => 'Companies', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Company'), ['controller' => 'Companies', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="items form large-9 medium-8 columns content">
-    <?= $this->Form->create($item) ?>
-    <fieldset>
-        <legend><?= __('Add Item') ?></legend>
-        <?php
-            echo $this->Form->control('name');
-            echo $this->Form->control('hsn_code');
-            echo $this->Form->control('freezed');
-            echo $this->Form->control('company_id', ['options' => $companies]);
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
-</div>
+<div class="box box-primary" >
+	<?= $this->Form->create($item) ?>
+	<fieldset>
+		<legend><?= __('Add Item') ?></legend>
+		<div class="box-body" >
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label">Name <span class="required" aria-required="true">*</span></label>
+						<?php echo $this->Form->control('name' , ['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Item Name']); ?>
+					</div>
+				
+					<div class="form-group">
+						<label class="control-label">Hsn No.<span class="required" aria-required="true">*</span></label>
+                        <?php echo $this->Form->control('hsn_code',['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter HSN No.']); ?> 
+					</div>
+				
+					<div class="form-group">
+						<?php echo $this->Form->control('freezed'); ?>
+					</div>
+                
+					<div class="form-group">
+						<label class="control-label">Company Name<span class="required" aria-required="true">*</span></label>
+						<?php echo $this->Form->input('company_id',['options' => $companies ,'label' => false,'class' => 'form-control input-sm select2me']); ?>
+					</div>
+                </div>
+			</div> 
+		</div>
+	</fieldset>
+	<?= $this->Form->button(__('Submit')) ?>
+	<?= $this->Form->end() ?>
+</div>    
