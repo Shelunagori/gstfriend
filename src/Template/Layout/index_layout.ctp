@@ -56,9 +56,7 @@ License: You must have a valid license purchased only from themeforest(the above
 	<div class="page-header-inner">
 		<!-- BEGIN LOGO -->
 		<div class="page-logo">
-			<a href="index.html">
-			BHAGYALAXMI
-			</a>
+			<?php echo $this->Html->image('/img/viewlogo.png', ['style'=>'height: 41px;margin-top: 2px;']); ?>
 			<div class="menu-toggler sidebar-toggler hide">
 				<!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
 			</div>
