@@ -28,6 +28,7 @@ class ItemsController extends AppController
 
         $this->set(compact('items'));
         $this->set('_serialize', ['items']);
+		$this->set('active_menu', 'Items.Index');
     }
 
     /**
@@ -69,6 +70,7 @@ class ItemsController extends AppController
         $companies = $this->Items->Companies->find('list', ['limit' => 200]);
         $this->set(compact('item', 'companies'));
         $this->set('_serialize', ['item']);
+		$this->set('active_menu', 'Items.Add');
     }
 
     /**

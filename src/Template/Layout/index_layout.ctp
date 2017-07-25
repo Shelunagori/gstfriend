@@ -84,9 +84,7 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
 		<!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
 		<ul class="page-sidebar-menu page-sidebar-menu-light page-sidebar-menu-closed" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
-			
 			<?= $this->element('menu'); ?>
-			
 		</ul>
 		<!-- BEGIN CONTENT -->
 	</div>
