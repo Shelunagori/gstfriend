@@ -20,6 +20,7 @@ class ItemsController extends AppController
      */
     public function index()
     {
+		$this->viewBuilder()->layout('index_layout');
         $this->paginate = [
             'contain' => ['Companies']
         ];
@@ -38,6 +39,7 @@ class ItemsController extends AppController
      */
     public function view($id = null)
     {
+		$this->viewBuilder()->layout('index_layout');
         $item = $this->Items->get($id, [
             'contain' => ['Companies']
         ]);
@@ -53,7 +55,7 @@ class ItemsController extends AppController
      */
     public function add()
     {
-        $this->viewBuilder()->layout('index_layout');
+		$this->viewBuilder()->layout('index_layout');
         $item = $this->Items->newEntity();
         if ($this->request->is('post')) {
             $item = $this->Items->patchEntity($item, $this->request->getData());
@@ -78,6 +80,7 @@ class ItemsController extends AppController
      */
     public function edit($id = null)
     {
+		$this->viewBuilder()->layout('index_layout');
         $item = $this->Items->get($id, [
             'contain' => []
         ]);

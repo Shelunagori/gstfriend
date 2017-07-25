@@ -1,10 +1,13 @@
 <?php
-$this->set('title','Item Add');
+$this->set('title', 'Add');
+
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('List Items'), ['action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('List Companies'), ['controller' => 'Companies', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Company'), ['controller' => 'Companies', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="items form large-9 medium-8 columns content">
@@ -15,7 +18,7 @@ $this->set('title','Item Add');
             echo $this->Form->control('name');
             echo $this->Form->control('hsn_code');
             echo $this->Form->control('freezed');
-            echo $this->Form->control('company_id');
+            echo $this->Form->control('company_id', ['options' => $companies]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
