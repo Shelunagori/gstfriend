@@ -1,5 +1,17 @@
-<?php 
-echo '<li>'.$this->Html->link($this->Html->tag('i', '', ['class' => 'fa fa-plus-square']).'Add Item', '/Items/Add',['escape' => false]).'</li>'; 
-echo '<li>'.$this->Html->link($this->Html->tag('i', '', ['class' => 'fa fa-list-alt']).'List Item', '/Items/index',['escape' => false]).'</li>'; 
-echo '<li>'.$this->Html->link($this->Html->tag('i', '', ['class' => 'fa fa-pencil-alt']).'Edit Item', '/Items/edit',['escape' => false]).'</li>';
+<?php
+/**
+ * @Author: PHP Poets IT Solutions Pvt. Ltd.
+ */
+if(!isset($active_menu))
+{
+    $active_menu = '';
+}
+?>
+<?php
+$activeClass = (($active_menu == 'Items.Add')?['class' => 'active']:[]);
+echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-plus-square"></i> '.__('Add Item'), ['controller' => 'Items', 'action' => 'Add'], ['escape' => false]), $activeClass);
+
+$activeClass = (($active_menu == 'Items.Index')?['class' => 'active']:[]);
+echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-plus-square"></i> '.__('List Items'), ['controller' => 'Items', 'action' => 'Index'], ['escape' => false]), $activeClass);
+  
 ?>
