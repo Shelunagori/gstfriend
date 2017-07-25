@@ -24,9 +24,7 @@ $this->set('title', 'List');
 				<td><?php if(@$item->freezed==0){ echo "Unfreezed";  } else {   echo "Freezed"; } ?></td>
 				<td><?= $item->has('company') ? $this->Html->link($item->company->name, ['controller' => 'Companies', 'action' => 'view', $item->company->id]) : '' ?></td>
 				<td class="actions">
-					<?= $this->Html->link(__('View'), ['action' => 'view', $item->id]) ?>
 					<?= $this->Html->link(__('Edit'), ['action' => 'edit', $item->id]) ?>
-					<?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $item->id], ['confirm' => __('Are you sure you want to delete # {0}?', $item->id)]) ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>
