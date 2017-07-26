@@ -28,7 +28,7 @@ class CustomersController extends AppController
 
         $this->set(compact('customers'));
         $this->set('_serialize', ['customers']);
-		$this->set('active_menu', 'customers.Index');
+		$this->set('active_menu', 'Customers.Index');
     }
 
     /**
@@ -70,7 +70,7 @@ class CustomersController extends AppController
         $companies = $this->Customers->Companies->find('list', ['limit' => 200]);
         $this->set(compact('customer', 'companies'));
         $this->set('_serialize', ['customer']);
-		$this->set('active_menu', 'customers.Add');
+		$this->set('active_menu', 'Customers.Add');
     }
 
     /**

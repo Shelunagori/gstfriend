@@ -8,13 +8,13 @@ $this->set('title', 'List');
 			<table id="example1" class="table table-bordered table-striped">
 				<thead style="text-align:center;">
 					<tr>
-						<th scope="col"><?= $this->Paginator->sort('id') ?></th>
-						<th scope="col"><?= $this->Paginator->sort('name') ?></th>
-						<th scope="col"><?= $this->Paginator->sort('mobile') ?></th>
-						<th scope="col"><?= $this->Paginator->sort('email') ?></th>
-						<th scope="col"><?= $this->Paginator->sort('freezed') ?></th>
-						<th scope="col"><?= $this->Paginator->sort('company_id') ?></th>
-						<th scope="col" class="actions"><?= __('Actions') ?></th>
+						<th scope="col" style="text-align:center">ID</th>
+						<th scope="col" style="text-align:center">NAME</th>
+						<th scope="col" style="text-align:center">MOBILE NO.</th>
+						<th scope="col" style="text-align:center">EMAIL</th>
+						<th scope="col" style="text-align:center">FREEZED</th>
+						<th scope="col" style="text-align:center">COMPANY NAME</th>
+						<th scope="col" class="actions" style="text-align:center"><?= __('Actions') ?></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -25,7 +25,7 @@ $this->set('title', 'List');
 						<td><?= h($supplier->mobile) ?></td>
 						<td><?= h($supplier->email) ?></td>
 						<td><?php if(@$supplier->freezed==0){ echo "Unfreezed";  } else {   echo "Freezed"; } ?></td>
-						<td><?= $supplier->has('company') ? $this->Html->link($supplier->company->name, ['controller' => 'Companies', 'action' => 'view', $supplier->company->id]) : '' ?></td>
+						<td><?php echo $supplier->company->name; ?></td>
 						<td class="actions">
 						   <?= $this->Html->link(__('Edit'), ['action' => 'edit', $supplier->id]) ?>
 						</td>
