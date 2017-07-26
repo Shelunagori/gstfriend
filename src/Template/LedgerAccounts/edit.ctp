@@ -21,10 +21,6 @@ $this->set('title', 'Edit');
 							<?php echo $this->Form->control('name',['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Name']); ?>
 						</div>
 						<div class="form-group">
-							<label class="control-label">Hsn No.<span class="required" aria-required="true">*</span></label>
-							<?php echo $this->Form->control('hsn_code',['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter HSN No.']); ?> 
-						</div>
-						<div class="form-group">
 							<?php echo $this->Form->control('freezed'); ?>
 						</div>
 					

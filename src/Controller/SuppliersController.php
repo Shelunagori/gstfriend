@@ -61,6 +61,12 @@ class SuppliersController extends AppController
         if ($this->request->is('post')) {
             $supplier = $this->Suppliers->patchEntity($supplier, $this->request->getData());
             if ($this->Suppliers->save($supplier)) {
+				$LedgerAccount = $this->Suppliers->LedgerAccounts->newEntity();
+				$LedgerAccount->name=$supplier->name;
+				$LedgerAccount->freezed=$supplier->freezed;
+				$LedgerAccount->company_id=$supplier->company_id;
+				$LedgerAccount->customer_id=$supplier->id;
+				$this->Suppliers->LedgerAccounts->save($LedgerAccount);
                 $this->Flash->success(__('The supplier has been saved.'));
 
                 return $this->redirect(['action' => 'index']);

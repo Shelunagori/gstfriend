@@ -14,7 +14,6 @@ $this->set('title', 'List');
             <tr>
                 <th scope="col" style="text-align:center">ID </th>
                 <th scope="col" style="text-align:center">NAME</th>
-                <th scope="col" style="text-align:center">HSN CODE</th>
                 <th scope="col" style="text-align:center">FREEZED</th>
                 <th scope="col" style="text-align:center">COMPANY NAME</th>
                 <th scope="col" style="text-align:center">SUPPLIER NAME</th>
@@ -27,7 +26,6 @@ $this->set('title', 'List');
             <tr style="text-align:center">
                 <td><?= $this->Number->format($ledgerAccount->id) ?></td>
                 <td><?= h($ledgerAccount->name) ?></td>
-                <td><?= h($ledgerAccount->hsn_code) ?></td>
                 <td><?php if(@$ledgerAccount->freezed==0){ echo "Unfreezed";  } else {   echo "Freezed"; } ?></td>
                 <td><?php echo $ledgerAccount->company->name; ?></td>
                 <td><?php echo $ledgerAccount->supplier->name; ?></td>

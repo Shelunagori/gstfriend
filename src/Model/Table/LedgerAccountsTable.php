@@ -69,10 +69,6 @@ class LedgerAccountsTable extends Table
             ->notEmpty('name');
 
         $validator
-            ->requirePresence('hsn_code', 'create')
-            ->notEmpty('hsn_code');
-
-        $validator
             ->boolean('freezed')
             ->requirePresence('freezed', 'create')
             ->notEmpty('freezed');

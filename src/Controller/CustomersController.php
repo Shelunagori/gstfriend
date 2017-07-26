@@ -61,6 +61,13 @@ class CustomersController extends AppController
         if ($this->request->is('post')) {
             $customer = $this->Customers->patchEntity($customer, $this->request->getData());
             if ($this->Customers->save($customer)) {
+				$LedgerAccount = $this->Customers->LedgerAccounts->newEntity();
+				$LedgerAccount->name=$customer->name;
+				$LedgerAccount->freezed=$customer->freezed;
+				$LedgerAccount->company_id=$customer->company_id;
+				$LedgerAccount->customer_id=$customer->id;
+				$this->Customers->LedgerAccounts->save($LedgerAccount);
+			
                 $this->Flash->success(__('The customer has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
