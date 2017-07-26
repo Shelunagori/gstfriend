@@ -56,10 +56,14 @@ class SuppliersController extends AppController
      */
     public function add()
     {
+		$company_id=$this->Auth->User('company_id');
+		
 		$this->viewBuilder()->layout('index_layout');
         $supplier = $this->Suppliers->newEntity();
         if ($this->request->is('post')) {
             $supplier = $this->Suppliers->patchEntity($supplier, $this->request->getData());
+			$supplier->company_id=$company_id;
+			
             if ($this->Suppliers->save($supplier)) {
 				$LedgerAccount = $this->Suppliers->LedgerAccounts->newEntity();
 				$LedgerAccount->name=$supplier->name;

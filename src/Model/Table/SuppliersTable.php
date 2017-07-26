@@ -75,6 +75,11 @@ class SuppliersTable extends Table
             ->boolean('freezed')
             ->requirePresence('freezed', 'create')
             ->notEmpty('freezed');
+			
+		$validator
+            ->integer('company_id')
+            ->requirePresence('company_id', 'create')
+            ->notEmpty('company_id');
 
         return $validator;
     }

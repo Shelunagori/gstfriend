@@ -29,10 +29,7 @@ $this->set('title', 'Add');
 							<?php echo $this->Form->control('freezed'); ?>
 						</div>
 					
-						<div class="form-group">
-							<label class="control-label">Company Name<span class="required" aria-required="true">*</span></label>
-							<?php echo $this->Form->input('company_id',['options' => $companies ,'label' => false,'class' => 'form-control input-sm select2me']); ?>
-						</div>
+						
 					</div>
 				</div> 
 			</div>
