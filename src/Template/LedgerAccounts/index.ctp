@@ -22,14 +22,15 @@ $this->set('title', 'List');
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($ledgerAccounts as $ledgerAccount): ?>
-            <tr style="text-align:center">
+            <?php
+			foreach ($ledgerAccounts as $ledgerAccount): ?>
+            <tr >
                 <td><?= $this->Number->format($ledgerAccount->id) ?></td>
                 <td><?= h($ledgerAccount->name) ?></td>
                 <td><?php if(@$ledgerAccount->freezed==0){ echo "Unfreezed";  } else {   echo "Freezed"; } ?></td>
                 <td><?php echo $ledgerAccount->company->name; ?></td>
-                <td><?php echo $ledgerAccount->supplier->name; ?></td>
-                <td><?php echo $ledgerAccount->customer->name; ?></td>
+                <td><?php if(@$ledgerAccount->supplier_id==0){ echo 'No'; }else { echo $ledgerAccount->supplier->name; } ?></td>
+                <td><?php if(@$ledgerAccount->customer_id==0) { echo 'No'; } else { echo $ledgerAccount->customer->name; } ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $ledgerAccount->id]) ?>
                 </td>

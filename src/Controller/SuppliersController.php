@@ -56,6 +56,7 @@ class SuppliersController extends AppController
      */
     public function add()
     {
+		
 		$company_id=$this->Auth->User('company_id');
 		
 		$this->viewBuilder()->layout('index_layout');
@@ -64,12 +65,14 @@ class SuppliersController extends AppController
             $supplier = $this->Suppliers->patchEntity($supplier, $this->request->getData());
 			$supplier->company_id=$company_id;
 			
+			$LedgerAccount = $this->Suppliers->LedgerAccounts->newEntity();
+			$LedgerAccount->name = $supplier->name;
+			$LedgerAccount->freezed = $supplier->freezed;
+			$LedgerAccount->company_id = $company_id;
+			
+			$supplier->ledger_accounts = [$LedgerAccount];
             if ($this->Suppliers->save($supplier)) {
-				$LedgerAccount = $this->Suppliers->LedgerAccounts->newEntity();
-				$LedgerAccount->name=$supplier->name;
-				$LedgerAccount->freezed=$supplier->freezed;
-				$LedgerAccount->company_id=$supplier->company_id;
-				$LedgerAccount->customer_id=$supplier->id;
+				
 				$this->Suppliers->LedgerAccounts->save($LedgerAccount);
                 $this->Flash->success(__('The supplier has been saved.'));
 

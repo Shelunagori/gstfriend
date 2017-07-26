@@ -56,24 +56,27 @@ class CustomersController extends AppController
      */
     public function add()
     {
+		$company_id=$this->Auth->User('company_id');
+		
 		$this->viewBuilder()->layout('index_layout');
         $customer = $this->Customers->newEntity();
-        if ($this->request->is('post')) {
-            $customer = $this->Customers->patchEntity($customer, $this->request->getData());
-            if ($this->Customers->save($customer)) {
+        if ($this->request->is('post')) { 
+				$customer = $this->Customers->patchEntity($customer, $this->request->getData());
+				$customer->company_id=$company_id;
+            
 				$LedgerAccount = $this->Customers->LedgerAccounts->newEntity();
 				$LedgerAccount->name=$customer->name;
 				$LedgerAccount->freezed=$customer->freezed;
-				$LedgerAccount->company_id=$customer->company_id;
-				$LedgerAccount->customer_id=$customer->id;
+				$LedgerAccount->company_id=$company_id;
+				
+				$customer->ledger_accounts = [$LedgerAccount];
+			if ($this->Customers->save($customer)) {
 				$this->Customers->LedgerAccounts->save($LedgerAccount);
-			
-                $this->Flash->success(__('The customer has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
+				$this->Flash->success(__('The customer has been saved.'));
+				return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The customer could not be saved. Please, try again.'));
-        }
+				$this->Flash->error(__('The customer could not be saved. Please, try again.'));
+		}
         $companies = $this->Customers->Companies->find('list', ['limit' => 200]);
         $this->set(compact('customer', 'companies'));
         $this->set('_serialize', ['customer']);

@@ -40,15 +40,15 @@ class LedgerAccountsTable extends Table
 
         $this->belongsTo('Companies', [
             'foreignKey' => 'company_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT'
         ]);
         $this->belongsTo('Suppliers', [
             'foreignKey' => 'supplier_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT'
         ]);
         $this->belongsTo('Customers', [
             'foreignKey' => 'customer_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT'
         ]);
     }
 

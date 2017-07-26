@@ -32,8 +32,6 @@ echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-plus-square"></i>
 $activeClass = (($active_menu == 'Customers.Index')?['class' => 'active']:[]);
 echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-plus-square"></i> '.__('List Customers'), ['controller' => 'Customers', 'action' => 'Index'], ['escape' => false]), $activeClass);
 
-$activeClass = (($active_menu == 'LedgerAccounts.Add')?['class' => 'active']:[]);
-echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-plus-square"></i> '.__('Add LedgerAccounts'), ['controller' => 'LedgerAccounts', 'action' => 'Add'], ['escape' => false]), $activeClass);
 
 $activeClass = (($active_menu == 'LedgerAccounts.Index')?['class' => 'active']:[]);
 echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-plus-square"></i> '.__('List LedgerAccounts'), ['controller' => 'LedgerAccounts', 'action' => 'Index'], ['escape' => false]), $activeClass);

@@ -35,7 +35,10 @@ class SuppliersTable extends Table
         $this->setTable('suppliers');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
-		$this->belongsTo('LedgerAccounts');
+		
+		$this->hasOne('LedgerAccounts',[
+			'foreignKey' => 'supplier_id'
+		]);
         $this->belongsTo('Companies', [
             'foreignKey' => 'company_id',
             'joinType' => 'INNER'
@@ -59,12 +62,10 @@ class SuppliersTable extends Table
             ->notEmpty('name');
 
         $validator
-            ->requirePresence('mobile', 'create')
             ->notEmpty('mobile');
 
         $validator
             ->email('email')
-            ->requirePresence('email', 'create')
             ->notEmpty('email');
 
         $validator
@@ -76,10 +77,7 @@ class SuppliersTable extends Table
             ->requirePresence('freezed', 'create')
             ->notEmpty('freezed');
 			
-		$validator
-            ->integer('company_id')
-            ->requirePresence('company_id', 'create')
-            ->notEmpty('company_id');
+	
 
         return $validator;
     }

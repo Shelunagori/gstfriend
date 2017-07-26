@@ -18,7 +18,7 @@ $this->set('title', 'List');
 				</thead>
 				<tbody>
 					<?php foreach ($items as $item):  ?>
-					<tr style="text-align:center">
+					<tr>
 						<td><?= $this->Number->format($item->id) ?></td>
 						<td><?= h($item->name) ?></td>
 						<td><?= h($item->hsn_code) ?></td>

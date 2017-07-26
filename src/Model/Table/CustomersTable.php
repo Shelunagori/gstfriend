@@ -35,7 +35,10 @@ class CustomersTable extends Table
         $this->setTable('customers');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
-		$this->belongsTo('LedgerAccounts');
+		
+		$this->hasOne('LedgerAccounts',[
+			'foreignKey' => 'customer_id'
+		]);
         $this->belongsTo('Companies', [
             'foreignKey' => 'company_id',
             'joinType' => 'INNER'
@@ -59,12 +62,10 @@ class CustomersTable extends Table
             ->notEmpty('name');
 
         $validator
-            ->requirePresence('mobile', 'create')
             ->notEmpty('mobile');
 
         $validator
             ->email('email')
-            ->requirePresence('email', 'create')
             ->notEmpty('email');
 
         $validator
@@ -75,6 +76,7 @@ class CustomersTable extends Table
             ->boolean('freezed')
             ->requirePresence('freezed', 'create')
             ->notEmpty('freezed');
+		
 
         return $validator;
     }
