@@ -63,13 +63,13 @@ class CustomersController extends AppController
         if ($this->request->is('post')) { 
 				$customer = $this->Customers->patchEntity($customer, $this->request->getData());
 				$customer->company_id=$company_id;
-            
+            /*ledger table Entry Start*/
 				$LedgerAccount = $this->Customers->LedgerAccounts->newEntity();
 				$LedgerAccount->name=$customer->name;
 				$LedgerAccount->freezed=$customer->freezed;
 				$LedgerAccount->company_id=$company_id;
-				
 				$customer->ledger_accounts = [$LedgerAccount];
+			 /*ledger table Entry end*/	
 			if ($this->Customers->save($customer)) {
 				$this->Customers->LedgerAccounts->save($LedgerAccount);
 				$this->Flash->success(__('The customer has been saved.'));

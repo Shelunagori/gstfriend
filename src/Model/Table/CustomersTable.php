@@ -77,7 +77,6 @@ class CustomersTable extends Table
             ->requirePresence('freezed', 'create')
             ->notEmpty('freezed');
 		
-
         return $validator;
     }
 
