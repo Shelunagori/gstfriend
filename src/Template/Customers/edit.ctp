@@ -1,17 +1,21 @@
 <?php
-$this->set('title', 'Add');
+$this->set('title', 'Edit');
 ?>
 <div class="portlet light bordered" style="background-color:#f5f3f3">
 	<div class="portlet-body-form"  >
-		<?= $this->Form->create($supplier) ?>
+		<div class="portlet-title">
+			<div class="caption" >
+				<legend><?= __('Edit Customer') ?></legend>
+			</div>
+		</div>
+		<?= $this->Form->create($customer) ?>
 		<fieldset>
-			<legend><?= __('Add Supplier') ?></legend>
 			<div class="form-body" >
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
 							<label class="control-label">Name <span class="required" aria-required="true">*</span></label>
-							<?php echo $this->Form->control('name' , ['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter supplier Name']); ?>
+							<?php echo $this->Form->control('name',['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Customer Name']); ?>
 						</div>
 						<div class="form-group">
 							<label class="control-label">Mobile No.<span class="required" aria-required="true">*</span></label>

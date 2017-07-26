@@ -4,9 +4,9 @@ $this->set('title', 'List');
 <div class="portlet light bordered" style="background-color:#f5f3f3">
 	<div class="portlet-body-form"  >
 		<div class="form-body">
-			<h3><?= __('Suppliers') ?></h3>
-			<table id="example1" class="table table-bordered table-striped">
-				<thead style="text-align:center;">
+			<h3><?= __('Customers') ?></h3>
+			<table id="example1" class="table table-bordered form-group table-striped">
+				<thead>
 					<tr>
 						<th scope="col"><?= $this->Paginator->sort('id') ?></th>
 						<th scope="col"><?= $this->Paginator->sort('name') ?></th>
@@ -18,16 +18,16 @@ $this->set('title', 'List');
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach ($suppliers as $supplier): ?>
+					<?php foreach ($customers as $customer): ?>
 					<tr>
-						<td><?= $this->Number->format($supplier->id) ?></td>
-						<td><?= h($supplier->name) ?></td>
-						<td><?= h($supplier->mobile) ?></td>
-						<td><?= h($supplier->email) ?></td>
-						<td><?php if(@$supplier->freezed==0){ echo "Unfreezed";  } else {   echo "Freezed"; } ?></td>
-						<td><?= $supplier->has('company') ? $this->Html->link($supplier->company->name, ['controller' => 'Companies', 'action' => 'view', $supplier->company->id]) : '' ?></td>
+						<td><?= $this->Number->format($customer->id) ?></td>
+						<td><?= h($customer->name) ?></td>
+						<td><?= h($customer->mobile) ?></td>
+						<td><?= h($customer->email) ?></td>
+						<td><?php if(@$customer->freezed==0){ echo "Unfreezed";  } else {   echo "Freezed"; } ?></td>
+						<td><?= $customer->has('company') ? $this->Html->link($customer->company->name, ['controller' => 'Companies', 'action' => 'view', $customer->company->id]) : '' ?></td>
 						<td class="actions">
-						   <?= $this->Html->link(__('Edit'), ['action' => 'edit', $supplier->id]) ?>
+						   <?= $this->Html->link(__('Edit'), ['action' => 'edit', $customer->id]) ?>
 						</td>
 					</tr>
 					<?php endforeach; ?>
