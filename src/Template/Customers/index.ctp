@@ -1,31 +1,33 @@
 <?php
 $this->set('title', 'List');
 ?>
-<div class="portlet light bordered" style="background-color:#f5f3f3">
+<div class="portlet light bordered portlet-box-yellow" style="background-color:#f5f3f3">
 	<div class="portlet-body-form"  >
 		<div class="form-body">
-			<h3><?= __('Items') ?></h3>
-			<table id="example1" class="table table-bordered table-striped">
-				<thead style="text-align:center;">
-					<tr >
+			<h3><?= __('Customers') ?></h3>
+			<table id="example1" class="table table-bordered form-group table-striped">
+				<thead>
+					<tr>
 						<th scope="col" style="text-align:center">ID</th>
 						<th scope="col" style="text-align:center">NAME</th>
-						<th scope="col" style="text-align:center">HSN CODE</th>
+						<th scope="col" style="text-align:center">MONILE NO.</th>
+						<th scope="col" style="text-align:center">EMAIL</th>
 						<th scope="col" style="text-align:center">FREEZED</th>
 						<th scope="col" style="text-align:center">COMPANY NAME</th>
 						<th scope="col" class="actions" style="text-align:center"><?= __('Actions') ?></th>
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach ($items as $item):  ?>
+					<?php foreach ($customers as $customer): ?>
 					<tr style="text-align:center">
-						<td><?= $this->Number->format($item->id) ?></td>
-						<td><?= h($item->name) ?></td>
-						<td><?= h($item->hsn_code) ?></td>
-						<td><?php if(@$item->freezed==0){ echo "Unfreezed";  } else {   echo "Freezed"; } ?></td>
-						<td><?php echo $item->company->name; ?></td>
+						<td><?= $this->Number->format($customer->id) ?></td>
+						<td><?= h($customer->name) ?></td>
+						<td><?= h($customer->mobile) ?></td>
+						<td><?= h($customer->email) ?></td>
+						<td><?php if(@$customer->freezed==0){ echo "Unfreezed";  } else {   echo "Freezed"; } ?></td>
+						<td><?php echo $customer->company->name; ?></td>
 						<td class="actions">
-							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $item->id]) ?>
+						   <?= $this->Html->link(__('Edit'), ['action' => 'edit', $customer->id]) ?>
 						</td>
 					</tr>
 					<?php endforeach; ?>
