@@ -33,7 +33,7 @@ class UsersController extends AppController
             if ($user) 
 			{
                 $this->Auth->setUser($user);
-				return $this->redirect(['controller'=>'Users','action' => 'index']);
+				return $this->redirect(['controller'=>'Users','action' => 'Dashboard']);
             }
             $this->Flash->error(__('Invalid Username or Password'));
         }
@@ -47,7 +47,6 @@ class UsersController extends AppController
      */
     public function index()
     {
-		
         $users = $this->paginate($this->Users);
 
         $this->set(compact('users'));
@@ -136,6 +135,15 @@ class UsersController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+	
+	public function dashboard()
+    {
+        $this->viewBuilder()->layout('index_layout');
+		
+		$company_id=$this->Auth->User('company_id');
+		
+		$this->set('active_menu', 'Users.Dashboard');
     }
 	
 	
