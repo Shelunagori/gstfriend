@@ -19,7 +19,7 @@ $this->set('title', 'List');
 				</thead>
 				<tbody>
 					<?php foreach ($suppliers as $supplier): ?>
-					<tr>
+					<tr style="text-align:center">
 						<td><?= $this->Number->format($supplier->id) ?></td>
 						<td><?= h($supplier->name) ?></td>
 						<td><?= h($supplier->mobile) ?></td>

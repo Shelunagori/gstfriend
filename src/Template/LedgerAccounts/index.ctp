@@ -24,7 +24,7 @@ $this->set('title', 'List');
         </thead>
         <tbody>
             <?php foreach ($ledgerAccounts as $ledgerAccount): ?>
-            <tr>
+            <tr style="text-align:center">
                 <td><?= $this->Number->format($ledgerAccount->id) ?></td>
                 <td><?= h($ledgerAccount->name) ?></td>
                 <td><?= h($ledgerAccount->hsn_code) ?></td>
