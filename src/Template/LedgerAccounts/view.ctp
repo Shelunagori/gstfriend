@@ -13,10 +13,6 @@
             <td><?= h($ledgerAccount->name) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Company') ?></th>
-            <td><?= $ledgerAccount->has('company') ? $this->Html->link($ledgerAccount->company->name, ['controller' => 'Companies', 'action' => 'view', $ledgerAccount->company->id]) : '' ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Supplier') ?></th>
             <td><?= $ledgerAccount->has('supplier') ? $this->Html->link($ledgerAccount->supplier->name, ['controller' => 'Suppliers', 'action' => 'view', $ledgerAccount->supplier->id]) : '' ?></td>
         </tr>

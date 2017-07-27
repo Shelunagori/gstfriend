@@ -62,19 +62,15 @@ class SuppliersTable extends Table
             ->notEmpty('name');
 
         $validator
-            ->notEmpty('mobile');
+            ->allowEmpty('mobile');
 
         $validator
             ->email('email')
-            ->notEmpty('email');
-
-        $validator
-            ->requirePresence('address', 'create')
-            ->notEmpty('address');
-
-        $validator
+			->allowEmpty('email');
+    
+		$validator
             ->boolean('freezed')
-            ->requirePresence('freezed', 'create')
+			->requirePresence('freezed', 'create')
             ->notEmpty('freezed');
         return $validator;
     }

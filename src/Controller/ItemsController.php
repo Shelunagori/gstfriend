@@ -56,10 +56,12 @@ class ItemsController extends AppController
      */
     public function add()
     {
+		$company_id=$this->Auth->User('company_id');
 		$this->viewBuilder()->layout('index_layout');
         $item = $this->Items->newEntity();
         if ($this->request->is('post')) {
             $item = $this->Items->patchEntity($item, $this->request->getData());
+			$item->company_id=$company_id;
             if ($this->Items->save($item)) {
                 $this->Flash->success(__('The item has been saved.'));
 

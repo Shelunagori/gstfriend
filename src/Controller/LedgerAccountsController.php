@@ -56,10 +56,12 @@ class LedgerAccountsController extends AppController
      */
     public function add()
     {
+		$company_id=$this->Auth->User('company_id');
 		$this->viewBuilder()->layout('index_layout');
         $ledgerAccount = $this->LedgerAccounts->newEntity();
         if ($this->request->is('post')) {
             $ledgerAccount = $this->LedgerAccounts->patchEntity($ledgerAccount, $this->request->getData());
+			$ledgerAccount->company_id=$company_id;
             if ($this->LedgerAccounts->save($ledgerAccount)) {
                 $this->Flash->success(__('The ledger account has been saved.'));
 

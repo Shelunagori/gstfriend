@@ -21,10 +21,6 @@
             <td><?= h($supplier->email) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Company') ?></th>
-            <td><?= $supplier->has('company') ? $this->Html->link($supplier->company->name, ['controller' => 'Companies', 'action' => 'view', $supplier->company->id]) : '' ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($supplier->id) ?></td>
         </tr>

@@ -59,8 +59,7 @@ class ItemsTable extends Table
             ->notEmpty('name');
 
         $validator
-            ->requirePresence('hsn_code', 'create')
-            ->notEmpty('hsn_code');
+            ->allowEmpty('hsn_code');
 
         $validator
             ->boolean('freezed')
