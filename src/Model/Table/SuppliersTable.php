@@ -76,12 +76,8 @@ class SuppliersTable extends Table
             ->boolean('freezed')
             ->requirePresence('freezed', 'create')
             ->notEmpty('freezed');
-			
-	
-
         return $validator;
     }
-
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -93,7 +89,6 @@ class SuppliersTable extends Table
     {
         $rules->add($rules->isUnique(['email']));
         $rules->add($rules->existsIn(['company_id'], 'Companies'));
-
         return $rules;
     }
 }
