@@ -20,16 +20,16 @@ $this->set('title', 'List');
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach ($ledgers as $ledger): ?>
+					<?php $i=0;
+					foreach ($ledgers as $ledger):
+					$i++; 	?>
 					<tr>
-						<td><?= $this->Number->format($ledger->id) ?></td>
+						<td><?= $this->Number->format($i) ?></td>
 						<td><?= h($ledger->name) ?></td>
-						<td><?= $ledger->has('accounting_group') ? $this->Html->link($ledger->accounting_group->name, ['controller' => 'AccountingGroups', 'action' => 'view', $ledger->accounting_group->id]) : '' ?></td>
+						<td><?= h($ledger->accounting_group->name, ['controller' => 'AccountingGroups', 'action' => 'view', $ledger->accounting_group->id])  ?></td>
 						<td><?php if(@$ledgerAccount->freezed==0){ echo "Unfreezed";  } else {   echo "Freezed"; } ?></td>
 						<td class="actions">
-							<?= $this->Html->link(__('View'), ['action' => 'view', $ledger->id]) ?>
 							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $ledger->id]) ?>
-							<?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $ledger->id], ['confirm' => __('Are you sure you want to delete # {0}?', $ledger->id)]) ?>
 						</td>
 					</tr>
 					<?php endforeach; ?>

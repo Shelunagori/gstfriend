@@ -28,6 +28,7 @@ class LedgersController extends AppController
 
         $this->set(compact('ledgers'));
         $this->set('_serialize', ['ledgers']);
+		$this->set('active_menu', 'Ledgers.Index');
     }
 
     /**
@@ -62,14 +63,15 @@ class LedgersController extends AppController
             if ($this->Ledgers->save($ledger)) {
                 $this->Flash->success(__('The ledger has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'add']);
             }
             $this->Flash->error(__('The ledger could not be saved. Please, try again.'));
         }
         $accountingGroups = $this->Ledgers->AccountingGroups->find('list', ['limit' => 200]);
         $this->set(compact('ledger', 'accountingGroups'));
         $this->set('_serialize', ['ledger']);
-    }
+		$this->set('active_menu', 'Ledgers.Add');
+	}
 
     /**
      * Edit method

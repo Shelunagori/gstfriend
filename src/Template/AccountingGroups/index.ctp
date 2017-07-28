@@ -20,16 +20,16 @@ $this->set('title', 'List');
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach ($accountingGroups as $accountingGroup): ?>
+					<?php $i=0;
+					foreach ($accountingGroups as $accountingGroup):
+					$i++; 	?>
 					<tr>
-						<td><?= $this->Number->format($accountingGroup->id) ?></td>
+						<td><?= $this->Number->format($i) ?></td>
 						<td><?= $accountingGroup->has('nature_of_group') ? $this->Html->link($accountingGroup->nature_of_group->name, ['controller' => 'NatureOfGroups', 'action' => 'view', $accountingGroup->nature_of_group->id]) : '' ?></td>
 						<td><?= h($accountingGroup->name) ?></td>
 						<td><?= $accountingGroup->has('parent_accounting_group') ? $this->Html->link($accountingGroup->parent_accounting_group->name, ['controller' => 'AccountingGroups', 'action' => 'view', $accountingGroup->parent_accounting_group->id]) : '' ?></td>
 						<td class="actions">
-							<?= $this->Html->link(__('View'), ['action' => 'view', $accountingGroup->id]) ?>
 							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $accountingGroup->id]) ?>
-							<?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $accountingGroup->id], ['confirm' => __('Are you sure you want to delete # {0}?', $accountingGroup->id)]) ?>
 						</td>
 					</tr>
 					<?php endforeach; ?>

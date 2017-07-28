@@ -28,6 +28,7 @@ class AccountingGroupsController extends AppController
 
         $this->set(compact('accountingGroups'));
         $this->set('_serialize', ['accountingGroups']);
+		$this->set('active_menu', 'AccountingGroups.Index');
     }
 
     /**
@@ -62,7 +63,7 @@ class AccountingGroupsController extends AppController
             if ($this->AccountingGroups->save($accountingGroup)) {
                 $this->Flash->success(__('The accounting group has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'add']);
             }
             $this->Flash->error(__('The accounting group could not be saved. Please, try again.'));
         }
@@ -70,6 +71,7 @@ class AccountingGroupsController extends AppController
         $parentAccountingGroups = $this->AccountingGroups->ParentAccountingGroups->find('list', ['limit' => 200]);
         $this->set(compact('accountingGroup', 'natureOfGroups', 'parentAccountingGroups'));
         $this->set('_serialize', ['accountingGroup']);
+		$this->set('active_menu', 'AccountingGroups.Add');
     }
 
     /**

@@ -29,10 +29,17 @@ echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-plus-square"></i>
 $activeClass = (($active_menu == 'Customers.Index')?['class' => 'active']:[]);
 echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-plus-square"></i> '.__('List Customers'), ['controller' => 'Customers', 'action' => 'Index'], ['escape' => false]), $activeClass);
 
+$activeClass = (($active_menu == 'AccountingGroups.Add')?['class' => 'active']:[]);
+echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-plus-square"></i> '.__('Add Account Group'), ['controller' => 'AccountingGroups', 'action' => 'Add'], ['escape' => false]), $activeClass);
 
-$activeClass = (($active_menu == 'LedgerAccounts.Index')?['class' => 'active']:[]);
-echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-plus-square"></i> '.__('List LedgerAccounts'), ['controller' => 'LedgerAccounts', 'action' => 'Index'], ['escape' => false]), $activeClass);
+$activeClass = (($active_menu == 'AccountingGroups.Index')?['class' => 'active']:[]);
+echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-plus-square"></i> '.__('List Account Groups'), ['controller' => 'AccountingGroups', 'action' => 'Index'], ['escape' => false]), $activeClass);
 
+$activeClass = (($active_menu == 'Ledgers.Add')?['class' => 'active']:[]);
+echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-plus-square"></i> '.__('Add Ledger'), ['controller' => 'Ledgers', 'action' => 'Add'], ['escape' => false]), $activeClass);
+
+$activeClass = (($active_menu == 'Ledgers.Index')?['class' => 'active']:[]);
+echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-plus-square"></i> '.__('List Ledgers'), ['controller' => 'Ledgers', 'action' => 'Index'], ['escape' => false]), $activeClass);
 
 echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-power-off"></i> '.__('Log Out'), ['controller' => 'Users', 'action' => 'logout'], ['escape' => false]));
 ?>
