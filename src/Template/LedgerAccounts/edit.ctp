@@ -24,18 +24,20 @@ $this->set('title', 'Edit');
 							<?php echo $this->Form->control('freezed'); ?>
 						</div>
 						<div class="form-group">
-							<label class="control-label">Supplier Name<span class="required" aria-required="true">*</span></label>
+							<label class="control-label">Supplier Name</label>
 							<?php echo $this->Form->input('supplier_id',['options' => $suppliers ,'label' => false,'class' => 'form-control input-sm select2me']); ?>
 						</div>
 						<div class="form-group">
-							<label class="control-label">Customer Name<span class="required" aria-required="true">*</span></label>
+							<label class="control-label">Customer Name</label>
 							<?php echo $this->Form->input('customer_id',['options' => $customers ,'label' => false,'class' => 'form-control input-sm select2me']); ?>
 						</div>
 					</div>
 				</div> 
 			</div>
 		</fieldset>
-		<?= $this->Form->button(__('Submit')) ?>
+		<div>
+			<button type="submit" class="btn btn-primary">Submit
+		</div>
 		<?= $this->Form->end() ?>
 	</div>
 </div>    
