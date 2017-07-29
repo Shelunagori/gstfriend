@@ -22,14 +22,16 @@ $this->set('title', 'List');
 				<tbody>
 					<?php $i=0;
 					foreach ($accountingGroups as $accountingGroup):
-					$i++; 	?>
+					$i++; 	
+					?>
 					<tr>
 						<td><?= $this->Number->format($i) ?></td>
 						<td><?= $accountingGroup->has('nature_of_group') ? $this->Html->link($accountingGroup->nature_of_group->name, ['controller' => 'NatureOfGroups', 'action' => 'view', $accountingGroup->nature_of_group->id]) : '' ?></td>
 						<td><?= h($accountingGroup->name) ?></td>
 						<td><?= $accountingGroup->has('parent_accounting_group') ? $this->Html->link($accountingGroup->parent_accounting_group->name, ['controller' => 'AccountingGroups', 'action' => 'view', $accountingGroup->parent_accounting_group->id]) : '' ?></td>
 						<td class="actions">
-							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $accountingGroup->id]) ?>
+							<?php //$this->Html->link(__('Edit'), ['action' => 'edit', $accountingGroup->id])  
+							?>
 						</td>
 					</tr>
 					<?php endforeach; ?>

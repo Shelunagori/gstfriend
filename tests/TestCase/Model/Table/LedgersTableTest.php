@@ -25,6 +25,9 @@ class LedgersTableTest extends TestCase
      */
     public $fixtures = [
         'app.ledgers',
+        'app.companies',
+        'app.customers',
+        'app.suppliers',
         'app.accounting_groups',
         'app.nature_of_groups'
     ];

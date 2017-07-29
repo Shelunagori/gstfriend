@@ -12,10 +12,12 @@ use Cake\ORM\Entity;
  * @property int $parent_id
  * @property int $lft
  * @property int $rght
+ * @property int $company_id
  *
+ * @property \App\Model\Entity\Company $company
  * @property \App\Model\Entity\NatureOfGroup $nature_of_group
- * @property \App\Model\Entity\ParentAccountingGroup $parent_accounting_group
- * @property \App\Model\Entity\ChildAccountingGroup[] $child_accounting_groups
+ * @property \App\Model\Entity\AccountingGroup $parent_accounting_group
+ * @property \App\Model\Entity\AccountingGroup[] $child_accounting_groups
  * @property \App\Model\Entity\Ledger[] $ledgers
  */
 class AccountingGroup extends Entity

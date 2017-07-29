@@ -11,6 +11,7 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\NatureOfGroupsTable|\Cake\ORM\Association\BelongsTo $NatureOfGroups
  * @property \App\Model\Table\AccountingGroupsTable|\Cake\ORM\Association\BelongsTo $ParentAccountingGroups
+ * @property \App\Model\Table\CompaniesTable|\Cake\ORM\Association\BelongsTo $Companies
  * @property \App\Model\Table\AccountingGroupsTable|\Cake\ORM\Association\HasMany $ChildAccountingGroups
  * @property \App\Model\Table\LedgersTable|\Cake\ORM\Association\HasMany $Ledgers
  *
@@ -49,6 +50,10 @@ class AccountingGroupsTable extends Table
         $this->belongsTo('ParentAccountingGroups', [
             'className' => 'AccountingGroups',
             'foreignKey' => 'parent_id'
+        ]);
+        $this->belongsTo('Companies', [
+            'foreignKey' => 'company_id',
+            'joinType' => 'INNER'
         ]);
         $this->hasMany('ChildAccountingGroups', [
             'className' => 'AccountingGroups',
@@ -89,6 +94,7 @@ class AccountingGroupsTable extends Table
     {
         $rules->add($rules->existsIn(['nature_of_group_id'], 'NatureOfGroups'));
         $rules->add($rules->existsIn(['parent_id'], 'ParentAccountingGroups'));
+        $rules->add($rules->existsIn(['company_id'], 'Companies'));
 
         return $rules;
     }

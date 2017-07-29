@@ -17,8 +17,11 @@ class AccountingGroupsControllerTest extends IntegrationTestCase
      */
     public $fixtures = [
         'app.accounting_groups',
+        'app.companies',
         'app.nature_of_groups',
-        'app.ledgers'
+        'app.ledgers',
+        'app.customers',
+        'app.suppliers'
     ];
 
     /**

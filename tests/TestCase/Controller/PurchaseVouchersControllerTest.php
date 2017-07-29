@@ -1,13 +1,13 @@
 <?php
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\LedgersController;
+use App\Controller\PurchaseVouchersController;
 use Cake\TestSuite\IntegrationTestCase;
 
 /**
- * App\Controller\LedgersController Test Case
+ * App\Controller\PurchaseVouchersController Test Case
  */
-class LedgersControllerTest extends IntegrationTestCase
+class PurchaseVouchersControllerTest extends IntegrationTestCase
 {
 
     /**
@@ -16,12 +16,12 @@ class LedgersControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'app.ledgers',
+        'app.purchase_vouchers',
+        'app.supplier_ledgers',
+        'app.purchase_ledgers',
         'app.companies',
-        'app.customers',
-        'app.suppliers',
-        'app.accounting_groups',
-        'app.nature_of_groups'
+        'app.accounting_entries',
+        'app.purchase_voucher_rows'
     ];
 
     /**

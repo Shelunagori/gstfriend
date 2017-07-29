@@ -10,7 +10,13 @@ use Cake\ORM\Entity;
  * @property string $name
  * @property int $accounting_group_id
  * @property bool $freeze
+ * @property int $company_id
+ * @property int $supplier_id
+ * @property int $customer_id
  *
+ * @property \App\Model\Entity\Company $company
+ * @property \App\Model\Entity\Customer $customer
+ * @property \App\Model\Entity\Supplier $supplier
  * @property \App\Model\Entity\AccountingGroup $accounting_group
  */
 class Ledger extends Entity

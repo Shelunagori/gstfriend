@@ -22,10 +22,11 @@ class LedgersController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
         $this->paginate = [
-            'contain' => ['AccountingGroups']
+            'contain' => ['Companies', 'Customers', 'Suppliers', 'AccountingGroups']
         ];
-        $ledgers = $this->paginate($this->Ledgers);
-
+		$ledgers = $this->paginate($this->Ledgers->find());
+		
+		
         $this->set(compact('ledgers'));
         $this->set('_serialize', ['ledgers']);
 		$this->set('active_menu', 'Ledgers.Index');
@@ -40,9 +41,8 @@ class LedgersController extends AppController
      */
     public function view($id = null)
     {
-		$this->viewBuilder()->layout('index_layout');
         $ledger = $this->Ledgers->get($id, [
-            'contain' => ['AccountingGroups']
+            'contain' => ['Companies', 'Customers', 'Suppliers', 'AccountingGroups']
         ]);
 
         $this->set('ledger', $ledger);
@@ -56,6 +56,7 @@ class LedgersController extends AppController
      */
     public function add()
     {
+		$company_id=$this->Auth->User('company_id');
 		$this->viewBuilder()->layout('index_layout');
         $ledger = $this->Ledgers->newEntity();
         if ($this->request->is('post')) {
@@ -63,12 +64,15 @@ class LedgersController extends AppController
             if ($this->Ledgers->save($ledger)) {
                 $this->Flash->success(__('The ledger has been saved.'));
 
-                return $this->redirect(['action' => 'add']);
+                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The ledger could not be saved. Please, try again.'));
         }
+        $companies = $this->Ledgers->Companies->find('list', ['limit' => 200]);
+        $customers = $this->Ledgers->Customers->find('list', ['limit' => 200]);
+        $suppliers = $this->Ledgers->Suppliers->find('list', ['limit' => 200]);
         $accountingGroups = $this->Ledgers->AccountingGroups->find('list', ['limit' => 200]);
-        $this->set(compact('ledger', 'accountingGroups'));
+        $this->set(compact('ledger', 'companies', 'customers', 'suppliers', 'accountingGroups'));
         $this->set('_serialize', ['ledger']);
 		$this->set('active_menu', 'Ledgers.Add');
 	}
@@ -82,6 +86,7 @@ class LedgersController extends AppController
      */
     public function edit($id = null)
     {
+		$this->viewBuilder()->layout('index_layout');
         $ledger = $this->Ledgers->get($id, [
             'contain' => []
         ]);
@@ -94,8 +99,11 @@ class LedgersController extends AppController
             }
             $this->Flash->error(__('The ledger could not be saved. Please, try again.'));
         }
+        $companies = $this->Ledgers->Companies->find('list', ['limit' => 200]);
+        $customers = $this->Ledgers->Customers->find('list', ['limit' => 200]);
+        $suppliers = $this->Ledgers->Suppliers->find('list', ['limit' => 200]);
         $accountingGroups = $this->Ledgers->AccountingGroups->find('list', ['limit' => 200]);
-        $this->set(compact('ledger', 'accountingGroups'));
+        $this->set(compact('ledger', 'companies', 'customers', 'suppliers', 'accountingGroups'));
         $this->set('_serialize', ['ledger']);
     }
 

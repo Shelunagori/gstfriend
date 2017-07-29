@@ -1,24 +1,4 @@
-<?php
-/**
-  * @var \App\View\AppView $this
-  * @var \App\Model\Entity\AccountingGroup $accountingGroup
-  */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Accounting Group'), ['action' => 'edit', $accountingGroup->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Accounting Group'), ['action' => 'delete', $accountingGroup->id], ['confirm' => __('Are you sure you want to delete # {0}?', $accountingGroup->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Accounting Groups'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Accounting Group'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Nature Of Groups'), ['controller' => 'NatureOfGroups', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Nature Of Group'), ['controller' => 'NatureOfGroups', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Parent Accounting Groups'), ['controller' => 'AccountingGroups', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Parent Accounting Group'), ['controller' => 'AccountingGroups', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Ledgers'), ['controller' => 'Ledgers', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Ledger'), ['controller' => 'Ledgers', 'action' => 'add']) ?> </li>
-    </ul>
-</nav>
+
 <div class="accountingGroups view large-9 medium-8 columns content">
     <h3><?= h($accountingGroup->name) ?></h3>
     <table class="vertical-table">
@@ -33,6 +13,10 @@
         <tr>
             <th scope="row"><?= __('Parent Accounting Group') ?></th>
             <td><?= $accountingGroup->has('parent_accounting_group') ? $this->Html->link($accountingGroup->parent_accounting_group->name, ['controller' => 'AccountingGroups', 'action' => 'view', $accountingGroup->parent_accounting_group->id]) : '' ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Company') ?></th>
+            <td><?= $accountingGroup->has('company') ? $this->Html->link($accountingGroup->company->name, ['controller' => 'Companies', 'action' => 'view', $accountingGroup->company->id]) : '' ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Id') ?></th>
@@ -58,6 +42,7 @@
                 <th scope="col"><?= __('Parent Id') ?></th>
                 <th scope="col"><?= __('Lft') ?></th>
                 <th scope="col"><?= __('Rght') ?></th>
+                <th scope="col"><?= __('Company Id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
             <?php foreach ($accountingGroup->child_accounting_groups as $childAccountingGroups): ?>
@@ -68,6 +53,7 @@
                 <td><?= h($childAccountingGroups->parent_id) ?></td>
                 <td><?= h($childAccountingGroups->lft) ?></td>
                 <td><?= h($childAccountingGroups->rght) ?></td>
+                <td><?= h($childAccountingGroups->company_id) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['controller' => 'AccountingGroups', 'action' => 'view', $childAccountingGroups->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['controller' => 'AccountingGroups', 'action' => 'edit', $childAccountingGroups->id]) ?>
@@ -87,6 +73,9 @@
                 <th scope="col"><?= __('Name') ?></th>
                 <th scope="col"><?= __('Accounting Group Id') ?></th>
                 <th scope="col"><?= __('Freeze') ?></th>
+                <th scope="col"><?= __('Company Id') ?></th>
+                <th scope="col"><?= __('Supplier Id') ?></th>
+                <th scope="col"><?= __('Customer Id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
             <?php foreach ($accountingGroup->ledgers as $ledgers): ?>
@@ -95,6 +84,9 @@
                 <td><?= h($ledgers->name) ?></td>
                 <td><?= h($ledgers->accounting_group_id) ?></td>
                 <td><?= h($ledgers->freeze) ?></td>
+                <td><?= h($ledgers->company_id) ?></td>
+                <td><?= h($ledgers->supplier_id) ?></td>
+                <td><?= h($ledgers->customer_id) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['controller' => 'Ledgers', 'action' => 'view', $ledgers->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['controller' => 'Ledgers', 'action' => 'edit', $ledgers->id]) ?>

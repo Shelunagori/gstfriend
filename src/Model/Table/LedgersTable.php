@@ -10,6 +10,10 @@ use Cake\Validation\Validator;
  * Ledgers Model
  *
  * @property \App\Model\Table\AccountingGroupsTable|\Cake\ORM\Association\BelongsTo $AccountingGroups
+ * @property \App\Model\Table\CompaniesTable|\Cake\ORM\Association\BelongsTo $Companies
+ * @property \App\Model\Table\SuppliersTable|\Cake\ORM\Association\BelongsTo $Suppliers
+ * @property \App\Model\Table\CustomersTable|\Cake\ORM\Association\BelongsTo $Customers
+ * @property |\Cake\ORM\Association\HasMany $AccountingEntries
  *
  * @method \App\Model\Entity\Ledger get($primaryKey, $options = [])
  * @method \App\Model\Entity\Ledger newEntity($data = null, array $options = [])
@@ -39,6 +43,21 @@ class LedgersTable extends Table
         $this->belongsTo('AccountingGroups', [
             'foreignKey' => 'accounting_group_id',
             'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Companies', [
+            'foreignKey' => 'company_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Suppliers', [
+            'foreignKey' => 'supplier_id',
+            'joinType' => 'LEFT'
+        ]);
+        $this->belongsTo('Customers', [
+            'foreignKey' => 'customer_id',
+            'joinType' => 'LEFT'
+        ]);
+        $this->hasMany('AccountingEntries', [
+            'foreignKey' => 'ledger_id'
         ]);
     }
 
@@ -76,6 +95,9 @@ class LedgersTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['accounting_group_id'], 'AccountingGroups'));
+        $rules->add($rules->existsIn(['company_id'], 'Companies'));
+        $rules->add($rules->existsIn(['supplier_id'], 'Suppliers'));
+        $rules->add($rules->existsIn(['customer_id'], 'Customers'));
 
         return $rules;
     }

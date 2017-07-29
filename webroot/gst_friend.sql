@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 28, 2017 at 08:22 AM
--- Server version: 10.1.13-MariaDB
--- PHP Version: 7.0.8
+-- Generation Time: Jul 28, 2017 at 06:45 PM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -23,34 +23,68 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `accounting_entries`
+--
+
+CREATE TABLE `accounting_entries` (
+  `id` int(11) NOT NULL,
+  `ledger_id` int(10) NOT NULL,
+  `debit` decimal(12,2) NOT NULL,
+  `credit` decimal(15,2) NOT NULL,
+  `transaction_date` date NOT NULL,
+  `purchase_voucher_id` int(10) NOT NULL,
+  `company_id` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `accounting_groups`
 --
 
 CREATE TABLE `accounting_groups` (
   `id` int(10) NOT NULL,
-  `nature_of_group_id` int(10) NOT NULL,
+  `nature_of_group_id` int(10) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `parent_id` int(11) DEFAULT NULL,
   `lft` int(10) DEFAULT NULL,
-  `rght` int(10) DEFAULT NULL
+  `rght` int(10) DEFAULT NULL,
+  `company_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `accounting_groups`
 --
 
-INSERT INTO `accounting_groups` (`id`, `nature_of_group_id`, `name`, `parent_id`, `lft`, `rght`) VALUES
-(1, 2, 'Branch / Divisions', NULL, 1, 2),
-(2, 2, 'Capital Account', NULL, 3, 6),
-(3, 0, 'Reserves & Surplus', 2, 4, 5),
-(4, 1, 'Current Assets', NULL, 7, 12),
-(5, 0, 'Bank Accounts', 4, 8, 9),
-(6, 0, 'Cash-in-hand', 4, 10, 11),
-(7, 2, 'Current Liabilities', NULL, 13, 18),
-(8, 4, 'Direct Expenses', NULL, 19, 20),
-(9, 3, 'Direct Incomes', NULL, 21, 22),
-(10, 0, 'Duties & Taxes', 7, 14, 17),
-(11, 0, 'Output GST', 10, 15, 16);
+INSERT INTO `accounting_groups` (`id`, `nature_of_group_id`, `name`, `parent_id`, `lft`, `rght`, `company_id`) VALUES
+(1, 2, 'Branch / Divisions', NULL, 1, 2, 1),
+(2, 2, 'Capital Account', NULL, 3, 6, 0),
+(3, 1, 'Current Assets', NULL, 7, 20, 0),
+(4, 2, 'Current Liabilities', NULL, 21, 28, 0),
+(5, 4, 'Direct Expenses', NULL, 29, 30, 0),
+(6, 3, 'Direct Incomes', NULL, 31, 32, 0),
+(7, 1, 'Fixed Assets', NULL, 33, 34, 0),
+(8, 4, 'Indirect Expenses', NULL, 35, 36, 0),
+(9, 3, 'Indirect Incomes', NULL, 37, 38, 0),
+(10, 1, 'Investments', NULL, 39, 40, 0),
+(11, 2, 'Loans (Liability)', NULL, 41, 48, 0),
+(12, 1, 'Misc. Expenses (ASSET)', NULL, 49, 50, 0),
+(13, 4, 'Purchase Accounts', NULL, 51, 52, 0),
+(14, 3, 'Sales Accounts', NULL, 53, 54, 0),
+(15, 2, 'Suspense A/c', NULL, 55, 56, 0),
+(16, NULL, 'Reserves & Surplus', 2, 4, 5, 1),
+(17, NULL, 'Bank Accounts', 3, 8, 9, 1),
+(18, NULL, 'Cash-in-hand', 3, 10, 11, 1),
+(19, NULL, 'Deposits (Asset)', 3, 12, 13, 1),
+(20, NULL, 'Loans & Advances (Asset)', 3, 14, 15, 1),
+(21, NULL, 'Stock-in-hand', 3, 16, 17, 1),
+(22, NULL, 'Sundry Debtors', 3, 18, 19, 1),
+(23, NULL, 'Duties & Taxes', 4, 22, 23, 1),
+(24, NULL, 'Provisions', 4, 24, 25, 1),
+(25, NULL, 'Sundry Creditors', 4, 26, 27, 1),
+(26, NULL, 'Bank OD A/c', 11, 42, 43, 1),
+(27, NULL, 'Secured Loans', 11, 44, 45, 1),
+(28, NULL, 'Unsecured Loans', 11, 46, 47, 1);
 
 -- --------------------------------------------------------
 
@@ -105,7 +139,9 @@ INSERT INTO `customers` (`id`, `name`, `mobile`, `email`, `address`, `freezed`, 
 (12, 'fqwugqhqeuifqwoejqwfu', '9461498613', 'FJODAOI@EFOIEFLW.COM', 'coaisfnasdofakfnaia', 1, 1),
 (13, 'ffh', '4656464666', 'fwifhihi@ncdsvjk.com', 'fhifsasj', 1, 1),
 (14, 'aaaaa', '9999999999', 'aaaaa@sdf.com', 'dasdacdas', 1, 1),
-(15, 'ffffffff', '7897897897', 'ddsdsds@sgdg.com', 'hhhghghghj', 1, 1);
+(15, 'ffffffff', '7897897897', 'ddsdsds@sgdg.com', 'hhhghghghj', 1, 1),
+(16, 'gggggg', '5498646146', 'dfgfgfg@ggg.com', 'fjdsi', 0, 1),
+(17, 'sad', 'lkn', '', '', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -127,8 +163,7 @@ CREATE TABLE `items` (
 
 INSERT INTO `items` (`id`, `name`, `hsn_code`, `freezed`, `company_id`) VALUES
 (1, 'stl', '123456', 1, 1),
-(2, 'anil', 'fjeoifjwe90324', 0, 1),
-(3, 'safsa', '', 0, 1);
+(2, 'anil', 'fjeoifjwe90324', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -140,48 +175,28 @@ CREATE TABLE `ledgers` (
   `id` int(10) NOT NULL,
   `name` varchar(255) NOT NULL,
   `accounting_group_id` int(10) NOT NULL,
-  `freeze` tinyint(1) NOT NULL
+  `freeze` tinyint(1) NOT NULL COMMENT '0==unfreezed 1==freezed',
+  `company_id` int(10) NOT NULL,
+  `supplier_id` int(10) NOT NULL,
+  `customer_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `ledgers`
 --
 
-INSERT INTO `ledgers` (`id`, `name`, `accounting_group_id`, `freeze`) VALUES
-(1, 'test ledger 1', 4, 0),
-(2, 'SBBJ Bank', 5, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ledger_accounts`
---
-
-CREATE TABLE `ledger_accounts` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `freezed` tinyint(1) NOT NULL COMMENT '0==not freezed 1==freezed',
-  `company_id` int(15) NOT NULL,
-  `supplier_id` int(15) NOT NULL,
-  `customer_id` int(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `ledger_accounts`
---
-
-INSERT INTO `ledger_accounts` (`id`, `name`, `freezed`, `company_id`, `supplier_id`, `customer_id`) VALUES
-(1, 'anil gurjar', 0, 1, 0, 5),
-(2, 'dqwudfqd', 0, 1, 0, 7),
-(3, 'sgcyuascg7', 1, 1, 0, 8),
-(4, 'ascvuau', 1, 1, 0, 9),
-(5, 'hdsuighdsuifhkovjdsuihcsdiucskxjk', 1, 1, 0, 11),
-(6, 'fqwugqhqeuifqwoejqwfuidfhq', 1, 1, 0, 12),
-(7, 'dyuhlvfujfwuihd', 1, 1, 2, 0),
-(8, 'jsan', 0, 1, 3, 0),
-(9, 'aaaaaaaaaaaaaaa', 1, 1, 0, 0),
-(10, 'ffffffff', 1, 1, 0, 0),
-(11, 'sadas', 0, 1, 0, 0);
+INSERT INTO `ledgers` (`id`, `name`, `accounting_group_id`, `freeze`, `company_id`, `supplier_id`, `customer_id`) VALUES
+(1, 'aaaajjjj', 0, 0, 1, 0, 0),
+(2, 'gggggg', 0, 0, 1, 0, 0),
+(3, 'sad', 0, 0, 1, 0, 0),
+(4, 'xzcx', 0, 0, 1, 0, 0),
+(5, 'asdas', 0, 0, 1, 0, 0),
+(6, 'dvds', 0, 0, 1, 0, 0),
+(7, 'fghfh', 0, 0, 1, 0, 0),
+(8, 'dsd', 0, 0, 1, 0, 0),
+(9, 'vnb', 0, 0, 1, 0, 0),
+(10, 'ghbn', 0, 0, 1, 0, 0),
+(11, 'bvc', 0, 0, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -203,6 +218,37 @@ INSERT INTO `nature_of_groups` (`id`, `name`) VALUES
 (2, 'Liabilities'),
 (3, 'Income'),
 (4, 'Expenses');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_vouchers`
+--
+
+CREATE TABLE `purchase_vouchers` (
+  `id` int(11) NOT NULL,
+  `voucher_no` int(10) NOT NULL,
+  `supplier_ledger_id` int(10) NOT NULL,
+  `purchase_ledger_id` int(10) NOT NULL,
+  `transaction_date` date NOT NULL,
+  `narration` text NOT NULL,
+  `company_id` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_voucher_rows`
+--
+
+CREATE TABLE `purchase_voucher_rows` (
+  `id` int(10) NOT NULL,
+  `purchase_voucher_id` int(10) NOT NULL,
+  `item_id` int(10) NOT NULL,
+  `quantity` decimal(10,2) NOT NULL,
+  `rate_per` decimal(15,2) NOT NULL,
+  `amount` decimal(15,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -229,7 +275,15 @@ INSERT INTO `suppliers` (`id`, `name`, `mobile`, `email`, `address`, `freezed`, 
 (3, 'jsan', 'lkj', 'lk@lkjlklk.dfds', 'sdsad', 0, 1),
 (4, 'aaaaasssss', '7894561237', 'ddddd@gmaail.com', 'ytrftyy', 1, 1),
 (5, 'aaaaaaaaaaaaaaa', '7987897989', 'avgzv@bhvbh.com', 'yvghh', 0, 1),
-(6, 'sadas', '', '', '', 0, 1);
+(6, 'aaaajjjj', '6385631498', 'vashcbas@ieruwei.com', 'fhdsuihfdsi', 1, 1),
+(7, 'xzcx', '', '', '', 0, 1),
+(8, 'asdas', '', '', '', 0, 1),
+(9, 'dvds', '', '', '', 0, 1),
+(10, 'fghfh', '', '', '', 0, 1),
+(11, 'dsd', '', '', '', 0, 1),
+(12, 'vnb', '', '', '', 0, 1),
+(13, 'ghbn', '', '', '', 0, 1),
+(14, 'bvc', '', '', '', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -256,6 +310,12 @@ INSERT INTO `users` (`id`, `name`, `username`, `password`, `company_id`) VALUES
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `accounting_entries`
+--
+ALTER TABLE `accounting_entries`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `accounting_groups`
@@ -288,15 +348,21 @@ ALTER TABLE `ledgers`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `ledger_accounts`
---
-ALTER TABLE `ledger_accounts`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `nature_of_groups`
 --
 ALTER TABLE `nature_of_groups`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `purchase_vouchers`
+--
+ALTER TABLE `purchase_vouchers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `purchase_voucher_rows`
+--
+ALTER TABLE `purchase_voucher_rows`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -316,10 +382,15 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `accounting_entries`
+--
+ALTER TABLE `accounting_entries`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `accounting_groups`
 --
 ALTER TABLE `accounting_groups`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `companies`
 --
@@ -329,32 +400,37 @@ ALTER TABLE `companies`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `ledgers`
 --
 ALTER TABLE `ledgers`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `ledger_accounts`
---
-ALTER TABLE `ledger_accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `nature_of_groups`
 --
 ALTER TABLE `nature_of_groups`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
+-- AUTO_INCREMENT for table `purchase_vouchers`
+--
+ALTER TABLE `purchase_vouchers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `purchase_voucher_rows`
+--
+ALTER TABLE `purchase_voucher_rows`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `suppliers`
 --
 ALTER TABLE `suppliers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `users`
 --

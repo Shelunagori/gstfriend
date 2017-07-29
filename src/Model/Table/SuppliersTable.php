@@ -10,6 +10,7 @@ use Cake\Validation\Validator;
  * Suppliers Model
  *
  * @property \App\Model\Table\CompaniesTable|\Cake\ORM\Association\BelongsTo $Companies
+ * @property \App\Model\Table\LedgersTable|\Cake\ORM\Association\HasMany $Ledgers
  *
  * @method \App\Model\Entity\Supplier get($primaryKey, $options = [])
  * @method \App\Model\Entity\Supplier newEntity($data = null, array $options = [])
@@ -35,13 +36,13 @@ class SuppliersTable extends Table
         $this->setTable('suppliers');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
-		
-		$this->hasOne('LedgerAccounts',[
-			'foreignKey' => 'supplier_id'
-		]);
+
         $this->belongsTo('Companies', [
             'foreignKey' => 'company_id',
             'joinType' => 'INNER'
+        ]);
+        $this->hasMany('Ledgers', [
+            'foreignKey' => 'supplier_id'
         ]);
     }
 
@@ -62,18 +63,13 @@ class SuppliersTable extends Table
             ->notEmpty('name');
 
         $validator
-            ->allowEmpty('mobile');
-
-        $validator
-            ->email('email')
-			->allowEmpty('email');
-    
-		$validator
             ->boolean('freezed')
-			->requirePresence('freezed', 'create')
+            ->requirePresence('freezed', 'create')
             ->notEmpty('freezed');
+
         return $validator;
     }
+
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -83,8 +79,9 @@ class SuppliersTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->isUnique(['email']));
+        //$rules->add($rules->isUnique(['email']));
         $rules->add($rules->existsIn(['company_id'], 'Companies'));
+
         return $rules;
     }
 }

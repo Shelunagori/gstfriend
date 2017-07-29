@@ -8,7 +8,7 @@ $this->set('title', 'List');
 <div class="portlet light bordered" >
 	<div class="portlet-body-form"  >
 		<div class="form-body">
-			<h3><?= __('Ledger Accounts List') ?></h3>
+			<h3><?= __('Ledgers List') ?></h3>
 			<table id="example1" class="table table-bordered form-group table-striped">
 				<thead>
 					<tr>
@@ -21,15 +21,18 @@ $this->set('title', 'List');
 				</thead>
 				<tbody>
 					<?php $i=0;
+					
 					foreach ($ledgers as $ledger):
-					$i++; 	?>
+					$i++; 	
+					?>
 					<tr>
 						<td><?= $this->Number->format($i) ?></td>
 						<td><?= h($ledger->name) ?></td>
-						<td><?= h($ledger->accounting_group->name, ['controller' => 'AccountingGroups', 'action' => 'view', $ledger->accounting_group->id])  ?></td>
-						<td><?php if(@$ledgerAccount->freezed==0){ echo "Unfreezed";  } else {   echo "Freezed"; } ?></td>
+						<td><?= h($ledger->accounting_group->name) ?></td>
+						<!--<td><?php /*h($ledger->accounting_group->name, ['controller' => 'AccountingGroups', 'action' => 'view', $ledger->accounting_group->id]) */ ?></td>-->
+						<td><?php if(@$ledger->freezed==0){ echo "Unfreezed";  } else {   echo "Freezed"; } ?></td>
 						<td class="actions">
-							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $ledger->id]) ?>
+							<?php /*  $this->Html->link(__('Edit'), ['action' => 'edit', $ledger->id])   */ ?>
 						</td>
 					</tr>
 					<?php endforeach; ?>

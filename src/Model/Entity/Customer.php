@@ -14,6 +14,7 @@ use Cake\ORM\Entity;
  * @property bool $freezed
  * @property int $company_id
  *
+ * @property \App\Model\Entity\Ledger $ledger
  * @property \App\Model\Entity\Company $company
  */
 class Customer extends Entity

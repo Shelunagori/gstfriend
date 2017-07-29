@@ -10,6 +10,7 @@ use Cake\Validation\Validator;
  * Customers Model
  *
  * @property \App\Model\Table\CompaniesTable|\Cake\ORM\Association\BelongsTo $Companies
+ * @property \App\Model\Table\LedgersTable|\Cake\ORM\Association\HasMany $Ledgers
  *
  * @method \App\Model\Entity\Customer get($primaryKey, $options = [])
  * @method \App\Model\Entity\Customer newEntity($data = null, array $options = [])
@@ -35,13 +36,13 @@ class CustomersTable extends Table
         $this->setTable('customers');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
-		
-		$this->hasOne('LedgerAccounts',[
-			'foreignKey' => 'customer_id'
-		]);
+
         $this->belongsTo('Companies', [
             'foreignKey' => 'company_id',
             'joinType' => 'INNER'
+        ]);
+        $this->hasMany('Ledgers', [
+            'foreignKey' => 'customer_id'
         ]);
     }
 
@@ -61,19 +62,12 @@ class CustomersTable extends Table
             ->requirePresence('name', 'create')
             ->notEmpty('name');
 
-        $validator
-            ->allowEmpty('mobile');
-
-        $validator
-            ->email('email')
-            ->allowEmpty('email');
-
 
         $validator
             ->boolean('freezed')
             ->requirePresence('freezed', 'create')
             ->notEmpty('freezed');
-		
+
         return $validator;
     }
 
@@ -86,7 +80,7 @@ class CustomersTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->isUnique(['email']));
+        //$rules->add($rules->isUnique(['email']));
         $rules->add($rules->existsIn(['company_id'], 'Companies'));
 
         return $rules;

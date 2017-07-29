@@ -17,7 +17,12 @@ class SuppliersControllerTest extends IntegrationTestCase
      */
     public $fixtures = [
         'app.suppliers',
-        'app.companies'
+        'app.ledgers',
+        'app.accounting_groups',
+        'app.nature_of_groups',
+        'app.companies',
+        'app.customers',
+        'app.accounting_entries'
     ];
 
     /**

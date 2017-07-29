@@ -12,11 +12,11 @@ $this->set('title', 'Add');
 			<div class="form-body" >
 				<div class="row">
 					<div class="col-md-12">
-						<div class="form-group">
-							<label class="control-label">Nature Of Group<span class="required" aria-required="true">*</span></label>
+						<!--<div class="form-group">
+							<label class="control-label">Nature Of Group<span class="required" aria-required="true">*</span></label>--->
 							
-							<?php echo $this->Form->input('nature_of_group_id', ['options' => $natureOfGroups, 'empty' => true,'label' => false,'class' => 'form-control input-sm select2me']); ?>
-						</div>
+							<?php /* echo $this->Form->input('nature_of_group_id', ['options' => $natureOfGroups, 'empty' => true,'label' => false,'class' => 'form-control input-sm select2me']); */?>
+						<!--</div>-->
 						<div class="form-group">
 							<label class="control-label">Name <span class="required" aria-required="true">*</span></label>
 							<?php echo $this->Form->control('name' , ['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Name']); ?>

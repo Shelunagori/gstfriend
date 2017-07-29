@@ -4,20 +4,19 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Supplier Entity
+ * PurchaseVoucherRow Entity
  *
  * @property int $id
- * @property string $name
- * @property string $mobile
- * @property string $email
- * @property string $address
- * @property bool $freezed
- * @property int $company_id
+ * @property int $purchase_voucher_id
+ * @property int $item_id
+ * @property float $quantity
+ * @property float $rate_per
+ * @property float $amount
  *
- * @property \App\Model\Entity\Ledger $ledger
- * @property \App\Model\Entity\Company $company
+ * @property \App\Model\Entity\PurchaseVoucher $purchase_voucher
+ * @property \App\Model\Entity\Item $item
  */
-class Supplier extends Entity
+class PurchaseVoucherRow extends Entity
 {
 
     /**

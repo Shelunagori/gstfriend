@@ -1,22 +1,22 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\AccountingGroupsTable;
+use App\Model\Table\PurchaseVoucherRowsTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\AccountingGroupsTable Test Case
+ * App\Model\Table\PurchaseVoucherRowsTable Test Case
  */
-class AccountingGroupsTableTest extends TestCase
+class PurchaseVoucherRowsTableTest extends TestCase
 {
 
     /**
      * Test subject
      *
-     * @var \App\Model\Table\AccountingGroupsTable
+     * @var \App\Model\Table\PurchaseVoucherRowsTable
      */
-    public $AccountingGroups;
+    public $PurchaseVoucherRows;
 
     /**
      * Fixtures
@@ -24,12 +24,16 @@ class AccountingGroupsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.accounting_groups',
+        'app.purchase_voucher_rows',
+        'app.purchase_vouchers',
+        'app.suppliers',
         'app.companies',
-        'app.nature_of_groups',
         'app.ledgers',
+        'app.accounting_groups',
+        'app.nature_of_groups',
         'app.customers',
-        'app.suppliers'
+        'app.accounting_entries',
+        'app.items'
     ];
 
     /**
@@ -40,8 +44,8 @@ class AccountingGroupsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('AccountingGroups') ? [] : ['className' => AccountingGroupsTable::class];
-        $this->AccountingGroups = TableRegistry::get('AccountingGroups', $config);
+        $config = TableRegistry::exists('PurchaseVoucherRows') ? [] : ['className' => PurchaseVoucherRowsTable::class];
+        $this->PurchaseVoucherRows = TableRegistry::get('PurchaseVoucherRows', $config);
     }
 
     /**
@@ -51,7 +55,7 @@ class AccountingGroupsTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->AccountingGroups);
+        unset($this->PurchaseVoucherRows);
 
         parent::tearDown();
     }

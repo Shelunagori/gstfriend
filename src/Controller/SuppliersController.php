@@ -40,9 +40,8 @@ class SuppliersController extends AppController
      */
     public function view($id = null)
     {
-		$this->viewBuilder()->layout('index_layout');
         $supplier = $this->Suppliers->get($id, [
-            'contain' => ['Companies']
+            'contain' => ['Companies', 'Ledgers']
         ]);
 
         $this->set('supplier', $supplier);
@@ -56,24 +55,22 @@ class SuppliersController extends AppController
      */
     public function add()
     {
-		
 		$company_id=$this->Auth->User('company_id');
-		
 		$this->viewBuilder()->layout('index_layout');
         $supplier = $this->Suppliers->newEntity();
         if ($this->request->is('post')) {
             $supplier = $this->Suppliers->patchEntity($supplier, $this->request->getData());
-			$supplier->company_id=$company_id;
+           $supplier->company_id=$company_id;
 		/*ledger table Entry Start */	
-			$LedgerAccount = $this->Suppliers->LedgerAccounts->newEntity();
-			$LedgerAccount->name = $supplier->name;
-			$LedgerAccount->freezed = $supplier->freezed;
-			$LedgerAccount->company_id = $company_id;
-			$supplier->ledger_accounts = [$LedgerAccount];
+			$Ledger = $this->Suppliers->Ledgers->newEntity();
+			$Ledger->name = $supplier->name;
+			$Ledger->freezed = $supplier->freezed;
+			$Ledger->company_id = $company_id;
+			$supplier->ledgers = [$Ledger];
         /*ledger table Entry End */    
 			if ($this->Suppliers->save($supplier)) {
 				
-				$this->Suppliers->LedgerAccounts->save($LedgerAccount);
+				//$this->Suppliers->Ledgers->save($Ledger);
                 $this->Flash->success(__('The supplier has been saved.'));
 
                 return $this->redirect(['action' => 'add']);
