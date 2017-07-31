@@ -30,6 +30,8 @@ License: You must have a valid license purchased only from themeforest(the above
 		<?php echo $this->Html->css('/assets/global/plugins/uniform/css/uniform.default.css'); ?>
 		<?php echo $this->Html->css('/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css'); ?>
 		<?php echo $this->Html->css('/assets/global/plugins/bootstrap-toastr/toastr.min.css'); ?>
+		<?php echo $this->Html->css('chosen.css'); ?>
+	
 		<!-- END GLOBAL MANDATORY STYLES -->
 		<!-- BEGIN THEME STYLES -->
 		<?php echo $this->Html->css('/assets/global/css/components.css'); ?>
@@ -144,6 +146,8 @@ License: You must have a valid license purchased only from themeforest(the above
 		<?php echo $this->Html->script('/assets/admin/layout/scripts/quick-sidebar.js'); ?>
 		<?php echo $this->Html->script('/assets/admin/layout/scripts/demo.js'); ?>
 		<?php echo $this->Html->script('/assets/admin/pages/scripts/components-pickers.js'); ?>
+		<?php echo $this->Html->script('chosen-bootstrap/chosen/chosen.jquery.min.js'); ?>
+		
 		<script>
 			jQuery(document).ready(function() {  
 				

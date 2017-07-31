@@ -52,6 +52,16 @@ class PurchaseVouchersTable extends Table
 			'propertyName' => 'purchase_ledger',
 		]);
 		
+		$this->belongsTo('Ledgers', [
+            'foreignKey' => 'ledger_id',
+            'joinType' => 'INNER'
+        ]);
+		
+		$this->belongsTo('items', [
+            'foreignKey' => 'item_id',
+            'joinType' => 'INNER'
+        ]);
+		
         $this->belongsTo('Companies', [
             'foreignKey' => 'company_id',
             'joinType' => 'INNER'
@@ -112,8 +122,8 @@ class PurchaseVouchersTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['supplier_id'], 'Suppliers'));
-        $rules->add($rules->existsIn(['customer_id'], 'Customers'));
+        //$rules->add($rules->existsIn(['supplier_id'], 'Suppliers'));
+        //$rules->add($rules->existsIn(['customer_id'], 'Customers'));
         $rules->add($rules->existsIn(['company_id'], 'Companies'));
 
         return $rules;

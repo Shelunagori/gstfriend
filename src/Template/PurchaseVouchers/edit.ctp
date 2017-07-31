@@ -24,23 +24,19 @@ $this->set('title', 'Edit');
 						</div>
 						<div class="form-group">
 							<label class="control-label">Supplier Name</label>
-							<?php echo $this->Form->control('supplier_ledger_id', ['options' => $ledgers, 'empty' => false ,'label' => false,'class' => 'form-control input-sm select2me']); ?>
+							<?php echo $this->Form->control('supplier_id',['options'=>$SupplierLedger,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Supplier Name.']);?>
 						</div>
 						<div class="form-group">
 							<label class="control-label">Customer Name</label>
-							<?php echo $this->Form->control('purchase_ledger_id', ['options' => $ledgers, 'empty' => false,'label' => false,'class' => 'form-control input-sm select2me']); ?>
+							<?php echo $this->Form->control('customer_id',['options'=>$PurchaseLedger,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Email']); ?>  
 						</div>
 						<div class="form-group">
 							<label class="control-label">Transaction Date</label>
-							<?php  echo $this->Form->control('transaction_date',['label' => false,'class' => 'form-control input-sm ', 'placeholder'=>'Enter Date']); ?>
+							<?php echo $this->Form->control('transaction_date', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'D-M-Y']); ?>
 						</div>
 						<div class="form-group">
 							<label class="control-label">Narration</label>
 							<?php echo $this->Form->control('narration',['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Narration']); ?>
-						</div>
-						<div class="form-group">
-							<label class="control-label">Company Name</label>
-							<?php  echo $this->Form->control('company_id',['options' => $companies, 'empty' => false ,'label' => false,'class' => 'form-control input-sm select2me']); ?>
 						</div>
 					</div>
 				</div> 

@@ -26,10 +26,9 @@ $this->set('title', 'List');
 					<tr>
 						<td><?= $this->Number->format($i) ?></td>
 						<td><?= $this->Number->format($purchaseVoucher->voucher_no) ?></td>
-						<td><?= $this->Number->format($purchaseVoucher->supplier_id) ?></td>
-						<td><?= $this->Number->format($purchaseVoucher->customer_id) ?></td>
+						<td><?= $this->Number->format($purchaseVoucher->supplier_ledger_id) ?></td>
+						<td><?= $this->Number->format($purchaseVoucher->purchase_ledger_id) ?></td>
 						<td><?= h($purchaseVoucher->transaction_date) ?></td>
-						<td><?= $purchaseVoucher->has('company') ? $this->Html->link($purchaseVoucher->company->name, ['controller' => 'Companies', 'action' => 'view', $purchaseVoucher->company->id]) : '' ?></td>
 						<td class="actions">
 							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $purchaseVoucher->id]) ?>
 						</td>

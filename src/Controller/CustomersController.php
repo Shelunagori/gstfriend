@@ -65,7 +65,8 @@ class CustomersController extends AppController
             /*ledger table Entry Start*/
 				$Ledger = $this->Customers->Ledgers->newEntity();
 				$Ledger->name=$customer->name;
-				$Ledger->freezed=$customer->freezed;
+				$Ledger->freeze=$customer->freezed;
+				$Ledger->accounting_group_id=13;
 				$Ledger->company_id=$company_id;
 				$customer->ledgers = [$Ledger];
 			 /*ledger table Entry end*/	
