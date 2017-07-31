@@ -40,28 +40,17 @@ class PurchaseVouchersTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 	
-		$this->belongsTo('Suppliers', [
+		$this->belongsTo('SupplierLedger', [
 			'className' => 'Ledgers',
-			'foreignKey' => 'supplier_id',
-			'propertyName' => 'name'
+			'foreignKey' => 'supplier_ledger_id',
+			'propertyName' => 'supplier_ledger',
 		]);
 		
-        $this->belongsTo('Customers', [
+		$this->belongsTo('PurchaseLedger', [
 			'className' => 'Ledgers',
-			'foreignKey' => 'customer_id',
-			'propertyName' => 'name'
+			'foreignKey' => 'purchase_ledger_id',
+			'propertyName' => 'purchase_ledger',
 		]);
-        
-		$this->belongsTo('Ledgers', [
-			'className' => 'Ledgers',
-			'foreignKey' => 'ledger_id',
-			'joinType' => 'INNER'
-		]);
-		
-		$this->belongsTo('Items', [
-            'foreignKey' => 'item_id',
-            'joinType' => 'left'
-        ]);
 		
         $this->belongsTo('Companies', [
             'foreignKey' => 'company_id',

@@ -56,8 +56,9 @@ class PurchaseVouchersController extends AppController
      */
     public function add()
     {
-		$company_id=$this->Auth->User('company_id');
 		$this->viewBuilder()->layout('index_layout');
+		
+		$company_id=$this->Auth->User('company_id');
         $purchaseVoucher = $this->PurchaseVouchers->newEntity();
         if ($this->request->is('post')) {
             $purchaseVoucher = $this->PurchaseVouchers->patchEntity($purchaseVoucher, $this->request->getData());
@@ -69,11 +70,12 @@ class PurchaseVouchersController extends AppController
             }
             $this->Flash->error(__('The purchase voucher could not be saved. Please, try again.'));
         }
-        $items = $this->PurchaseVouchers->Items->find('list', ['limit' => 200]);
-        $customers = $this->PurchaseVouchers->Customers->find('list', ['limit' => 200]);
-        $suppliers = $this->PurchaseVouchers->Suppliers->find('list', ['limit' => 200]);
-        $companies = $this->PurchaseVouchers->Companies->find('list', ['limit' => 200]);
-        $this->set(compact('purchaseVoucher', 'customers','suppliers', 'companies','items'));
+      
+       
+        $SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find('list')->where(['accounting_group_id'=>25]);
+        $PurchaseLedger = $this->PurchaseVouchers->PurchaseLedger->find('list')->where(['accounting_group_id'=>13]);
+		
+        $this->set(compact('purchaseVoucher', 'SupplierLedger','PurchaseLedger'));
         $this->set('_serialize', ['purchaseVoucher']);
 		$this->set('active_menu', 'PurchaseVouchers.Add');
     }
