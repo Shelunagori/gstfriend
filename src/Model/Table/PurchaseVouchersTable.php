@@ -58,10 +58,7 @@ class PurchaseVouchersTable extends Table
             'joinType' => 'INNER'
         ]);
 		
-		$this->belongsTo('items', [
-            'foreignKey' => 'item_id',
-            'joinType' => 'INNER'
-        ]);
+		
 		
         $this->belongsTo('Companies', [
             'foreignKey' => 'company_id',
@@ -72,6 +69,11 @@ class PurchaseVouchersTable extends Table
         ]);
         $this->hasMany('PurchaseVoucherRows', [
             'foreignKey' => 'purchase_voucher_id'
+        ]);
+		
+		$this->belongsTo('Items', [
+            'foreignKey' => 'item_id',
+            'joinType' => 'INNER'
         ]);
     }
 

@@ -61,11 +61,16 @@ class PurchaseVouchersController extends AppController
 		$company_id=$this->Auth->User('company_id');
         $purchaseVoucher = $this->PurchaseVouchers->newEntity();
         if ($this->request->is('post')) {
-			
+						
             $purchaseVoucher = $this->PurchaseVouchers->patchEntity($purchaseVoucher, $this->request->getData());
-			pr($purchaseVoucher); exit;
+		
 			$purchaseVoucher->company_id=$company_id;
             if ($this->PurchaseVouchers->save($purchaseVoucher)) {
+				
+				//pr($purchaseVoucher); exit;
+
+				
+				
                 $this->Flash->success(__('The purchase voucher has been saved.'));
 
                 return $this->redirect(['action' => 'add']);
