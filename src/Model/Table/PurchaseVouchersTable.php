@@ -5,7 +5,8 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-
+use Cake\Event\Event;
+use ArrayObject;
 /**
  * PurchaseVouchers Model
  *
@@ -87,14 +88,14 @@ class PurchaseVouchersTable extends Table
             ->allowEmpty('id', 'create');
 
 		$validator
-            ->integer('supplier_id')
-            ->requirePresence('supplier_id', 'create')
-            ->notEmpty('supplier_id');
+            ->integer('supplier_ledger_id')
+            ->requirePresence('supplier_ledger_id', 'create')
+            ->notEmpty('supplier_ledger_id');
 		
 		$validator
-            ->integer('customer_id')
-            ->requirePresence('customer_id', 'create')
-            ->notEmpty('customer_id');	
+            ->integer('purchase_ledger_id')
+            ->requirePresence('purchase_ledger_id', 'create')
+            ->notEmpty('purchase_ledger_id');	
 			
         $validator
             ->integer('voucher_no')
@@ -113,6 +114,10 @@ class PurchaseVouchersTable extends Table
         return $validator;
     }
 
+	public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
+	{
+		$data['transaction_date'] = date('Y-m-d',strtotime($data['transaction_date']));
+	}
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.

@@ -24,11 +24,11 @@ $this->set('title', 'Edit');
 						</div>
 						<div class="form-group">
 							<label class="control-label">Supplier Name</label>
-							<?php echo $this->Form->control('supplier_id',['options'=>$SupplierLedger,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Supplier Name.']);?>
+							<?php echo $this->Form->control('supplier_ledger_id',['options'=>$SupplierLedger,'label' => false,'class' => 'form-control input-sm select2me']);?>
 						</div>
 						<div class="form-group">
 							<label class="control-label">Customer Name</label>
-							<?php echo $this->Form->control('customer_id',['options'=>$PurchaseLedger,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Email']); ?>  
+							<?php echo $this->Form->control('purchase_ledger_id',['options'=>$PurchaseLedger,'label' => false,'class' => 'form-control input-sm select2me']); ?>  
 						</div>
 						<div class="form-group">
 							<label class="control-label">Transaction Date</label>

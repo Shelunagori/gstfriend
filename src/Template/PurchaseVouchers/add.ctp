@@ -15,23 +15,12 @@ $this->set('title', 'Add');
 						
 						<div class="form-group col-md-3 controls">
 							<label class="control-label">Supplier/Party<span class="required" aria-required="true">*</span></label>
-							<?php echo $this->Form->control('supplier_id',['options'=>$SupplierLedger,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Supplier Name.']);?>
-							<select name= "supplier_ledger_id" class="span6 chosen" data-placeholder="Choose a Category" tabindex="1" options='$SupplierLedger'>
-								<?php
-									$sql = "SELECT id,name From ledgers ";
-									pr($sql);
-									$result=mysqli_query($con,$sql);
-								
-									while($row=mysqli_fetch_array($result)){
-										
-										  echo "<option selected='selected'>" . $row['id']." - ". $row['name'];
-									}
-								?>
-							</select>
+							<?php echo $this->Form->control('supplier_ledger_id',['options'=>$SupplierLedger,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Supplier Name.']);?>
+							
 						</div>
 						<div class="form-group col-md-3">
 							<label class="control-label">Purchase Ledger <span class="required" aria-required="true">*</span></label>
-							<?php echo $this->Form->control('customer_id',['options'=>$PurchaseLedger,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Email']); ?> 
+							<?php echo $this->Form->control('purchase_ledger_id',['options'=>$PurchaseLedger,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Email']); ?> 
 						</div>
 						<div class="form-group col-md-3">
 							<label class="control-label">Reference No.<span class="required" aria-required="true">*</span></label>
