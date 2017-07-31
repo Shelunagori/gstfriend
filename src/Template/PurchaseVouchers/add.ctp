@@ -12,34 +12,21 @@ $this->set('title', 'Add');
 			<div class="form-body" >
 				<div class="row">
 					<div class="col-md-12">
-						<div class="form-group col-md-2">
-							<label class="control-label">Supplier/Party</label>
+						
+						<div class="form-group col-md-3">
+							<label class="control-label">Supplier/Party<span class="required" aria-required="true">*</span></label>
+							<?php echo $this->Form->control('supplier_id',['label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Mobile No.']);?> 
 						</div>
 						<div class="form-group col-md-3">
-							<?php echo $this->Form->control('supplier_id',['label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Mobile No.']); ?> 
-						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="form-group col-md-2">
-							<label class="control-label">Reference No.<span class="required" aria-required="true">*</span></label>
-						</div>
-						<div class="form-group col-md-3">	
-							<?php echo $this->Form->control('voucher_no', ['type'=>'text','label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Reference No.']); ?>
-						</div>
-					</div>	
-					<div class="col-md-12">
-						<div class="form-group col-md-2">
-							<label class="control-label">Purchase Ledger</label>
-						</div>
-						<div class="form-group col-md-3">	
+							<label class="control-label">Purchase Ledger <span class="required" aria-required="true">*</span></label>
 							<?php echo $this->Form->control('customer_id',['label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Email']); ?> 
 						</div>
-					</div>	
-					<div class="col-md-12">
-						<div class="form-group col-md-2">
-							<label class="control-label">Transaction Date</label>
+						<div class="form-group col-md-3">
+							<label class="control-label">Reference No.<span class="required" aria-required="true">*</span></label>
+							<?php echo $this->Form->control('voucher_no', ['type'=>'text','label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Reference No.']); ?>
 						</div>
-						<div class="form-group col-md-3">	
+						<div class="form-group col-md-3">
+							<label class="control-label">Transaction Date <span class="required" aria-required="true">*</span></label>
 							<?php echo $this->Form->input('transaction_date', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker' , 'data-date-format'=>'dd-mm-yyyy']); ?>
 						</div>
 					</div>

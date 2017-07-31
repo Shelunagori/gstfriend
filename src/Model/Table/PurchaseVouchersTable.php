@@ -87,6 +87,16 @@ class PurchaseVouchersTable extends Table
             ->integer('id')
             ->allowEmpty('id', 'create');
 
+		$validator
+            ->integer('supplier_id')
+            ->requirePresence('supplier_id', 'create')
+            ->notEmpty('supplier_id');
+		
+		$validator
+            ->integer('customer_id')
+            ->requirePresence('customer_id', 'create')
+            ->notEmpty('customer_id');	
+			
         $validator
             ->integer('voucher_no')
             ->requirePresence('voucher_no', 'create')
