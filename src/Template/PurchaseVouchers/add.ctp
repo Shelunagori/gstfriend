@@ -83,8 +83,15 @@ $this->set('title', 'Add');
 								</thead>
 								<tbody id="main_tbody">
 									
+									
 								</tbody>
-								
+								<tfoot>
+									<tr style="text-align:right">
+										
+										<td colspan="4" style="text-align:right">Total</td>
+										<td><input type="text" name="total" readonly></td>
+									<tr>
+								</tfoot>
 							</table>
 						</div>
 					</div>
@@ -134,6 +141,7 @@ $this->set('title', 'Add');
 		$(document).on("click",".deleterow",function() {
 			$(this).closest('tr').remove();
 			rename_rows();
+			calculate_total();
 			});
 		
 		
@@ -152,7 +160,23 @@ $this->set('title', 'Add');
 					$(this).find("td:nth-child(5) input").attr({name:"purchase_voucher_rows["+j+"][amount]", id:"purchase_voucher_rows-"+j+"-amount"});
 					j++;
 	   });
-	};	
+	};
+
+
+		$('#main_table input').die().live("keyup","blur",function() { 
+		calculate_total();
+    });
+	function calculate_total(){
+		var total=0;
+		$("#main_table tbody#main_tbody tr").each(function(){
+			var unit=$(this).find("td:nth-child(3) input").val();
+			var Rate=$(this).find("td:nth-child(4) input").val();
+			var Amount=unit*Rate;
+			$(this).find("td:nth-child(5) input").val(Amount.toFixed(2));
+			total=total+Amount;
+		});
+		$('input[name="total"]').val(total.toFixed(2));
+	}
 		
 	});
 </script>					
