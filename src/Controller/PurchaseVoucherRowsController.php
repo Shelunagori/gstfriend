@@ -20,6 +20,7 @@ class PurchaseVoucherRowsController extends AppController
      */
     public function index()
     {
+		$this->viewBuilder()->layout('index_layout');
         $this->paginate = [
             'contain' => ['PurchaseVouchers', 'Items']
         ];
@@ -38,6 +39,7 @@ class PurchaseVoucherRowsController extends AppController
      */
     public function view($id = null)
     {
+		$this->viewBuilder()->layout('index_layout');
         $purchaseVoucherRow = $this->PurchaseVoucherRows->get($id, [
             'contain' => ['PurchaseVouchers', 'Items']
         ]);
@@ -53,6 +55,7 @@ class PurchaseVoucherRowsController extends AppController
      */
     public function add()
     {
+		$this->viewBuilder()->layout('index_layout');
         $purchaseVoucherRow = $this->PurchaseVoucherRows->newEntity();
         if ($this->request->is('post')) {
             $purchaseVoucherRow = $this->PurchaseVoucherRows->patchEntity($purchaseVoucherRow, $this->request->getData());
@@ -78,6 +81,7 @@ class PurchaseVoucherRowsController extends AppController
      */
     public function edit($id = null)
     {
+		$this->viewBuilder()->layout('index_layout');
         $purchaseVoucherRow = $this->PurchaseVoucherRows->get($id, [
             'contain' => []
         ]);

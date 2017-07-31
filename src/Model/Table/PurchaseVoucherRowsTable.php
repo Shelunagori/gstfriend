@@ -43,7 +43,7 @@ class PurchaseVoucherRowsTable extends Table
         ]);
         $this->belongsTo('Items', [
             'foreignKey' => 'item_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT'
         ]);
     }
 
