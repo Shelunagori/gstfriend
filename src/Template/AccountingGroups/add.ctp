@@ -23,7 +23,7 @@ $this->set('title', 'Add');
 						</div>
 						<div class="form-group">
 							<label class="control-label">Parent</label>
-							<?php echo $this->Form->input('parent_id', ['options' => $parentAccountingGroups, 'empty' => true ,'label' => false,'class' => 'form-control input-sm select2me']); ?>
+							<?php echo $this->Form->control('parent_id', ['options' => $parentAccountingGroups, 'empty' => true ,'label' => false,'class' => 'form-control input-sm select2me']); ?>
 						</div>
 					</div>
 				</div> 

@@ -15,7 +15,7 @@ $this->set('title', 'Add');
 						<div class="form-group col-md-2">
 							<label class="control-label">Supplier/Party</label>
 						</div>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-3">
 							<?php echo $this->Form->control('supplier_id',['label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Mobile No.']); ?> 
 						</div>
 					</div>
@@ -23,15 +23,15 @@ $this->set('title', 'Add');
 						<div class="form-group col-md-2">
 							<label class="control-label">Reference No.<span class="required" aria-required="true">*</span></label>
 						</div>
-						<div class="form-group col-md-4">	
-							<?php echo $this->Form->control('voucher_no', ['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Reference No.']); ?>
+						<div class="form-group col-md-3">	
+							<?php echo $this->Form->control('voucher_no', ['type'=>'text','label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Reference No.']); ?>
 						</div>
 					</div>	
 					<div class="col-md-12">
 						<div class="form-group col-md-2">
 							<label class="control-label">Purchase Ledger</label>
 						</div>
-						<div class="form-group col-md-4">	
+						<div class="form-group col-md-3">	
 							<?php echo $this->Form->control('customer_id',['label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Email']); ?> 
 						</div>
 					</div>	
@@ -39,8 +39,8 @@ $this->set('title', 'Add');
 						<div class="form-group col-md-2">
 							<label class="control-label">Transaction Date</label>
 						</div>
-						<div class="form-group col-md-4">	
-							<?php echo $this->Form->control('transaction_date',['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Date']); ?> 
+						<div class="form-group col-md-3">	
+							<?php echo $this->Form->input('transaction_date', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker' , 'data-date-format'=>'dd-mm-yyyy']); ?>
 						</div>
 					</div>
 					<!-- BEGIN SAMPLE TABLE PORTLET-->
@@ -98,7 +98,7 @@ $this->set('title', 'Add');
 							<?php echo $this->Form->control('narration',['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Narration']); ?> 
 						</div>
 					</div>	
-					</div>
+				</div>
 				</div> 
 			</div>
 		</fieldset>
@@ -111,8 +111,7 @@ $this->set('title', 'Add');
 
 
 
-
-<?php echo $this->Html->script('jquery.min.js'); ?>
+<?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 
 <script type="text/javascript">
 	$(document).ready(function() 
@@ -165,7 +164,7 @@ $this->set('title', 'Add');
 		<tr class="main_tr">
 			<td align="center" width="1px"></td>
 			<td width="20%">
-				<?php echo $this->Form->control('item_id',['label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Item']); ?> 
+				<?php echo $this->Form->control('item_id', ['options' =>$items, 'empty' => false,'label' => false,'class' => 'form-control input-sm select2me']); ?>
 			</td>
 			<td>
 				<?php echo $this->Form->control('quantity',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Enter Quantity']); ?> 

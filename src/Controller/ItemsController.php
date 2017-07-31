@@ -22,7 +22,7 @@ class ItemsController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
         $this->paginate = [
-            'contain' => ['Companies']
+            'contain' => ['Companies','Taxs']
         ];
         $items = $this->paginate($this->Items);
 
@@ -42,7 +42,7 @@ class ItemsController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
         $item = $this->Items->get($id, [
-            'contain' => ['Companies']
+            'contain' => ['Companies','taxs']
         ]);
 
         $this->set('item', $item);
@@ -70,7 +70,8 @@ class ItemsController extends AppController
             $this->Flash->error(__('The item could not be saved. Please, try again.'));
         }
         $companies = $this->Items->Companies->find('list', ['limit' => 200]);
-        $this->set(compact('item', 'companies'));
+        $taxs = $this->Items->Taxs->find('list', ['limit' => 200]);
+        $this->set(compact('item', 'companies','taxs'));
         $this->set('_serialize', ['item']);
 		$this->set('active_menu', 'Items.Add');
     }
@@ -98,7 +99,8 @@ class ItemsController extends AppController
             $this->Flash->error(__('The item could not be saved. Please, try again.'));
         }
         $companies = $this->Items->Companies->find('list', ['limit' => 200]);
-        $this->set(compact('item', 'companies'));
+        $taxs = $this->Items->Taxs->find('list', ['limit' => 200]);
+        $this->set(compact('item', 'companies','taxs'));
         $this->set('_serialize', ['item']);
     }
 

@@ -61,18 +61,19 @@ class PurchaseVouchersController extends AppController
         $purchaseVoucher = $this->PurchaseVouchers->newEntity();
         if ($this->request->is('post')) {
             $purchaseVoucher = $this->PurchaseVouchers->patchEntity($purchaseVoucher, $this->request->getData());
-			$customer->company_id=$company_id;
+			$purchaseVoucher->company_id=$company_id;
             if ($this->PurchaseVouchers->save($purchaseVoucher)) {
                 $this->Flash->success(__('The purchase voucher has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'add']);
             }
             $this->Flash->error(__('The purchase voucher could not be saved. Please, try again.'));
         }
+        $items = $this->PurchaseVouchers->Items->find('list', ['limit' => 200]);
         $customers = $this->PurchaseVouchers->Customers->find('list', ['limit' => 200]);
         $suppliers = $this->PurchaseVouchers->Suppliers->find('list', ['limit' => 200]);
         $companies = $this->PurchaseVouchers->Companies->find('list', ['limit' => 200]);
-        $this->set(compact('purchaseVoucher', 'customers','suppliers', 'companies'));
+        $this->set(compact('purchaseVoucher', 'customers','suppliers', 'companies','items'));
         $this->set('_serialize', ['purchaseVoucher']);
 		$this->set('active_menu', 'PurchaseVouchers.Add');
     }

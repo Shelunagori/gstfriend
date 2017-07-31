@@ -33,6 +33,12 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!-- END GLOBAL MANDATORY STYLES -->
 		<!-- BEGIN THEME STYLES -->
 		<?php echo $this->Html->css('/assets/global/css/components.css'); ?>
+		<?php echo $this->Html->css('/assets/global/plugins/bootstrap-datepicker/css/datepicker3.css'); ?>
+		<?php //echo $this->Html->css('/assets/global/plugins/bootstrap-datepicker/css/datepicker.css'); ?>
+		<?php //echo $this->Html->css('/assets/bootstrap-datepicker/css/datepicker.css'); ?>
+		<?php //echo $this->Html->css('/assets/global/plugins/bootstrap-datepicker/css/metro.css'); ?>
+		  
+
 		<?php echo $this->Html->css('/assets/global/css/plugins.css'); ?>
 		<?php echo $this->Html->css('/assets/admin/layout/css/layout.css'); ?>
 		<?php echo $this->Html->css('/assets/admin/layout/css/themes/darkblue.css'); ?>
@@ -124,23 +130,29 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
 		<?php echo $this->Html->script('/assets/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js'); ?>
 		<?php echo $this->Html->script('/assets/global/plugins/bootstrap/js/bootstrap.min.js'); ?>
-		<?php echo $this->Html->script('/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js'); ?>
+		
+		<?php //echo $this->Html->script('/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js'); ?>
 		<?php echo $this->Html->script('/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js'); ?>
 		<?php echo $this->Html->script('/assets/global/plugins/jquery.blockui.min.js'); ?>
 		<?php echo $this->Html->script('/assets/global/plugins/jquery.cokie.min.js'); ?>
 		<?php echo $this->Html->script('/assets/global/plugins/uniform/jquery.uniform.min.js'); ?>
 		<?php echo $this->Html->script('/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js'); ?>
 		<!-- END CORE PLUGINS -->
+		<?php echo $this->Html->script('/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'); ?>
 		<?php echo $this->Html->script('/assets/global/scripts/metronic.js'); ?>
 		<?php echo $this->Html->script('/assets/admin/layout/scripts/layout.js'); ?>
 		<?php echo $this->Html->script('/assets/admin/layout/scripts/quick-sidebar.js'); ?>
 		<?php echo $this->Html->script('/assets/admin/layout/scripts/demo.js'); ?>
+		<?php echo $this->Html->script('/assets/admin/pages/scripts/components-pickers.js'); ?>
 		<script>
-			jQuery(document).ready(function() {   
+			jQuery(document).ready(function() {  
+				
 				Metronic.init(); // init metronic core components
 				Layout.init(); // init current layout
 				QuickSidebar.init(); // init quick sidebar
 				Demo.init(); // init demo features
+				ComponentsPickers.init();// Date-Picker
+				ComponentsDropdowns.init();//Date-Picker
 			});
 		</script>
 		<!-- END JAVASCRIPTS -->

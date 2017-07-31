@@ -26,6 +26,10 @@ $this->set('title', 'Add');
 							<?php echo $this->Form->control('address',['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Address']); ?> 
 						</div>
 						<div class="form-group">
+							<label class="control-label">State</label>
+							<?php echo $this->Form->control('state' , ['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter State']); ?>
+						</div>
+						<div class="form-group">
 							<?php echo $this->Form->control('freezed'); ?>
 						</div>
 					</div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 28, 2017 at 06:45 PM
+-- Generation Time: Jul 31, 2017 at 09:20 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -116,6 +116,7 @@ CREATE TABLE `customers` (
   `mobile` varchar(10) NOT NULL,
   `email` varchar(255) NOT NULL,
   `address` text NOT NULL,
+  `state` varchar(100) NOT NULL,
   `freezed` tinyint(1) NOT NULL COMMENT '0==not freezed  1==freezed',
   `company_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -124,24 +125,12 @@ CREATE TABLE `customers` (
 -- Dumping data for table `customers`
 --
 
-INSERT INTO `customers` (`id`, `name`, `mobile`, `email`, `address`, `freezed`, `company_id`) VALUES
-(1, 'anil gurjar', '9462952929', 'anilgurjer371@gmail.com', 'balicha', 0, 1),
-(2, 'abhilash ji', '8963023698', 'ajad@gmail.com', 'balicha', 1, 1),
-(3, 'ajad ', '8963023698', 'ajad123@gmail.com', 'balicha', 1, 1),
-(4, 'anil', '8949998165', 'ftyftyu@vghvh.com', 'gyvvbjkb', 1, 1),
-(5, 'dqwudfqd', '4561616121', '3iwfwb@bhjbc.com', 'cbscbhhj', 0, 1),
-(6, 'dqwudfqd', '4561616121', '3iwfwb@bhjbc.comq', 'cbscbhhj', 0, 1),
-(7, 'dqwudfqd', '4561616121', '3iwfwb@bhjbc.comqgh', 'cbscbhhj', 0, 1),
-(8, 'sgcyuascg7', '4984966498', 'quiccc@icuwuic.com', 'ucbhuwsbchj xjq', 1, 1),
-(9, 'ascvuau', '5984916314', 'bchjbu@huibcuas.com', 'nsuabfauidja', 1, 1),
-(10, 'fbdsajfbdsjkam', '5616366532', 'nfjknwfqk@giegrnsdk.com', 'nfwjfnwdksa', 1, 0),
-(11, 'hdsuighdsuifhkovjdsuihcsdiucskxjk', '9841549635', 'scuisj@ifnwik.com', 'fwuivfndsiacfscdsjik', 1, 1),
-(12, 'fqwugqhqeuifqwoejqwfu', '9461498613', 'FJODAOI@EFOIEFLW.COM', 'coaisfnasdofakfnaia', 1, 1),
-(13, 'ffh', '4656464666', 'fwifhihi@ncdsvjk.com', 'fhifsasj', 1, 1),
-(14, 'aaaaa', '9999999999', 'aaaaa@sdf.com', 'dasdacdas', 1, 1),
-(15, 'ffffffff', '7897897897', 'ddsdsds@sgdg.com', 'hhhghghghj', 1, 1),
-(16, 'gggggg', '5498646146', 'dfgfgfg@ggg.com', 'fjdsi', 0, 1),
-(17, 'sad', 'lkn', '', '', 0, 1);
+INSERT INTO `customers` (`id`, `name`, `mobile`, `email`, `address`, `state`, `freezed`, `company_id`) VALUES
+(1, 'bsvhjdsbj', '', '', '', '', 0, 1),
+(2, 'bmm,mmmm', '', '', '', '', 0, 1),
+(3, 'aaaaaaaaaaaaaa', '', '', '', '', 0, 1),
+(4, 'sssss', '', '', '', '', 0, 1),
+(5, 'anil gurjar', '9462952929', 'anilgurjer371@gmail.com', 'balicha', 'rajasthan', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -152,6 +141,7 @@ INSERT INTO `customers` (`id`, `name`, `mobile`, `email`, `address`, `freezed`, 
 CREATE TABLE `items` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `tax_id` int(11) NOT NULL,
   `hsn_code` varchar(20) NOT NULL,
   `freezed` tinyint(1) NOT NULL COMMENT '0==not freezed 1==freezed',
   `company_id` int(11) NOT NULL
@@ -161,9 +151,9 @@ CREATE TABLE `items` (
 -- Dumping data for table `items`
 --
 
-INSERT INTO `items` (`id`, `name`, `hsn_code`, `freezed`, `company_id`) VALUES
-(1, 'stl', '123456', 1, 1),
-(2, 'anil', 'fjeoifjwe90324', 0, 1);
+INSERT INTO `items` (`id`, `name`, `tax_id`, `hsn_code`, `freezed`, `company_id`) VALUES
+(1, 'stl', 0, '123456', 1, 1),
+(2, 'anil', 0, 'fjeoifjwe90324', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -186,17 +176,15 @@ CREATE TABLE `ledgers` (
 --
 
 INSERT INTO `ledgers` (`id`, `name`, `accounting_group_id`, `freeze`, `company_id`, `supplier_id`, `customer_id`) VALUES
-(1, 'aaaajjjj', 0, 0, 1, 0, 0),
-(2, 'gggggg', 0, 0, 1, 0, 0),
-(3, 'sad', 0, 0, 1, 0, 0),
-(4, 'xzcx', 0, 0, 1, 0, 0),
-(5, 'asdas', 0, 0, 1, 0, 0),
-(6, 'dvds', 0, 0, 1, 0, 0),
-(7, 'fghfh', 0, 0, 1, 0, 0),
-(8, 'dsd', 0, 0, 1, 0, 0),
-(9, 'vnb', 0, 0, 1, 0, 0),
-(10, 'ghbn', 0, 0, 1, 0, 0),
-(11, 'bvc', 0, 0, 1, 0, 0);
+(1, 'bsvhjdsbj', 1, 0, 1, 0, 0),
+(2, 'bmm,mmmm', 1, 0, 1, 0, 2),
+(3, 'bmm,mmmm', 1, 0, 1, 0, 0),
+(4, 'aaaaaaaaaaaaaa', 2, 0, 1, 0, 3),
+(5, 'aaaaaaaaaaaaaa', 2, 0, 1, 0, 0),
+(6, 'sssss', 3, 0, 1, 0, 4),
+(7, 'cvbcvb', 0, 0, 1, 2, 0),
+(8, 'anill', 0, 0, 1, 3, 0),
+(9, 'anil gurjar', 0, 0, 1, 0, 5);
 
 -- --------------------------------------------------------
 
@@ -235,6 +223,14 @@ CREATE TABLE `purchase_vouchers` (
   `company_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `purchase_vouchers`
+--
+
+INSERT INTO `purchase_vouchers` (`id`, `voucher_no`, `supplier_ledger_id`, `purchase_ledger_id`, `transaction_date`, `narration`, `company_id`) VALUES
+(1, 4564654, 1, 1, '2017-07-30', 'msgdggdgdg123', 1),
+(2, 46464, 0, 0, '2017-07-30', '64sdvds', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -250,6 +246,14 @@ CREATE TABLE `purchase_voucher_rows` (
   `amount` decimal(15,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `purchase_voucher_rows`
+--
+
+INSERT INTO `purchase_voucher_rows` (`id`, `purchase_voucher_id`, `item_id`, `quantity`, `rate_per`, `amount`) VALUES
+(1, 1, 0, '1.00', '12.00', '100.00'),
+(2, 2, 0, '561456.00', '665.00', '25632.00');
+
 -- --------------------------------------------------------
 
 --
@@ -262,6 +266,7 @@ CREATE TABLE `suppliers` (
   `mobile` varchar(10) NOT NULL,
   `email` varchar(255) NOT NULL,
   `address` text NOT NULL,
+  `state` varchar(100) NOT NULL,
   `freezed` tinyint(1) NOT NULL COMMENT '0==not freezed  1==freezed',
   `company_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -270,20 +275,32 @@ CREATE TABLE `suppliers` (
 -- Dumping data for table `suppliers`
 --
 
-INSERT INTO `suppliers` (`id`, `name`, `mobile`, `email`, `address`, `freezed`, `company_id`) VALUES
-(2, 'dyuhlvfujfwuihd', '4618965384', 'asda@wfeowi.com', 'foiewfnqewks', 1, 1),
-(3, 'jsan', 'lkj', 'lk@lkjlklk.dfds', 'sdsad', 0, 1),
-(4, 'aaaaasssss', '7894561237', 'ddddd@gmaail.com', 'ytrftyy', 1, 1),
-(5, 'aaaaaaaaaaaaaaa', '7987897989', 'avgzv@bhvbh.com', 'yvghh', 0, 1),
-(6, 'aaaajjjj', '6385631498', 'vashcbas@ieruwei.com', 'fhdsuihfdsi', 1, 1),
-(7, 'xzcx', '', '', '', 0, 1),
-(8, 'asdas', '', '', '', 0, 1),
-(9, 'dvds', '', '', '', 0, 1),
-(10, 'fghfh', '', '', '', 0, 1),
-(11, 'dsd', '', '', '', 0, 1),
-(12, 'vnb', '', '', '', 0, 1),
-(13, 'ghbn', '', '', '', 0, 1),
-(14, 'bvc', '', '', '', 0, 1);
+INSERT INTO `suppliers` (`id`, `name`, `mobile`, `email`, `address`, `state`, `freezed`, `company_id`) VALUES
+(1, 'anil', '', '', '', '', 0, 1),
+(2, 'cvbcvb', '', '', '', '', 0, 1),
+(3, 'anill', '9462952929', 'anilgurjer371@gmail.com', 'balicha', 'rajasthan', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `taxs`
+--
+
+CREATE TABLE `taxs` (
+  `id` int(10) NOT NULL,
+  `tax_percent` int(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `taxs`
+--
+
+INSERT INTO `taxs` (`id`, `tax_percent`) VALUES
+(1, 0),
+(2, 5),
+(3, 12),
+(4, 18),
+(5, 28);
 
 -- --------------------------------------------------------
 
@@ -372,6 +389,12 @@ ALTER TABLE `suppliers`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `taxs`
+--
+ALTER TABLE `taxs`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -400,7 +423,7 @@ ALTER TABLE `companies`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `items`
 --
@@ -410,7 +433,7 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT for table `ledgers`
 --
 ALTER TABLE `ledgers`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `nature_of_groups`
 --
@@ -420,17 +443,22 @@ ALTER TABLE `nature_of_groups`
 -- AUTO_INCREMENT for table `purchase_vouchers`
 --
 ALTER TABLE `purchase_vouchers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `purchase_voucher_rows`
 --
 ALTER TABLE `purchase_voucher_rows`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `suppliers`
 --
 ALTER TABLE `suppliers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `taxs`
+--
+ALTER TABLE `taxs`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `users`
 --

@@ -12,6 +12,7 @@ $this->set('title', 'List');
 						<th scope="col" style="text-align:center">NAME</th>
 						<th scope="col" style="text-align:center">MOBILE NO.</th>
 						<th scope="col" style="text-align:center">EMAIL</th>
+						<th scope="col" style="text-align:center">STATE</th>
 						<th scope="col" style="text-align:center">FREEZED</th>
 						<th scope="col" class="actions" style="text-align:center"><?= __('Actions') ?></th>
 					</tr>
@@ -24,6 +25,7 @@ $this->set('title', 'List');
 						<td><?= h($customer->name) ?></td>
 						<td><?= h($customer->mobile) ?></td>
 						<td><?= h($customer->email) ?></td>
+						<td><?= h($customer->state) ?></td>
 						<td><?php if(@$customer->freezed==0){ echo "Unfreezed";  } else {   echo "Freezed"; } ?></td>
 						<td class="actions" >
 						   <?= $this->Html->link(__('Edit'), ['action' => 'edit', $customer->id]) ?>
