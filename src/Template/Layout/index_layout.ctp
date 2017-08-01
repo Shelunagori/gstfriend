@@ -30,6 +30,8 @@ License: You must have a valid license purchased only from themeforest(the above
 		<?php echo $this->Html->css('/assets/global/plugins/uniform/css/uniform.default.css'); ?>
 		<?php echo $this->Html->css('/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css'); ?>
 		<?php echo $this->Html->css('/assets/global/plugins/bootstrap-toastr/toastr.min.css'); ?>
+		<?php echo $this->Html->css('chosen.css'); ?>
+	
 		<!-- END GLOBAL MANDATORY STYLES -->
 		<?= $this->fetch('cssComponentsPickers')?>
 		<!-- BEGIN THEME STYLES -->
@@ -149,6 +151,7 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!-- BEGIN PAGE LEVEL SCRIPTS -->
 		<?= $this->fetch('PAGE_LEVEL_SCRIPTS_ComponentsPickers')?>
 		<!-- END PAGE LEVEL SCRIPTS -->
+
 		<script>
 			jQuery(document).ready(function() {  
 				Metronic.init(); // init metronic core components

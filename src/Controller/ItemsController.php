@@ -56,9 +56,9 @@ class ItemsController extends AppController
      */
     public function add()
     {
-		$company_id=$this->Auth->User('company_id');
 		$this->viewBuilder()->layout('index_layout');
-        $item = $this->Items->newEntity();
+		$company_id=$this->Auth->User('company_id');
+		$item = $this->Items->newEntity();
         if ($this->request->is('post')) {
             $item = $this->Items->patchEntity($item, $this->request->getData());
 			$item->company_id=$company_id;
@@ -69,8 +69,8 @@ class ItemsController extends AppController
             }
             $this->Flash->error(__('The item could not be saved. Please, try again.'));
         }
-        $companies = $this->Items->Companies->find('list', ['limit' => 200]);
-        $taxs = $this->Items->Taxs->find('list', ['limit' => 200]);
+        $companies = $this->Items->Companies->find('list');
+        $taxs = $this->Items->Taxs->find('list');
         $this->set(compact('item', 'companies','taxs'));
         $this->set('_serialize', ['item']);
 		$this->set('active_menu', 'Items.Add');

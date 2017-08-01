@@ -13,13 +13,14 @@ $this->set('title', 'Add');
 				<div class="row">
 					<div class="col-md-12">
 						
-						<div class="form-group col-md-3">
+						<div class="form-group col-md-3 controls">
 							<label class="control-label">Supplier/Party<span class="required" aria-required="true">*</span></label>
-							<?php echo $this->Form->control('supplier_id',['label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Mobile No.']);?> 
+							<?php echo $this->Form->control('supplier_ledger_id',['options'=>$SupplierLedger,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Supplier Name.']);?>
+							
 						</div>
 						<div class="form-group col-md-3">
 							<label class="control-label">Purchase Ledger <span class="required" aria-required="true">*</span></label>
-							<?php echo $this->Form->control('customer_id',['label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Email']); ?> 
+							<?php echo $this->Form->control('purchase_ledger_id',['options'=>$PurchaseLedger,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Email']); ?> 
 						</div>
 						<div class="form-group col-md-3">
 							<label class="control-label">Reference No.<span class="required" aria-required="true">*</span></label>
@@ -27,7 +28,7 @@ $this->set('title', 'Add');
 						</div>
 						<div class="form-group col-md-3">
 							<label class="control-label">Transaction Date <span class="required" aria-required="true">*</span></label>
-							<?php echo $this->Form->input('transaction_date', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker' , 'data-date-format'=>'dd-mm-yyyy']); ?>
+							<?php echo $this->Form->input('transaction_date', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'D-M-Y']); ?>
 						</div>
 					</div>
 					<!-- BEGIN SAMPLE TABLE PORTLET-->

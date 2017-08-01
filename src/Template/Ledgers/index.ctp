@@ -21,7 +21,6 @@ $this->set('title', 'List');
 				</thead>
 				<tbody>
 					<?php $i=0;
-					
 					foreach ($ledgers as $ledger):
 					$i++; 	
 					?>
@@ -30,7 +29,7 @@ $this->set('title', 'List');
 						<td><?= h($ledger->name) ?></td>
 						<td><?= h($ledger->accounting_group->name) ?></td>
 						<!--<td><?php /*h($ledger->accounting_group->name, ['controller' => 'AccountingGroups', 'action' => 'view', $ledger->accounting_group->id]) */ ?></td>-->
-						<td><?php if(@$ledger->freezed==0){ echo "Unfreezed";  } else {   echo "Freezed"; } ?></td>
+						<td><?php if(@$ledger->freeze==0){ echo "Unfreezed";  } else {   echo "Freezed"; } ?></td>
 						<td class="actions">
 							<?php /*  $this->Html->link(__('Edit'), ['action' => 'edit', $ledger->id])   */ ?>
 						</td>

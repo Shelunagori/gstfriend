@@ -64,7 +64,8 @@ class SuppliersController extends AppController
 		/*ledger table Entry Start */	
 			$Ledger = $this->Suppliers->Ledgers->newEntity();
 			$Ledger->name = $supplier->name;
-			$Ledger->freezed = $supplier->freezed;
+			$Ledger->freeze = $supplier->freezed;
+			$Ledger->accounting_group_id =25;
 			$Ledger->company_id = $company_id;
 			$supplier->ledgers = [$Ledger];
         /*ledger table Entry End */    
