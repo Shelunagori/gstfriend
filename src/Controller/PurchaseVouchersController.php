@@ -75,7 +75,7 @@ class PurchaseVouchersController extends AppController
 		$items = $this->PurchaseVouchers->Items->find('list');
        
         $SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find('list')->where(['accounting_group_id'=>25]);
-        $PurchaseLedger = $this->PurchaseVouchers->PurchaseLedger->find('list')->where(['accounting_group_id'=>13]);
+        $PurchaseLedger = $this->PurchaseVouchers->PurchaseLedger->find('list')->where(['accounting_group_id'=>22]);
 		$this->set(compact('purchaseVoucher', 'SupplierLedger','PurchaseLedger','items'));
         $this->set('_serialize', ['purchaseVoucher']);
 		$this->set('active_menu', 'PurchaseVouchers.Add');
