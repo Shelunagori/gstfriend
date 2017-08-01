@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 31, 2017 at 09:20 AM
+-- Generation Time: Aug 01, 2017 at 01:25 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -121,16 +121,60 @@ CREATE TABLE `customers` (
   `company_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `customers`
+-- Table structure for table `invoices`
 --
 
-INSERT INTO `customers` (`id`, `name`, `mobile`, `email`, `address`, `state`, `freezed`, `company_id`) VALUES
-(1, 'bsvhjdsbj', '', '', '', '', 0, 1),
-(2, 'bmm,mmmm', '', '', '', '', 0, 1),
-(3, 'aaaaaaaaaaaaaa', '', '', '', '', 0, 1),
-(4, 'sssss', '', '', '', '', 0, 1),
-(5, 'anil gurjar', '9462952929', 'anilgurjer371@gmail.com', 'balicha', 'rajasthan', 1, 1);
+CREATE TABLE `invoices` (
+  `id` int(10) NOT NULL,
+  `invoice_no` int(10) NOT NULL,
+  `transaction_date` date NOT NULL,
+  `customer_ledger_id` int(10) NOT NULL,
+  `sales_ledger_id` int(11) NOT NULL,
+  `total_amount_before_tax` decimal(15,2) NOT NULL,
+  `total_cgst` decimal(15,2) NOT NULL,
+  `total_sgst` decimal(15,2) NOT NULL,
+  `total_amount_after_tax` decimal(15,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `invoices`
+--
+
+INSERT INTO `invoices` (`id`, `invoice_no`, `transaction_date`, `customer_ledger_id`, `sales_ledger_id`, `total_amount_before_tax`, `total_cgst`, `total_sgst`, `total_amount_after_tax`) VALUES
+(1, 1, '2017-07-31', 1, 1, '200.00', '12.00', '12.00', '224.00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `invoice_rows`
+--
+
+CREATE TABLE `invoice_rows` (
+  `id` int(10) NOT NULL,
+  `invoice_id` int(10) NOT NULL,
+  `item_id` int(10) DEFAULT NULL,
+  `quantity` decimal(8,2) DEFAULT NULL,
+  `rate` decimal(12,2) DEFAULT NULL,
+  `amount` decimal(15,2) DEFAULT NULL,
+  `discount_rate` decimal(5,2) DEFAULT NULL,
+  `discount_amount` decimal(12,2) DEFAULT NULL,
+  `taxable_value` decimal(15,2) DEFAULT NULL,
+  `cgst_rate` decimal(5,2) DEFAULT NULL,
+  `cgst_amount` decimal(12,2) DEFAULT NULL,
+  `sgst_rate` decimal(5,2) DEFAULT NULL,
+  `sgst_amount` decimal(12,2) DEFAULT NULL,
+  `total` decimal(15,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `invoice_rows`
+--
+
+INSERT INTO `invoice_rows` (`id`, `invoice_id`, `item_id`, `quantity`, `rate`, `amount`, `discount_rate`, `discount_amount`, `taxable_value`, `cgst_rate`, `cgst_amount`, `sgst_rate`, `sgst_amount`, `total`) VALUES
+(1, 1, 1, '2.00', '100.00', '200.00', NULL, '0.00', '200.00', '6.00', '12.00', '6.00', '12.00', '224.00');
 
 -- --------------------------------------------------------
 
@@ -147,14 +191,6 @@ CREATE TABLE `items` (
   `company_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `items`
---
-
-INSERT INTO `items` (`id`, `name`, `tax_id`, `hsn_code`, `freezed`, `company_id`) VALUES
-(1, 'stl', 0, '123456', 1, 1),
-(2, 'anil', 0, 'fjeoifjwe90324', 0, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -170,21 +206,6 @@ CREATE TABLE `ledgers` (
   `supplier_id` int(10) NOT NULL,
   `customer_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `ledgers`
---
-
-INSERT INTO `ledgers` (`id`, `name`, `accounting_group_id`, `freeze`, `company_id`, `supplier_id`, `customer_id`) VALUES
-(1, 'bsvhjdsbj', 1, 0, 1, 0, 0),
-(2, 'bmm,mmmm', 1, 0, 1, 0, 2),
-(3, 'bmm,mmmm', 1, 0, 1, 0, 0),
-(4, 'aaaaaaaaaaaaaa', 2, 0, 1, 0, 3),
-(5, 'aaaaaaaaaaaaaa', 2, 0, 1, 0, 0),
-(6, 'sssss', 3, 0, 1, 0, 4),
-(7, 'cvbcvb', 0, 0, 1, 2, 0),
-(8, 'anill', 0, 0, 1, 3, 0),
-(9, 'anil gurjar', 0, 0, 1, 0, 5);
 
 -- --------------------------------------------------------
 
@@ -216,20 +237,13 @@ INSERT INTO `nature_of_groups` (`id`, `name`) VALUES
 CREATE TABLE `purchase_vouchers` (
   `id` int(11) NOT NULL,
   `voucher_no` int(10) NOT NULL,
+  `reference_no` varchar(255) NOT NULL,
   `supplier_ledger_id` int(10) NOT NULL,
   `purchase_ledger_id` int(10) NOT NULL,
   `transaction_date` date NOT NULL,
   `narration` text NOT NULL,
   `company_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `purchase_vouchers`
---
-
-INSERT INTO `purchase_vouchers` (`id`, `voucher_no`, `supplier_ledger_id`, `purchase_ledger_id`, `transaction_date`, `narration`, `company_id`) VALUES
-(1, 4564654, 1, 1, '2017-07-30', 'msgdggdgdg123', 1),
-(2, 46464, 0, 0, '2017-07-30', '64sdvds', 1);
 
 -- --------------------------------------------------------
 
@@ -245,14 +259,6 @@ CREATE TABLE `purchase_voucher_rows` (
   `rate_per` decimal(15,2) NOT NULL,
   `amount` decimal(15,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `purchase_voucher_rows`
---
-
-INSERT INTO `purchase_voucher_rows` (`id`, `purchase_voucher_id`, `item_id`, `quantity`, `rate_per`, `amount`) VALUES
-(1, 1, 0, '1.00', '12.00', '100.00'),
-(2, 2, 0, '561456.00', '665.00', '25632.00');
 
 -- --------------------------------------------------------
 
@@ -270,15 +276,6 @@ CREATE TABLE `suppliers` (
   `freezed` tinyint(1) NOT NULL COMMENT '0==not freezed  1==freezed',
   `company_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `suppliers`
---
-
-INSERT INTO `suppliers` (`id`, `name`, `mobile`, `email`, `address`, `state`, `freezed`, `company_id`) VALUES
-(1, 'anil', '', '', '', '', 0, 1),
-(2, 'cvbcvb', '', '', '', '', 0, 1),
-(3, 'anill', '9462952929', 'anilgurjer371@gmail.com', 'balicha', 'rajasthan', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -353,6 +350,18 @@ ALTER TABLE `customers`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `invoices`
+--
+ALTER TABLE `invoices`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `invoice_rows`
+--
+ALTER TABLE `invoice_rows`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `items`
 --
 ALTER TABLE `items`
@@ -423,17 +432,27 @@ ALTER TABLE `companies`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `invoices`
+--
+ALTER TABLE `invoices`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `invoice_rows`
+--
+ALTER TABLE `invoice_rows`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `ledgers`
 --
 ALTER TABLE `ledgers`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `nature_of_groups`
 --
@@ -443,17 +462,17 @@ ALTER TABLE `nature_of_groups`
 -- AUTO_INCREMENT for table `purchase_vouchers`
 --
 ALTER TABLE `purchase_vouchers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `purchase_voucher_rows`
 --
 ALTER TABLE `purchase_voucher_rows`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `suppliers`
 --
 ALTER TABLE `suppliers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `taxs`
 --

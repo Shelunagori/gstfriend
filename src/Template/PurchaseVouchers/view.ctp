@@ -48,9 +48,9 @@ p{
     padding:3px;
 }
 </style>
-<a class="btn  blue hidden-print" onclick="javascript:window.print();">Print <i class="fa fa-print"></i></a>
+<a class="btn  blue hidden-print" style="margin-left:88%;" onclick="javascript:window.print();">Print <i class="fa fa-print"></i></a>
 <?= $this->Html->link(__('Edit'), ['action' => 'edit', $purchaseVoucher->id],['class'=>'btn yellow-crusta hidden-print']) ?>
-<div style="width:80%;margin:auto;border:solid 1px;font-family: serif;background-color: #FFF;" class="maindiv">
+<div style="width:80%;margin:auto;border:solid 1px;font-family: serif;background-color: #FFF;margin-top:2%" class="maindiv">
 	<table width="100%">
 		<tr>
 			<td width="30%" style="padding:5px;"><?php echo $this->Html->image('/img/viewlogo.png', ['height' => '100px']); ?></td>
@@ -58,9 +58,9 @@ p{
 				<div align="center" style="color: #c4151c;"><b>
 					<span style="font-size:16px;color: #c4151c !important;" style=""><h2><?= $purchaseVoucher->company->name ?></h2></span><br/>
 					<span style="color: #4a4c4c;">Subhash Nagar Sevasram</span><br/>
-					<!--<span style="color: #4a4c4c;">Udaipur, Rajasthan. PIN: 313001</span><br/>
+					<span style="color: #4a4c4c;">Udaipur, Rajasthan. PIN: 313001</span><br/>
 					<span style="color: #4a4c4c;">Tel: +91 9876543210</span><br/>
-					<span style="color: #4a4c4c;">GSTIN: 08BICPD5795A1ZG</span></b>-->
+					<span style="color: #4a4c4c;">GSTIN: 08BICPD5795A1ZG</span></b>
 				</div>
 			</td>
 			<td width="30%"></td>
@@ -70,11 +70,15 @@ p{
 	<div>
 		<table width="100%">
 			<tr>
-				<td style="border:solid 1px;padding:5px;" width="50%" valign="top">
+				<td style="border-right:solid 1px;padding:5px;" width="50%" valign="top">
 					<table>
 						<tr>
-							<td width="50%"><b>Voucher No.</b></td>
+							<td width="70%"><b>Voucher No.</b></td>
 							<td><?= $this->Number->format($purchaseVoucher->voucher_no) ?></td>
+						</tr>
+						<tr>
+							<td width="50%"><b>Reference No.</b></td>
+							<td><?= h($purchaseVoucher->reference_no) ?></td>
 						</tr>
 						<tr>
 							<td width="50%"><b>Transaction Date</b></td>
@@ -82,13 +86,9 @@ p{
 						</tr>
 					</table>
 				</td>
-				<td style="padding:5px;border:solid 1px;" valign="top">
+				<td style="padding:5px;" valign="top">
 					<table width="100%">
-						<tr>
-							<td colspan="6">
-								<div style="text-align: center;"><u>Bill to Party</u></div>
-							</td>
-						</tr>
+						
 						<tr>
 							<td width="50%"><b>Name</b></td>
 							<td><?= h($purchaseVoucher->supplier_ledger->supplier->name) ?></td>
@@ -110,85 +110,106 @@ p{
 			</tr>
 		</table>
 	</div>
-	<div align="center" style="border:none;">
-		<h4><?= __('Related Accounting Entries') ?></h4>
-		<?php   if (!empty($purchaseVoucher->accounting_entries)): ?>
-			<table id="example1" class="table table-bordered form-group table-striped">
-				<tr>
-					<th scope="col">Sr. No</th>
-					<th scope="col">Debit</th>
-					<th scope="col">Credit</th>
-					<th scope="col">Transaction Date</th>
-					<th scope="col">Purchase Voucher Id</th>
-					<th scope="col" class="actions">Action</th>
-				</tr>
-				<?php 
-					$i=0;
-					foreach ($purchaseVoucher->accounting_entries as $accountingEntries): 
+	<div class="related">
+		<?php if (!empty($purchaseVoucher->purchase_voucher_rows)): ?>
+		<table width="100%" class="tbl" id="mainTbl">
+			<tr>
+				<th scope="col" colspan="2">Sr.No.</th>
+				<th scope="col" colspan="2">Item Name</th>
+				<th scope="col" colspan="2">Qty</th>
+				<th scope="col" colspan="2">Rate Per</th>
+				<th scope="col" colspan="2">Amount</th>
+				<th colspan="2" >Discount</th>
+				<th rowspan="2" width="80">Taxable Value</th>
+				<th colspan="2">CGST</th>
+				<th colspan="2">SGST</th>
+				<th rowspan="2" style="border-right: none;" width="80">Total</th>
+			</tr>
+			<tr style="background-color: #e4e3e3;">
+				<th width="80">Rate</th>
+				<th width="80">Amount</th>
+				<th width="80">Rate</th>
+				<th width="80">Amount</th>
+				<th width="80">Rate</th>
+				<th width="80">Amount</th>
+			</tr>
+			<?php   $i=0;
+					foreach ($purchaseVoucher->purchase_voucher_rows as $purchaseVoucherRows):
 					$i++;
-				?>
-				<tr>
-					<td><?= $this->Number->format($i) ?></td>
-					<td><?= h($accountingEntries->debit) ?></td>
-					<td><?= h($accountingEntries->credit) ?></td>
-					<td><?= h($accountingEntries->transaction_date) ?></td>
-					<td><?= h($accountingEntries->purchase_voucher_id) ?></td>
-				</tr>
-				<?php endforeach; ?>
-			</table>
-			<?php endif; ?>
-		<div class="related">
-				<?php if (!empty($purchaseVoucher->purchase_voucher_rows)): ?>
-				<table id="example1" class="table table-bordered form-group table-striped">
-					<tr>
-						<th scope="col">Sr.No.</th>
-						<th scope="col">Item Name</th>
-						<th scope="col">Quantity</th>
-						<th scope="col">Rate Per</th>
-						<th scope="col">Amount</th>
-					</tr>
-					<?php   $i=0;
-							foreach ($purchaseVoucher->purchase_voucher_rows as $purchaseVoucherRows):
-							$i++;
-							
-					?>
-					<tr>
-						<td><?= $this->Number->format($i) ?></td>
-						<td><?= h($purchaseVoucherRows->item_id) ?></td>
-						<td><?= h($purchaseVoucherRows->quantity) ?></td>
-						<td><?= h($purchaseVoucherRows->rate_per) ?></td>
-						<td><?= h($purchaseVoucherRows->amount) ?></td>
-						
-					</tr>
-					<?php endforeach; ?>
-				</table>
-				<?php endif; ?>
-			</div>
-		<table width="100%" class="tbl">
+					
+			?>
+			<tr>
+				<td><?= $this->Number->format($i) ?></td>
+				<td><?= h($purchaseVoucherRows->item->name) ?></td>
+				<td><?= h($purchaseVoucherRows->quantity) ?></td>
+				<td><?= h($purchaseVoucherRows->rate_per) ?></td>
+				<td><?= h($purchaseVoucherRows->amount) ?></td>
+				
+			</tr>
+			<?php endforeach; ?>
+		</table>
+		<?php endif; ?>
+	</div>
+	<table width="100%" class="tbl">
 			<tbody>
 				<tr>
-					<td style="border-top: none;border-left: none;border-right: none;"  valign="top" colspan="2">
-						<b><u>Terms & Conditions</u></b>
-						<ol>
-							<li>Here will be first term or condition. </li>
-							<li>Here will be second term or condition. </li>
-							<li>Here will be third term or condition. </li>
-							<li>Here will be fouth term or condition. </li>
-						</ol>
+					<td style="text-align:left;border-left: none;border-top: none;" rowspan="2" width="60%" valign="top">
+						<p><b>Amount in words : </b>
+						
+						</p>
 					</td>
+					<td style="text-align:right;border-top: none;"><b>Total Amount before Tax</b></td>
+					<td style="text-align:right;border-right: none;border-top: none;" width="19%"></td>
 				</tr>
 				<tr>
-					<td style="border-top: none;border-left: none;border-bottom: none;" width="50%" valign="top">
-						<div align="center"><b>Party Signture</b></div>
+					<td style="text-align:right;"><b>Total CGST</b></td>
+					<td style="text-align:right;border-right: none;"></td>
+				</tr>
+				<tr>
+					<td style="border-left: none;border-top: none;" rowspan="2" width="60%" valign="top">
+						<table width="100%" class="nbtbl">
+							<tr>
+								<td colspan="2"><b><u>Bank Details:-</u></b> Union Bank of India</td>
+							</tr>
+							<tr>
+								<td><b>Bank A/C : </b>760101010050042</td>
+								<td><b>IFSC Code: </b>UBIN0576018</td>
+							</tr>
+						</table>
 					</td>
-					<td style="border-top: none;border-right: none;border-bottom: none;" valign="bottom">
-						
-						<div align="center"><span style="border-top: solid 1px;"><b>Authorised signatory</b><span></div>
-					</td>
+					<td style="text-align:right;"><b>Total SGST</b></td>
+					<td style="text-align:right;border-right: none;"></td>
+				</tr>
+				<tr>
+					<td style="text-align:right;"><b>Total Amount after Tax</b></td>
+					<td style="text-align:right;border-right: none;"></td>
 				</tr>
 			</tbody>
 		</table>
-	</div>
+	<table width="100%" class="tbl">
+		<tbody>
+			<tr>
+				<td style="border-top: none;border-left: none;border-right: none;"  valign="top" colspan="2">
+					<b><u>Terms & Conditions</u></b>
+					<ol>
+						<li>Here will be first term or condition. </li>
+						<li>Here will be second term or condition. </li>
+						<li>Here will be third term or condition. </li>
+						<li>Here will be fouth term or condition. </li>
+					</ol>
+				</td>
+			</tr>
+			<tr>
+				<td style="border-top: none;border-left: none;border-bottom: none;" width="50%" valign="top">
+					<div align="center"><b>Party Signture</b></div>
+				</td>
+				<td style="border-top: none;border-right: none;border-bottom: none;" valign="bottom">
+					
+					<div align="center"><span style="border-top: solid 1px;"><b>Authorised signatory</b><span></div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
 
 
