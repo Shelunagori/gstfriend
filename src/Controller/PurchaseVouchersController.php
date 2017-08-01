@@ -22,7 +22,7 @@ class PurchaseVouchersController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
         $this->paginate = [
-            'contain' => [ 'Companies']
+            'contain' => [ 'Companies','SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers']]
         ];
         $purchaseVouchers = $this->paginate($this->PurchaseVouchers);
 

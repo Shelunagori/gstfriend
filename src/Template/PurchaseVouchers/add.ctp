@@ -134,19 +134,18 @@ $this->set('title', 'Add');
 		
 		
 		
-		function rename_rows(){
+	function rename_rows(){
 		var j=0;
 		$("#main_table tbody#main_tbody tr").each(function(){
-			
 			$(this).find('td:nth-child(1)').html(j+1);					
-					$(this).find("td:nth-child(2) input").attr({name:"purchase_voucher_rows["+j+"][item_id]", id:"purchase_voucher_rows-"+j+"-item_id"});
+			$(this).find("td:nth-child(2) select").attr({name:"purchase_voucher_rows["+j+"][item_id]", id:"purchase_voucher_rows-"+j+"-item_id"});
 
-					$(this).find("td:nth-child(3) input").attr({name:"purchase_voucher_rows["+j+"][quantity]", id:"purchase_voucher_rows-"+j+"-quantity"});
+			$(this).find("td:nth-child(3) input").attr({name:"purchase_voucher_rows["+j+"][quantity]", id:"purchase_voucher_rows-"+j+"-quantity"});
 
-					$(this).find("td:nth-child(4) input").attr({name:"purchase_voucher_rows["+j+"][rate_per]", id:"purchase_voucher_rows-"+j+"-rate_per"});							
-							
-					$(this).find("td:nth-child(5) input").attr({name:"purchase_voucher_rows["+j+"][amount]", id:"purchase_voucher_rows-"+j+"-amount"});
-					j++;
+			$(this).find("td:nth-child(4) input").attr({name:"purchase_voucher_rows["+j+"][rate_per]", id:"purchase_voucher_rows-"+j+"-rate_per"});							
+					
+			$(this).find("td:nth-child(5) input").attr({name:"purchase_voucher_rows["+j+"][amount]", id:"purchase_voucher_rows-"+j+"-amount"});
+			j++;
 	   });
 	};
 

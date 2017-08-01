@@ -25,7 +25,6 @@ class ItemsController extends AppController
             'contain' => ['Companies','Taxs']
         ];
         $items = $this->paginate($this->Items);
-
         $this->set(compact('items'));
         $this->set('_serialize', ['items']);
 		$this->set('active_menu', 'Items.Index');

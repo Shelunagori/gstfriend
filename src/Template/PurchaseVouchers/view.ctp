@@ -4,21 +4,6 @@
   * @var \App\Model\Entity\PurchaseVoucher $purchaseVoucher
   */
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Purchase Voucher'), ['action' => 'edit', $purchaseVoucher->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Purchase Voucher'), ['action' => 'delete', $purchaseVoucher->id], ['confirm' => __('Are you sure you want to delete # {0}?', $purchaseVoucher->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Purchase Vouchers'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Purchase Voucher'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Companies'), ['controller' => 'Companies', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Company'), ['controller' => 'Companies', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Accounting Entries'), ['controller' => 'AccountingEntries', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Accounting Entry'), ['controller' => 'AccountingEntries', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Purchase Voucher Rows'), ['controller' => 'PurchaseVoucherRows', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Purchase Voucher Row'), ['controller' => 'PurchaseVoucherRows', 'action' => 'add']) ?> </li>
-    </ul>
-</nav>
 <div class="purchaseVouchers view large-9 medium-8 columns content">
     <h3><?= h($purchaseVoucher->id) ?></h3>
     <table class="vertical-table">

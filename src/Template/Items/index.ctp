@@ -11,23 +11,27 @@ $this->set('title', 'List');
 						<th scope="col" style="text-align:center">Sr. No.</th>
 						<th scope="col" style="text-align:center">NAME</th>
 						<th scope="col" style="text-align:center">HSN CODE</th>
+						<th scope="col" style="text-align:center">TAX</th>
 						<th scope="col" style="text-align:center">FREEZED</th>
 						<th scope="col" class="actions" style="text-align:center"><?= __('Actions') ?></th>
 					</tr>
 				</thead>
 				<tbody>
-					<?php $i=0; foreach ($items as $item):  
+					<?php $i=0; foreach ($items as $item): 
+			
 					$i++;?>
 					<tr>
 						<td><?= $this->Number->format($i) ?></td>
 						<td><?= h($item->name) ?></td>
 						<td><?= h($item->hsn_code) ?></td>
+						<td><?= h($item->tax->tax_percent) ?>%</td>
+						
 						<td><?php if(@$item->freezed==0){ echo "Unfreezed";  } else {   echo "Freezed"; } ?></td>
 						<td class="actions">
 							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $item->id]) ?>
 						</td>
 					</tr>
-					<?php endforeach; ?>
+					<?php endforeach;  ?>
 				</tbody>
 			</table>
 			<div class="paginator">
