@@ -67,11 +67,11 @@ class PurchaseVouchersController extends AppController
 			//Voucher Number Increment
 			$last_voucher=$this->PurchaseVouchers->find()->select(['voucher_no'])->order(['voucher_no' => 'DESC'])->first();
 			if($last_voucher){
-				$vouvher->voucher_no=$last_voucher->voucher_no+1;
+				$purchaseVoucher->voucher_no=$last_voucher->voucher_no+1;
 			}else{
-				$voucher->voucher_no=1;
+				$purchaseVoucher->voucher_no=1;
 			}
-			//pr($voucher); exit;
+			
 			$purchaseVoucher->company_id=$company_id;
 			
             if ($this->PurchaseVouchers->save($purchaseVoucher)) {
