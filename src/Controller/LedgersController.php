@@ -68,11 +68,9 @@ class LedgersController extends AppController
             }
             $this->Flash->error(__('The ledger could not be saved. Please, try again.'));
         }
-        $companies = $this->Ledgers->Companies->find('list', ['limit' => 200]);
-        $customers = $this->Ledgers->Customers->find('list', ['limit' => 200]);
-        $suppliers = $this->Ledgers->Suppliers->find('list', ['limit' => 200]);
-        $accountingGroups = $this->Ledgers->AccountingGroups->find('list', ['limit' => 200]);
-        $this->set(compact('ledger', 'companies', 'customers', 'suppliers', 'accountingGroups'));
+        
+        $accountingGroups = $this->Ledgers->AccountingGroups->find('list');
+        $this->set(compact('ledger', 'companies', 'accountingGroups'));
         $this->set('_serialize', ['ledger']);
 		$this->set('active_menu', 'Ledgers.Add');
 	}

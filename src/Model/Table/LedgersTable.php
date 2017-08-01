@@ -79,8 +79,7 @@ class LedgersTable extends Table
 
         $validator
             ->boolean('freeze')
-            ->requirePresence('freeze', 'create')
-            ->notEmpty('freeze');
+            ->allowEmpty('freeze');
 
         return $validator;
     }
