@@ -1,22 +1,5 @@
 <?php $this->set('title', 'Add Invoice'); ?>
 <style>
-
-@media print{
-	.maindiv{
-		width:100% !important;
-	}	
-	.hidden-print{
-		display:none;
-	}
-	body {
-      -webkit-print-color-adjust: exact;
-   }
-}
-@page {
-    size: auto;   /* auto is the initial value */
-    margin: 0 5px 0 20px;  /* this affects the margin in the printer settings */
-}
-
 p{
 	margin-bottom: 0;
 }
