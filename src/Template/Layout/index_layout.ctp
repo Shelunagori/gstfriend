@@ -31,6 +31,7 @@ License: You must have a valid license purchased only from themeforest(the above
 		<?php echo $this->Html->css('/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css'); ?>
 		<?php echo $this->Html->css('/assets/global/plugins/bootstrap-toastr/toastr.min.css'); ?>
 		<!-- END GLOBAL MANDATORY STYLES -->
+		<?= $this->fetch('cssComponentsPickers')?>
 		<!-- BEGIN THEME STYLES -->
 		<?php echo $this->Html->css('/assets/global/css/components.css'); ?>
 		<?php echo $this->Html->css('/assets/global/plugins/bootstrap-datepicker/css/datepicker3.css'); ?>
@@ -138,21 +139,22 @@ License: You must have a valid license purchased only from themeforest(the above
 		<?php echo $this->Html->script('/assets/global/plugins/uniform/jquery.uniform.min.js'); ?>
 		<?php echo $this->Html->script('/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js'); ?>
 		<!-- END CORE PLUGINS -->
-		<?php echo $this->Html->script('/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'); ?>
+		<?= $this->fetch('PAGE_LEVEL_PLUGINS_ComponentsPickers')?>
+
 		<?php echo $this->Html->script('/assets/global/scripts/metronic.js'); ?>
 		<?php echo $this->Html->script('/assets/admin/layout/scripts/layout.js'); ?>
 		<?php echo $this->Html->script('/assets/admin/layout/scripts/quick-sidebar.js'); ?>
 		<?php echo $this->Html->script('/assets/admin/layout/scripts/demo.js'); ?>
-		<?php echo $this->Html->script('/assets/admin/pages/scripts/components-pickers.js'); ?>
+
+		<!-- BEGIN PAGE LEVEL SCRIPTS -->
+		<?= $this->fetch('PAGE_LEVEL_SCRIPTS_ComponentsPickers')?>
+		<!-- END PAGE LEVEL SCRIPTS -->
 		<script>
 			jQuery(document).ready(function() {  
-				
 				Metronic.init(); // init metronic core components
 				Layout.init(); // init current layout
 				QuickSidebar.init(); // init quick sidebar
-				Demo.init(); // init demo features
-				ComponentsPickers.init();// Date-Picker
-				ComponentsDropdowns.init();//Date-Picker
+				Demo.init();
 			});
 		</script>
 		<!-- END JAVASCRIPTS -->

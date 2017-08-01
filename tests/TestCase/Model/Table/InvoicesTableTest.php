@@ -24,7 +24,10 @@ class InvoicesTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.invoices'
+        'app.invoices',
+        'app.customer_ledgers',
+        'app.sales_ledgers',
+        'app.invoice_rows'
     ];
 
     /**
@@ -67,6 +70,16 @@ class InvoicesTableTest extends TestCase
      * @return void
      */
     public function testValidationDefault()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test buildRules method
+     *
+     * @return void
+     */
+    public function testBuildRules()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
