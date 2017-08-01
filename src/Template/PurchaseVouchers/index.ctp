@@ -22,17 +22,20 @@ $this->set('title', 'List');
 					</tr>
 				</thead>
 				<tbody>
-					<?php $i=0; foreach ($purchaseVouchers as $purchaseVoucher): 
+					<?php $i=0; foreach ($purchaseVouchers as $purchaseVoucher):
+//pr($purchaseVoucher->supplier_ledger->supplier->name);					
 					$i++;?>
 					<tr>
 						<td><?= $this->Number->format($i) ?></td>
 						<td><?= $this->Number->format($purchaseVoucher->voucher_no) ?></td>
-						<td><?= $this->Number->format($purchaseVoucher->supplier_ledger_id) ?></td>
-						<td><?= $this->Number->format($purchaseVoucher->purchase_ledger_id) ?></td>
+						<td><?= h($purchaseVoucher->supplier_ledger->supplier->name) ?></td>
+						<td><?= h($purchaseVoucher->purchase_ledger->customer->name) ?></td>
 						<td><?= h($purchaseVoucher->transaction_date) ?></td>
 						<td><?= h($purchaseVoucher->narration) ?></td>
 						<td class="actions">
+							<?= $this->Html->link(__('View'), ['action' => 'view', $purchaseVoucher->id]) ?>
 							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $purchaseVoucher->id]) ?>
+							
 						</td>
 					</tr>
 					<?php endforeach; ?>
