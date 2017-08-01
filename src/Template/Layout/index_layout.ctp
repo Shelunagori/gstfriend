@@ -34,6 +34,7 @@ License: You must have a valid license purchased only from themeforest(the above
 	
 		<!-- END GLOBAL MANDATORY STYLES -->
 		<?= $this->fetch('cssComponentsPickers')?>
+		<?= $this->fetch('cssComponentsDropdowns')?>
 		<!-- BEGIN THEME STYLES -->
 		<?php echo $this->Html->css('/assets/global/css/components.css'); ?>
 		<?php echo $this->Html->css('/assets/global/plugins/bootstrap-datepicker/css/datepicker3.css'); ?>
@@ -141,7 +142,11 @@ License: You must have a valid license purchased only from themeforest(the above
 		<?php echo $this->Html->script('/assets/global/plugins/uniform/jquery.uniform.min.js'); ?>
 		<?php echo $this->Html->script('/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js'); ?>
 		<!-- END CORE PLUGINS -->
-		<?= $this->fetch('PAGE_LEVEL_PLUGINS_ComponentsPickers')?>
+		
+		<!-- BEGIN PAGE LEVEL PLUGINS -->
+		<?= $this->fetch('PAGE_LEVEL_PLUGINS_ComponentsPickers') ?>
+		<?= $this->fetch('PAGE_LEVEL_PLUGINS_ComponentsDropdowns') ?>
+		<!-- END PAGE LEVEL PLUGINS -->
 
 		<?php echo $this->Html->script('/assets/global/scripts/metronic.js'); ?>
 		<?php echo $this->Html->script('/assets/admin/layout/scripts/layout.js'); ?>
@@ -149,17 +154,18 @@ License: You must have a valid license purchased only from themeforest(the above
 		<?php echo $this->Html->script('/assets/admin/layout/scripts/demo.js'); ?>
 
 		<!-- BEGIN PAGE LEVEL SCRIPTS -->
-		<?= $this->fetch('PAGE_LEVEL_SCRIPTS_ComponentsPickers')?>
+		<?= $this->fetch('PAGE_LEVEL_SCRIPTS_ComponentsDropdowns') ?>
+		<?= $this->fetch('PAGE_LEVEL_SCRIPTS_ComponentsPickers') ?>
 		<!-- END PAGE LEVEL SCRIPTS -->
 
 		<script>
-		jQuery(document).ready(function() {  
-			Metronic.init(); // init metronic core components
-			Layout.init(); // init current layout
-			QuickSidebar.init(); // init quick sidebar
+		jQuery(document).ready(function() {
+			Metronic.init();
+			Layout.init();
 			Demo.init();
 		});
 		</script>
+		<?= $this->fetch('bottomJS') ?>
 		<!-- END JAVASCRIPTS -->
 		<div id="toast-container" class="toast-top-right" aria-live="polite" role="alert">
 		<?= $this->Flash->render() ?>
