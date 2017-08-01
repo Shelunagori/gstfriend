@@ -74,8 +74,8 @@ class InvoicesController extends AppController
             }
             $this->Flash->error(__('The invoice could not be saved. Please, try again.'));
         }
-        $customerLedgers = $this->Invoices->CustomerLedgers->find('list');
-        $salesLedgers = $this->Invoices->SalesLedgers->find('list');
+        $customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22]);
+        $salesLedgers = $this->Invoices->SalesLedgers->find('list')->where(['accounting_group_id'=>14]);
         $items = $this->Invoices->InvoiceRows->Items->find('list');
         $this->set(compact('invoice', 'customerLedgers', 'salesLedgers', 'items'));
         $this->set('_serialize', ['invoice']);
