@@ -2463,15 +2463,15 @@ Forms
 }
 
 .input-sm {
-  height: 28px;
-  padding: 5px 10px;
-  font-size: 13px;
+  height: 25px;
+  padding: 2px 4px;
+  font-size: 12px;
 }
 
 select.input-sm {
-  height: 28px;
-  line-height: 28px;
-  padding: 2px 10px;
+  height: 25px;
+  line-height: 25px;
+  padding: 2px 4px;
 }
 
 @media (max-width: 768px) {
@@ -2520,7 +2520,7 @@ input[type="color"].spinner {
 /* Form labels */
 label {
   font-weight: 400;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 /* Static form control */

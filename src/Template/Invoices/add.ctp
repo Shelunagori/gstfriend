@@ -35,12 +35,12 @@ p{
 						<tr>
 							<td><b>Invoice Date</b></td>
 							<td>&nbsp;:&nbsp;</td>
-							<td><?php echo $this->Form->control('transaction_date',['label'=>false,'placeholder'=>'dd-mm-yyyy','type'=>'text','class'=>'date-picker','data-date-format'=>'dd-mm-yyyy','value'=>date('d-m-Y')]); ?></td>
+							<td><?php echo $this->Form->control('transaction_date',['label'=>false,'placeholder'=>'dd-mm-yyyy','type'=>'text','class'=>'date-picker form-control input-sm','data-date-format'=>'dd-mm-yyyy','value'=>date('d-m-Y')]); ?></td>
 						</tr>
 						<tr>
 							<td><b>Sales Account</b></td>
 							<td>&nbsp;:&nbsp;</td>
-							<td><?php echo $this->Form->control('sales_ledger_id',['label'=>false,'autofocus']); ?></td>
+							<td><?php echo $this->Form->control('sales_ledger_id',['label'=>false,'autofocus','class'=>'form-control input-sm']); ?></td>
 						</tr>
 					</table>
 				</td>
@@ -52,7 +52,7 @@ p{
 						<tr>
 							<td><b>Name</b></td>
 							<td>&nbsp;:&nbsp;</td>
-							<td><?php echo $this->Form->control('customer_ledger_id',['label'=>false]); ?></td>
+							<td><?php echo $this->Form->control('customer_ledger_id',['label'=>false,'class'=>'form-control input-sm']); ?></td>
 						</tr>
 					</table>
 				</td>
@@ -294,43 +294,43 @@ $(document).ready(function() {
 				<button type="button" class="btn btn-xs red viewThisResult" role="button"><i class="fa fa-times"></i></button>
 			</td>
 			<td>
-				<?php echo $this->Form->control('item_id',['label'=>false,'style'=>'width: 100%;resize: none;']); ?>
+				<?php echo $this->Form->control('item_id',['label'=>false,'style'=>'width: 100%;resize: none;','class'=>'form-control input-sm']); ?>
 			</td>
 			<td>
-				<?php echo $this->Form->control('hsn_code',['label'=>false,'placeholder'=>'HSN code','style'=>'width: 100%;']); ?>
+				<?php echo $this->Form->control('hsn_code',['label'=>false,'placeholder'=>'HSN code','style'=>'width: 100%;','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:center;">
-				<?php echo $this->Form->control('quantity',['label'=>false,'placeholder'=>'Qty','style'=>'width: 100%;text-align: center;']); ?>
+				<?php echo $this->Form->control('quantity',['label'=>false,'placeholder'=>'Qty','style'=>'width: 100%;text-align: center;','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;">
-				<?php echo $this->Form->control('rate',['label'=>false,'placeholder'=>'Rate','style'=>'width: 100%;text-align: right;','class'=>'calculate']); ?>
+				<?php echo $this->Form->control('rate',['label'=>false,'placeholder'=>'Rate','style'=>'width: 100%;text-align: right;','class'=>'calculate','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;">
-				<?php echo $this->Form->control('amount',['label'=>false,'placeholder'=>'Amount','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1']); ?>
+				<?php echo $this->Form->control('amount',['label'=>false,'placeholder'=>'Amount','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;">
-				<?php echo $this->Form->control('discount_rate',['label'=>false,'placeholder'=>'%','style'=>'width: 100%;text-align: right;','class'=>'revCalculate']); ?>
+				<?php echo $this->Form->control('discount_rate',['label'=>false,'placeholder'=>'%','style'=>'width: 100%;text-align: right;','class'=>'revCalculate','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;">
-				<?php echo $this->Form->control('discount_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1']); ?>
+				<?php echo $this->Form->control('discount_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;">
-				<?php echo $this->Form->control('taxable_value',['label'=>false,'placeholder'=>'Taxable Value','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1']); ?>
+				<?php echo $this->Form->control('taxable_value',['label'=>false,'placeholder'=>'Taxable Value','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;">
-				<?php echo $this->Form->control('cgst_rate',['label'=>false,'placeholder'=>'%','value'=>'6','style'=>'width: 100%;text-align: right;','class'=>'revCalculate']); ?>
+				<?php echo $this->Form->control('cgst_rate',['label'=>false,'placeholder'=>'%','value'=>'6','style'=>'width: 100%;text-align: right;','class'=>'revCalculate','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;">
-				<?php echo $this->Form->control('cgst_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1']); ?>
+				<?php echo $this->Form->control('cgst_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;">
-				<?php echo $this->Form->control('sgst_rate',['label'=>false,'placeholder'=>'%','value'=>'6','style'=>'width: 100%;text-align: right;','class'=>'revCalculate']); ?>
+				<?php echo $this->Form->control('sgst_rate',['label'=>false,'placeholder'=>'%','value'=>'6','style'=>'width: 100%;text-align: right;','class'=>'revCalculate','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;">
-				<?php echo $this->Form->control('sgst_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1']); ?>
+				<?php echo $this->Form->control('sgst_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;border-right: none;">
-				<?php echo $this->Form->control('total',['label'=>false,'placeholder'=>'Total','style'=>'width: 100%;text-align: right;','class'=>'revCalculate']); ?>
+				<?php echo $this->Form->control('total',['label'=>false,'placeholder'=>'Total','style'=>'width: 100%;text-align: right;','class'=>'revCalculate','class'=>'form-control input-sm']); ?>
 			</td>
 		</tr>
 	</tbody>
