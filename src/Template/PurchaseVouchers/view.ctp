@@ -70,7 +70,7 @@ p{
 	<div>
 		<table width="100%">
 			<tr>
-				<td style="border-right:solid 1px;padding:5px;" width="50%" valign="top">
+				<td style="border:solid 1px;padding:5px;" width="50%" valign="top">
 					<table>
 						<tr>
 							<td width="50%"><b>Voucher No.</b></td>
@@ -82,7 +82,7 @@ p{
 						</tr>
 					</table>
 				</td>
-				<td style="padding:5px;" valign="top">
+				<td style="padding:5px;border:solid 1px;" valign="top">
 					<table width="100%">
 						<tr>
 							<td colspan="6">
