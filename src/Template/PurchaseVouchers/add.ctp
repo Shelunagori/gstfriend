@@ -15,36 +15,24 @@ $this->set('title', 'Add');
 						
 						<div class="form-group col-md-3 controls">
 							<label class="control-label">Supplier/Party<span class="required" aria-required="true">*</span></label>
-							<?php echo $this->Form->control('supplier_ledger_id',['options'=>$SupplierLedger,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Supplier Name.']);?>
+							<?php echo $this->Form->control('supplier_ledger_id',['options'=>$SupplierLedger,'label' => false,'class' => 'form-control input-sm select2me']);?>
 							
 						</div>
 						<div class="form-group col-md-3">
-							<label class="control-label">Purchase Ledger <span class="required" aria-required="true">*</span></label>
-							<?php echo $this->Form->control('purchase_ledger_id',['options'=>$PurchaseLedger,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Email']); ?> 
+							<label class="control-label">Purchase Ledger </label>
+							<?php echo $this->Form->control('purchase_ledger_id',['options'=>$PurchaseLedger,'label' => false,'class' => 'form-control input-sm select2me']); ?> 
 						</div>
 						<div class="form-group col-md-3">
 							<label class="control-label">Reference No.<span class="required" aria-required="true">*</span></label>
-							<?php echo $this->Form->control('voucher_no', ['type'=>'text','label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Reference No.']); ?>
+							<?php echo $this->Form->control('reference_no', ['type'=>'text','label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Reference No.']); ?>
 						</div>
 						<div class="form-group col-md-3">
-							<label class="control-label">Transaction Date <span class="required" aria-required="true">*</span></label>
-							<?php echo $this->Form->input('transaction_date', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'D-M-Y']); ?>
+							<label class="control-label">Transaction Date </label>
+							<?php echo $this->Form->input('transaction_date', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>
+							date("d-m-Y")]); ?>
 						</div>
 					</div>
-					<!-- BEGIN SAMPLE TABLE PORTLET-->
 					<div class="portlet box " >
-						<div class="portlet-title">
-							<div class="tools">
-								<a href="javascript:;" class="collapse">
-								</a>
-								<a href="#portlet-config" data-toggle="modal" class="config">
-								</a>
-								<a href="javascript:;" class="reload">
-								</a>
-								<a href="javascript:;" class="remove">
-								</a>
-							</div>
-						</div>
 						<div class="portlet-body flip-scroll ">
 							<table class="table table-bordered table-striped table-condensed flip-content" id="main_table">
 								<thead class="flip-content">
@@ -83,8 +71,6 @@ $this->set('title', 'Add');
 							</table>
 						</div>
 					</div>
-					<!-- END SAMPLE TABLE PORTLET-->
-					<br>
 					<div class="col-md-12">
 						<div class="form-group col-md-2">
 							<label class="control-label">Narration</label>

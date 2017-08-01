@@ -63,9 +63,17 @@ class PurchaseVouchersController extends AppController
         if ($this->request->is('post')) {
 						
             $purchaseVoucher = $this->PurchaseVouchers->patchEntity($purchaseVoucher, $this->request->getData());
-		
+			
+			//Voucher Number Increment
+			$last_voucher=$this->PurchaseVouchers->find()->select(['voucher_no'])->order(['voucher_no' => 'DESC'])->first();
+			if($last_voucher){
+				$vouvher->voucher_no=$last_voucher->voucher_no+1;
+			}else{
+				$voucher->voucher_no=1;
+			}
+			//pr($voucher); exit;
 			$purchaseVoucher->company_id=$company_id;
-			pr($purchaseVoucher); exit;
+			
             if ($this->PurchaseVouchers->save($purchaseVoucher)) {
 				
 				$this->Flash->success(__('The purchase voucher has been saved.'));

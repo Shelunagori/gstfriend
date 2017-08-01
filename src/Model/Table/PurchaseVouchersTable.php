@@ -93,24 +93,13 @@ class PurchaseVouchersTable extends Table
             ->requirePresence('supplier_ledger_id', 'create')
             ->notEmpty('supplier_ledger_id');
 		
-		$validator
-            ->integer('purchase_ledger_id')
-            ->requirePresence('purchase_ledger_id', 'create')
-            ->notEmpty('purchase_ledger_id');	
-			
-        $validator
-            ->integer('voucher_no')
-            ->requirePresence('voucher_no', 'create')
-            ->notEmpty('voucher_no');
-
         $validator
             ->date('transaction_date')
-            ->requirePresence('transaction_date', 'create')
-            ->notEmpty('transaction_date');
+             ->allowEmpty('transaction_date');
 
         $validator
             ->requirePresence('narration', 'create')
-            ->notEmpty('narration');
+            ->allowEmpty('narration');
 
         return $validator;
     }
