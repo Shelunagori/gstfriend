@@ -22,9 +22,11 @@ $this->set('title', 'List');
 					</tr>
 				</thead>
 				<tbody>
-					<?php $i=0; foreach ($purchaseVouchers as $purchaseVoucher):
-//pr($purchaseVoucher->supplier_ledger->supplier->name);					
-					$i++;?>
+					<?php  
+						$i=0; 
+						foreach ($purchaseVouchers as $purchaseVoucher):
+						$i++;
+					?>
 					<tr>
 						<td><?= $this->Number->format($i) ?></td>
 						<td><?= $this->Number->format($purchaseVoucher->voucher_no) ?></td>
