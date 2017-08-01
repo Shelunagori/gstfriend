@@ -36,12 +36,6 @@ class ItemsTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
-		$this->belongsTo('Taxs', [
-            'foreignKey' => 'tax_id',
-            'joinType' => 'LEFT'
-        ]);
-		
-		
         $this->belongsTo('Companies', [
             'foreignKey' => 'company_id',
             'joinType' => 'INNER'
@@ -85,7 +79,6 @@ class ItemsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['company_id'], 'Companies'));
-        $rules->add($rules->existsIn(['tax_id'], 'Taxs'));
         
 
         return $rules;
