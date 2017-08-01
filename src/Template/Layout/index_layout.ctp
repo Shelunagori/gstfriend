@@ -76,7 +76,7 @@ License: You must have a valid license purchased only from themeforest(the above
 				<a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
 				</a>
 				<!-- END RESPONSIVE MENU TOGGLER -->
-				
+				<?= $this->element('top_menu'); ?>
 			</div>
 			<!-- END HEADER INNER -->
 		</div>
