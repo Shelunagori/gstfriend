@@ -3,3 +3,4 @@
 /tmp/*
 /tmp/debug_kit.sqlite
 /logs/*
+tmp/debug_kit.sqlite
