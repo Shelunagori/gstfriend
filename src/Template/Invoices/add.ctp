@@ -36,21 +36,7 @@ p{
 </style>
 <?= $this->Form->create($invoice) ?>
 <div style="width:100%;margin:auto;border:solid 1px;font-family: serif;background-color: #FFF;" class="maindiv">
-	<table width="100%">
-		<tr>
-			<td width="30%" style="padding:5px;"><?php echo $this->Html->image('/img/viewlogo.png', ['height' => '100px']); ?></td>
-			<td>
-				<div align="center" style="color: #c4151c;"><b>
-					<span style="font-size:16px;">COMPANY NAME HERE</span><br/>
-					<span style="color: #4a4c4c;">COMPANY ADDRESS,</span><br/>
-					<span style="color: #4a4c4c;">Udaipur, Rajasthan. PIN: 313001</span><br/>
-					<span style="color: #4a4c4c;">Tel: +91 9876543210</span><br/>
-					<span style="color: #4a4c4c;">GSTIN: 08BICPD5795A1ZG</span></b>
-				</div>
-			</td>
-			<td width="30%"></td>
-		</tr>
-	</table>
+	
 	
 	<div align="center" style="padding: 5px 0px;border-top: solid 1px;border-bottom: solid 1px;background-color: #c4151c;font-size:18px;color: #FFF;"><b>TAX INVOICE</b></div>
 	<div>
