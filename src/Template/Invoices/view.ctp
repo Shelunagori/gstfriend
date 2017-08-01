@@ -1,105 +1,239 @@
-<?php
-/**
-  * @var \App\View\AppView $this
-  * @var \App\Model\Entity\Invoice $invoice
-  */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Invoice'), ['action' => 'edit', $invoice->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Invoice'), ['action' => 'delete', $invoice->id], ['confirm' => __('Are you sure you want to delete # {0}?', $invoice->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Invoices'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Invoice'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Invoice Rows'), ['controller' => 'InvoiceRows', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Invoice Row'), ['controller' => 'InvoiceRows', 'action' => 'add']) ?> </li>
-    </ul>
-</nav>
-<div class="invoices view large-9 medium-8 columns content">
-    <h3><?= h($invoice->id) ?></h3>
-    <table class="vertical-table">
-        <tr>
-            <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($invoice->id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Invoice No') ?></th>
-            <td><?= $this->Number->format($invoice->invoice_no) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Customer Ledger Id') ?></th>
-            <td><?= $this->Number->format($invoice->customer_ledger_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Sales Ledger Id') ?></th>
-            <td><?= $this->Number->format($invoice->sales_ledger_id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Total Amount Before Tax') ?></th>
-            <td><?= $this->Number->format($invoice->total_amount_before_tax) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Total Cgst') ?></th>
-            <td><?= $this->Number->format($invoice->total_cgst) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Total Sgst') ?></th>
-            <td><?= $this->Number->format($invoice->total_sgst) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Total Amount After Tax') ?></th>
-            <td><?= $this->Number->format($invoice->total_amount_after_tax) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Transaction Date') ?></th>
-            <td><?= h($invoice->transaction_date) ?></td>
-        </tr>
-    </table>
-    <div class="related">
-        <h4><?= __('Related Invoice Rows') ?></h4>
-        <?php if (!empty($invoice->invoice_rows)): ?>
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Invoice Id') ?></th>
-                <th scope="col"><?= __('Item Id') ?></th>
-                <th scope="col"><?= __('Quantity') ?></th>
-                <th scope="col"><?= __('Rate') ?></th>
-                <th scope="col"><?= __('Amount') ?></th>
-                <th scope="col"><?= __('Discount Rate') ?></th>
-                <th scope="col"><?= __('Discount Amount') ?></th>
-                <th scope="col"><?= __('Taxable Value') ?></th>
-                <th scope="col"><?= __('Cgst Rate') ?></th>
-                <th scope="col"><?= __('Cgst Amount') ?></th>
-                <th scope="col"><?= __('Sgst Rate') ?></th>
-                <th scope="col"><?= __('Sgst Amount') ?></th>
-                <th scope="col"><?= __('Total') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-            <?php foreach ($invoice->invoice_rows as $invoiceRows): ?>
-            <tr>
-                <td><?= h($invoiceRows->id) ?></td>
-                <td><?= h($invoiceRows->invoice_id) ?></td>
-                <td><?= h($invoiceRows->item_id) ?></td>
-                <td><?= h($invoiceRows->quantity) ?></td>
-                <td><?= h($invoiceRows->rate) ?></td>
-                <td><?= h($invoiceRows->amount) ?></td>
-                <td><?= h($invoiceRows->discount_rate) ?></td>
-                <td><?= h($invoiceRows->discount_amount) ?></td>
-                <td><?= h($invoiceRows->taxable_value) ?></td>
-                <td><?= h($invoiceRows->cgst_rate) ?></td>
-                <td><?= h($invoiceRows->cgst_amount) ?></td>
-                <td><?= h($invoiceRows->sgst_rate) ?></td>
-                <td><?= h($invoiceRows->sgst_amount) ?></td>
-                <td><?= h($invoiceRows->total) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'InvoiceRows', 'action' => 'view', $invoiceRows->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'InvoiceRows', 'action' => 'edit', $invoiceRows->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'InvoiceRows', 'action' => 'delete', $invoiceRows->id], ['confirm' => __('Are you sure you want to delete # {0}?', $invoiceRows->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
-        <?php endif; ?>
-    </div>
+<?php $this->set('title', 'View Invoice'); ?>
+<style>
+
+.maindiv{
+		font-family: sans-serif !important; font-size:12px !important;
+	}
+@media print{
+	.maindiv{
+		width:100% !important;font-family: sans-serif;
+	}	
+	.hidden-print{
+		display:none;
+	}
+	body {
+      -webkit-print-color-adjust: exact;
+   }
+}
+@page {
+    size: auto;   /* auto is the initial value */
+    margin: 0 20px 0 20px;  /* this affects the margin in the printer settings */
+}
+
+p{
+	margin-bottom: 0;
+}
+
+.tbl td, .tbl th {
+    border: 1px solid black;
+}
+
+.footertble td{
+    padding: 1px 3px;
+}
+
+
+.nbtbl td, .nbtbl th {
+    border: none;
+}
+.tbl th {
+    text-align:center;
+}
+.tbl td {
+    padding:3px;
+}
+</style>
+<a class="btn  blue hidden-print" onclick="javascript:window.print();">Print <i class="fa fa-print"></i></a>
+<?= $this->Html->link(__('Edit'), ['action' => 'edit', $invoice->id],['class'=>'btn yellow-crusta hidden-print']) ?>
+<div style="width:80%;margin:auto;border:solid 1px;font-family: serif;background-color: #FFF;" class="maindiv">
+	<table width="100%">
+		<tr>
+			<td width="30%" style="padding:5px;"><?php echo $this->Html->image('/img/viewlogo.png', ['height' => '100px']); ?></td>
+			<td>
+				<div align="center" style="color: #c4151c;"><b>
+					<span style="font-size:16px;color: #c4151c !important;" style="">COMPANY NAME HERE</span><br/>
+					<span style="color: #4a4c4c;">Company Address Here,</span><br/>
+					<span style="color: #4a4c4c;">Udaipur, Rajasthan. PIN: 313001</span><br/>
+					<span style="color: #4a4c4c;">Tel: +91 9876543210</span><br/>
+					<span style="color: #4a4c4c;">GSTIN: 08BICPD5795A1ZG</span></b>
+				</div>
+			</td>
+			<td width="30%"></td>
+		</tr>
+	</table>
+	
+	<div align="center" style="padding: 5px 0px;border-top: solid 1px;border-bottom: solid 1px;background-color : #c4151c !important;font-size:18px;color: #FFF !important;"><b style="color: #FFF !important;">TAX INVOICE</b></div>
+	<div>
+		<table width="100%">
+			<tr>
+				<td style="border-right:solid 1px;padding:5px;" width="50%" valign="top">
+					<table>
+						<tr>
+							<td><b>Invoice No.</b></td>
+							<td>&nbsp;:&nbsp;</td>
+							<td><?= h('#'.str_pad($invoice->invoice_no, 4, '0', STR_PAD_LEFT)) ?></td>
+						</tr>
+						<tr>
+							<td><b>Invoice Date</b></td>
+							<td>&nbsp;:&nbsp;</td>
+							<td><?= $invoice->transaction_date ?></td>
+						</tr>
+						<tr>
+							<td><b>State</b></td>
+							<td>&nbsp;:&nbsp;</td>
+							<td>Rajasthan</td>
+						</tr>
+					</table>
+				</td>
+				<td style="padding:5px;" valign="top">
+					<table width="100%">
+						<tr>
+							<td colspan="6">
+								<div style="text-align: center;"><u>Bill to Party</u></div>
+							</td>
+						</tr>
+						<tr>
+							<td width="50"><b>Name</b></td>
+							<td>&nbsp;:&nbsp;</td>
+							<td></td>
+							<td width="50"><b>Mobile</b></td>
+							<td>&nbsp;:&nbsp;</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td valign="top" width="50"><b>Address</b></td>
+							<td valign="top">&nbsp;:&nbsp;</td>
+							<td colspan="4"></td>
+						</tr>
+						<tr>
+							<td width="50"><b>State</b></td>
+							<td>&nbsp;:&nbsp;</td>
+							<td></td>
+							<td><b>GSTIN</b></td>
+							<td>&nbsp;:&nbsp;</td>
+							<td></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div align="center" style="border:none;">
+		<table width="100%" class="tbl">
+			<thead>
+				<tr style="background-color: #e4e3e3 !important;">
+					<th rowspan="2" style="border-left: none;">Sr. No.</th>
+					<th rowspan="2">Item</th>
+					<th rowspan="2">HSN code</th>
+					<th rowspan="2">Qty</th>
+					<th rowspan="2">Rate</th>
+					<th rowspan="2">Amount</th>
+					<th colspan="2">Discount</th>
+					<th rowspan="2">Taxable Value</th>
+					<th colspan="2">CGST</th>
+					<th colspan="2">SGST</th>
+					<th rowspan="2" style="border-right: none;">Total</th>
+				</tr>
+				<tr style="background-color: #e4e3e3 !important;">
+					<th>Rate</th>
+					<th>Amount</th>
+					<th>Rate</th>
+					<th>Amount</th>
+					<th>Rate</th>
+					<th>Amount</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php $i=0; foreach($invoice->invoice_rows as $invoice_row){ ?>
+				<tr>
+					<td style="text-align:center;border-left: none;"><?= ++$i ?></td>
+					<td><?= $this->Text->autoParagraph(h($invoice_row->item->name)) ?></td>
+					<td><?= $invoice_row->hsn_code ?></td>
+					<td style="text-align:center;"><?= $invoice_row->quantity ?></td>
+					<td style="text-align:right;"><?= $invoice_row->rate ?></td>
+					<td style="text-align:right;"><?= $invoice_row->amount ?></td>
+					<td style="text-align:right;"><?= $invoice_row->discount_rate ?></td>
+					<td style="text-align:right;"><?= $invoice_row->discount_amount ?></td>
+					<td style="text-align:right;"><?= $invoice_row->taxable_value ?></td>
+					<td style="text-align:right;"><?= $invoice_row->cgst_rate ?></td>
+					<td style="text-align:right;"><?= $invoice_row->cgst_amount ?></td>
+					<td style="text-align:right;"><?= $invoice_row->sgst_rate ?></td>
+					<td style="text-align:right;"><?= $invoice_row->sgst_amount ?></td>
+					<td style="text-align:right;border-right: none;"><?= $invoice_row->total ?></td>
+				</tr>
+			<?php } ?>
+			</tbody>
+		</table>
+		<?php
+		$grand_total=explode('.',$invoice->total_amount_after_tax);
+		$rupees=$grand_total[0];
+		$paisa_text='';
+		if(sizeof($grand_total)==2)
+		{
+			$grand_total[1]=str_pad($grand_total[1], 2, '0', STR_PAD_RIGHT);
+			$paisa=(int)$grand_total[1];
+			$paisa_text=' and ' . h(ucwords($this->NumberWords->convert_number_to_words($paisa))) .' Paisa';
+		}else{ $paisa_text=""; }
+		?>
+		<table width="100%" class="tbl">
+			<tbody>
+				<tr>
+					<td style="text-align:left;border-left: none;border-top: none;" rowspan="2" width="70%" valign="top">
+						<p><b>Amount in words : </b>
+						<?= h(ucwords($this->NumberWords->convert_number_to_words($rupees))) ?> Rupees<?= h($paisa_text) ?>
+						</p>
+					</td>
+					<td style="text-align:right;border-top: none;"><b>Total Amount before Tax</b></td>
+					<td style="text-align:right;border-right: none;border-top: none;" width="80"><?= $invoice->total_amount_before_tax ?></td>
+				</tr>
+				<tr>
+					<td style="text-align:right;"><b>Total CGST</b></td>
+					<td style="text-align:right;border-right: none;"><?= $invoice->total_cgst ?></td>
+				</tr>
+				<tr>
+					<td style="border-left: none;border-top: none;" rowspan="2" width="70%" valign="top">
+						<table width="100%" class="nbtbl">
+							<tr>
+								<td colspan="2"><b><u>Bank Details:-</u></b> Union Bank of India</td>
+							</tr>
+							<tr>
+								<td><b>Bank A/C : </b>760101010050042</td>
+								<td><b>IFSC Code: </b>UBIN0576018</td>
+							</tr>
+						</table>
+					</td>
+					<td style="text-align:right;"><b>Total SGST</b></td>
+					<td style="text-align:right;border-right: none;"><?= $invoice->total_sgst ?></td>
+				</tr>
+				<tr>
+					<td style="text-align:right;"><b>Total Amount after Tax</b></td>
+					<td style="text-align:right;border-right: none;"><?= $invoice->total_amount_after_tax ?></td>
+				</tr>
+			</tbody>
+		</table>
+		<table width="100%" class="tbl">
+			<tbody>
+				<tr>
+					<td style="border-top: none;border-left: none;border-right: none;"  valign="top" colspan="2">
+						<b><u>Terms & Conditions</u></b>
+						<ol>
+							<li>Here will be first term or condition. </li>
+							<li>Here will be second term or condition. </li>
+							<li>Here will be third term or condition. </li>
+							<li>Here will be fouth term or condition. </li>
+						</ol>
+					</td>
+				</tr>
+				<tr>
+					<td style="border-top: none;border-left: none;border-bottom: none;" width="50%" valign="top">
+						<div align="center"><b>Customer Signture</b></div>
+					</td>
+					<td style="border-top: none;border-right: none;border-bottom: none;" valign="bottom">
+						<div align="center"><b>For NEW BHAGYALAXMI MOBILE POINT</b></div><br/><br/><br/>
+						<div align="center"><span style="border-top: solid 1px;"><b>Authorised signatory</b><span></div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>

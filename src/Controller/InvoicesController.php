@@ -41,7 +41,7 @@ class InvoicesController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
         $invoice = $this->Invoices->get($id, [
-            'contain' => ['CustomerLedgers', 'SalesLedgers', 'InvoiceRows']
+            'contain' => ['CustomerLedgers', 'SalesLedgers', 'InvoiceRows'=>['Items']]
         ]);
 
         $this->set('invoice', $invoice);

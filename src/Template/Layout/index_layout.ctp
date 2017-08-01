@@ -153,12 +153,12 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!-- END PAGE LEVEL SCRIPTS -->
 
 		<script>
-			jQuery(document).ready(function() {  
-				Metronic.init(); // init metronic core components
-				Layout.init(); // init current layout
-				QuickSidebar.init(); // init quick sidebar
-				Demo.init();
-			});
+		jQuery(document).ready(function() {  
+			Metronic.init(); // init metronic core components
+			Layout.init(); // init current layout
+			QuickSidebar.init(); // init quick sidebar
+			Demo.init();
+		});
 		</script>
 		<!-- END JAVASCRIPTS -->
 		<div id="toast-container" class="toast-top-right" aria-live="polite" role="alert">
