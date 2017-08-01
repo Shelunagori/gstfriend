@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 01, 2017 at 08:17 AM
--- Server version: 10.1.21-MariaDB
--- PHP Version: 5.6.30
+-- Generation Time: Aug 01, 2017 at 03:00 PM
+-- Server version: 10.1.13-MariaDB
+-- PHP Version: 7.0.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -33,27 +33,23 @@ CREATE TABLE `ledgers` (
   `freeze` tinyint(1) NOT NULL COMMENT '0==unfreezed 1==freezed',
   `company_id` int(10) NOT NULL,
   `supplier_id` int(10) NOT NULL,
-  `customer_id` int(10) NOT NULL
+  `customer_id` int(10) NOT NULL,
+  `tax_percentage` decimal(5,2) NOT NULL,
+  `gst_type` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `ledgers`
 --
 
-INSERT INTO `ledgers` (`id`, `name`, `accounting_group_id`, `freeze`, `company_id`, `supplier_id`, `customer_id`) VALUES
-(1, 'bsvhjdsbj', 1, 0, 1, 0, 0),
-(2, 'bmm,mmmm', 1, 0, 1, 0, 2),
-(3, 'bmm,mmmm', 1, 0, 1, 0, 0),
-(4, 'aaaaaaaaaaaaaa', 2, 0, 1, 0, 3),
-(5, 'aaaaaaaaaaaaaa', 2, 0, 1, 0, 0),
-(6, 'sssss', 13, 0, 1, 0, 4),
-(7, 'cvbcvb', 25, 0, 1, 2, 0),
-(8, 'anill', 13, 0, 1, 3, 0),
-(9, 'anil gurjar', 0, 0, 1, 0, 5),
-(10, 'abhilash ji', 25, 0, 1, 4, 0),
-(11, 'retailor', 13, 0, 1, 0, 6),
-(12, 'retailor', 13, 0, 1, 0, 7),
-(13, 'vhjvhjm', 13, 1, 1, 0, 8);
+INSERT INTO `ledgers` (`id`, `name`, `accounting_group_id`, `freeze`, `company_id`, `supplier_id`, `customer_id`, `tax_percentage`, `gst_type`) VALUES
+(2, 'Manoj Tanwar', 25, 0, 1, 4, 0, '0.00', ''),
+(3, 'Purchase Account', 13, 0, 0, 0, 0, '0.00', ''),
+(4, '0% CGST', 29, 0, 1, 0, 0, '0.00', 'CGST'),
+(5, '2.5% CGST', 29, 0, 1, 0, 0, '2.50', 'CGST'),
+(6, '6% CGST', 29, 0, 1, 0, 0, '6.00', 'CGST'),
+(7, '9% CGST', 29, 0, 1, 0, 0, '9.00', 'CGST'),
+(8, '14% CGST', 29, 0, 1, 0, 0, '14.00', 'CGST');
 
 --
 -- Indexes for dumped tables
@@ -73,7 +69,7 @@ ALTER TABLE `ledgers`
 -- AUTO_INCREMENT for table `ledgers`
 --
 ALTER TABLE `ledgers`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
