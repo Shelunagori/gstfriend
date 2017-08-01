@@ -65,6 +65,7 @@ class PurchaseVouchersController extends AppController
             $purchaseVoucher = $this->PurchaseVouchers->patchEntity($purchaseVoucher, $this->request->getData());
 		
 			$purchaseVoucher->company_id=$company_id;
+			pr($purchaseVoucher); exit;
             if ($this->PurchaseVouchers->save($purchaseVoucher)) {
 				
 				$this->Flash->success(__('The purchase voucher has been saved.'));
