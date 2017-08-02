@@ -367,7 +367,6 @@ $Sgst=[];
 foreach($SgstTax as $SgstTaxe){
 	$Sgst[]=['text' =>$SgstTaxe->name, 'value' => $SgstTaxe->id, 'percentage'=>$SgstTaxe->tax_percentage];
 }
-	 pr($Sgst);
 ?>
 
 
