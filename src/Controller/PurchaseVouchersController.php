@@ -86,11 +86,11 @@ class PurchaseVouchersController extends AppController
         $SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find('list')->where(['accounting_group_id'=>25]);
         $PurchaseLedger = $this->PurchaseVouchers->PurchaseLedger->find('list')->where(['accounting_group_id'=>13]);
 		
-		$CgstTax = $this->PurchaseVouchers->Ledgers->find()->where(['accounting_group_id'=>29,'gst_type'=>'CGST']);
+		$CgstTax = $this->PurchaseVouchers->CgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'CGST']);
 		//pr($CgstTax->toArray()); exit;
 		
 		
-		$SgstTax = $this->PurchaseVouchers->Ledgers->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);
+		$SgstTax = $this->PurchaseVouchers->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);
 		$this->set(compact('purchaseVoucher', 'SupplierLedger','PurchaseLedger','items','CgstTax','SgstTax'));
         $this->set('_serialize', ['purchaseVoucher']);
 		$this->set('active_menu', 'PurchaseVouchers.Add');
