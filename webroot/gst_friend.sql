@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 02, 2017 at 02:47 PM
+-- Generation Time: Aug 02, 2017 at 03:06 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -307,7 +307,8 @@ INSERT INTO `purchase_vouchers` (`id`, `voucher_no`, `reference_no`, `supplier_l
 (11, 10, '8465', 2, 3, '2017-08-02', 'bjk', 1),
 (12, 11, '1564856', 2, 3, '2017-08-02', 'yguj', 1),
 (13, 12, '64986', 2, 3, '2017-08-02', 'bjk', 1),
-(14, 13, '778', 2, 3, '2017-08-02', 'ghjmn', 1);
+(14, 13, '778', 2, 3, '2017-08-02', 'ghjmn', 1),
+(15, 14, '89456', 2, 3, '2017-08-02', 'gukjm', 1);
 
 -- --------------------------------------------------------
 
@@ -325,9 +326,9 @@ CREATE TABLE `purchase_voucher_rows` (
   `discount_amount` decimal(10,2) NOT NULL,
   `amount` decimal(15,2) NOT NULL,
   `taxable_value` int(150) NOT NULL,
-  `cgst_id` int(10) NOT NULL,
+  `cgst_ledger_id` int(10) NOT NULL,
   `cgst_amount` decimal(15,2) NOT NULL,
-  `sgst_id` int(10) NOT NULL,
+  `sgst_ledger_id` int(10) NOT NULL,
   `sgst_amount` decimal(15,2) NOT NULL,
   `total` decimal(15,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -336,7 +337,7 @@ CREATE TABLE `purchase_voucher_rows` (
 -- Dumping data for table `purchase_voucher_rows`
 --
 
-INSERT INTO `purchase_voucher_rows` (`id`, `purchase_voucher_id`, `item_id`, `quantity`, `rate_per`, `discount_rate`, `discount_amount`, `amount`, `taxable_value`, `cgst_id`, `cgst_amount`, `sgst_id`, `sgst_amount`, `total`) VALUES
+INSERT INTO `purchase_voucher_rows` (`id`, `purchase_voucher_id`, `item_id`, `quantity`, `rate_per`, `discount_rate`, `discount_amount`, `amount`, `taxable_value`, `cgst_ledger_id`, `cgst_amount`, `sgst_ledger_id`, `sgst_amount`, `total`) VALUES
 (1, 1, 1, '3.00', '4.00', 0, '0.00', '12.00', 0, 0, '0.00', 0, '0.00', '0.00'),
 (2, 2, 1, '3.00', '4.00', 0, '0.00', '12.00', 0, 0, '0.00', 0, '0.00', '0.00'),
 (3, 3, 3, '1.00', '20.00', 0, '0.00', '20.00', 0, 0, '0.00', 0, '0.00', '0.00'),
@@ -352,7 +353,8 @@ INSERT INTO `purchase_voucher_rows` (`id`, `purchase_voucher_id`, `item_id`, `qu
 (13, 11, 3, '15.00', '2.00', 1, '0.30', '30.00', 29, 0, '1.78', 0, '1.78', '33.26'),
 (14, 12, 2, '25.00', '5.00', 2, '2.50', '125.00', 122, 0, '7.35', 0, '7.35', '137.20'),
 (15, 13, 3, '30.00', '3.00', 10, '9.00', '90.00', 81, 0, '4.86', 0, '4.86', '90.72'),
-(16, 14, 2, '10.00', '10.00', 1, '1.00', '100.00', 99, 0, '5.94', 0, '5.94', '110.88');
+(16, 14, 2, '10.00', '10.00', 1, '1.00', '100.00', 99, 0, '5.94', 0, '5.94', '110.88'),
+(17, 15, 3, '10.00', '10.00', 2, '2.00', '100.00', 98, 6, '5.88', 12, '5.88', '109.76');
 
 -- --------------------------------------------------------
 
@@ -538,12 +540,12 @@ ALTER TABLE `nature_of_groups`
 -- AUTO_INCREMENT for table `purchase_vouchers`
 --
 ALTER TABLE `purchase_vouchers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `purchase_voucher_rows`
 --
 ALTER TABLE `purchase_voucher_rows`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `suppliers`
 --
