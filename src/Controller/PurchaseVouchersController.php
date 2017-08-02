@@ -71,7 +71,7 @@ class PurchaseVouchersController extends AppController
 			}else{
 				$purchaseVoucher->voucher_no=1;
 			}
-			
+			//End Voucher Number
 			$purchaseVoucher->company_id=$company_id;
 			
             if ($this->PurchaseVouchers->save($purchaseVoucher)) {
@@ -85,7 +85,13 @@ class PurchaseVouchersController extends AppController
        
         $SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find('list')->where(['accounting_group_id'=>25]);
         $PurchaseLedger = $this->PurchaseVouchers->PurchaseLedger->find('list')->where(['accounting_group_id'=>13]);
-		$this->set(compact('purchaseVoucher', 'SupplierLedger','PurchaseLedger','items'));
+		
+		$CgstTax = $this->PurchaseVouchers->Ledgers->find()->where(['accounting_group_id'=>29,'gst_type'=>'CGST']);
+		//pr($CgstTax->toArray()); exit;
+		
+		
+		$SgstTax = $this->PurchaseVouchers->Ledgers->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);
+		$this->set(compact('purchaseVoucher', 'SupplierLedger','PurchaseLedger','items','CgstTax','SgstTax'));
         $this->set('_serialize', ['purchaseVoucher']);
 		$this->set('active_menu', 'PurchaseVouchers.Add');
     }

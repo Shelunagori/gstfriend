@@ -146,44 +146,44 @@ p{
 						$i++;
 				?>
 				<tr>
-					<td width="20px"style="border-left: none;"><?= $this->Number->format($i) ?></td>
-					<td width="276px"><?= h($purchaseVoucherRows->item->name) ?></td>
-					<td width="20px"><?= $this->Number->format($i) ?></td>
-					<td width="20px"><?= $this->Number->format($i) ?></td>
-					<td width="20px"><?= $this->Number->format($i) ?></td>
-					<td width="20px"></td>
-					<td width="20px"><?= h($purchaseVoucherRows->quantity) ?></td>
-					<td width="20px"><?= h($purchaseVoucherRows->rate_per) ?></td>
-					<td width="20px"><?= h($purchaseVoucherRows->amount) ?></td>
-					<td width="20px"><?= h($purchaseVoucherRows->amount) ?></td>
-					<td width="20px"><?= h($purchaseVoucherRows->amount) ?></td>
-					<td width="20px"><?= h($purchaseVoucherRows->amount) ?></td>
-					<td width="20px"><?= h($purchaseVoucherRows->amount) ?></td>
-					<td style="border-right: none;"width="20px"><?= h($purchaseVoucherRows->amount) ?></td>
+					<td width="15px"style="border-left: none;"><?= $this->Number->format($i) ?></td>
+					<td width="30%"><?= h($purchaseVoucherRows->item->name) ?></td>
+					<td width="80"><?= $this->Number->format($i) ?></td>
+					<td width="40"><?= $this->Number->format($i) ?></td>
+					<td width="40"><?= $this->Number->format($i) ?></td>
+					<td width="40"></td>
+					<td width="43px"><?= h($purchaseVoucherRows->quantity) ?></td>
+					<td width="44px"><?= h($purchaseVoucherRows->rate_per) ?></td>
+					<td width="48px"><?= h($purchaseVoucherRows->amount) ?></td>
+					<td width="35px"><?= h($purchaseVoucherRows->amount) ?></td>
+					<td width="43px"><?= h($purchaseVoucherRows->amount) ?></td>
+					<td width="34px"><?= h($purchaseVoucherRows->amount) ?></td>
+					<td width="39px"><?= h($purchaseVoucherRows->amount) ?></td>
+					<td style="border-right: none;"width="31px"><?= h($purchaseVoucherRows->amount) ?></td>
 					
 				</tr>
 				<?php endforeach; ?>
 				<tr>
 					<td style="text-align:right;border-top: none;" width="80" colspan="10"><b>Total Amount before Tax</b></td>
-					<td style="text-align:right;border-right: none;border-top: none;" width="80" colspan="4">
+					<td style="text-align:right;border-right: none;border-top: none;" width="80" colspan="3">
 						<?php echo $this->Form->control('total_amount_before_tax',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 80px;border: none;text-align: right;','tabindex'=>'-1']); ?>
 					</td>
 				</tr>
 				<tr>
-					<td style="text-align:right;" colspan="13"><b>Total CGST</b></td>
-					<td style="text-align:right;border-right: none;">
+					<td style="text-align:right;" colspan="10"><b>Total CGST</b></td>
+					<td style="text-align:right;border-right:none;" width="80" colspan="3">
 						<?php echo $this->Form->control('total_cgst',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 80px;border: none;text-align: right;','tabindex'=>'-1']); ?>
 					</td>
 				</tr>
 				<tr>
-					<td style="text-align:right;" colspan="13"><b>Total SGST</b></td>
-					<td style="text-align:right;border-right: none;">
+					<td style="text-align:right;" colspan="10"><b>Total SGST</b></td>
+					<td style="text-align:right;border-right: none;" width="80" colspan="3">
 						<?php echo $this->Form->control('total_sgst',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 80px;border: none;text-align: right;','tabindex'=>'-1']); ?>
 					</td>
 				</tr>
 				<tr>
-					<td style="text-align:right;border-bottom: none;" colspan="13"><b>Total Amount after Tax</b></td>
-					<td style="text-align:right;border-right: none;border-bottom: none;">
+					<td style="text-align:right;border-bottom: none;" colspan="10"><b>Total Amount after Tax</b></td>
+					<td style="text-align:right;border-right: none;border-bottom:none;" width="80" colspan="3">
 						<?php echo $this->Form->control('total_amount_after_tax',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 80px;text-align: right;border: none;','tabindex'=>'-1']); ?>	
 					</td>
 				</tr>

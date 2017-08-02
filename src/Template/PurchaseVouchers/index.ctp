@@ -31,7 +31,7 @@ $this->set('title', 'List');
 						<td><?= $this->Number->format($i) ?></td>
 						<td><?= $this->Number->format($purchaseVoucher->voucher_no) ?></td>
 						<td><?= h($purchaseVoucher->supplier_ledger->supplier->name) ?></td>
-						<td><?= h($purchaseVoucher->purchase_ledger->customer->name) ?></td>
+						<td><?= h(@$purchaseVoucher->purchase_ledger->customer->name) ?></td>
 						<td><?= h($purchaseVoucher->transaction_date) ?></td>
 						<td><?= h($purchaseVoucher->narration) ?></td>
 						<td class="actions">
