@@ -367,7 +367,7 @@ $(document).ready(function() {
 		reverseCalculation();
 	});
 	
-	function reverseCalculation(){alert();
+	function reverseCalculation(){
 		var total_amount_before_tax=0;
 		var total_cgst=0;
 		var total_sgst=0;

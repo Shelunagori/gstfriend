@@ -80,7 +80,8 @@ class PurchaseVouchersTable extends Table
             'foreignKey' => 'purchase_voucher_id'
         ]);
         $this->hasMany('PurchaseVoucherRows', [
-            'foreignKey' => 'purchase_voucher_id'
+            'foreignKey' => 'purchase_voucher_id',
+			'saveStrategy'=>'replace'
         ]);
 		
 		$this->belongsTo('Items', [
