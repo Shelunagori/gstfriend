@@ -44,7 +44,20 @@ class PurchaseVouchersController extends AppController
         $purchaseVoucher = $this->PurchaseVouchers->get($id, [
             'contain' => ['SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers'],'Companies', 'AccountingEntries', 'PurchaseVoucherRows'=>['Items']]
         ]);
-		
+		//tax value show in view page start
+ 		$cgst_per=[];
+		$sgst_per=[];
+ 		foreach($purchaseVoucher->purchase_voucher_rows as $purchase_voucher_row){
+			if($purchase_voucher_row->cgst_ledger_id > 0){
+				$cgst_per[$purchase_voucher_row->id]=$this->PurchaseVouchers->Ledgers->get(@$purchase_voucher_row->cgst_ledger_id);
+			}
+			if($purchase_voucher_row->sgst_ledger_id > 0){
+				$sgst_per[$purchase_voucher_row->id]=$this->PurchaseVouchers->Ledgers->get(@$purchase_voucher_row->sgst_ledger_id);
+			}
+			
+		}
+		// Tax value show in view page end
+		$this->set(compact('cgst_per','sgst_per'));
         $this->set('purchaseVoucher', $purchaseVoucher);
         $this->set('_serialize', ['purchaseVoucher']);
     }
@@ -118,11 +131,14 @@ class PurchaseVouchersController extends AppController
             }
             $this->Flash->error(__('The purchase voucher could not be saved. Please, try again.'));
         }
+		$items = $this->PurchaseVouchers->Items->find('list');
         $ledgers = $this->PurchaseVouchers->Ledgers->find('list');
 		$SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find('list')->where(['accounting_group_id'=>25]);
         $PurchaseLedger = $this->PurchaseVouchers->PurchaseLedger->find('list')->where(['accounting_group_id'=>13]);
-       
-        $this->set(compact('purchaseVoucher', 'ledgers', 'SupplierLedger' , 'PurchaseLedger'));
+		$CgstTax = $this->PurchaseVouchers->CgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'CGST']);
+		//pr($CgstTax->toArray()); exit;
+		$SgstTax = $this->PurchaseVouchers->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);
+        $this->set(compact('purchaseVoucher', 'ledgers', 'SupplierLedger' , 'PurchaseLedger','items','CgstTax','SgstTax'));
         $this->set('_serialize', ['purchaseVoucher']);
     }
 

@@ -136,9 +136,12 @@ p{
 				</tr>
 			</thead>
 			<tbody id="mainTbody">
-				<?php   $i=0;
+				<?php   $i=0; $total_before_tax=0; $total_cgst_amt=0; $total_sgst_amt=0;
 						foreach ($purchaseVoucher->purchase_voucher_rows as $purchaseVoucherRows):
 						$i++;
+						$total_before_tax=$total_before_tax+$purchaseVoucherRows->taxable_value;
+						$total_cgst_amt=$total_cgst_amt+$purchaseVoucherRows->cgst_amount;
+						$total_sgst_amt=$total_sgst_amt+$purchaseVoucherRows->sgst_amount;
 				?>
 				<tr>
 					<td width="15px"style="border-left: none;"><?= $this->Number->format($i) ?></td>
@@ -150,196 +153,132 @@ p{
 					<td width="43px"><?= $this->Number->format($purchaseVoucherRows->discount_rate) ?></td>
 					<td width="44px"><?= $this->Number->format($purchaseVoucherRows->discount_amount) ?></td>
 					<td width="48px"><?= $this->Number->format($purchaseVoucherRows->taxable_value) ?></td>
-					<td width="35px"><?= $this->Number->format($purchaseVoucherRows->taxable_value) ?></td>
-					<td width="43px"><?= $this->Number->format($purchaseVoucherRows->taxable_value) ?></td>
-					<td width="34px"><?= $this->Number->format($purchaseVoucherRows->taxable_value) ?></td>
-					<td width="39px"><?= h($purchaseVoucherRows->amount) ?></td>
-					<td style="border-right: none;"width="31px"><?= h($purchaseVoucherRows->amount) ?></td>
+					<td width="35px"><?= h($cgst_per[$purchaseVoucherRows->id]['tax_percentage']) ?></td>
+					<td width="43px"><?= $this->Number->format($purchaseVoucherRows->cgst_amount) ?></td>
+					<td width="34px"><?= h($sgst_per[$purchaseVoucherRows->id]['tax_percentage']) ?></td>
+					<td width="39px"><?= $this->Number->format($purchaseVoucherRows->sgst_amount) ?></td>
+					<td style="border-right: none;"width="31px"><?= $this->Number->format($purchaseVoucherRows->total) ?></td>
 					
 				</tr>
 				<?php endforeach; ?>
 			</tbody>
 		</table>
+		<!--Convert Rupees ito Word- Start-->
+		<?php
+			define("MAJOR", 'Rs');
+			define("MINOR", 'p');
+			class toWords  {
+					   var $Rs;
+					   var $pence;
+					   var $major;
+					   var $minor;
+					   var $words = '';
+					   var $number;
+					   var $magind;
+					   var $units = array('','one','two','three','four','five','six','seven','eight','nine');
+					   var $teens = array('ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen');
+					   var $tens = array('','ten','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety');
+					   var $mag = array('','thousand','million','billion','trillion');
+				function toWords($amount, $major=MAJOR, $minor=MINOR) {
+						 $this->major = $major;
+						 $this->minor = $minor;
+						 $this->number = number_format($amount,2);
+						 list($this->Rs,$this->pence) = explode('.',$this->number);
+						 $this->words = " $this->major $this->pence $this->minor";
+						 if ($this->Rs==0)
+							 $this->words = "Zero $this->words";
+						 else {
+							 $groups = explode(',',$this->Rs);
+							 $groups = array_reverse($groups);
+							 for ($this->magind=0; $this->magind<count($groups); $this->magind++) {
+								  if (($this->magind==1)&&(strpos($this->words,'hundred') === false)&&($groups[0]!='000'))
+									   $this->words = ' and ' . $this->words;
+								  $this->words = $this->_build($groups[$this->magind]).$this->words;
+							 }
+						 }
+				}
+				function _build($n) {
+						 $res = '';
+						 $na = str_pad("$n",3,"0",STR_PAD_LEFT);
+						 if ($na == '000') return '';
+						 if ($na{0} != 0)
+							 $res = ' '.$this->units[$na{0}] . ' hundred';
+						 if (($na{1}=='0')&&($na{2}=='0'))
+							  return $res . ' ' . $this->mag[$this->magind];
+						 $res .= $res==''? '' : ' and';
+						 $t = (int)$na{1}; $u = (int)$na{2};
+						 switch ($t) {
+								 case 0: $res .= ' ' . $this->units[$u]; break;
+								 case 1: $res .= ' ' . $this->teens[$u]; break;
+								 default:$res .= ' ' . $this->tens[$t] . ' ' . $this->units[$u] ; break;
+						 }
+						 $res .= ' ' . $this->mag[$this->magind];
+						 return $res;
+				}
+			}
+			   
+				$obj = new toWords($total_before_tax+ $total_cgst_amt+$total_sgst_amt);
+				
+			?>
+		<!--Convert Rupees ito Word- End-->
+		<table width="100%" class="tbl total">
+			<tbody>
+				<tr>
+					<td style="text-align:left;border-left: none;border-top: none;" rowspan="2" width="70%" valign="top">
+						<p><b>Amount in words : </b>
+						<?php  echo $obj->words;  ?>
+						</p>
+					</td>
+					<td style="text-align:right;border-top: none;"><b>Total Amount before Tax</b></td>
+					<td style="text-align:right;border-right: none;border-top: none;" width="80"><?= $this->Number->format($total_before_tax) ?></td>
+				</tr>
+				<tr>
+					<td style="text-align:right;"><b>Total CGST</b></td>
+					<td style="text-align:right;border-right: none;"><?= $this->Number->format($total_cgst_amt) ?></td>
+				</tr>
+				<tr>
+					<td style="border-left: none;border-top: none;" rowspan="2" width="70%" valign="top">
+						<table width="100%" class="nbtbl">
+							<tr>
+								<td colspan="2"><b><u>Bank Details:-</u></b> Union Bank of India</td>
+							</tr>
+							<tr>
+								<td><b>Bank A/C : </b>760101010050042</td>
+								<td><b>IFSC Code: </b>UBIN0576018</td>
+							</tr>
+						</table>
+					</td>
+					<td style="text-align:right;"><b>Total SGST</b></td>
+					<td style="text-align:right;border-right: none;"><?= $this->Number->format($total_sgst_amt) ?></td>
+				</tr>
+				<tr>
+					<td style="text-align:right;"><b>Total Amount after Tax</b></td>
+					<td style="text-align:right;border-right: none;" class="total_after_tax"><?= $this->Number->format($total_before_tax+ $total_cgst_amt+$total_sgst_amt )?></td>
+				</tr>
+			</tbody>
+		</table>
 		<table width="100%" class="tbl">
 			<tbody>
 				<tr>
-					<td style="text-align:right;border-top: none;" width="80" colspan="10"><b>Total Amount before Tax</b></td>
-					<td style="text-align:right;border-right: none;border-top: none;" width="80" colspan="3">
-						<?php echo $this->Form->control('total_amount_before_tax',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 80px;border: none;text-align: right;','tabindex'=>'-1']); ?>
+					<td style="border-top: none;border-left: none;border-right: none;"  valign="top" colspan="2">
+						<b><u>Terms & Conditions</u></b>
+						<ol>
+							<li>Here will be first term or condition. </li>
+							<li>Here will be second term or condition. </li>
+							<li>Here will be third term or condition. </li>
+							<li>Here will be fouth term or condition. </li>
+						</ol>
 					</td>
 				</tr>
 				<tr>
-					<td style="text-align:right;" colspan="10"><b>Total CGST</b></td>
-					<td style="text-align:right;border-right:none;" width="80" colspan="3">
-						<?php echo $this->Form->control('total_cgst',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 80px;border: none;text-align: right;','tabindex'=>'-1']); ?>
+					<td style="border-top: none;border-left: none;border-bottom: none;" width="50%" valign="top">
+						<div align="center"><b>Customer Signture</b></div>
 					</td>
-				</tr>
-				<tr>
-					<td style="text-align:right;" colspan="10"><b>Total SGST</b></td>
-					<td style="text-align:right;border-right: none;" width="80" colspan="3">
-						<?php echo $this->Form->control('total_sgst',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 80px;border: none;text-align: right;','tabindex'=>'-1']); ?>
-					</td>
-				</tr>
-				<tr>
-					<td style="text-align:right;border-bottom: none;" colspan="10"><b>Total Amount after Tax</b></td>
-					<td style="text-align:right;border-right: none;border-bottom:none;" width="80" colspan="3">
-						<?php echo $this->Form->control('total_amount_after_tax',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 80px;text-align: right;border: none;','tabindex'=>'-1']); ?>	
+					<td style="border-top: none;border-right: none;border-bottom: none;" valign="bottom">
+						<div align="center"><span style="border-top: solid 1px;"><b>Authorised signatory</b><span></div>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-	<table width="100%" class="tbl">
-		<tbody>
-			<tr>
-				<td style="border-top: none;border-left: none;border-right: none;"  valign="top" colspan="2">
-					<b><u>Terms & Conditions</u></b>
-					<ol>
-						<li>Here will be first term or condition. </li>
-						<li>Here will be second term or condition. </li>
-						<li>Here will be third term or condition. </li>
-						<li>Here will be fouth term or condition. </li>
-					</ol>
-				</td>
-			</tr>
-			<tr>
-				<td style="border-top: none;border-left: none;border-bottom: none;" width="50%" valign="top">
-					<div align="center"><b>Party Signture</b></div>
-				</td>
-				<td style="border-top: none;border-right: none;border-bottom: none;" valign="bottom">
-					
-					<div align="center"><span style="border-top: solid 1px;"><b>Authorised signatory</b><span></div>
-				</td>
-			</tr>
-		</tbody>
-	</table>
 </div>
-
-
-
-<?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
-<script>
-$(document).ready(function() {
-	$('.calculate').live("keyup",function() {
-		calculation();
-	});
-	
-	function calculation(){
-		var total_amount_before_tax=0;
-		var total_cgst=0;
-		var total_sgst=0;
-		var total_amount_after_tax=0;
-		$("#mainTbl tbody#mainTbody tr.mainTr").each(function(){
-			var quantity=parseFloat($(this).find("td:eq(3) input").val());
-			if(!quantity){ quantity=0; }
-			var rate=parseFloat($(this).find("td:eq(4) input").val());
-			if(!rate){ rate=0; }
-			var amount=parseFloat(quantity*rate).toFixed(2);
-			$(this).find("td:eq(5) input").val(amount);
-			
-			var discount_rate=parseFloat($(this).find("td:eq(6) input").val());
-			if(!discount_rate){ discount_rate=0; }
-			var discount_amount=parseFloat(amount*discount_rate/100).toFixed(2);
-			
-			$(this).find("td:eq(7) input").val(discount_amount);
-			
-			var taxable_value=parseFloat(amount-discount_amount);
-			$(this).find("td:eq(8) input").val(taxable_value);
-			
-			total_amount_before_tax=total_amount_before_tax+taxable_value;
-			
-			var cgst_rate=parseFloat($(this).find("td:eq(9) input").val());
-			if(!cgst_rate){ cgst_rate=0; }
-			var cgst_amount=parseFloat(taxable_value*cgst_rate/100).toFixed(2);
-			total_cgst=parseFloat(total_cgst)+parseFloat(cgst_amount);
-			
-			$(this).find("td:eq(10) input").val(cgst_amount);
-			
-			var sgst_rate=parseFloat($(this).find("td:eq(11) input").val());
-			if(!sgst_rate){ sgst_rate=0; }
-			var sgst_amount=parseFloat(taxable_value*sgst_rate/100).toFixed(2);
-			total_sgst=parseFloat(total_sgst)+parseFloat(sgst_amount);
-			
-			$(this).find("td:eq(12) input").val(sgst_amount);
-			
-			var total=parseFloat(taxable_value)+parseFloat(cgst_amount)+parseFloat(sgst_amount);
-			$(this).find("td:eq(13) input").val(total.toFixed(2));
-			total_amount_after_tax=total_amount_after_tax+total;
-			
-		});
-		$('input[name="total_amount_before_tax"]').val(total_amount_before_tax.toFixed(2));
-		$('input[name="total_cgst"]').val(total_cgst.toFixed(2));
-		$('input[name="total_sgst"]').val(total_sgst.toFixed(2));
-		$('input[name="total_amount_after_tax"]').val(total_amount_after_tax.toFixed(2));
-	}
-	
-	$('.revCalculate').live("keyup",function() {
-		reverseCalculation();
-	});
-	
-	function reverseCalculation(){
-		var total_amount_before_tax=0;
-		var total_cgst=0;
-		var total_sgst=0;
-		var total_amount_after_tax=0;
-		$("#mainTbl tbody#mainTbody tr.mainTr").each(function(){
-			var total=parseFloat($(this).find("td:eq(13) input").val());
-			if(!total){ total=0; }
-			
-			var cgst_rate=parseFloat($(this).find("td:eq(9) input").val());
-			if(!cgst_rate){ cgst_rate=0; }
-			
-			var sgst_rate=parseFloat($(this).find("td:eq(11) input").val());
-			if(!sgst_rate){ sgst_rate=0; }
-			
-			var to_be_divide=parseFloat(cgst_rate)+parseFloat(sgst_rate)+100;
-			
-			var taxable_value=(total/to_be_divide)*100;
-			
-			$(this).find("td:eq(8) input").val(taxable_value.toFixed(2));
-			
-			var discount_rate=parseFloat($(this).find("td:eq(6) input").val());
-			if(!discount_rate){ discount_rate=0; }
-			
-			var to_be_divide_for_discount=100-parseFloat(discount_rate);
-			var amount=(taxable_value/to_be_divide_for_discount)*100;
-			
-			$(this).find("td:eq(5) input").val(amount.toFixed(2));
-			
-			var quantity=parseFloat($(this).find("td:eq(3) input").val());
-			if(!quantity){ quantity=0; }
-			
-			var rate=amount/quantity;
-			$(this).find("td:eq(4) input").val(rate.toFixed(2));
-			
-			var discount_amount=(amount*discount_rate)/100;
-			$(this).find("td:eq(7) input").val(discount_amount.toFixed(2));
-			
-			var cgst_amount=(taxable_value*cgst_rate)/100;
-			$(this).find("td:eq(10) input").val(cgst_amount.toFixed(2));
-			
-			var sgst_amount=(taxable_value*sgst_rate)/100;
-			$(this).find("td:eq(12) input").val(sgst_amount.toFixed(2));
-			
-			total_amount_before_tax=total_amount_before_tax+taxable_value;
-			total_cgst=parseFloat(total_cgst)+parseFloat(cgst_amount);
-			total_sgst=parseFloat(total_sgst)+parseFloat(sgst_amount);
-			total_amount_after_tax=total_amount_after_tax+total;
-		});
-		$('input[name="total_amount_before_tax"]').val(total_amount_before_tax.toFixed(2));
-		$('input[name="total_cgst"]').val(total_cgst.toFixed(2));
-		$('input[name="total_sgst"]').val(total_sgst.toFixed(2));
-		$('input[name="total_amount_after_tax"]').val(total_amount_after_tax.toFixed(2));
-	}
-	
-	$('input[name="party_name"]').focus();
-});
-</script>
-<style>
-.mainTr:hover .viewThisResult { display: block; }
-.mainTr:hover .sr { display: none; }
-.viewThisResult { display: none; }
-</style>
-
-
-	

@@ -123,7 +123,7 @@ p{
 						<th width="80">Amount</th>
 					</tr>
 				</thead>
-				<tbody id="main_tbody"">
+				<tbody id="main_tbody">
 					
 				</tbody>
 			</table>
