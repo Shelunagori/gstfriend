@@ -120,7 +120,7 @@ class PurchaseVouchersController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
         $purchaseVoucher = $this->PurchaseVouchers->get($id, [
-            'contain' => []
+            'contain' => ['PurchaseVoucherRows'=>['Items']]
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $purchaseVoucher = $this->PurchaseVouchers->patchEntity($purchaseVoucher, $this->request->getData());
@@ -132,13 +132,12 @@ class PurchaseVouchersController extends AppController
             $this->Flash->error(__('The purchase voucher could not be saved. Please, try again.'));
         }
 		$items = $this->PurchaseVouchers->Items->find('list');
-        $ledgers = $this->PurchaseVouchers->Ledgers->find('list');
 		$SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find('list')->where(['accounting_group_id'=>25]);
         $PurchaseLedger = $this->PurchaseVouchers->PurchaseLedger->find('list')->where(['accounting_group_id'=>13]);
 		$CgstTax = $this->PurchaseVouchers->CgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'CGST']);
 		//pr($CgstTax->toArray()); exit;
 		$SgstTax = $this->PurchaseVouchers->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);
-        $this->set(compact('purchaseVoucher', 'ledgers', 'SupplierLedger' , 'PurchaseLedger','items','CgstTax','SgstTax'));
+        $this->set(compact('purchaseVoucher', 'SupplierLedger' , 'PurchaseLedger','items','CgstTax','SgstTax'));
         $this->set('_serialize', ['purchaseVoucher']);
     }
 

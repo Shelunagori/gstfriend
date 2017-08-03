@@ -128,6 +128,72 @@ p{
 					</tr>
 				</thead>
 				<tbody id="main_tbody">
+					<!--Get Gst Value with Percent start--->
+					<?php 
+						$Cgst=[];
+						foreach($CgstTax as $GstTaxe){
+							$Cgst[]=['text' =>$GstTaxe->name, 'value' => $GstTaxe->id, 'percentage'=>$GstTaxe->tax_percentage];
+						}
+
+						$Sgst=[];
+						foreach($SgstTax as $SgstTaxe){
+							$Sgst[]=['text' =>$SgstTaxe->name, 'value' => $SgstTaxe->id, 'percentage'=>$SgstTaxe->tax_percentage];
+						}
+					?>
+					<!--Get Gst Value with Percent end--->
+					<?php   $i=1; $total_before_tax=0; $total_cgst_amt=0; $total_sgst_amt=0; 
+							foreach ($purchaseVoucher->purchase_voucher_rows as $purchaseVoucherRow){
+								$total_before_tax=$total_before_tax+$purchaseVoucherRow->taxable_value;
+								$total_cgst_amt=$total_cgst_amt+$purchaseVoucherRow->cgst_amount;
+								$total_sgst_amt=$total_sgst_amt+$purchaseVoucherRow->sgst_amount; 
+					?>
+							<tr id="main_tr">
+								<td width="15px"style="border-left: none;"><?= h($i++) ?></td>
+								<td width="30%">
+									<?php echo $this->Form->control('item_id', ['options' =>$items, 'empty' => false,'label' => false,'class' => 'form-control input-sm select2me','value'=>$purchaseVoucherRow->item_id]); ?>
+								</td>	
+								<td width="40">
+									<?php echo $this->Form->control('quantity', ['type'=>'text','label' => false,'class' => 'form-control input-sm','value'=>$purchaseVoucherRow->quantity]); ?>
+								</td>
+								<td width="40">
+									<?php echo $this->Form->control('rate_per', ['type'=>'text','label' => false,'class' => 'form-control input-sm','value'=>$purchaseVoucherRow->rate_per]); ?>
+								</td>
+								<td width="40">
+									<?php echo $this->Form->control('amount', ['type'=>'text','label' => false,'class' => 'form-control input-sm','value'=>$purchaseVoucherRow->amount]); ?>
+								</td>
+								<td width="43px">
+									<?php echo $this->Form->control('discount_rate', ['type'=>'text','label' => false,'class' => 'form-control input-sm','value'=>$purchaseVoucherRow->discount_rate]); ?>
+								</td>
+								<td width="44px">
+									<?php echo $this->Form->control('discount_amount', ['type'=>'text','label' => false,'class' => 'form-control input-sm','value'=>$purchaseVoucherRow->discount_amount]); ?>
+								</td>
+								<td width="48px">
+									<?php echo $this->Form->control('taxable_value', ['type'=>'text','label' => false,'class' => 'form-control input-sm','value'=>$purchaseVoucherRow->taxable_value]); ?>
+								</td>
+								<td width="35px">
+									<?php echo $this->Form->control('cgst_ledger_id', ['options' =>$Cgst,'label' => false,'class' => 'form-control input-sm select2me','value'=>$purchaseVoucherRow->cgst_ledger_id]); ?>
+								</td>
+								<td width="43px">
+									<?php echo $this->Form->control('cgst_amount', ['type'=>'text','label' => false,'class' => 'form-control input-sm','value'=>$purchaseVoucherRow->cgst_amount]); ?>
+								</td>
+								<td width="43px">
+									<?php echo $this->Form->control('sgst_ledger_id', ['options' =>$Sgst,'label' => false,'class' => 'form-control input-sm select2me','value'=>$purchaseVoucherRow->sgst_ledger_id]); ?>
+								</td>
+								<td width="43px">
+									<?php echo $this->Form->control('sgst_amount', ['type'=>'text','label' => false,'class' => 'form-control input-sm','value'=>$purchaseVoucherRow->sgst_amount]); ?>
+								</td>
+								<td width="34px">
+									<?php echo $this->Form->control('total', ['type'=>'text','label' => false,'class' => 'form-control input-sm','value'=>$purchaseVoucherRow->total]); ?>
+								</td>
+								<td>
+									<input type="button" value="+" class="add"/>
+									<input type="button" value="X" class="deleterow" />
+								</td>
+							</tr>	
+					<?php
+					}
+					?>
+					
 					
 				</tbody>
 			</table>
@@ -177,6 +243,66 @@ p{
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
+	// Add Row Start */
+
+		
+		
+	
+	
+		$(document).on("click",".add",function(){
+				add_row();
+		});
+	
+	function add_row(){ 
+			var tr=$("#sample_table tbody tr.main_tr1").clone();
+			$("#main_table tbody#main_tbody").append(tr);
+			rename_rows();
+		}
+		
+	
+		$(document).on("click",".deleterow",function() {
+			$(this).closest('tr').remove();
+			rename_rows();
+			
+			});
+	// Add Row	End	
+		rename_rows();
+		
+	function rename_rows(){
+		var j=0;
+		$("#main_table tbody#main_tbody tr#main_tr ").each(function(){
+			$(this).find('td:nth-child(1)').html(j+1);					
+			$(this).find("td:nth-child(2) select").select2().attr({name:"purchase_voucher_rows["+j+"][item_id]", id:"purchase_voucher_rows-"+j+"-item_id"});
+
+			$(this).find("td:nth-child(3) input").attr({name:"purchase_voucher_rows["+j+"][quantity]", id:"purchase_voucher_rows-"+j+"-quantity"});
+
+			$(this).find("td:nth-child(4) input").attr({name:"purchase_voucher_rows["+j+"][rate_per]", id:"purchase_voucher_rows-"+j+"-rate_per"});							
+					
+			$(this).find("td:nth-child(5) input").attr({name:"purchase_voucher_rows["+j+"][amount]", id:"purchase_voucher_rows-"+j+"-amount"});
+			
+			$(this).find("td:nth-child(6) input").attr({name:"purchase_voucher_rows["+j+"][discount_rate]", id:"purchase_voucher_rows-"+j+"-discount_rate"});
+			
+			$(this).find("td:nth-child(7) input").attr({name:"purchase_voucher_rows["+j+"][discount_amount]", id:"purchase_voucher_rows-"+j+"-discount_amount"});
+			
+			$(this).find("td:nth-child(8) input").attr({name:"purchase_voucher_rows["+j+"][taxable_value]", id:"purchase_voucher_rows-"+j+"-taxable_value"});
+			
+			$(this).find("td:nth-child(9) select").select2().attr({name:"purchase_voucher_rows["+j+"][cgst_ledger_id]", id:"purchase_voucher_rows-"+j+"-cgst_ledger_id"});
+			
+			$(this).find("td:nth-child(10) input").attr({name:"purchase_voucher_rows["+j+"][cgst_amount]", id:"purchase_voucher_rows-"+j+"-cgst_amount"});
+			
+			$(this).find("td:nth-child(11) select").select2().attr({name:"purchase_voucher_rows["+j+"][sgst_ledger_id]", id:"purchase_voucher_rows-"+j+"-sgst_ledger_id"});
+			
+			$(this).find("td:nth-child(12) input").attr({name:"purchase_voucher_rows["+j+"][sgst_amount]", id:"purchase_voucher_rows-"+j+"-sgst_amount"});
+			
+			$(this).find("td:nth-child(13) input").attr({name:"purchase_voucher_rows["+j+"][total]", id:"purchase_voucher_rows-"+j+"-total"});
+			j++;
+	   });
+	   
+	};
+	// Rename End
+	//calculation Start
+	calculation();
+	
 	$('#main_table input').die().live("keyup","blur",function() { 
 		calculation();
 	});
@@ -185,11 +311,12 @@ $(document).ready(function() {
 	});
 	
 	function calculation(){ 
+	
 		var total_amount_before_tax=0;
 		var total_cgst=0;
 		var total_sgst=0;
 		var total_amount_after_tax=0;
-		$("#main_table tbody#main_tbody tr.main_tr").each(function(){
+		$("#main_table tbody#main_tbody tr").each(function(){
 			var quantity=parseFloat($(this).find("td:nth-child(3) input").val());
 			if(!quantity){ quantity=0; }
 			var rate=parseFloat($(this).find("td:nth-child(4) input").val());
@@ -235,17 +362,17 @@ $(document).ready(function() {
 		$('input[name="total_sgst"]').val(total_sgst.toFixed(2));
 		$('input[name="total_amount_after_tax"]').val(total_amount_after_tax.toFixed(2));
 	}
-	
+	reverseCalculation();
 	$('.revCalculate').live("keyup",function() {
 		reverseCalculation();
 	});
 	
-	function reverseCalculation(){
+	function reverseCalculation(){alert();
 		var total_amount_before_tax=0;
 		var total_cgst=0;
 		var total_sgst=0;
 		var total_amount_after_tax=0;
-		$("#main_table tbody#main_tbody tr.main_tr").each(function(){
+		$("#main_table tbody#main_tbody tr").each(function(){
 			var total=parseFloat($(this).find("td:nth-child(13) input").val());
 			if(!total){ total=0; }
 			
@@ -296,66 +423,9 @@ $(document).ready(function() {
 	}
 	
 	$('input[name="party_name"]').focus();
-
-		// add row script
-		add_row();
-		
-		$(document).on("click",".add",function(){
-				add_row();
-		});
-		
-		function add_row(){
-			var tr=$("#sample_table tbody tr.main_tr").clone();
-			$("#main_table tbody#main_tbody").append(tr);
-			rename_rows();
-		}
-		
-		
-		
-		$(document).on("click",".deleterow",function() {
-			$(this).closest('tr').remove();
-			rename_rows();
-			calculate_total();
-			});
-		
-		
-		
-	function rename_rows(){
-		var j=0;
-		$("#main_table tbody#main_tbody tr").each(function(){
-			$(this).find('td:nth-child(1)').html(j+1);					
-			$(this).find("td:nth-child(2) select").select2().attr({name:"purchase_voucher_rows["+j+"][item_id]", id:"purchase_voucher_rows-"+j+"-item_id"});
-
-			$(this).find("td:nth-child(3) input").attr({name:"purchase_voucher_rows["+j+"][quantity]", id:"purchase_voucher_rows-"+j+"-quantity"});
-
-			$(this).find("td:nth-child(4) input").attr({name:"purchase_voucher_rows["+j+"][rate_per]", id:"purchase_voucher_rows-"+j+"-rate_per"});							
-					
-			$(this).find("td:nth-child(5) input").attr({name:"purchase_voucher_rows["+j+"][amount]", id:"purchase_voucher_rows-"+j+"-amount"});
-			
-			$(this).find("td:nth-child(6) input").attr({name:"purchase_voucher_rows["+j+"][discount_rate]", id:"purchase_voucher_rows-"+j+"-discount_rate"});
-			
-			$(this).find("td:nth-child(7) input").attr({name:"purchase_voucher_rows["+j+"][discount_amount]", id:"purchase_voucher_rows-"+j+"-discount_amount"});
-			
-			$(this).find("td:nth-child(8) input").attr({name:"purchase_voucher_rows["+j+"][taxable_value]", id:"purchase_voucher_rows-"+j+"-taxable_value"});
-			
-			$(this).find("td:nth-child(9) select").select2().attr({name:"purchase_voucher_rows["+j+"][cgst_ledger_id]", id:"purchase_voucher_rows-"+j+"-cgst_ledger_id"});
-			
-			$(this).find("td:nth-child(10) input").attr({name:"purchase_voucher_rows["+j+"][cgst_amount]", id:"purchase_voucher_rows-"+j+"-cgst_amount"});
-			
-			$(this).find("td:nth-child(11) select").select2().attr({name:"purchase_voucher_rows["+j+"][sgst_ledger_id]", id:"purchase_voucher_rows-"+j+"-sgst_ledger_id"});
-			
-			$(this).find("td:nth-child(12) input").attr({name:"purchase_voucher_rows["+j+"][sgst_amount]", id:"purchase_voucher_rows-"+j+"-sgst_amount"});
-			
-			$(this).find("td:nth-child(13) input").attr({name:"purchase_voucher_rows["+j+"][total]", id:"purchase_voucher_rows-"+j+"-total"});
-			j++;
-	   });
-	   calculation();
-	};
-
-		
-		
+	//calculation End
 	
-		
+	
 	});
 </script>					
 
@@ -376,7 +446,7 @@ foreach($SgstTax as $SgstTaxe){
 
 <table id="sample_table" style="display:none">
 	<tbody id="sample_tbody">
-		<tr class="main_tr">
+		<tr class="main_tr1">
 			<td align="center" width="1px"></td>
 			<td width="20%">
 				<?php echo $this->Form->control('item_id', ['options' =>$items, 'empty' => false,'label' => false,'class' => 'form-control input-sm']); ?>
