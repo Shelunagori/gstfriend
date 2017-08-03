@@ -136,11 +136,6 @@ p{
 				</tr>
 			</thead>
 			<tbody id="mainTbody">
-				
-			</tbody>
-		</table>
-		<table width="100%" class="tbl">
-			<tbody>
 				<?php   $i=0;
 						foreach ($purchaseVoucher->purchase_voucher_rows as $purchaseVoucherRows):
 						$i++;
@@ -148,21 +143,25 @@ p{
 				<tr>
 					<td width="15px"style="border-left: none;"><?= $this->Number->format($i) ?></td>
 					<td width="30%"><?= h($purchaseVoucherRows->item->name) ?></td>
-					<td width="80"><?= $this->Number->format($i) ?></td>
-					<td width="40"><?= $this->Number->format($i) ?></td>
-					<td width="40"><?= $this->Number->format($i) ?></td>
-					<td width="40"></td>
-					<td width="43px"><?= h($purchaseVoucherRows->quantity) ?></td>
-					<td width="44px"><?= h($purchaseVoucherRows->rate_per) ?></td>
-					<td width="48px"><?= h($purchaseVoucherRows->amount) ?></td>
-					<td width="35px"><?= h($purchaseVoucherRows->amount) ?></td>
-					<td width="43px"><?= h($purchaseVoucherRows->amount) ?></td>
-					<td width="34px"><?= h($purchaseVoucherRows->amount) ?></td>
+					<td width="80"><?= $this->Number->format($purchaseVoucherRows->item->hsn_code) ?></td>
+					<td width="40"><?= $this->Number->format($purchaseVoucherRows->quantity) ?></td>
+					<td width="40"><?= $this->Number->format($purchaseVoucherRows->rate_per) ?></td>
+					<td width="40"><?= $this->Number->format($purchaseVoucherRows->amount) ?></td>
+					<td width="43px"><?= $this->Number->format($purchaseVoucherRows->discount_rate) ?></td>
+					<td width="44px"><?= $this->Number->format($purchaseVoucherRows->discount_amount) ?></td>
+					<td width="48px"><?= $this->Number->format($purchaseVoucherRows->taxable_value) ?></td>
+					<td width="35px"><?= $this->Number->format($purchaseVoucherRows->taxable_value) ?></td>
+					<td width="43px"><?= $this->Number->format($purchaseVoucherRows->taxable_value) ?></td>
+					<td width="34px"><?= $this->Number->format($purchaseVoucherRows->taxable_value) ?></td>
 					<td width="39px"><?= h($purchaseVoucherRows->amount) ?></td>
 					<td style="border-right: none;"width="31px"><?= h($purchaseVoucherRows->amount) ?></td>
 					
 				</tr>
 				<?php endforeach; ?>
+			</tbody>
+		</table>
+		<table width="100%" class="tbl">
+			<tbody>
 				<tr>
 					<td style="text-align:right;border-top: none;" width="80" colspan="10"><b>Total Amount before Tax</b></td>
 					<td style="text-align:right;border-right: none;border-top: none;" width="80" colspan="3">
@@ -190,13 +189,6 @@ p{
 			</tbody>
 		</table>
 	</div>
-	
-	
-	
-	
-	
-	
-	
 	<table width="100%" class="tbl">
 		<tbody>
 			<tr>

@@ -44,7 +44,7 @@ class PurchaseVouchersController extends AppController
         $purchaseVoucher = $this->PurchaseVouchers->get($id, [
             'contain' => ['SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers'],'Companies', 'AccountingEntries', 'PurchaseVoucherRows'=>['Items']]
         ]);
-
+		
         $this->set('purchaseVoucher', $purchaseVoucher);
         $this->set('_serialize', ['purchaseVoucher']);
     }
