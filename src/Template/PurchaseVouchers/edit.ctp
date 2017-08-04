@@ -57,7 +57,7 @@ p{
 </style>
 
 <div style="width:100%;margin:auto;border:solid 1px;font-family: serif;background-color: #FFF;margin-top:2%" class="maindiv">
-	<?= $this->Form->create($purchaseVoucher) ?>
+	<?= $this->Form->create($purchaseVoucher,['id'=>'purchaseVoucher']) ?>
 		<div align="center" style="padding: 5px 0px;border-top: solid 1px;border-bottom: solid 1px;background-color : #c4151c !important;font-size:18px;color: #FFF !important;"><b style="color: #FFF !important;">PURCHASE VOUCHER</b></div>
 		<div>
 			<table width="100%">
@@ -238,13 +238,109 @@ p{
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
-	// Add Row Start */
+	
+	var form3 = $('#purchaseVoucher');
+	var error3 = $('.alert-danger', form3);
+	var success3 = $('.alert-success', form3);
+	form3.validate({
+		errorElement: 'span', //default input error message container
+		errorClass: 'help-block help-block-error', // default input error message class
+		focusInvalid: true, // do not focus the last invalid input
+		
+		rules: {
+			reference_no:{
+				required: true,
+			},
+			transaction_date : {
+				  required: true,
+			},
+			supplier_ledger_id : {
+				  required: true,
+			},
+			purchase_ledger_id : {
+				  required: true,
+			},
+			narration:{
+				required: true
+			},
+			
+			quantity:{
+				required: true,	
+			},
+			rate_per:{
+				required: true,	
+			},
+			discount_amount:{
+				required: true,	
+			},
+			item_id: {
+				required: true,
+			},
+			cgst_ledger_id: {
+				required: true,
+			},
+			sgst_ledger_id: {
+				required: true,
+				
+			}
+		},
 
 		
-		
+		errorPlacement: function (error, element) { // render error placement for each input type
+			if (element.parent(".input-group").size() > 0) {
+				error.insertAfter(element.parent(".input-group"));
+			} else if (element.attr("data-error-container")) { 
+				error.appendTo(element.attr("data-error-container"));
+			} else if (element.parents('.radio-list').size() > 0) { 
+				error.appendTo(element.parents('.radio-list').attr("data-error-container"));
+			} else if (element.parents('.radio-inline').size() > 0) { 
+				error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
+			} else if (element.parents('.checkbox-list').size() > 0) {
+				error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
+			} else if (element.parents('.checkbox-inline').size() > 0) { 
+				error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+			} else {
+				error.insertAfter(element); // for other inputs, just perform default behavior
+			}
+		},
+
+		invalidHandler: function (event, validator) { //display error alert on form submit   
+			success3.hide();
+			error3.show();
+			//Metronic.scrollTo(error3, -200);
+		},
+
+		highlight: function (element) { // hightlight error inputs
+		   $(element)
+				.closest('.form-group').addClass('has-error'); // set error class to the control group
+		},
+
+		unhighlight: function (element) { // revert the change done by hightlight
+			$(element)
+				.closest('.form-group').removeClass('has-error'); // set error class to the control group
+		},
+
+		success: function (label) {
+			label
+				.closest('.form-group').removeClass('has-error'); // set success class to the control group
+		},
+
+		submitHandler: function (form) {
+
+			form[0].submit(); // submit the form
+		}
+
+	});
+	//--	 END OF VALIDATION
 	
 	
-		$(document).on("click",".add",function(){
+	
+	
+	
+	
+	
+	// Add Row Start */
+	$(document).on("click",".add",function(){
 				add_row();
 		});
 	
@@ -270,27 +366,27 @@ $(document).ready(function() {
 		var j=0;
 		$("#main_table tbody#main_tbody tr ").each(function(){
 			$(this).find('td:nth-child(1)').html(j+1);					
-			$(this).find("td:nth-child(2) select").select2().attr({name:"purchase_voucher_rows["+j+"][item_id]", id:"purchase_voucher_rows-"+j+"-item_id"});
+			$(this).find("td:nth-child(2) select").select2().attr({name:"purchase_voucher_rows["+j+"][item_id]", id:"purchase_voucher_rows-"+j+"-item_id"}).rules("add","required");
 
-			$(this).find("td:nth-child(3) input").attr({name:"purchase_voucher_rows["+j+"][quantity]", id:"purchase_voucher_rows-"+j+"-quantity"});
+			$(this).find("td:nth-child(3) input").attr({name:"purchase_voucher_rows["+j+"][quantity]", id:"purchase_voucher_rows-"+j+"-quantity"}).rules("add","required");
 
-			$(this).find("td:nth-child(4) input").attr({name:"purchase_voucher_rows["+j+"][rate_per]", id:"purchase_voucher_rows-"+j+"-rate_per"});							
+			$(this).find("td:nth-child(4) input").attr({name:"purchase_voucher_rows["+j+"][rate_per]", id:"purchase_voucher_rows-"+j+"-rate_per"}).rules("add","required");							
 					
-			$(this).find("td:nth-child(5) input").attr({name:"purchase_voucher_rows["+j+"][amount]", id:"purchase_voucher_rows-"+j+"-amount"});
+			$(this).find("td:nth-child(5) input").attr({name:"purchase_voucher_rows["+j+"][amount]", id:"purchase_voucher_rows-"+j+"-amount"}).rules("add","required");
 			
-			$(this).find("td:nth-child(6) input").attr({name:"purchase_voucher_rows["+j+"][discount_amount]", id:"purchase_voucher_rows-"+j+"-discount_amount"});
+			$(this).find("td:nth-child(6) input").attr({name:"purchase_voucher_rows["+j+"][discount_amount]", id:"purchase_voucher_rows-"+j+"-discount_amount"}).rules("add","required");
 			
-			$(this).find("td:nth-child(7) input").attr({name:"purchase_voucher_rows["+j+"][taxable_value]", id:"purchase_voucher_rows-"+j+"-taxable_value"});
+			$(this).find("td:nth-child(7) input").attr({name:"purchase_voucher_rows["+j+"][taxable_value]", id:"purchase_voucher_rows-"+j+"-taxable_value"}).rules("add","required");
 			
-			$(this).find("td:nth-child(8) select").select2().attr({name:"purchase_voucher_rows["+j+"][cgst_ledger_id]", id:"purchase_voucher_rows-"+j+"-cgst_ledger_id"});
+			$(this).find("td:nth-child(8) select").select2().attr({name:"purchase_voucher_rows["+j+"][cgst_ledger_id]", id:"purchase_voucher_rows-"+j+"-cgst_ledger_id"}).rules("add","required");
 			
-			$(this).find("td:nth-child(9) input").attr({name:"purchase_voucher_rows["+j+"][cgst_amount]", id:"purchase_voucher_rows-"+j+"-cgst_amount"});
+			$(this).find("td:nth-child(9) input").attr({name:"purchase_voucher_rows["+j+"][cgst_amount]", id:"purchase_voucher_rows-"+j+"-cgst_amount"}).rules("add","required");
 			
-			$(this).find("td:nth-child(10) select").select2().attr({name:"purchase_voucher_rows["+j+"][sgst_ledger_id]", id:"purchase_voucher_rows-"+j+"-sgst_ledger_id"});
+			$(this).find("td:nth-child(10) select").select2().attr({name:"purchase_voucher_rows["+j+"][sgst_ledger_id]", id:"purchase_voucher_rows-"+j+"-sgst_ledger_id"}).rules("add","required");
 			
-			$(this).find("td:nth-child(11) input").attr({name:"purchase_voucher_rows["+j+"][sgst_amount]", id:"purchase_voucher_rows-"+j+"-sgst_amount"});
+			$(this).find("td:nth-child(11) input").attr({name:"purchase_voucher_rows["+j+"][sgst_amount]", id:"purchase_voucher_rows-"+j+"-sgst_amount"}).rules("add","required");
 			
-			$(this).find("td:nth-child(12) input").attr({name:"purchase_voucher_rows["+j+"][total]", id:"purchase_voucher_rows-"+j+"-total"});
+			$(this).find("td:nth-child(12) input").attr({name:"purchase_voucher_rows["+j+"][total]", id:"purchase_voucher_rows-"+j+"-total"}).rules("add","required");
 			j++;
 			
 	   });
@@ -445,38 +541,38 @@ foreach($SgstTax as $SgstTaxe){
 		<tr class="main_tr1">
 			<td align="center" width="1px"><?= h($i) ?></td>
 			<td width="20%">
-				<?php echo $this->Form->control('item_id', ['options' =>$items, 'empty' => false,'label' => false,'class' => 'form-control input-sm','required']); ?>
+				<?php echo $this->Form->control('item_id', ['options' =>$items, 'empty' => false,'label' => false,'class' => 'form-control input-sm']); ?>
 			</td>
 			
 			<td>
-				<?php echo $this->Form->control('quantity',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Qty','required']); ?> 
+				<?php echo $this->Form->control('quantity',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Qty']); ?> 
 			</td>
 			<td>
-				<?php echo $this->Form->control('rate_per',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Rate','required']); ?> 
+				<?php echo $this->Form->control('rate_per',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Rate']); ?> 
 			</td>
 			<td>
-				<?php echo $this->Form->control('amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount','required']); ?> 
+				<?php echo $this->Form->control('amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?> 
 			</td>
 			<td>
-				<?php echo $this->Form->control('discount_amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount','required']); ?> 
+				<?php echo $this->Form->control('discount_amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?> 
 			</td>
 			<td>
 				<?php echo $this->Form->control('taxable_value',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?> 
 			</td>
 			<td>
-				<?php echo $this->Form->control('cgst_ledger_id', ['options' =>$Cgst,'label' => false,'class' => 'form-control input-sm gst_call','placeholder'=>'CGST','required']); ?> 
+				<?php echo $this->Form->control('cgst_ledger_id', ['options' =>$Cgst,'label' => false,'class' => 'form-control input-sm gst_call','placeholder'=>'CGST']); ?> 
 			</td>
 			<td>
-				<?php echo $this->Form->control('cgst_amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount','required']); ?> 
+				<?php echo $this->Form->control('cgst_amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?> 
 			</td>
 			<td>
-				<?php echo $this->Form->control('sgst_ledger_id',['options' =>$Sgst,'label' => false,'class' => 'form-control input-sm gst_call','placeholder'=>'SGST','required']); ?> 
+				<?php echo $this->Form->control('sgst_ledger_id',['options' =>$Sgst,'label' => false,'class' => 'form-control input-sm gst_call','placeholder'=>'SGST']); ?> 
 			</td>
 			<td>
-				<?php echo $this->Form->control('sgst_amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount','required']); ?>
+				<?php echo $this->Form->control('sgst_amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?>
 			</td>
 			<td>
-				<?php echo $this->Form->control('total',['label' => false,'name'=>'total','class' => 'form-control input-sm ','placeholder'=>'Total','required']); ?>
+				<?php echo $this->Form->control('total',['label' => false,'name'=>'total','class' => 'form-control input-sm ','placeholder'=>'Total']); ?>
 			</td>
 			<td>
 				<input type="button" value="+" class="add"/>

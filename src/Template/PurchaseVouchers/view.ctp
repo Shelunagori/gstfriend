@@ -120,15 +120,13 @@ p{
 					<th rowspan="2" width="40">Qty</th>
 					<th rowspan="2" width="80">Rate</th>
 					<th rowspan="2" width="80">Amount</th>
-					<th colspan="2">Discount</th>
+					<th rowspan="2">Discount</th>
 					<th rowspan="2" width="80">Taxable Value</th>
 					<th colspan="2">CGST</th>
 					<th colspan="2">SGST</th>
 					<th rowspan="2" style="border-right: none;" width="80">Total</th>
 				</tr>
 				<tr style="background-color: #e4e3e3;">
-					<th width="80">Rate</th>
-					<th width="80">Amount</th>
 					<th width="80">Rate</th>
 					<th width="80">Amount</th>
 					<th width="80">Rate</th>
@@ -150,7 +148,6 @@ p{
 					<td width="40"><?= $this->Number->format($purchaseVoucherRows->quantity) ?></td>
 					<td width="40"><?= $this->Number->format($purchaseVoucherRows->rate_per) ?></td>
 					<td width="40"><?= $this->Number->format($purchaseVoucherRows->amount) ?></td>
-					<td width="43px"><?= $this->Number->format($purchaseVoucherRows->discount_rate) ?></td>
 					<td width="44px"><?= $this->Number->format($purchaseVoucherRows->discount_amount) ?></td>
 					<td width="48px"><?= $this->Number->format($purchaseVoucherRows->taxable_value) ?></td>
 					<td width="35px"><?= h($cgst_per[$purchaseVoucherRows->id]['tax_percentage']) ?></td>
