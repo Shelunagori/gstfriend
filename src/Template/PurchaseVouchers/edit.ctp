@@ -260,7 +260,7 @@ $(document).ready(function() {
 		$(document).on("click",".deleterow",function() {
 			$(this).closest('tr').remove();
 			rename_rows();
-			
+			calculate_total();
 			
 			});
 	// Add Row	End	
@@ -308,7 +308,7 @@ $(document).ready(function() {
 	});
 	
 	function calculation(){ 
-	alert();
+	
 		var total_amount_before_tax=0;
 		var total_cgst=0;
 		var total_sgst=0;
