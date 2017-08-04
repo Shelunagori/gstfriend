@@ -13,8 +13,7 @@ echo $this->Html->tag('li', $this->Html->link('<i class="icon-home"></i> '.__('D
 
 $activeClass = (($active_menu == 'Invoices.Add')?['class' => 'active']:[]);
 echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-plus-square"></i> '.__('Tax Invoice'), ['controller' => 'Invoices', 'action' => 'Add'], ['escape' => false]), $activeClass);
-$activeClass = (($active_menu == 'PurchaseVouchers.Add')?['class' => 'active']:[]);
-echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-plus-square"></i> '.__('Add Purchase Vouchers '), ['controller' => 'PurchaseVouchers', 'action' => 'Add'], ['escape' => false]), $activeClass);
+
 
 $activeClass = (($active_menu == 'PurchaseVouchers.Index')?['class' => 'active']:[]);
 echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-plus-square"></i> '.__('List Purchase Vouchers'), ['controller' => 'PurchaseVouchers', 'action' => 'Index'], ['escape' => false]), $activeClass);

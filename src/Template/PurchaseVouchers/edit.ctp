@@ -141,7 +141,7 @@ p{
 						}
 					?>
 					<!--Get Gst Value with Percent end--->
-					<?php   $i=1; $total_before_tax=0; $total_cgst_amt=0; $total_sgst_amt=0; 
+					<?php   $i=1; $k=1; $total_before_tax=0; $total_cgst_amt=0; $total_sgst_amt=0; 
 							foreach ($purchaseVoucher->purchase_voucher_rows as $purchaseVoucherRow){
 								$total_before_tax=$total_before_tax+$purchaseVoucherRow->taxable_value;
 								$total_cgst_amt=$total_cgst_amt+$purchaseVoucherRow->cgst_amount;
@@ -447,7 +447,7 @@ foreach($SgstTax as $SgstTaxe){
 <table id="sample_table" style="display:none">
 	<tbody id="sample_tbody">
 		<tr class="main_tr1">
-			<td align="center" width="1px"></td>
+			<td align="center" width="1px"><?= h($k=$i+$k) ?></td>
 			<td width="20%">
 				<?php echo $this->Form->control('item_id', ['options' =>$items, 'empty' => false,'label' => false,'class' => 'form-control input-sm']); ?>
 			</td>
