@@ -67,7 +67,7 @@ p{
 							
 							<tr>
 								<td width="40%"><b>Reference No.</b></td>
-								<td width="40%"><?php echo $this->Form->control('reference_no', ['type'=>'text','label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Reference No.','required']); ?></td>
+								<td width="40%" class="form-group"><?php echo $this->Form->control('reference_no', ['type'=>'text','label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Reference No.']); ?></td>
 							</tr>
 							<tr>
 								<td><br/></td>
@@ -75,7 +75,7 @@ p{
 							</tr>
 							<tr>
 								<td width="40%"><b>Transaction Date</b></td>
-								<td><?php echo $this->Form->input('transaction_date', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker' , 'data-date-format'=>'dd-mm-yyyy','required','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y",strtotime('today'))]); ?></td>
+								<td class="form-group"><?php echo $this->Form->input('transaction_date', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker' , 'data-date-format'=>'dd-mm-yyyy','required','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y",strtotime('today'))]); ?></td>
 							</tr>
 						</table>
 					</td>
@@ -84,7 +84,7 @@ p{
 							
 							<tr>
 								<td width="30%"><b>Supplier Name</b></td>
-								<td width="50%"><?php echo $this->Form->control('supplier_ledger_id',['options'=>$SupplierLedger,'label' => false,'class' => 'form-control input-sm select2me','required']);?></td>
+								<td width="50%" class="form-group"><?php echo $this->Form->control('supplier_ledger_id',['options'=>$SupplierLedger,'label' => false,'class' => 'form-control input-sm select2me','required']);?></td>
 								
 							</tr>
 							<tr>
@@ -93,7 +93,7 @@ p{
 							</tr>
 							<tr>
 								<td width="30%"><b>Purchase Ledger </b></td>
-								<td><?php echo $this->Form->control('purchase_ledger_id',['options'=>$PurchaseLedger,'label' => false,'class' => 'form-control input-sm select2me','required']); ?> </td>
+								<td class="form-group"><?php echo $this->Form->control('purchase_ledger_id',['options'=>$PurchaseLedger,'label' => false,'class' => 'form-control input-sm select2me','required']); ?> </td>
 							</tr>
 							
 						</table>
@@ -147,37 +147,37 @@ p{
 					?>
 							<tr id="main_tr">
 								<td width="15px"style="border-left: none;"><?= h($i++) ?></td>
-								<td width="30%">
+								<td width="30%" class="form-group">
 									<?php echo $this->Form->control('item_id', ['options' =>$items, 'empty' => false,'label' => false,'class' => 'form-control input-sm ','required','value'=>$purchaseVoucherRow->item_id]); ?>
 								</td>	
-								<td width="40">
+								<td width="40" class="form-group">
 									<?php echo $this->Form->control('quantity', ['type'=>'text','label' => false,'class' => 'form-control input-sm','required','value'=>$purchaseVoucherRow->quantity]); ?>
 								</td>
-								<td width="40">
+								<td width="40" class="form-group">
 									<?php echo $this->Form->control('rate_per', ['type'=>'text','label' => false,'class' => 'form-control input-sm','required','value'=>$purchaseVoucherRow->rate_per]); ?>
 								</td>
-								<td width="40">
+								<td width="40" class="form-group">
 									<?php echo $this->Form->control('amount', ['type'=>'text','label' => false,'class' => 'form-control input-sm','required','value'=>$purchaseVoucherRow->amount]); ?>
 								</td>
-								<td width="44px">
+								<td width="44px" class="form-group">
 									<?php echo $this->Form->control('discount_amount', ['type'=>'text','label' => false,'class' => 'form-control input-sm','required','value'=>$purchaseVoucherRow->discount_amount]); ?>
 								</td>
-								<td width="48px">
+								<td width="48px" class="form-group">
 									<?php echo $this->Form->control('taxable_value', ['type'=>'text','label' => false,'class' => 'form-control input-sm','required','value'=>$purchaseVoucherRow->taxable_value]); ?>
 								</td>
-								<td width="35px">
+								<td width="35px" class="form-group">
 									<?php echo $this->Form->control('cgst_ledger_id', ['options' =>$Cgst,'label' => false,'class' => 'form-control input-sm gst_call','required','value'=>$purchaseVoucherRow->cgst_ledger_id]); ?>
 								</td>
-								<td width="43px">
+								<td width="43px" class="form-group">
 									<?php echo $this->Form->control('cgst_amount', ['type'=>'text','label' => false,'class' => 'form-control input-sm','required','value'=>$purchaseVoucherRow->cgst_amount]); ?>
 								</td>
-								<td width="43px">
+								<td width="43px" class="form-group">
 									<?php echo $this->Form->control('sgst_ledger_id', ['options' =>$Sgst,'label' => false,'class' => 'form-control input-sm gst_call','required','value'=>$purchaseVoucherRow->sgst_ledger_id]); ?>
 								</td>
-								<td width="43px">
+								<td width="43px" class="form-group">
 									<?php echo $this->Form->control('sgst_amount', ['type'=>'text','label' => false,'class' => 'form-control input-sm','required','value'=>$purchaseVoucherRow->sgst_amount]); ?>
 								</td>
-								<td width="34px">
+								<td width="34px" class="form-group">
 									<?php echo $this->Form->control('total', ['type'=>'text','label' => false,'class' => 'form-control input-sm','required','value'=>$purchaseVoucherRow->total]); ?>
 								</td>
 								<td>
@@ -196,7 +196,7 @@ p{
 			<table width="100%" class="tbl">
 				<tbody>
 					<tr>
-						<td style="border-top: none;" width="200" colspan="7" rowspan="4">
+						<td style="border-top: none;" width="200" colspan="7" rowspan="4" class="form-group">
 							<label class="control-label" >Narration</label>
 							<?php echo $this->Form->control('narration',['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Narration','required']); ?> 
 						</td>
@@ -331,6 +331,8 @@ $(document).ready(function() {
 		}
 
 	});
+	
+	
 	//--	 END OF VALIDATION
 	
 	
@@ -540,38 +542,38 @@ foreach($SgstTax as $SgstTaxe){
 	<tbody id="sample_tbody">
 		<tr class="main_tr1">
 			<td align="center" width="1px"><?= h($i) ?></td>
-			<td width="20%">
+			<td width="20%" class="form-group">
 				<?php echo $this->Form->control('item_id', ['options' =>$items, 'empty' => false,'label' => false,'class' => 'form-control input-sm']); ?>
 			</td>
 			
-			<td>
+			<td class="form-group">
 				<?php echo $this->Form->control('quantity',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Qty']); ?> 
 			</td>
-			<td>
+			<td class="form-group">
 				<?php echo $this->Form->control('rate_per',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Rate']); ?> 
 			</td>
-			<td>
+			<td class="form-group">
 				<?php echo $this->Form->control('amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?> 
 			</td>
-			<td>
+			<td class="form-group">
 				<?php echo $this->Form->control('discount_amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?> 
 			</td>
-			<td>
+			<td class="form-group">
 				<?php echo $this->Form->control('taxable_value',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?> 
 			</td>
-			<td>
+			<td class="form-group">
 				<?php echo $this->Form->control('cgst_ledger_id', ['options' =>$Cgst,'label' => false,'class' => 'form-control input-sm gst_call','placeholder'=>'CGST']); ?> 
 			</td>
-			<td>
+			<td class="form-group">
 				<?php echo $this->Form->control('cgst_amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?> 
 			</td>
-			<td>
+			<td class="form-group">
 				<?php echo $this->Form->control('sgst_ledger_id',['options' =>$Sgst,'label' => false,'class' => 'form-control input-sm gst_call','placeholder'=>'SGST']); ?> 
 			</td>
-			<td>
+			<td class="form-group">
 				<?php echo $this->Form->control('sgst_amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?>
 			</td>
-			<td>
+			<td class="form-group">
 				<?php echo $this->Form->control('total',['label' => false,'name'=>'total','class' => 'form-control input-sm ','placeholder'=>'Total']); ?>
 			</td>
 			<td>
