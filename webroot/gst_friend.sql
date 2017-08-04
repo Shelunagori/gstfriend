@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 02, 2017 at 03:06 PM
+-- Generation Time: Aug 04, 2017 at 03:05 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -246,10 +246,10 @@ INSERT INTO `ledgers` (`id`, `name`, `accounting_group_id`, `freeze`, `company_i
 (8, '14% CGST', 29, 0, 1, 0, 0, '14.00', 'CGST'),
 (9, '0% SGST', 29, 0, 1, 0, 0, '0.00', 'SGST'),
 (10, '2.5% SGST', 29, 0, 1, 0, 0, '2.50', 'SGST'),
-(11, '2.5% SGST', 29, 0, 1, 0, 0, '2.50', 'SGST'),
 (12, '6% SGST', 29, 0, 1, 0, 0, '6.00', 'SGST'),
 (13, '9% SGST', 29, 0, 1, 0, 0, '9.00', 'SGST'),
-(14, '14% SGST', 29, 0, 1, 0, 0, '14.00', 'SGST');
+(14, '14% SGST', 29, 0, 1, 0, 0, '14.00', 'SGST'),
+(15, 'spx floew', 25, 0, 1, 5, 0, '0.00', NULL);
 
 -- --------------------------------------------------------
 
@@ -294,21 +294,9 @@ CREATE TABLE `purchase_vouchers` (
 --
 
 INSERT INTO `purchase_vouchers` (`id`, `voucher_no`, `reference_no`, `supplier_ledger_id`, `purchase_ledger_id`, `transaction_date`, `narration`, `company_id`) VALUES
-(1, 0, '', 2, 3, '2017-08-23', 'erewr', 1),
-(2, 1, '', 2, 3, '2017-08-23', 'erewr', 1),
-(3, 2, 'raj123', 2, 3, '1970-01-01', 'fhjvhj', 1),
-(4, 3, 'raj12345', 2, 3, '2017-08-03', 'fhjvhj', 1),
-(5, 4, '4646', 2, 3, '2017-08-03', 'testing voucher', 1),
-(6, 5, '46416', 2, 3, '2017-08-02', 'fjk', 1),
-(7, 6, '6941', 2, 3, '2017-08-02', 'vhjv', 1),
-(8, 7, '4864', 2, 3, '2017-08-02', 'fcghjvbjk', 1),
-(9, 8, '2363278', 2, 3, '2017-08-02', 'dgh', 1),
-(10, 9, '4847', 2, 3, '2017-08-02', 'guik', 1),
-(11, 10, '8465', 2, 3, '2017-08-02', 'bjk', 1),
-(12, 11, '1564856', 2, 3, '2017-08-02', 'yguj', 1),
-(13, 12, '64986', 2, 3, '2017-08-02', 'bjk', 1),
-(14, 13, '778', 2, 3, '2017-08-02', 'ghjmn', 1),
-(15, 14, '89456', 2, 3, '2017-08-02', 'gukjm', 1);
+(17, 16, '655', 2, 3, '2017-08-04', 'fchgvj', 1),
+(18, 17, '156543', 2, 3, '2017-08-04', 'bhnkj123556', 1),
+(22, 18, '466', 2, 3, '2017-08-04', '79guijoil', 1);
 
 -- --------------------------------------------------------
 
@@ -322,7 +310,6 @@ CREATE TABLE `purchase_voucher_rows` (
   `item_id` int(10) NOT NULL,
   `quantity` decimal(10,2) NOT NULL,
   `rate_per` decimal(15,2) NOT NULL,
-  `discount_rate` int(15) NOT NULL,
   `discount_amount` decimal(10,2) NOT NULL,
   `amount` decimal(15,2) NOT NULL,
   `taxable_value` int(150) NOT NULL,
@@ -337,24 +324,13 @@ CREATE TABLE `purchase_voucher_rows` (
 -- Dumping data for table `purchase_voucher_rows`
 --
 
-INSERT INTO `purchase_voucher_rows` (`id`, `purchase_voucher_id`, `item_id`, `quantity`, `rate_per`, `discount_rate`, `discount_amount`, `amount`, `taxable_value`, `cgst_ledger_id`, `cgst_amount`, `sgst_ledger_id`, `sgst_amount`, `total`) VALUES
-(1, 1, 1, '3.00', '4.00', 0, '0.00', '12.00', 0, 0, '0.00', 0, '0.00', '0.00'),
-(2, 2, 1, '3.00', '4.00', 0, '0.00', '12.00', 0, 0, '0.00', 0, '0.00', '0.00'),
-(3, 3, 3, '1.00', '20.00', 0, '0.00', '20.00', 0, 0, '0.00', 0, '0.00', '0.00'),
-(4, 3, 1, '2.00', '30.00', 0, '0.00', '60.00', 0, 0, '0.00', 0, '0.00', '0.00'),
-(5, 4, 1, '10.00', '20.00', 0, '0.00', '200.00', 0, 0, '0.00', 0, '0.00', '0.00'),
-(6, 5, 3, '10.00', '10.00', 0, '2.00', '100.00', 0, 0, '0.00', 0, '0.00', '0.00'),
-(7, 5, 2, '20.00', '30.00', 0, '60.00', '600.00', 0, 0, '0.00', 0, '0.00', '0.00'),
-(8, 6, 3, '25.00', '10.00', 0, '50.00', '250.00', 0, 0, '0.00', 0, '0.00', '0.00'),
-(9, 7, 1, '10.00', '20.00', 0, '20.00', '200.00', 180, 4, '0.00', 9, '0.00', '180.00'),
-(10, 8, 1, '10.00', '20.00', 10, '20.00', '200.00', 180, 7, '16.20', 13, '16.20', '212.00'),
-(11, 9, 3, '20.00', '7.00', 2, '2.80', '140.00', 137, 0, '3.43', 0, '3.43', '144.06'),
-(12, 10, 2, '10.00', '10.00', 10, '10.00', '100.00', 90, 0, '8.10', 0, '8.10', '106.20'),
-(13, 11, 3, '15.00', '2.00', 1, '0.30', '30.00', 29, 0, '1.78', 0, '1.78', '33.26'),
-(14, 12, 2, '25.00', '5.00', 2, '2.50', '125.00', 122, 0, '7.35', 0, '7.35', '137.20'),
-(15, 13, 3, '30.00', '3.00', 10, '9.00', '90.00', 81, 0, '4.86', 0, '4.86', '90.72'),
-(16, 14, 2, '10.00', '10.00', 1, '1.00', '100.00', 99, 0, '5.94', 0, '5.94', '110.88'),
-(17, 15, 3, '10.00', '10.00', 2, '2.00', '100.00', 98, 6, '5.88', 12, '5.88', '109.76');
+INSERT INTO `purchase_voucher_rows` (`id`, `purchase_voucher_id`, `item_id`, `quantity`, `rate_per`, `discount_amount`, `amount`, `taxable_value`, `cgst_ledger_id`, `cgst_amount`, `sgst_ledger_id`, `sgst_amount`, `total`) VALUES
+(30, 18, 1, '5.00', '10.00', '15.00', '50.00', 35, 6, '2.10', 10, '0.88', '37.98'),
+(31, 18, 3, '20.00', '20.00', '90.00', '400.00', 310, 8, '43.40', 10, '7.75', '361.15'),
+(33, 17, 1, '12.00', '20.00', '48.00', '240.00', 192, 5, '4.80', 10, '4.80', '201.60'),
+(34, 17, 2, '25.00', '10.00', '50.00', '250.00', 200, 6, '12.00', 12, '12.00', '224.00'),
+(35, 17, 3, '30.00', '10.00', '30.00', '300.00', 270, 7, '24.30', 13, '24.30', '318.60'),
+(37, 22, 1, '20.00', '20.00', '10.00', '400.00', 390, 5, '9.75', 13, '35.10', '434.85');
 
 -- --------------------------------------------------------
 
@@ -381,7 +357,8 @@ INSERT INTO `suppliers` (`id`, `name`, `mobile`, `email`, `address`, `state`, `f
 (1, 'anil', '', '', '', '', 0, 1),
 (2, 'cvbcvb', '', '', '', '', 0, 1),
 (3, 'anill', '9462952929', 'anilgurjer371@gmail.com', 'balicha', 'rajasthan', 1, 1),
-(4, 'Manoj Tanwar', '', '', '', '', 0, 1);
+(4, 'Manoj Tanwar', '', '', '', '', 0, 1),
+(5, 'spx floew', '', '', '', '', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -530,7 +507,7 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT for table `ledgers`
 --
 ALTER TABLE `ledgers`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `nature_of_groups`
 --
@@ -540,17 +517,17 @@ ALTER TABLE `nature_of_groups`
 -- AUTO_INCREMENT for table `purchase_vouchers`
 --
 ALTER TABLE `purchase_vouchers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `purchase_voucher_rows`
 --
 ALTER TABLE `purchase_voucher_rows`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT for table `suppliers`
 --
 ALTER TABLE `suppliers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `users`
 --
