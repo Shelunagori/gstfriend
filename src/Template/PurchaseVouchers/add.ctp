@@ -325,7 +325,18 @@ $(document).ready(function() {
 	};
 
 	//Add Row Script End
-	
+	$('.itemchange').die().live("change",function() { 
+		var item_id = $('.itemchange option:selected').val(); 
+		var url="<?php echo $this->Url->build(['controller'=>'PurchaseVouchers','action'=>'getPurchaseVouchers']) ?>";
+
+		url=url+'/'+item_id,
+		alert(url);
+		$.ajax({
+			url:url,
+		}).done(function(response){
+			alert(response);
+		});
+	});
 	
 	//Calculation In Row  Start
 	$('#main_table input').die().live("keyup","blur",function() { 
@@ -476,14 +487,14 @@ foreach($SgstTax as $SgstTaxe){
 		<tr class="main_tr">
 			<td align="center" width="1px"></td>
 			<td width="20%" class="form-group">
-				<?php echo $this->Form->control('item_id', ['options' =>$items, 'empty' => false,'label' => false,'class' => 'form-control input-sm']); ?>
+				<?php echo $this->Form->control('item_id', ['options' =>$items, 'empty' => false,'label' => false,'class' => 'form-control input-sm itemchange']); ?>
 			</td>
 			
 			<td class="form-group">
 				<?php echo $this->Form->control('quantity',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Qty']); ?> 
 			</td>
 			<td class="form-group">
-				<?php echo $this->Form->control('rate_per',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Rate']); ?> 
+				<?php echo $this->Form->control('rate_per',['label' => false,'class' => 'form-control input-sm rate_per','placeholder'=>'Rate']); ?> 
 			</td>
 			<td class="form-group">
 				<?php echo $this->Form->control('amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?> 

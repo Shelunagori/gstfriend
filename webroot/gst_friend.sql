@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 04, 2017 at 03:05 PM
+-- Generation Time: Aug 05, 2017 at 03:15 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -199,7 +199,6 @@ INSERT INTO `invoice_rows` (`id`, `invoice_id`, `item_id`, `quantity`, `rate`, `
 CREATE TABLE `items` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `tax_id` int(11) NOT NULL,
   `hsn_code` varchar(20) NOT NULL,
   `freezed` tinyint(1) NOT NULL COMMENT '0==not freezed 1==freezed',
   `company_id` int(11) NOT NULL
@@ -209,10 +208,32 @@ CREATE TABLE `items` (
 -- Dumping data for table `items`
 --
 
-INSERT INTO `items` (`id`, `name`, `tax_id`, `hsn_code`, `freezed`, `company_id`) VALUES
-(1, 'item 1', 0, '123', 0, 1),
-(2, 'item 2', 0, '123', 0, 1),
-(3, 'item 3', 0, '', 0, 1);
+INSERT INTO `items` (`id`, `name`, `hsn_code`, `freezed`, `company_id`) VALUES
+(1, 'item 1', '123', 0, 1),
+(2, 'item 2', '123', 0, 1),
+(3, 'item 3', '', 0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `item_masters`
+--
+
+CREATE TABLE `item_masters` (
+  `id` int(15) NOT NULL,
+  `item_id` int(10) NOT NULL,
+  `price` decimal(15,2) NOT NULL,
+  `cgst_ledger_id` int(10) NOT NULL,
+  `sgst_ledger_id` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `item_masters`
+--
+
+INSERT INTO `item_masters` (`id`, `item_id`, `price`, `cgst_ledger_id`, `sgst_ledger_id`) VALUES
+(1, 2, '100.00', 7, 13),
+(2, 1, '1000.00', 7, 13);
 
 -- --------------------------------------------------------
 
@@ -294,9 +315,10 @@ CREATE TABLE `purchase_vouchers` (
 --
 
 INSERT INTO `purchase_vouchers` (`id`, `voucher_no`, `reference_no`, `supplier_ledger_id`, `purchase_ledger_id`, `transaction_date`, `narration`, `company_id`) VALUES
-(17, 16, '655', 2, 3, '2017-08-04', 'fchgvj', 1),
+(17, 16, '655', 2, 3, '2017-08-05', 'fchgvj', 1),
 (18, 17, '156543', 2, 3, '2017-08-04', 'bhnkj123556', 1),
-(22, 18, '466', 2, 3, '2017-08-04', '79guijoil', 1);
+(22, 18, '466', 2, 3, '2017-08-05', '79guijoil', 1),
+(23, 19, '', 2, 3, '2017-08-05', '', 1);
 
 -- --------------------------------------------------------
 
@@ -327,10 +349,10 @@ CREATE TABLE `purchase_voucher_rows` (
 INSERT INTO `purchase_voucher_rows` (`id`, `purchase_voucher_id`, `item_id`, `quantity`, `rate_per`, `discount_amount`, `amount`, `taxable_value`, `cgst_ledger_id`, `cgst_amount`, `sgst_ledger_id`, `sgst_amount`, `total`) VALUES
 (30, 18, 1, '5.00', '10.00', '15.00', '50.00', 35, 6, '2.10', 10, '0.88', '37.98'),
 (31, 18, 3, '20.00', '20.00', '90.00', '400.00', 310, 8, '43.40', 10, '7.75', '361.15'),
-(33, 17, 1, '12.00', '20.00', '48.00', '240.00', 192, 5, '4.80', 10, '4.80', '201.60'),
-(34, 17, 2, '25.00', '10.00', '50.00', '250.00', 200, 6, '12.00', 12, '12.00', '224.00'),
-(35, 17, 3, '30.00', '10.00', '30.00', '300.00', 270, 7, '24.30', 13, '24.30', '318.60'),
-(37, 22, 1, '20.00', '20.00', '10.00', '400.00', 390, 5, '9.75', 13, '35.10', '434.85');
+(54, 22, 1, '20.00', '20.00', '10.00', '400.00', 390, 5, '9.75', 13, '35.10', '434.85'),
+(55, 17, 1, '12.00', '20.00', '48.00', '240.00', 192, 5, '4.80', 10, '4.80', '201.60'),
+(56, 17, 2, '25.00', '10.00', '50.00', '250.00', 200, 6, '12.00', 12, '12.00', '224.00'),
+(57, 17, 3, '30.00', '10.00', '30.00', '300.00', 270, 7, '24.30', 13, '24.30', '318.60');
 
 -- --------------------------------------------------------
 
@@ -429,6 +451,12 @@ ALTER TABLE `items`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `item_masters`
+--
+ALTER TABLE `item_masters`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `ledgers`
 --
 ALTER TABLE `ledgers`
@@ -504,6 +532,11 @@ ALTER TABLE `invoice_rows`
 ALTER TABLE `items`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
+-- AUTO_INCREMENT for table `item_masters`
+--
+ALTER TABLE `item_masters`
+  MODIFY `id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
 -- AUTO_INCREMENT for table `ledgers`
 --
 ALTER TABLE `ledgers`
@@ -517,12 +550,12 @@ ALTER TABLE `nature_of_groups`
 -- AUTO_INCREMENT for table `purchase_vouchers`
 --
 ALTER TABLE `purchase_vouchers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT for table `purchase_voucher_rows`
 --
 ALTER TABLE `purchase_voucher_rows`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 --
 -- AUTO_INCREMENT for table `suppliers`
 --

@@ -40,6 +40,10 @@ class ItemsTable extends Table
             'foreignKey' => 'company_id',
             'joinType' => 'INNER'
         ]);
+		
+		  $this->hasMany('ItemMasters', [
+            'foreignKey' => 'item_id'
+        ]);
     }
 
     /**

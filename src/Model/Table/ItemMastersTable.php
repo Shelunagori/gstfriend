@@ -59,6 +59,11 @@ class ItemMastersTable extends Table
             'foreignKey' => 'ledger_id',
             'joinType' => 'INNER'
         ]);
+		
+		$this->belongsTo('PurchaseVouchers', [
+            'foreignKey' => 'purchase_voucher_id',
+            'joinType' => 'INNER'
+        ]);
     }
 
     /**

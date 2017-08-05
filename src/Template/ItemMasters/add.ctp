@@ -13,26 +13,27 @@ $this->set('title', 'Add');
 				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label class="control-label">Item Name <span class="required" aria-required="true">*</span></label>
-							<?php echo $this->Form->control('item_id', ['options' => $items,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Item Name']); ?>
+							<label class="control-label"><b>Item Name </b></label>
+							<?php echo $this->Form->control('item_id', ['options' => $items,'label' => false,'class' => 'form-control input-sm select2me','value'=>'item']); ?>
 						</div>
 						<div class="form-group">
-							<label class="control-label">Item Price</label>
+							<label class="control-label"><b>Item Price </b></label>
 							<?php echo $this->Form->control('price',['label' => false,'type'=>'text','class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Price']); ?> 
 						</div>
 						<div class="form-group">
-							<label class="control-label">Cgst </label>
+							<label class="control-label"><b>CGST </b></label>
 							<?php echo $this->Form->control('cgst_ledger_id', ['options' => $cgstLedgers,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Item Name']); ?>
 						</div>
 						<div class="form-group">
-							<label class="control-label">Sgst </label>
+							<label class="control-label"><b>SGST </b></label>
 							<?php echo $this->Form->control('sgst_ledger_id', ['options' => $sgstLedgers,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Item Name']); ?>
 						</div>
+						
 					</div>
 				</div> 
 			</div>
 		</fieldset>
-		<div>
+		<div style="text-align:center">
 			<button type="submit" class="btn btn-primary">Submit
 		</div>
 		<?= $this->Form->end() ?>
