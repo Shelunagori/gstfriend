@@ -40,7 +40,7 @@ class PurchaseVouchersTable extends Table
         $this->setTable('purchase_vouchers');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
-		/*Data Fetch To Third Table Use Bindin Key Start*/
+		/*Data Fetch To Third Table Use Binding Key Start*/
 		$this->belongsTo('SupplierLedger', [
 			'className' => 'Ledgers',
 			'foreignKey' => 'supplier_ledger_id',

@@ -81,7 +81,6 @@ p{
 					</td>
 					<td style="padding:5px;" valign="top">
 						<table width="100%">
-							
 							<tr>
 								<td width="30%"><b>Supplier Name</b></td>
 								<td width="50%" class="form-group"><?php echo $this->Form->control('supplier_ledger_id',['options'=>$SupplierLedger,'label' => false,'class' => 'form-control input-sm select2me','required']);?></td>
@@ -612,10 +611,12 @@ foreach($SgstTax as $SgstTaxe){
 <?php echo $this->Html->script('/assets/global/plugins/select2/select2.min.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsDropdowns']); ?>
 <?php echo $this->Html->script('/assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsDropdowns']); ?>
 <!-- END PAGE LEVEL PLUGINS -->
+<?php echo $this->Html->script('/assets/global/plugins/jquery-validation/js/jquery.validate.min.js'); ?>
+<?php echo $this->Html->script('/assets/admin/pages/scripts/form-validation.js'); ?>
 
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <?php echo $this->Html->script('/assets/admin/pages/scripts/components-pickers.js', ['block' => 'PAGE_LEVEL_SCRIPTS_ComponentsPickers']); ?>
-
+<!-- END PAGE FORM VALIDATION  -->
 <?php //echo $this->Html->script('/assets/global/scripts/metronic.js', ['block' => 'PAGE_LEVEL_SCRIPTS_ComponentsDropdowns']); ?>
 <?php //echo $this->Html->script('/assets/admin/layout/scripts/layout.js', ['block' => 'PAGE_LEVEL_SCRIPTS_ComponentsDropdowns']); ?>
 <?php //echo $this->Html->script('/assets/admin/layout/scripts/quick-sidebar.js', ['block' => 'PAGE_LEVEL_SCRIPTS_ComponentsDropdowns']); ?>
@@ -628,6 +629,7 @@ $js='
 jQuery(document).ready(function() {
 		ComponentsPickers.init();
 		ComponentsDropdowns.init();
+		FormValidation.init();
 });'; 
 ?>
 <?php echo $this->Html->scriptBlock($js, ['block'=>'bottomJS']); ?>

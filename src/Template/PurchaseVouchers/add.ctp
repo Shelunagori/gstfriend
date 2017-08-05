@@ -545,7 +545,8 @@ foreach($SgstTax as $SgstTaxe){
 <?php echo $this->Html->script('/assets/global/plugins/select2/select2.min.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsDropdowns']); ?>
 <?php echo $this->Html->script('/assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsDropdowns']); ?>
 <!-- END PAGE LEVEL PLUGINS -->
-
+<?php echo $this->Html->script('/assets/global/plugins/jquery-validation/js/jquery.validate.min.js'); ?>
+<?php echo $this->Html->script('/assets/admin/pages/scripts/form-validation.js'); ?>
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <?php echo $this->Html->script('/assets/admin/pages/scripts/components-pickers.js', ['block' => 'PAGE_LEVEL_SCRIPTS_ComponentsPickers']); ?>
 
@@ -561,6 +562,7 @@ $js='
 jQuery(document).ready(function() {
 		ComponentsPickers.init();
 		ComponentsDropdowns.init();
+		FormValidation.init();
 });'; 
 ?>
 <?php echo $this->Html->scriptBlock($js, ['block'=>'bottomJS']); ?>

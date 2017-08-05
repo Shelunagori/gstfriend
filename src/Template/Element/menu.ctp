@@ -11,6 +11,12 @@ if(!isset($active_menu))
 $activeClass = (($active_menu == 'Users.Dashboard')?['class' => 'active']:[]);
 echo $this->Html->tag('li', $this->Html->link('<i class="icon-home"></i> '.__('Dashboard'), ['controller' => 'Users', 'action' => 'Dashboard'], ['escape' => false]), $activeClass);
 
+$activeClass = (($active_menu == 'ItemMasters.Add')?['class' => 'active']:[]);
+echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-plus-square"></i> '.__('Item Master'), ['controller' => 'ItemMasters', 'action' => 'Add'], ['escape' => false]), $activeClass);
+
+$activeClass = (($active_menu == 'ItemMasters.Index')?['class' => 'active']:[]);
+echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-plus-square"></i> '.__('Item Register'), ['controller' => 'ItemMasters', 'action' => 'Index'], ['escape' => false]), $activeClass);
+
 $activeClass = (($active_menu == 'Invoices.Add')?['class' => 'active']:[]);
 echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-plus-square"></i> '.__('Tax Invoice'), ['controller' => 'Invoices', 'action' => 'Add'], ['escape' => false]), $activeClass);
 

@@ -152,8 +152,7 @@ License: You must have a valid license purchased only from themeforest(the above
 		<?php echo $this->Html->script('/assets/admin/layout/scripts/layout.js'); ?>
 		<?php echo $this->Html->script('/assets/admin/layout/scripts/quick-sidebar.js'); ?>
 		<?php echo $this->Html->script('/assets/admin/layout/scripts/demo.js'); ?>
-		<?php echo $this->Html->script('/assets/global/plugins/jquery-validation/js/jquery.validate.min.js'); ?>
-		<?php echo $this->Html->script('/assets/admin/pages/scripts/form-validation.js'); ?>
+		
 		<!-- BEGIN PAGE LEVEL SCRIPTS -->
 		<?= $this->fetch('PAGE_LEVEL_SCRIPTS_ComponentsDropdowns') ?>
 		<?= $this->fetch('PAGE_LEVEL_SCRIPTS_ComponentsPickers') ?>
@@ -164,7 +163,7 @@ License: You must have a valid license purchased only from themeforest(the above
 			Metronic.init();
 			Layout.init();
 			Demo.init();
-			FormValidation.init();
+			
 		});
 		</script>
 		<?= $this->fetch('bottomJS') ?>
