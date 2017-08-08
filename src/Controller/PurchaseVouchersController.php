@@ -113,13 +113,6 @@ class PurchaseVouchersController extends AppController
 		$this->set('active_menu', 'PurchaseVouchers.Add');
     }
 	
-	public function getPurchaseVouchers($item_id=null){
-	//exit;
-    $data = $this->PurchaseVouchers->ItemMasters->find()->where(['item_id'=>$item_id])->first();
-	$string =$data->price.'/'.$data->cgst_ledger_id.'/'.$data->sgst_ledger_id;
-    echo $string;
-	exit;
-	}
 
     /**
      * Edit method

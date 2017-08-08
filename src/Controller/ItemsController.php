@@ -22,7 +22,7 @@ class ItemsController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
         $this->paginate = [
-            'contain' => ['Companies']
+            'contain' => ['Companies','CgstLedgers','SgstLedgers']
         ];
         $items = $this->paginate($this->Items);
         $this->set(compact('items'));
@@ -41,7 +41,7 @@ class ItemsController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
         $item = $this->Items->get($id, [
-            'contain' => ['Companies']
+            'contain' => ['Companies','CgstLedgers','SgstLedgers']
         ]);
 
         $this->set('item', $item);
@@ -68,8 +68,9 @@ class ItemsController extends AppController
             }
             $this->Flash->error(__('The item could not be saved. Please, try again.'));
         }
-        $companies = $this->Items->Companies->find('list');
-        $this->set(compact('item', 'companies'));
+		 $cgstLedgers = $this->Items->CgstLedgers->find('list')->where(['accounting_group_id'=>29,'gst_type'=>'CGST']);
+        $sgstLedgers = $this->Items->SgstLedgers->find('list')->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);
+        $this->set(compact('item','companies','cgstLedgers','sgstLedgers'));
         $this->set('_serialize', ['item']);
 		$this->set('active_menu', 'Items.Add');
     }
@@ -96,8 +97,9 @@ class ItemsController extends AppController
             }
             $this->Flash->error(__('The item could not be saved. Please, try again.'));
         }
-        $companies = $this->Items->Companies->find('list', ['limit' => 200]);
-        $this->set(compact('item', 'companies'));
+		$cgstLedgers = $this->Items->CgstLedgers->find('list')->where(['accounting_group_id'=>29,'gst_type'=>'CGST']);
+        $sgstLedgers = $this->Items->SgstLedgers->find('list')->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);
+        $this->set(compact('item', 'companies','cgstLedgers','sgstLedgers'));
         $this->set('_serialize', ['item']);
     }
 

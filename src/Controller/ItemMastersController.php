@@ -22,7 +22,7 @@ class ItemMastersController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
         $this->paginate = [
-            'contain' => ['Items', 'CgstLedgers', 'SgstLedgers']
+            'contain' => ['Items','CgstLedgers','SgstLedgers']
         ];
         $itemMasters = $this->paginate($this->ItemMasters);
 
@@ -42,7 +42,7 @@ class ItemMastersController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
         $itemMaster = $this->ItemMasters->get($id, [
-            'contain' => ['Items', 'CgstLedgers', 'SgstLedgers']
+            'contain' => ['Items','CgstLedgers','SgstLedgers']
         ]);
 
         $this->set('itemMaster', $itemMaster);
@@ -102,7 +102,7 @@ class ItemMastersController extends AppController
         $items = $this->ItemMasters->Items->find('list');
         $cgstLedgers = $this->ItemMasters->CgstLedgers->find('list')->where(['accounting_group_id'=>29,'gst_type'=>'CGST']);
         $sgstLedgers = $this->ItemMasters->SgstLedgers->find('list')->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);
-        $this->set(compact('itemMaster', 'items', 'cgstLedgers', 'sgstLedgers'));
+        $this->set(compact('itemMaster', 'items','cgstLedgers','sgstLedgers'));
         $this->set('_serialize', ['itemMaster']);
     }
 

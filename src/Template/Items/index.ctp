@@ -11,6 +11,9 @@ $this->set('title', 'List');
 						<th scope="col" style="text-align:center">Sr. No.</th>
 						<th scope="col" style="text-align:center">NAME</th>
 						<th scope="col" style="text-align:center">HSN CODE</th>
+						<th scope="col" style="text-align:center">PRICE</th>
+						<th scope="col" style="text-align:center">CGST</th>
+						<th scope="col" style="text-align:center">SGST</th>
 						<th scope="col" style="text-align:center">FREEZED</th>
 						<th scope="col" class="actions" style="text-align:center"><?= __('Actions') ?></th>
 					</tr>
@@ -23,6 +26,9 @@ $this->set('title', 'List');
 						<td><?= $this->Number->format($i) ?></td>
 						<td><?= h($item->name) ?></td>
 						<td><?= h($item->hsn_code) ?></td>
+						<td><?= $this->Number->format($item->price) ?></td>
+						<td><?= h($item->cgst_ledger->name) ?></td>
+						<td><?= h($item->sgst_ledger->name) ?></td>
 						<td><?php if(@$item->freezed==0){ echo "Unfreezed";  } else {   echo "Freezed"; } ?></td>
 						<td class="actions">
 							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $item->id]) ?>

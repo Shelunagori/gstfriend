@@ -41,9 +41,31 @@ class ItemsTable extends Table
             'joinType' => 'INNER'
         ]);
 		
-		  $this->hasMany('ItemMasters', [
-            'foreignKey' => 'item_id'
+		$this->belongsTo('CgstLedgers', [
+			'className' => 'Ledgers',
+			'foreignKey' => 'cgst_ledger_id',
+			'propertyName' => 'cgst_ledger',
+		]);
+		
+		$this->belongsTo('SgstLedgers', [
+			'className' => 'Ledgers',
+			'foreignKey' => 'sgst_ledger_id',
+			'propertyName' => 'sgst_ledger',
+		]);
+		
+		$this->belongsTo('Ledgers', [
+            'foreignKey' => 'ledger_id',
+            'joinType' => 'INNER'
         ]);
+		
+		$this->belongsTo('PurchaseVouchers', [
+            'foreignKey' => 'purchase_voucher_id',
+            'joinType' => 'INNER'
+        ]);
+		
+		/*   $this->hasMany('ItemMasters', [
+            'foreignKey' => 'item_id'
+        ]); */
     }
 
     /**
@@ -83,7 +105,8 @@ class ItemsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['company_id'], 'Companies'));
-        
+        $rules->add($rules->existsIn(['cgst_ledger_id'], 'CgstLedgers'));
+        $rules->add($rules->existsIn(['sgst_ledger_id'], 'SgstLedgers'));
 
         return $rules;
     }

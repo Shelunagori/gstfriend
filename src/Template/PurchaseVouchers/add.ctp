@@ -328,28 +328,7 @@ $(document).ready(function() {
 	
 	
 	
-	//Get Change Value On Select Box Start
-	$('.itemchange').die().live("change",function() { 
-		var item_id = $('.itemchange option:selected').val(); 
-		var url="<?php echo $this->Url->build(['controller'=>'PurchaseVouchers','action'=>'getPurchaseVouchers']) ?>";
-		var t=$(this);
-		
 
-		url=url+'/'+item_id,
-		$.ajax({
-			url:url,
-		}).done(function(response){  
-		
-			var data=response.split('/');
-			alert(data[1]);
-			t.closest("tr").find('td:nth-child(4) input').val(data[0]);
-			//t.closest("tr").find('td:nth-child(8) select').val(data[1]);
-			//t.closest("tr").find('td:nth-child(10) select').val(data[2]);
-	 			 		 
-		});
-	});
-	
-	//Get Change Value On Select Box End
 	
 	//Calculation In Row  Start
 	$('#main_table input').die().live("keyup","blur",function() { 
