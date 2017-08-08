@@ -97,21 +97,7 @@ class PurchaseVouchersController extends AppController
         }
 		$items = $this->PurchaseVouchers->Items->find('list');
 		$itemmasters = $this->PurchaseVouchers->ItemMasters->find();
-				    
-	  	$item_fetchs = $this->PurchaseVouchers->Items->find()->contain(['ItemMasters']);
-		$autofill=[];
-        foreach($item_fetchs as $item_fetch){
-			
-            $item_name=$item_fetch->name;
-				foreach($item_fetch->item_masters as $item_master){
-            $price=$item_master->price;
-            $cgst_ledger_id=$item_master->cgst_ledger_id;
-            $sgst_ledger_id=$item_master->sgst_ledger_id;
-
-            $autofill[]= ['value'=>$item_fetch->id,'item_id'=>$item_name,'rate' =>$price,'cgst_ledger_id'=>$cgst_ledger_id,'sgst_ledger_id'=>$sgst_ledger_id];
-			
-				}
-        }
+	
 	  
 	  
 		$SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find('list')->where(['accounting_group_id'=>25]);
@@ -122,23 +108,16 @@ class PurchaseVouchersController extends AppController
 		
 		
 		$SgstTax = $this->PurchaseVouchers->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);
-		$this->set(compact('purchaseVoucher', 'SupplierLedger','PurchaseLedger','items','CgstTax','SgstTax','itemmasters','item_fetchs'));
+		$this->set(compact('purchaseVoucher', 'SupplierLedger','PurchaseLedger','items','CgstTax','SgstTax','itemmasters'));
         $this->set('_serialize', ['purchaseVoucher']);
 		$this->set('active_menu', 'PurchaseVouchers.Add');
     }
 	
 	public function getPurchaseVouchers($item_id=null){
-	
-    $data = $this->PurchaseVouchers->ItemMasters->find()->where(['item_id'=>$item_id]);
-	pr( $data->toarray()); exit;
-    if(count($data)>0){
-        foreach($data as $key => $val) {
-            echo "<option value=$key>$val</option>";
-        }
-		}else{
-			echo "<option></option>"; // if the result is empty , show a select empty
-		}
-		
+	//exit;
+    $data = $this->PurchaseVouchers->ItemMasters->find()->where(['item_id'=>$item_id])->first();
+	pr($data);
+	exit;
 	}
 
     /**

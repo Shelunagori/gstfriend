@@ -325,19 +325,28 @@ $(document).ready(function() {
 	};
 
 	//Add Row Script End
+	
+	
+	
+	//Get Change Value On Select Box Start
 	$('.itemchange').die().live("change",function() { 
 		var item_id = $('.itemchange option:selected').val(); 
 		var url="<?php echo $this->Url->build(['controller'=>'PurchaseVouchers','action'=>'getPurchaseVouchers']) ?>";
 
 		url=url+'/'+item_id,
-	
 		$.ajax({
 			url:url,
-		}).done(function(response){
-			alert(response);
-			 $(".rate_per").append(response.price);
+		}).done(function(response){  
+			var data=response;
+			var i=0;
+			
+			$(data).each(function(i) {
+				alert(data);
+			});		 			 		 
 		});
 	});
+	
+	//Get Change Value On Select Box End
 	
 	//Calculation In Row  Start
 	$('#main_table input').die().live("keyup","blur",function() { 
