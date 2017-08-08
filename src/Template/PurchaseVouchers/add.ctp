@@ -343,8 +343,8 @@ $(document).ready(function() {
 			var data=response.split('/');
 			alert(data[1]);
 			t.closest("tr").find('td:nth-child(4) input').val(data[0]);
-			t.closest("tr").find('td:nth-child(8) select').val(data[1]);
-			t.closest("tr").find('td:nth-child(10) select').val(data[2]);
+			//t.closest("tr").find('td:nth-child(8) select').val(data[1]);
+			//t.closest("tr").find('td:nth-child(10) select').val(data[2]);
 	 			 		 
 		});
 	});
@@ -471,9 +471,6 @@ $(document).ready(function() {
 	}
 	
 	$('input[name="party_name"]').focus();
-
-		
-		
 	// ReverseCalculation In Row End	
 	
 		

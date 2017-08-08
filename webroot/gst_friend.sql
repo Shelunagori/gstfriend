@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 05, 2017 at 03:15 PM
+-- Generation Time: Aug 08, 2017 at 10:55 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -233,7 +233,8 @@ CREATE TABLE `item_masters` (
 
 INSERT INTO `item_masters` (`id`, `item_id`, `price`, `cgst_ledger_id`, `sgst_ledger_id`) VALUES
 (1, 2, '100.00', 7, 13),
-(2, 1, '1000.00', 7, 13);
+(2, 1, '1000.00', 8, 14),
+(3, 3, '2000.00', 6, 12);
 
 -- --------------------------------------------------------
 
@@ -535,7 +536,7 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT for table `item_masters`
 --
 ALTER TABLE `item_masters`
-  MODIFY `id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `ledgers`
 --
