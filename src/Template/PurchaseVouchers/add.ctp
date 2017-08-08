@@ -54,7 +54,7 @@ p{
 </style>
 
 <div style="width:100%;margin:auto;border:solid 1px;font-family: serif;background-color: #FFF;margin-top:2%" class="maindiv">
-	<?= $this->Form->create($purchaseVoucher,['id'=>'purchaseVoucher']) ?>
+	<?= $this->Form->create($purchaseVoucher,['id'=>'form_3']) ?>
 		<div align="center" style="padding: 5px 0px;border-top: solid 1px;border-bottom: solid 1px;background-color : #c4151c !important;font-size:18px;color: #FFF !important;"><b style="color: #FFF !important;">PURCHASE VOUCHER</b></div>
 		<div>
 			<table width="100%">
@@ -175,7 +175,7 @@ p{
 <script>
 
 $(document).ready(function() { 
-	var form3 = $('#purchaseVoucher');
+	var form3 = $('#form_3');
 	var error3 = $('.alert-danger', form3);
 	var success3 = $('.alert-success', form3);
 	form3.validate({
@@ -261,9 +261,9 @@ $(document).ready(function() {
 				.closest('.form-group').removeClass('has-error'); // set success class to the control group
 		},
 
-		submitHandler: function (form) {
+		submitHandler: function (form3) {
 
-			form[0].submit(); // submit the form
+			form3[0].submit(); // submit the form
 		}
 
 	});
@@ -289,7 +289,7 @@ $(document).ready(function() {
 		$(document).on("click",".deleterow",function() {
 			$(this).closest('tr').remove();
 			rename_rows();
-			calculate_total();
+			calculation();
 			});
 		
 		
@@ -332,17 +332,20 @@ $(document).ready(function() {
 	$('.itemchange').die().live("change",function() { 
 		var item_id = $('.itemchange option:selected').val(); 
 		var url="<?php echo $this->Url->build(['controller'=>'PurchaseVouchers','action'=>'getPurchaseVouchers']) ?>";
+		var t=$(this);
+		
 
 		url=url+'/'+item_id,
 		$.ajax({
 			url:url,
 		}).done(function(response){  
-			var data=response;
-			var i=0;
-			
-			$(data).each(function(i) {
-				alert(data);
-			});		 			 		 
+		
+			var data=response.split('/');
+			alert(data[1]);
+			t.closest("tr").find('td:nth-child(4) input').val(data[0]);
+			t.closest("tr").find('td:nth-child(8) select').val(data[1]);
+			t.closest("tr").find('td:nth-child(10) select').val(data[2]);
+	 			 		 
 		});
 	});
 	

@@ -116,7 +116,8 @@ class PurchaseVouchersController extends AppController
 	public function getPurchaseVouchers($item_id=null){
 	//exit;
     $data = $this->PurchaseVouchers->ItemMasters->find()->where(['item_id'=>$item_id])->first();
-	pr($data);
+	$string =$data->price.'/'.$data->cgst_ledger_id.'/'.$data->sgst_ledger_id;
+    echo $string;
 	exit;
 	}
 
