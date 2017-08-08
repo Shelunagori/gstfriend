@@ -330,11 +330,12 @@ $(document).ready(function() {
 		var url="<?php echo $this->Url->build(['controller'=>'PurchaseVouchers','action'=>'getPurchaseVouchers']) ?>";
 
 		url=url+'/'+item_id,
-		alert(url);
+	
 		$.ajax({
 			url:url,
 		}).done(function(response){
 			alert(response);
+			 $(".rate_per").append(response.price);
 		});
 	});
 	

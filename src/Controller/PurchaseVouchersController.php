@@ -130,8 +130,14 @@ class PurchaseVouchersController extends AppController
 	public function getPurchaseVouchers($item_id=null){
 	
     $data = $this->PurchaseVouchers->ItemMasters->find()->where(['item_id'=>$item_id]);
-	pr( $data); exit;
-    
+	pr( $data->toarray()); exit;
+    if(count($data)>0){
+        foreach($data as $key => $val) {
+            echo "<option value=$key>$val</option>";
+        }
+		}else{
+			echo "<option></option>"; // if the result is empty , show a select empty
+		}
 		
 	}
 
