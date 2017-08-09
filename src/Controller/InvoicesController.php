@@ -21,11 +21,9 @@ class InvoicesController extends AppController
     public function index()
     {
 		$this->viewBuilder()->layout('index_layout');
-        $this->paginate = [
-            'contain' => ['CustomerLedgers'=>['Customers'], 'SalesLedgers']
-        ];
-        $invoices = $this->paginate($this->Invoices);
-
+		$invoic = $this->Invoices->find('all',['contain'=>['CustomerLedgers'=>['Customers'], 'SalesLedgers']]);
+	
+        $invoices = $this->paginate($invoic);
         $this->set(compact('invoices'));
         $this->set('_serialize', ['invoices']);
     }
@@ -82,7 +80,7 @@ class InvoicesController extends AppController
 		{
 			$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->price];
 		}
-	
+		
         $this->set(compact('invoice', 'customerLedgers', 'salesLedgers', 'items'));
         $this->set('_serialize', ['invoice']);
     }
