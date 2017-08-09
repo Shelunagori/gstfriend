@@ -76,7 +76,13 @@ class InvoicesController extends AppController
         }
         $customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22]);
         $salesLedgers = $this->Invoices->SalesLedgers->find('list')->where(['accounting_group_id'=>14]);
-        $items = $this->Invoices->InvoiceRows->Items->find('list');
+        $items_datas = $this->Invoices->InvoiceRows->Items->find();
+		
+		foreach($items_datas as $items_data)
+		{
+			$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->price];
+		}
+	
         $this->set(compact('invoice', 'customerLedgers', 'salesLedgers', 'items'));
         $this->set('_serialize', ['invoice']);
     }

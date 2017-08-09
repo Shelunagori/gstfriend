@@ -281,6 +281,14 @@ $(document).ready(function() {
 	}
 	
 	$('input[name="party_name"]').focus();
+	
+	$('.item').die().live("change",function() { 
+		var rate = $(this).find('option:selected').attr('rate');
+		$(this).closest('tr').find('td .rate').val(rate);
+		calculation();
+	});			
+	
+	
 });
 </script>
 <style>
@@ -296,22 +304,22 @@ $(document).ready(function() {
 				<button type="button" class="btn btn-xs red viewThisResult" role="button"><i class="fa fa-times"></i></button>
 			</td>
 			<td>
-				<?php echo $this->Form->control('item_id',['label'=>false,'style'=>'width: 100%;resize: none;','class'=>'form-control input-sm']); ?>
+				<?php echo $this->Form->control('item_id',['empty' => "---Select---",'options'=>$items,'label'=>false,'style'=>'width: 100%;resize: none;','class'=>'form-control input-sm item']); ?>
 			</td>
 			<td>
 				<?php echo $this->Form->control('hsn_code',['label'=>false,'placeholder'=>'HSN code','style'=>'width: 100%;','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:center;">
-				<?php echo $this->Form->control('quantity',['label'=>false,'placeholder'=>'Qty','style'=>'width: 100%;text-align: center;','class'=>'form-control input-sm']); ?>
+				<?php echo $this->Form->control('quantity',['label'=>false,'placeholder'=>'Qty','style'=>'width: 100%;text-align: center;','class'=>'form-control input-sm','value'=>1]); ?>
 			</td>
 			<td style="text-align:right;">
-				<?php echo $this->Form->control('rate',['label'=>false,'placeholder'=>'Rate','style'=>'width: 100%;text-align: right;','class'=>'calculate','class'=>'form-control input-sm']); ?>
+				<?php echo $this->Form->control('rate',['label'=>false,'placeholder'=>'Rate','style'=>'width: 100%;text-align: right;','class'=>'calculate rate form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;">
 				<?php echo $this->Form->control('amount',['label'=>false,'placeholder'=>'Amount','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;">
-				<?php echo $this->Form->control('discount_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
+				<?php echo $this->Form->control('discount_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;">
 				<?php echo $this->Form->control('taxable_value',['label'=>false,'placeholder'=>'Taxable Value','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
