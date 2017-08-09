@@ -89,10 +89,6 @@ class PurchaseVouchersTable extends Table
             'joinType' => 'INNER'
         ]);
 		
-		/* $this->belongsTo('ItemMasters', [
-            'foreignKey' => 'item_id',
-            'joinType' => 'INNER'
-        ]); */
     }
 
     /**

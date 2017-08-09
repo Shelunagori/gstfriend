@@ -96,10 +96,6 @@ class PurchaseVouchersController extends AppController
             $this->Flash->error(__('The purchase voucher could not be saved. Please, try again.'));
         }
 		$items = $this->PurchaseVouchers->Items->find('list');
-		$itemmasters = $this->PurchaseVouchers->ItemMasters->find();
-	
-	  
-	  
 		$SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find('list')->where(['accounting_group_id'=>25]);
         $PurchaseLedger = $this->PurchaseVouchers->PurchaseLedger->find('list')->where(['accounting_group_id'=>13]);
 		
@@ -108,7 +104,7 @@ class PurchaseVouchersController extends AppController
 		
 		
 		$SgstTax = $this->PurchaseVouchers->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);
-		$this->set(compact('purchaseVoucher', 'SupplierLedger','PurchaseLedger','items','CgstTax','SgstTax','itemmasters'));
+		$this->set(compact('purchaseVoucher', 'SupplierLedger','PurchaseLedger','items','CgstTax','SgstTax'));
         $this->set('_serialize', ['purchaseVoucher']);
 		$this->set('active_menu', 'PurchaseVouchers.Add');
     }

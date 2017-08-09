@@ -1,41 +1,33 @@
 <?php
 /**
   * @var \App\View\AppView $this
-  * @var \App\Model\Entity\ItemMaster[]|\Cake\Collection\CollectionInterface $itemMasters
+  * @var \App\Model\Entity\ItemDiscount[]|\Cake\Collection\CollectionInterface $itemDiscounts
   */
 $this->set('title', 'List');
 ?>
 <div class="portlet light bordered " >
 	<div class="portlet-body-form"  >
 		<div class="form-body">
-			<h3><?= __('List Item Masters') ?></h3>
+			<h3><?= __('Item Discounts List') ?></h3>
 			<table id="example1" class="table table-bordered form-group table-striped">
 				<thead>
 					<tr>
 						<th scope="col" style="text-align:center">Sr.No.</th>
+						<th scope="col" style="text-align:center">CUSTOMER NAME</th>
 						<th scope="col" style="text-align:center">ITEM NAME</th>
-						<th scope="col" style="text-align:center">PRICE</th>
-						<th scope="col" style="text-align:center">CGST</th>
-						<th scope="col" style="text-align:center">SGST</th>
+						<th scope="col" style="text-align:center">DISCOUNT</th>
 						<th scope="col" class="actions" style="text-align:center"><?= __('Actions') ?></th>
 					</tr>
 				</thead>
 				<tbody>
-					<?php 	$i=0; 
-							foreach ($itemMasters as $itemMaster): 
-							$i++;
-					?>
-							
+					<?php foreach ($itemDiscounts as $itemDiscount): ?>
 					<tr>
-						<td><?= $this->Number->format($i) ?></td>
-						<td><?= h($itemMaster->item->name) ?></td>
-						<td><?= $this->Number->format($itemMaster->price) ?></td>
-						<td><?= h($itemMaster->cgst_ledger->name) ?></td>
-						<td><?= h($itemMaster->sgst_ledger->name) ?></td>
+						<td><?= $this->Number->format($itemDiscount->id) ?></td>
+						<td><?= h($itemDiscount->customer_ledger->name) ?></td>
+						<td><?= h($itemDiscount->item->name) ?></td>
+						<td><?= $this->Number->format($itemDiscount->discount) ?></td>
 						<td class="actions">
-							<?php /* $this->Html->link(__('View'), ['action' => 'view', $itemMaster->id]) */ ?>
-							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $itemMaster->id]) ?>
-							<?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $itemMaster->id], ['confirm' => __('Are you sure you want to delete # {0}?', $itemMaster->id)]) ?>
+							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $itemDiscount->id]) ?>
 						</td>
 					</tr>
 					<?php endforeach; ?>
