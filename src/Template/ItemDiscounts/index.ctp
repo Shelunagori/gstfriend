@@ -21,13 +21,16 @@ $this->set('title', 'List');
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach ($itemDiscounts as $itemDiscount): ?>
+					<?php 	$i=0;
+							foreach ($itemDiscounts as $itemDiscount): 
+							$i++;
+					?>
 					<tr>
-						<td><?= $this->Number->format($itemDiscount->id) ?></td>
-						<td><?= h($itemDiscount->customer_ledger->name) ?></td>
-						<td><?= h($itemDiscount->item->name) ?></td>
-						<td><?= h($itemDiscount->item->price) ?></td>
-						<td><?= $this->Number->format($itemDiscount->discount) ?></td>
+						<td><?= $this->Number->format($i)?></td>
+						<td ><?= h($itemDiscount->customer_ledger->name) ?></td>
+						<td ><?= h($itemDiscount->item->name) ?></td>
+						<td style="text-align:right"><?= h($itemDiscount->item->price) ?></td>
+						<td style="text-align:right"><?= $this->Number->format($itemDiscount->discount) ?></td>
 						<td class="actions">
 							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $itemDiscount->id]) ?>
 						</td>

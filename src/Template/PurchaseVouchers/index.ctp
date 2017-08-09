@@ -9,7 +9,7 @@ $this->set('title', 'List');
 	<div class="portlet-body-form"  >
 		<div class="form-body">
 			<h3><?= __('Purchase Vouchers List') ?></h3>
-			<table id="example1" class="table table-bordered form-group table-striped">
+			<table id="example1" class="table table-bordered table-striped">
 				<thead>
 					<tr>
 						<th scope="col" style="text-align:center">Sr.No.</th>
