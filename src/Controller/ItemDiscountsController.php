@@ -21,12 +21,12 @@ class ItemDiscountsController extends AppController
     public function index()
     {
 		$this->viewBuilder()->layout('index_layout');
-        $this->paginate = [
-            'contain' => ['CustomerLedgers', 'Items']
-        ];
-        $itemDiscounts = $this->paginate($this->ItemDiscounts);
-
-        $this->set(compact('itemDiscounts'));
+        
+        $itemDiscount = $this->ItemDiscounts->Items->find();
+		
+		$itemDiscounts = $this->paginate($itemDiscount);
+		
+		$this->set(compact('itemDiscounts'));
         $this->set('_serialize', ['itemDiscounts']);
 		$this->set('active_menu', 'ItemDiscounts.Index');
     }
@@ -60,7 +60,6 @@ class ItemDiscountsController extends AppController
         $itemDiscount = $this->ItemDiscounts->newEntity();
         if ($this->request->is('post')) {
 				$data=$this->request->data['item_discounts'];
-				
 				
 			$itemDiscount = $this->ItemDiscounts->newEntities($data);
 			//pr($itemDiscount); exit;
@@ -98,19 +97,23 @@ class ItemDiscountsController extends AppController
     public function edit($id = null)
     {
 		$this->viewBuilder()->layout('index_layout');
-        $itemDiscount = $this->ItemDiscounts->get($id, [
-            'contain' => []
-        ]);
+        $itemDiscount = $this->ItemDiscounts->find()
+		->contain(['CustomerLedgers','Items'])
+		->where(['item_id'=>$id]);
+
+		//pr($itemDiscount->toArray());exit;
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $itemDiscount = $this->ItemDiscounts->patchEntity($itemDiscount, $this->request->getData());
-            if ($this->ItemDiscounts->save($itemDiscount)) {
+            if ($this->ItemDiscounts->saveMany($itemDiscount)) {
                 $this->Flash->success(__('The item discount has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The item discount could not be saved. Please, try again.'));
         }
-        $customerLedgers = $this->ItemDiscounts->CustomerLedgers->find('list')->where(['accounting_group_id'=>22]);
+        $customerLedgers = $this->ItemDiscounts->CustomerLedgers->find()->where(['accounting_group_id'=>22]);
+		
         $items = $this->ItemDiscounts->Items->find('list');
         $this->set(compact('itemDiscount', 'customerLedgers', 'items'));
         $this->set('_serialize', ['itemDiscount']);

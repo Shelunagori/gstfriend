@@ -13,24 +13,20 @@ $this->set('title', 'List');
 				<thead>
 					<tr>
 						<th scope="col" style="text-align:center">Sr.No.</th>
-						<th scope="col" style="text-align:center">CUSTOMER NAME</th>
 						<th scope="col" style="text-align:center">ITEM NAME</th>
 						<th scope="col" style="text-align:center">PRICE</th>
-						<th scope="col" style="text-align:center">DISCOUNT</th>
 						<th scope="col" class="actions" style="text-align:center"><?= __('Actions') ?></th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php 	$i=0;
-							foreach ($itemDiscounts as $itemDiscount): 
+							foreach ($itemDiscounts as $itemDiscount):
 							$i++;
 					?>
 					<tr>
 						<td><?= $this->Number->format($i)?></td>
-						<td ><?= h($itemDiscount->customer_ledger->name) ?></td>
-						<td ><?= h($itemDiscount->item->name) ?></td>
-						<td style="text-align:right"><?= h($itemDiscount->item->price) ?></td>
-						<td style="text-align:right"><?= $this->Number->format($itemDiscount->discount) ?></td>
+						<td ><?= h($itemDiscount->name) ?></td>
+						<td style="text-align:right"><?= h($itemDiscount->price) ?></td>
 						<td class="actions">
 							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $itemDiscount->id]) ?>
 						</td>

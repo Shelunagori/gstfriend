@@ -12,13 +12,13 @@ $this->set('title', 'List');
 			<table id="example1" class="table table-bordered table-striped">
 				<thead>
 					<tr>
-						<th scope="col" style="text-align:center">Sr.No.</th>
-						<th scope="col" style="text-align:center">VOUCHER No.</th>
-						<th scope="col" style="text-align:center">SUPPLIER NAME</th>
-						<th scope="col" style="text-align:center">CUSTOMER NAME</th>
-						<th scope="col" style="text-align:center">TRANSACTION DATE</th>
-						<th scope="col" style="text-align:center">NARRATION</th>
-						<th scope="col" class="actions" style="text-align:center"><?= __('Actions') ?></th>
+						<th style="text-align:center">Sr.No.</th>
+						<th style="text-align:center">VOUCHER No.</th>
+						<th style="text-align:center">SUPPLIER NAME</th>
+						<th style="text-align:center">CUSTOMER NAME</th>
+						<th style="text-align:center">TRANSACTION DATE</th>
+						<th style="text-align:center">NARRATION</th>
+						<th class="actions" style="text-align:center"><?= __('Actions') ?></th>
 					</tr>
 				</thead>
 				<tbody>
