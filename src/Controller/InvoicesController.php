@@ -75,13 +75,26 @@ class InvoicesController extends AppController
         $customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22]);
         $salesLedgers = $this->Invoices->SalesLedgers->find('list')->where(['accounting_group_id'=>14]);
         $items_datas = $this->Invoices->InvoiceRows->Items->find();
+		$tax_CGSTS = $this->Invoices->SalesLedgers->find()->where(['gst_type'=>'CGST']);
+
+		foreach($tax_CGSTS as $tax_CGST)
+		{
+			$taxs_CGST[]=['value'=>$tax_CGST->id,'text'=>$tax_CGST->name,'tax_rate'=>$tax_CGST->tax_percentage];
+		}		
+		
+		$tax_SGSTS = $this->Invoices->SalesLedgers->find()->where(['gst_type'=>'SGST']);
+		
+		foreach($tax_SGSTS as $tax_SGST)
+		{
+			$taxs_SGST[]=['value'=>$tax_SGST->id,'text'=>$tax_SGST->name,'tax_rate'=>$tax_SGST->tax_percentage];
+		}		
 		
 		foreach($items_datas as $items_data)
 		{
-			$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->price];
+			$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->price,'cgst_ledger_id'=>$items_data->cgst_ledger_id,'sgst_ledger_id'=>$items_data->sgst_ledger_id];
 		}
 		
-        $this->set(compact('invoice', 'customerLedgers', 'salesLedgers', 'items'));
+        $this->set(compact('invoice', 'customerLedgers', 'salesLedgers', 'items','taxs_CGST','taxs_SGST'));
         $this->set('_serialize', ['invoice']);
     }
 

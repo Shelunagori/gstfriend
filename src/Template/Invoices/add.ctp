@@ -16,6 +16,8 @@ p{
 .tbl td {
     padding:3px;
 }
+
+.hide { display:none; }
 </style>
 <?= $this->Form->create($invoice) ?>
 <div style="width:100%;margin:auto;border:solid 1px;font-family: serif;background-color: #FFF;" class="maindiv">
@@ -38,9 +40,9 @@ p{
 							<td><?php echo $this->Form->control('transaction_date',['label'=>false,'placeholder'=>'dd-mm-yyyy','type'=>'text','class'=>'date-picker form-control input-sm','data-date-format'=>'dd-mm-yyyy','value'=>date('d-m-Y')]); ?></td>
 						</tr>
 						<tr>
-							<td><b>Sales Account</b></td>
-							<td>&nbsp;:&nbsp;</td>
-							<td><?php echo $this->Form->control('sales_ledger_id',['label'=>false,'autofocus','class'=>'form-control input-sm']); ?></td>
+							<td> <span class='hide'> <b>Sales Account</b> </span> </td>
+							<td><span class='hide'>&nbsp;:&nbsp; </span></td>
+							<td><?php echo $this->Form->control('sales_ledger_id',['label'=>false,'autofocus','class'=>'form-control input-sm hide','options'=>$salesLedgers]); ?></td>
 						</tr>
 					</table>
 				</td>
@@ -284,7 +286,11 @@ $(document).ready(function() {
 	
 	$('.item').die().live("change",function() { 
 		var rate = $(this).find('option:selected').attr('rate');
+		var cgst_ledger_id = $(this).find('option:selected').attr('cgst_ledger_id');
+		var sgst_ledger_id = $(this).find('option:selected').attr('sgst_ledger_id');
 		$(this).closest('tr').find('td .rate').val(rate);
+		$(this).closest('tr').find('td .total_cgst').val(cgst_ledger_id);
+		$(this).closest('tr').find('td .sgst_rate').val(sgst_ledger_id);
 		calculation();
 	});			
 	
@@ -325,13 +331,13 @@ $(document).ready(function() {
 				<?php echo $this->Form->control('taxable_value',['label'=>false,'placeholder'=>'Taxable Value','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;">
-				<?php echo $this->Form->control('cgst_rate',['label'=>false,'placeholder'=>'%','value'=>'6','style'=>'width: 100%;text-align: right;','class'=>'revCalculate','class'=>'form-control input-sm']); ?>
+				<?php echo $this->Form->control('total_cgst',['empty' => "---Select---",'label'=>false,'autofocus','class'=>'form-control input-sm total_cgst','style'=>'width: 80px;border: none;text-align: right;','options'=>$taxs_CGST]); ?>
 			</td>
 			<td style="text-align:right;">
 				<?php echo $this->Form->control('cgst_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;">
-				<?php echo $this->Form->control('sgst_rate',['label'=>false,'placeholder'=>'%','value'=>'6','style'=>'width: 100%;text-align: right;','class'=>'revCalculate','class'=>'form-control input-sm']); ?>
+				<?php echo $this->Form->control('sgst_rate',['empty' => "---Select---",'label'=>false,'autofocus','class'=>'form-control input-sm sgst_rate','style'=>'width: 80px;border: none;text-align: right;','options'=>$taxs_SGST]); ?>
 			</td>
 			<td style="text-align:right;">
 				<?php echo $this->Form->control('sgst_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
