@@ -39,6 +39,7 @@ class InvoicesTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
+		$this->belongsTo('AccountingEntries');
         
 		$this->belongsTo('CustomerLedgers', [
 			'className' => 'Ledgers',
