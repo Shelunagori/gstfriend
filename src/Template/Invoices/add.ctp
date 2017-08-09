@@ -69,15 +69,13 @@ p{
 					<th rowspan="2" width="40">Qty</th>
 					<th rowspan="2" width="80">Rate</th>
 					<th rowspan="2" width="80">Amount</th>
-					<th colspan="2">Discount</th>
+					<th rowspan="2">Discount Amount </th>
 					<th rowspan="2" width="80">Taxable Value</th>
 					<th colspan="2">CGST</th>
 					<th colspan="2">SGST</th>
 					<th rowspan="2" style="border-right: none;" width="80">Total</th>
 				</tr>
 				<tr style="background-color: #e4e3e3;">
-					<th width="80">Rate</th>
-					<th width="80">Amount</th>
 					<th width="80">Rate</th>
 					<th width="80">Amount</th>
 					<th width="80">Rate</th>
@@ -153,14 +151,14 @@ $(document).ready(function() {
 			$(this).find("td:eq(3) input").attr({name:"invoice_rows["+i+"][quantity]", id:"invoice_rows-"+i+"-quantity"});
 			$(this).find("td:eq(4) input").attr({name:"invoice_rows["+i+"][rate]", id:"invoice_rows-"+i+"-rate"});
 			$(this).find("td:eq(5) input").attr({name:"invoice_rows["+i+"][amount]", id:"invoice_rows-"+i+"-amount"});
-			$(this).find("td:eq(6) input").attr({name:"invoice_rows["+i+"][discount_rate]", id:"invoice_rows-"+i+"-discount_rate"});
-			$(this).find("td:eq(7) input").attr({name:"invoice_rows["+i+"][discount_amount]", id:"invoice_rows-"+i+"-discount_amount"});
-			$(this).find("td:eq(8) input").attr({name:"invoice_rows["+i+"][taxable_value]", id:"invoice_rows-"+i+"-taxable_value"});
-			$(this).find("td:eq(9) input").attr({name:"invoice_rows["+i+"][cgst_rate]", id:"invoice_rows-"+i+"-cgst_rate"});
-			$(this).find("td:eq(10) input").attr({name:"invoice_rows["+i+"][cgst_amount]", id:"invoice_rows-"+i+"-cgst_amount"});
-			$(this).find("td:eq(11) input").attr({name:"invoice_rows["+i+"][sgst_rate]", id:"invoice_rows-"+i+"-sgst_rate"});
-			$(this).find("td:eq(12) input").attr({name:"invoice_rows["+i+"][sgst_amount]", id:"invoice_rows-"+i+"-sgst_amount"});
-			$(this).find("td:eq(13) input").attr({name:"invoice_rows["+i+"][total]", id:"invoice_rows-"+i+"-total"});
+			
+			$(this).find("td:eq(6) input").attr({name:"invoice_rows["+i+"][discount_amount]", id:"invoice_rows-"+i+"-discount_amount"});
+			$(this).find("td:eq(7) input").attr({name:"invoice_rows["+i+"][taxable_value]", id:"invoice_rows-"+i+"-taxable_value"});
+			$(this).find("td:eq(8) input").attr({name:"invoice_rows["+i+"][cgst_rate]", id:"invoice_rows-"+i+"-cgst_rate"});
+			$(this).find("td:eq(9) input").attr({name:"invoice_rows["+i+"][cgst_amount]", id:"invoice_rows-"+i+"-cgst_amount"});
+			$(this).find("td:eq(10) input").attr({name:"invoice_rows["+i+"][sgst_rate]", id:"invoice_rows-"+i+"-sgst_rate"});
+			$(this).find("td:eq(11) input").attr({name:"invoice_rows["+i+"][sgst_amount]", id:"invoice_rows-"+i+"-sgst_amount"});
+			$(this).find("td:eq(12) input").attr({name:"invoice_rows["+i+"][total]", id:"invoice_rows-"+i+"-total"});
 		i++;
 		});
 		calculation();
@@ -170,7 +168,11 @@ $(document).ready(function() {
 		calculation();
 	});
 	
-	function calculation(){
+	$('#mainTbl input').die().live("keyup","blur",function() { 
+		calculation();
+	});	
+	
+	function calculation(){ 
 		var total_amount_before_tax=0;
 		var total_cgst=0;
 		var total_sgst=0;
@@ -183,33 +185,33 @@ $(document).ready(function() {
 			var amount=parseFloat(quantity*rate).toFixed(2);
 			$(this).find("td:eq(5) input").val(amount);
 			
-			var discount_rate=parseFloat($(this).find("td:eq(6) input").val());
-			if(!discount_rate){ discount_rate=0; }
-			var discount_amount=parseFloat(amount*discount_rate/100).toFixed(2);
+			//var discount_rate=parseFloat($(this).find("td:eq(6) input").val());
+			//if(!discount_rate){ discount_rate=0; }
+			//var discount_amount=parseFloat(amount*discount_rate/100).toFixed(2);
 			
-			$(this).find("td:eq(7) input").val(discount_amount);
-			
+			var discount_amount = parseFloat($(this).find("td:eq(6) input").val());
+			if(!discount_amount){ discount_amount=0; }
 			var taxable_value=parseFloat(amount-discount_amount);
-			$(this).find("td:eq(8) input").val(taxable_value);
+			$(this).find("td:eq(7) input").val(taxable_value);
 			
 			total_amount_before_tax=total_amount_before_tax+taxable_value;
 			
-			var cgst_rate=parseFloat($(this).find("td:eq(9) input").val());
+			var cgst_rate=parseFloat($(this).find("td:eq(8) input").val());
 			if(!cgst_rate){ cgst_rate=0; }
 			var cgst_amount=parseFloat(taxable_value*cgst_rate/100).toFixed(2);
 			total_cgst=parseFloat(total_cgst)+parseFloat(cgst_amount);
 			
-			$(this).find("td:eq(10) input").val(cgst_amount);
+			$(this).find("td:eq(9) input").val(cgst_amount);
 			
-			var sgst_rate=parseFloat($(this).find("td:eq(11) input").val());
+			var sgst_rate=parseFloat($(this).find("td:eq(10) input").val());
 			if(!sgst_rate){ sgst_rate=0; }
 			var sgst_amount=parseFloat(taxable_value*sgst_rate/100).toFixed(2);
 			total_sgst=parseFloat(total_sgst)+parseFloat(sgst_amount);
 			
-			$(this).find("td:eq(12) input").val(sgst_amount);
+			$(this).find("td:eq(11) input").val(sgst_amount);
 			
 			var total=parseFloat(taxable_value)+parseFloat(cgst_amount)+parseFloat(sgst_amount);
-			$(this).find("td:eq(13) input").val(total.toFixed(2));
+			$(this).find("td:eq(12) input").val(total.toFixed(2));
 			total_amount_after_tax=total_amount_after_tax+total;
 			
 		});
@@ -229,13 +231,13 @@ $(document).ready(function() {
 		var total_sgst=0;
 		var total_amount_after_tax=0;
 		$("#mainTbl tbody#mainTbody tr.mainTr").each(function(){
-			var total=parseFloat($(this).find("td:eq(13) input").val());
+			var total=parseFloat($(this).find("td:eq(12) input").val());
 			if(!total){ total=0; }
 			
-			var cgst_rate=parseFloat($(this).find("td:eq(9) input").val());
+			var cgst_rate=parseFloat($(this).find("td:eq(8) input").val());
 			if(!cgst_rate){ cgst_rate=0; }
 			
-			var sgst_rate=parseFloat($(this).find("td:eq(11) input").val());
+			var sgst_rate=parseFloat($(this).find("td:eq(10) input").val());
 			if(!sgst_rate){ sgst_rate=0; }
 			
 			var to_be_divide=parseFloat(cgst_rate)+parseFloat(sgst_rate)+100;
@@ -244,28 +246,28 @@ $(document).ready(function() {
 			
 			$(this).find("td:eq(8) input").val(taxable_value.toFixed(2));
 			
-			var discount_rate=parseFloat($(this).find("td:eq(6) input").val());
+			/*var discount_rate=parseFloat($(this).find("td:eq(6) input").val());
 			if(!discount_rate){ discount_rate=0; }
 			
 			var to_be_divide_for_discount=100-parseFloat(discount_rate);
 			var amount=(taxable_value/to_be_divide_for_discount)*100;
-			
-			$(this).find("td:eq(5) input").val(amount.toFixed(2));
+			*/
+			$(this).find("td:eq(5) input").val(taxable_value.toFixed(2));
 			
 			var quantity=parseFloat($(this).find("td:eq(3) input").val());
 			if(!quantity){ quantity=0; }
 			
-			var rate=amount/quantity;
+			var rate=taxable_value/quantity;
 			$(this).find("td:eq(4) input").val(rate.toFixed(2));
 			
-			var discount_amount=(amount*discount_rate)/100;
-			$(this).find("td:eq(7) input").val(discount_amount.toFixed(2));
+			var discount_amount=(taxable_value*discount_rate)/100;
+			$(this).find("td:eq(6) input").val(taxable_value.toFixed(2));
 			
 			var cgst_amount=(taxable_value*cgst_rate)/100;
-			$(this).find("td:eq(10) input").val(cgst_amount.toFixed(2));
+			$(this).find("td:eq(9) input").val(cgst_amount.toFixed(2));
 			
 			var sgst_amount=(taxable_value*sgst_rate)/100;
-			$(this).find("td:eq(12) input").val(sgst_amount.toFixed(2));
+			$(this).find("td:eq(11) input").val(sgst_amount.toFixed(2));
 			
 			total_amount_before_tax=total_amount_before_tax+taxable_value;
 			total_cgst=parseFloat(total_cgst)+parseFloat(cgst_amount);
@@ -307,9 +309,6 @@ $(document).ready(function() {
 			</td>
 			<td style="text-align:right;">
 				<?php echo $this->Form->control('amount',['label'=>false,'placeholder'=>'Amount','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
-			</td>
-			<td style="text-align:right;">
-				<?php echo $this->Form->control('discount_rate',['label'=>false,'placeholder'=>'%','style'=>'width: 100%;text-align: right;','class'=>'revCalculate','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;">
 				<?php echo $this->Form->control('discount_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
