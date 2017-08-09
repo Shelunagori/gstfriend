@@ -156,9 +156,9 @@ $(document).ready(function() {
 			
 			$(this).find("td:eq(6) input").attr({name:"invoice_rows["+i+"][discount_amount]", id:"invoice_rows-"+i+"-discount_amount"});
 			$(this).find("td:eq(7) input").attr({name:"invoice_rows["+i+"][taxable_value]", id:"invoice_rows-"+i+"-taxable_value"});
-			$(this).find("td:eq(8) input").attr({name:"invoice_rows["+i+"][cgst_rate]", id:"invoice_rows-"+i+"-cgst_rate"});
+			$(this).find("td:eq(8) select").attr({name:"invoice_rows["+i+"][cgst_rate]", id:"invoice_rows-"+i+"-cgst_rate"});
 			$(this).find("td:eq(9) input").attr({name:"invoice_rows["+i+"][cgst_amount]", id:"invoice_rows-"+i+"-cgst_amount"});
-			$(this).find("td:eq(10) input").attr({name:"invoice_rows["+i+"][sgst_rate]", id:"invoice_rows-"+i+"-sgst_rate"});
+			$(this).find("td:eq(10) select").attr({name:"invoice_rows["+i+"][sgst_rate]", id:"invoice_rows-"+i+"-sgst_rate"});
 			$(this).find("td:eq(11) input").attr({name:"invoice_rows["+i+"][sgst_amount]", id:"invoice_rows-"+i+"-sgst_amount"});
 			$(this).find("td:eq(12) input").attr({name:"invoice_rows["+i+"][total]", id:"invoice_rows-"+i+"-total"});
 		i++;
@@ -173,6 +173,10 @@ $(document).ready(function() {
 	$('#mainTbl input').die().live("keyup","blur",function() { 
 		calculation();
 	});	
+
+	$('#mainTbl select').die().live("change","blur",function() { 
+		calculation();
+	});		
 	
 	function calculation(){ 
 		var total_amount_before_tax=0;
@@ -198,14 +202,14 @@ $(document).ready(function() {
 			
 			total_amount_before_tax=total_amount_before_tax+taxable_value;
 			
-			var cgst_rate=parseFloat($(this).find("td:eq(8) input").val());
+			var cgst_rate=parseFloat($(this).find("td:eq(8) option:selected").attr('tax_rate'));
 			if(!cgst_rate){ cgst_rate=0; }
 			var cgst_amount=parseFloat(taxable_value*cgst_rate/100).toFixed(2);
 			total_cgst=parseFloat(total_cgst)+parseFloat(cgst_amount);
 			
 			$(this).find("td:eq(9) input").val(cgst_amount);
 			
-			var sgst_rate=parseFloat($(this).find("td:eq(10) input").val());
+			var sgst_rate=parseFloat($(this).find("td:eq(10) option:selected").attr('tax_rate'));
 			if(!sgst_rate){ sgst_rate=0; }
 			var sgst_amount=parseFloat(taxable_value*sgst_rate/100).toFixed(2);
 			total_sgst=parseFloat(total_sgst)+parseFloat(sgst_amount);
