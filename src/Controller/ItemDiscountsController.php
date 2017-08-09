@@ -59,16 +59,28 @@ class ItemDiscountsController extends AppController
 		$this->viewBuilder()->layout('index_layout');
         $itemDiscount = $this->ItemDiscounts->newEntity();
         if ($this->request->is('post')) {
-            $itemDiscount = $this->ItemDiscounts->patchEntity($itemDiscount, $this->request->getData());
-            if ($this->ItemDiscounts->save($itemDiscount)) {
+				$data=$this->request->data['item_discounts'];
+				
+				
+			$itemDiscount = $this->ItemDiscounts->newEntities($data);
+			//pr($itemDiscount); exit;
+            if ($this->ItemDiscounts->saveMany($itemDiscount)) 
+			{
+				
                 $this->Flash->success(__('The item discount has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'Add']);
             }
             $this->Flash->error(__('The item discount could not be saved. Please, try again.'));
         }
         $customerLedgers = $this->ItemDiscounts->CustomerLedgers->find()->where(['accounting_group_id'=>22]);
-        $items = $this->ItemDiscounts->Items->find('list');
+        $items_datas = $this->ItemDiscounts->Items->find();
+			foreach($items_datas as $items_data)
+			{
+				$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->price];
+			}
+
+		
         $this->set(compact('itemDiscount', 'customerLedgers', 'items'));
         $this->set('_serialize', ['itemDiscount']);
 		$this->set('active_menu', 'ItemDiscounts.Add');

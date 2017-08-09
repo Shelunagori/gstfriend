@@ -60,10 +60,8 @@ class ItemDiscountsTable extends Table
             ->integer('id')
             ->allowEmpty('id', 'create');
 
-        $validator
-            ->decimal('discount')
-            ->requirePresence('discount', 'create')
-            ->notEmpty('discount');
+       
+            
 
         return $validator;
     }

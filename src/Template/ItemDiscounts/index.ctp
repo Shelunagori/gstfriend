@@ -15,6 +15,7 @@ $this->set('title', 'List');
 						<th scope="col" style="text-align:center">Sr.No.</th>
 						<th scope="col" style="text-align:center">CUSTOMER NAME</th>
 						<th scope="col" style="text-align:center">ITEM NAME</th>
+						<th scope="col" style="text-align:center">PRICE</th>
 						<th scope="col" style="text-align:center">DISCOUNT</th>
 						<th scope="col" class="actions" style="text-align:center"><?= __('Actions') ?></th>
 					</tr>
@@ -25,6 +26,7 @@ $this->set('title', 'List');
 						<td><?= $this->Number->format($itemDiscount->id) ?></td>
 						<td><?= h($itemDiscount->customer_ledger->name) ?></td>
 						<td><?= h($itemDiscount->item->name) ?></td>
+						<td><?= h($itemDiscount->item->price) ?></td>
 						<td><?= $this->Number->format($itemDiscount->discount) ?></td>
 						<td class="actions">
 							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $itemDiscount->id]) ?>
