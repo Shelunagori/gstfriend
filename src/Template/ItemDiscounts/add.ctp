@@ -6,7 +6,7 @@
 $this->set('title', 'Add');
 
 ?>
-<div class="portlet light bordered  col-md-12" >
+<div class="portlet light bordered  col-md-9" style="margin-left:10%">
 	<div class="portlet-body-form"  >
 		<?= $this->Form->create($itemDiscount) ?>
 		<fieldset>
@@ -19,12 +19,8 @@ $this->set('title', 'Add');
 					</div >
 				</div>
 				<div class="row">
-					<div class="form-group col-md-12">
-						<table class="main_table form-group">
-							<tbody class="main_tbody form-group">
-								
-							</tbody>
-						</table>
+					<div class="form-group col-md-12 main_table">
+						
 					</div >
 				</div>
 			</div>
@@ -37,16 +33,22 @@ $this->set('title', 'Add');
 $(document).ready(function() { 
 
 	$('.select_item').die().live("change",function() { 
-
-		var tr=$(".display_table tbody.display_body tr.display_tr").clone();
-	alert();
-			$(".main_table tbody.main_tbody").append(tr);
+		var tr=$(".display_table").clone();
+		alert();
+		$(".main_table").append(tr);
 	});
 
 
 });
 </script>
 <table class="display_table  form-group" style="display:none;">
+	<thead>
+		<th style="width:20%; text-align:center; border:1px solid">SR.NO.</th>
+		<th style="width:40%; text-align:center; border:1px solid">CUSTOMER NAME</th>
+		<th style="width:30%; text-align:center; border:1px solid">PRICE</th>
+		<th style="width:50%; text-align:center; border:1px solid;">DISCOUNT</th>
+						
+	</thead>	
 	<tbody class="display_body  form-group">
 		<tr class="display_tr  form-group">
 			<?php 	$i=0;
@@ -56,9 +58,7 @@ $(document).ready(function() {
 			?>
 			<td><?= $this->Number->format($i) ?></td>
 			<td><label class="control-label form-group">Cutomer Name </label>
-				<?= h($customerLedger->name)
-
-echo $this->Form->control('customer_ledger_id', ['options'=>$customerLedgers ,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Item Name']); ?>
+				<?= h($customerLedger->name)?>
 			</td>
 			<?php } ?>
 			<td>

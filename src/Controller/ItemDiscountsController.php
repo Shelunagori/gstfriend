@@ -67,19 +67,14 @@ class ItemDiscountsController extends AppController
             }
             $this->Flash->error(__('The item discount could not be saved. Please, try again.'));
         }
-        $customerLedgers = $this->ItemDiscounts->CustomerLedgers->find('list')->where(['accounting_group_id'=>22]);
+        $customerLedgers = $this->ItemDiscounts->CustomerLedgers->find()->where(['accounting_group_id'=>22]);
         $items = $this->ItemDiscounts->Items->find('list');
         $this->set(compact('itemDiscount', 'customerLedgers', 'items'));
         $this->set('_serialize', ['itemDiscount']);
 		$this->set('active_menu', 'ItemDiscounts.Add');
     }
 	
-	function postdatago()
-    {
-        //to test data is passed as needed.
-        pr($this->params);
-        exit;
-    }
+
 
     /**
      * Edit method
