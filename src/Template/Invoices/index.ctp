@@ -40,6 +40,7 @@
 					<td align="right"><?= $this->Number->format($invoice->total_amount_after_tax,[ 'places' => 2]) ?></td>
 					<td class="actions">
 						<?= $this->Html->link(__('Edit'), ['action' => 'edit', $invoice->id]) ?>
+						<?= $this->Html->link(__('View'), ['action' => 'view', $invoice->id]) ?>
 					</td>
 				</tr>
 				<?php endforeach; ?>
