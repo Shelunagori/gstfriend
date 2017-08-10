@@ -48,11 +48,6 @@ $(document).ready(function() {
 		$('.item_hidden').val(item);
 		
 	});	
-
-	
-	
-	
-	
 });
 </script>
 <div class="display_table" style="display:none;">

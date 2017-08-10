@@ -86,10 +86,59 @@ class PurchaseVouchersController extends AppController
 			}
 			//End Voucher Number
 			$purchaseVoucher->company_id=$company_id;
-			
-			
+			//pr($purchaseVoucher);exit;
             if ($this->PurchaseVouchers->save($purchaseVoucher)) {
+
+				if($purchaseVoucher->total_amount_after_tax !=0)
+				{		
+					$Accounting_entries = $this->PurchaseVouchers->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $purchaseVoucher->supplier_ledger_id;
+					$Accounting_entries->debit = 0;
+					$Accounting_entries->credit = $purchaseVoucher->total_amount_after_tax;
+					$Accounting_entries->transaction_date = $purchaseVoucher->transaction_date;
+					$Accounting_entries->purchase_voucher_id = $purchaseVoucher->id;
+					$Accounting_entries->company_id=$company_id;
+					$this->PurchaseVouchers->AccountingEntries->save($Accounting_entries);				
+				}
+
+				if($purchaseVoucher->total_amount_before_tax !=0)
+				{		
+					$Accounting_entries = $this->PurchaseVouchers->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $purchaseVoucher->purchase_ledger_id;
+					$Accounting_entries->debit = $purchaseVoucher->total_amount_before_tax;
+					$Accounting_entries->credit = 0;
+					$Accounting_entries->transaction_date = $purchaseVoucher->transaction_date;
+					$Accounting_entries->purchase_voucher_id = $purchaseVoucher->id;
+					$Accounting_entries->company_id=$company_id;
+					$this->PurchaseVouchers->AccountingEntries->save($Accounting_entries);				
+				}				
 				
+				
+				foreach($purchaseVoucher->purchase_voucher_rows as $purchase_voucher_row)
+				{
+					$Accounting_entries = $this->PurchaseVouchers->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $purchase_voucher_row->cgst_ledger_id;
+					$Accounting_entries->debit = $purchase_voucher_row->cgst_amount;
+					$Accounting_entries->credit = 0;
+					$Accounting_entries->transaction_date = $purchaseVoucher->transaction_date;
+					$Accounting_entries->purchase_voucher_id = $purchaseVoucher->id;
+					$Accounting_entries->company_id=$company_id;
+					$this->PurchaseVouchers->AccountingEntries->save($Accounting_entries);
+
+					$Accounting_entries = $this->PurchaseVouchers->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $purchase_voucher_row->sgst_ledger_id;
+					$Accounting_entries->debit = $purchase_voucher_row->sgst_amount;
+					$Accounting_entries->credit = 0;
+					$Accounting_entries->transaction_date = $purchaseVoucher->transaction_date;
+					$Accounting_entries->purchase_voucher_id = $purchaseVoucher->id;
+					$Accounting_entries->company_id=$company_id;
+					$this->PurchaseVouchers->AccountingEntries->save($Accounting_entries);
+					
+				}
+
+
+
+			
 				$this->Flash->success(__('The purchase voucher has been saved.'));
 				return $this->redirect(['action' => 'add']);
             }
@@ -123,9 +172,61 @@ class PurchaseVouchersController extends AppController
         $purchaseVoucher = $this->PurchaseVouchers->get($id, [
             'contain' => ['PurchaseVoucherRows'=>['Items']]
         ]);
+		$company_id=$this->Auth->User('company_id');
         if ($this->request->is(['patch', 'post', 'put'])) {
             $purchaseVoucher = $this->PurchaseVouchers->patchEntity($purchaseVoucher, $this->request->getData());
             if ($this->PurchaseVouchers->save($purchaseVoucher)) {
+
+				$query = $this->PurchaseVouchers->AccountingEntries->query();
+				$query->delete()->where(['purchase_voucher_id'=> $id])->execute();
+
+				if($purchaseVoucher->total_amount_after_tax !=0)
+				{		
+					$Accounting_entries = $this->PurchaseVouchers->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $purchaseVoucher->supplier_ledger_id;
+					$Accounting_entries->debit = 0;
+					$Accounting_entries->credit = $purchaseVoucher->total_amount_after_tax;
+					$Accounting_entries->transaction_date = $purchaseVoucher->transaction_date;
+					$Accounting_entries->purchase_voucher_id = $purchaseVoucher->id;
+					$Accounting_entries->company_id=$company_id;
+					$this->PurchaseVouchers->AccountingEntries->save($Accounting_entries);				
+				}
+
+				if($purchaseVoucher->total_amount_before_tax !=0)
+				{		
+					$Accounting_entries = $this->PurchaseVouchers->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $purchaseVoucher->purchase_ledger_id;
+					$Accounting_entries->debit = $purchaseVoucher->total_amount_before_tax;
+					$Accounting_entries->credit = 0;
+					$Accounting_entries->transaction_date = $purchaseVoucher->transaction_date;
+					$Accounting_entries->purchase_voucher_id = $purchaseVoucher->id;
+					$Accounting_entries->company_id=$company_id;
+					$this->PurchaseVouchers->AccountingEntries->save($Accounting_entries);				
+				}				
+				
+				
+				foreach($purchaseVoucher->purchase_voucher_rows as $purchase_voucher_row)
+				{
+					$Accounting_entries = $this->PurchaseVouchers->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $purchase_voucher_row->cgst_ledger_id;
+					$Accounting_entries->debit = $purchase_voucher_row->cgst_amount;
+					$Accounting_entries->credit = 0;
+					$Accounting_entries->transaction_date = $purchaseVoucher->transaction_date;
+					$Accounting_entries->purchase_voucher_id = $purchaseVoucher->id;
+					$Accounting_entries->company_id=$company_id;
+					$this->PurchaseVouchers->AccountingEntries->save($Accounting_entries);
+
+					$Accounting_entries = $this->PurchaseVouchers->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $purchase_voucher_row->sgst_ledger_id;
+					$Accounting_entries->debit = $purchase_voucher_row->sgst_amount;
+					$Accounting_entries->credit = 0;
+					$Accounting_entries->transaction_date = $purchaseVoucher->transaction_date;
+					$Accounting_entries->purchase_voucher_id = $purchaseVoucher->id;
+					$Accounting_entries->company_id=$company_id;
+					$this->PurchaseVouchers->AccountingEntries->save($Accounting_entries);
+					
+				}		
+				
                 $this->Flash->success(__('The purchase voucher has been saved.'));
 
                 return $this->redirect(['action' => 'index']);

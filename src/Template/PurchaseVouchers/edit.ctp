@@ -357,7 +357,7 @@ $(document).ready(function() {
 		$(document).on("click",".deleterow",function() {
 			$(this).closest('tr').remove();
 			rename_rows();
-			calculate_total();
+			calculation();
 			
 			});
 	// Add Row	End	
