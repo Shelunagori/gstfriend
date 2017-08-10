@@ -41,8 +41,7 @@ $(document).ready(function() {
 		
 		
 	});	
-<<<<<<< HEAD
-		
+
 	
 	$(".select_item").change(function() {
 		var item_id = $(this).find('option:selected').val();
@@ -62,11 +61,7 @@ $(document).ready(function() {
 			$('.item_hidden').val(item);
 		});
     });
-	
-	
-	
-=======
->>>>>>> a064ae70df96ea9b6ffa34258a6e4d7093e52c67
+
 });
 </script>
 

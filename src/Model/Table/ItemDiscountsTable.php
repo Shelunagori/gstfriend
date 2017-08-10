@@ -44,8 +44,8 @@ class ItemDiscountsTable extends Table
         ]);
         $this->belongsTo('Items', [
             'foreignKey' => 'item_id',
-            'joinType' => 'INNER'
-        ]);
+            'joinType' => 'INNER',
+		]);
     }
 
     /**
