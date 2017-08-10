@@ -66,6 +66,51 @@ class InvoicesController extends AppController
 			}
 			//pr($invoice); exit;
             if ($this->Invoices->save($invoice)) {
+				
+				if($invoice->total_amount_after_tax !=0)
+				{		
+					$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $invoice->customer_ledger_id;
+					$Accounting_entries->debit = $invoice->total_amount_after_tax;
+					$Accounting_entries->credit = 0;
+					$Accounting_entries->transaction_date = $invoice->transaction_date;
+					$Accounting_entries->invoice_id = $invoice->id;
+					$this->Invoices->AccountingEntries->save($Accounting_entries);				
+				}
+
+				if($invoice->total_amount_before_tax !=0)
+				{		
+					$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $invoice->sales_ledger_id;
+					$Accounting_entries->debit = 0;
+					$Accounting_entries->credit = $invoice->total_amount_before_tax;
+					$Accounting_entries->transaction_date = $invoice->transaction_date;
+					$Accounting_entries->invoice_id = $invoice->id;
+					$this->Invoices->AccountingEntries->save($Accounting_entries);				
+				}				
+				
+				
+				foreach($invoice->invoice_rows as $invoice_row)
+				{
+					$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $invoice_row->cgst_rate;
+					$Accounting_entries->debit = 0;
+					$Accounting_entries->credit = $invoice_row->cgst_amount;
+					$Accounting_entries->transaction_date = $invoice->transaction_date;
+					$Accounting_entries->invoice_id = $invoice->id;
+					$this->Invoices->AccountingEntries->save($Accounting_entries);
+
+					$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $invoice_row->sgst_rate;
+					$Accounting_entries->debit = 0;
+					$Accounting_entries->credit = $invoice_row->sgst_amount;
+					$Accounting_entries->transaction_date = $invoice->transaction_date;
+					$Accounting_entries->invoice_id = $invoice->id;
+					$this->Invoices->AccountingEntries->save($Accounting_entries);
+					
+				}
+				
+				
                 $this->Flash->success(__('The invoice has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -75,14 +120,14 @@ class InvoicesController extends AppController
         $customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22]);
         $salesLedgers = $this->Invoices->SalesLedgers->find('list')->where(['accounting_group_id'=>14]);
         $items_datas = $this->Invoices->InvoiceRows->Items->find();
-		$tax_CGSTS = $this->Invoices->SalesLedgers->find()->where(['gst_type'=>'CGST']);
+		$tax_CGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'CGST']);
 
 		foreach($tax_CGSTS as $tax_CGST)
 		{
 			$taxs_CGST[]=['value'=>$tax_CGST->id,'text'=>$tax_CGST->name,'tax_rate'=>$tax_CGST->tax_percentage];
 		}		
 		
-		$tax_SGSTS = $this->Invoices->SalesLedgers->find()->where(['gst_type'=>'SGST']);
+		$tax_SGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'SGST']);
 		
 		foreach($tax_SGSTS as $tax_SGST)
 		{
