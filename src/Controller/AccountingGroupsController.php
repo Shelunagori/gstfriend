@@ -67,9 +67,9 @@ class AccountingGroupsController extends AppController
             }
             $this->Flash->error(__('The accounting group could not be saved. Please, try again.'));
         }
-        $companies = $this->AccountingGroups->Companies->find('list', ['limit' => 200]);
-        $natureOfGroups = $this->AccountingGroups->NatureOfGroups->find('list', ['limit' => 200]);
-        $parentAccountingGroups = $this->AccountingGroups->ParentAccountingGroups->find('list', ['limit' => 200]);
+        $companies = $this->AccountingGroups->Companies->find('list');
+        $natureOfGroups = $this->AccountingGroups->NatureOfGroups->find('list');
+        $parentAccountingGroups = $this->AccountingGroups->ParentAccountingGroups->find('list');
         $this->set(compact('accountingGroup', 'companies', 'natureOfGroups', 'parentAccountingGroups'));
         $this->set('_serialize', ['accountingGroup']);
 		$this->set('active_menu', 'AccountingGroups.Add');
@@ -97,9 +97,9 @@ class AccountingGroupsController extends AppController
             }
             $this->Flash->error(__('The accounting group could not be saved. Please, try again.'));
         }
-        $companies = $this->AccountingGroups->Companies->find('list', ['limit' => 200]);
-        $natureOfGroups = $this->AccountingGroups->NatureOfGroups->find('list', ['limit' => 200]);
-        $parentAccountingGroups = $this->AccountingGroups->ParentAccountingGroups->find('list', ['limit' => 200]);
+        $companies = $this->AccountingGroups->Companies->find('list');
+        $natureOfGroups = $this->AccountingGroups->NatureOfGroups->find('list');
+        $parentAccountingGroups = $this->AccountingGroups->ParentAccountingGroups->find('list');
         $this->set(compact('accountingGroup', 'companies', 'natureOfGroups', 'parentAccountingGroups'));
         $this->set('_serialize', ['accountingGroup']);
     }

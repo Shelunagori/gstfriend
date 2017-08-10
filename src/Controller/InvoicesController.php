@@ -139,9 +139,9 @@ class InvoicesController extends AppController
             }
             $this->Flash->error(__('The invoice could not be saved. Please, try again.'));
         }
-        $customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22]);
-        $salesLedgers = $this->Invoices->SalesLedgers->find('list')->where(['accounting_group_id'=>14]);
-        $items_datas = $this->Invoices->InvoiceRows->Items->find();
+        $customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22,'freeze'=>0]);
+        $salesLedgers = $this->Invoices->SalesLedgers->find('list')->where(['accounting_group_id'=>14,'freeze'=>0]);
+        $items_datas = $this->Invoices->InvoiceRows->Items->find()->where(['freezed'=>0]);
 		$tax_CGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'CGST']);
 
 		foreach($tax_CGSTS as $tax_CGST)
@@ -260,9 +260,9 @@ class InvoicesController extends AppController
             $this->Flash->error(__('The invoice could not be saved. Please, try again.'));
         }
 
-        $customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22]);
-        $salesLedgers = $this->Invoices->SalesLedgers->find('list')->where(['accounting_group_id'=>14]);
-        $items_datas = $this->Invoices->InvoiceRows->Items->find();
+        $customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22,'freeze'=>0]);
+        $salesLedgers = $this->Invoices->SalesLedgers->find('list')->where(['accounting_group_id'=>14,'freeze'=>0]);
+        $items_datas = $this->Invoices->InvoiceRows->Items->find()->where(['freezed'=>0]);
 		$tax_CGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'CGST']);
 
 		foreach($tax_CGSTS as $tax_CGST)

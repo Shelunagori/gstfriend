@@ -63,8 +63,8 @@ class InvoiceRowsController extends AppController
             }
             $this->Flash->error(__('The invoice row could not be saved. Please, try again.'));
         }
-        $invoices = $this->InvoiceRows->Invoices->find('list', ['limit' => 200]);
-        $items = $this->InvoiceRows->Items->find('list', ['limit' => 200]);
+        $invoices = $this->InvoiceRows->Invoices->find('list');
+        $items = $this->InvoiceRows->Items->find('list')->where(['freezed'=>0]);
         $this->set(compact('invoiceRow', 'invoices', 'items'));
         $this->set('_serialize', ['invoiceRow']);
     }
@@ -90,8 +90,8 @@ class InvoiceRowsController extends AppController
             }
             $this->Flash->error(__('The invoice row could not be saved. Please, try again.'));
         }
-        $invoices = $this->InvoiceRows->Invoices->find('list', ['limit' => 200]);
-        $items = $this->InvoiceRows->Items->find('list', ['limit' => 200]);
+        $invoices = $this->InvoiceRows->Invoices->find('list');
+        $items = $this->InvoiceRows->Items->find('list')->where(['freezed'=>0]);
         $this->set(compact('invoiceRow', 'invoices', 'items'));
         $this->set('_serialize', ['invoiceRow']);
     }

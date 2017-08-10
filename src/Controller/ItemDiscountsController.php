@@ -78,7 +78,7 @@ class ItemDiscountsController extends AppController
             $this->Flash->error(__('The item discount could not be saved. Please, try again.'));
         }
 
-        $items_datas = $this->ItemDiscounts->Items->find();
+        $items_datas = $this->ItemDiscounts->Items->find()->where(['freezed'=>0]);
 			foreach($items_datas as $items_data)
 			{
 				$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->price];
@@ -91,7 +91,7 @@ class ItemDiscountsController extends AppController
     }
 	
 	function getItemDiscount($item_id){
-		$customerLedgers = $this->ItemDiscounts->CustomerLedgers->find()->where(['accounting_group_id'=>22]);
+		$customerLedgers = $this->ItemDiscounts->CustomerLedgers->find()->where(['accounting_group_id'=>22,'freeze'=>0]);
 		$itemDiscounts = $this->ItemDiscounts->find()->where(['item_id'=>$item_id]);
 		$discount=[];
 		foreach($itemDiscounts as $itemDiscount){
@@ -125,9 +125,9 @@ class ItemDiscountsController extends AppController
             }
             $this->Flash->error(__('The item discount could not be saved. Please, try again.'));
         }
-        $customerLedgers = $this->ItemDiscounts->CustomerLedgers->find()->where(['accounting_group_id'=>22]);
+        $customerLedgers = $this->ItemDiscounts->CustomerLedgers->find()->where(['accounting_group_id'=>22,'freezed'=>0]);
 		
-        $items = $this->ItemDiscounts->Items->find('list');
+        $items = $this->ItemDiscounts->Items->find('list')->where(['freezed'=>0]);
         $this->set(compact('itemDiscount', 'customerLedgers', 'items'));
         $this->set('_serialize', ['itemDiscount']);
     }

@@ -144,9 +144,9 @@ class PurchaseVouchersController extends AppController
             }
             $this->Flash->error(__('The purchase voucher could not be saved. Please, try again.'));
         }
-		$items = $this->PurchaseVouchers->Items->find('list');
-		$SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find('list')->where(['accounting_group_id'=>25]);
-        $PurchaseLedger = $this->PurchaseVouchers->PurchaseLedger->find('list')->where(['accounting_group_id'=>13]);
+		$items = $this->PurchaseVouchers->Items->find('list')->where(['freezed'=>0]);
+		$SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find('list')->where(['accounting_group_id'=>25,'freeze'=>0]);
+        $PurchaseLedger = $this->PurchaseVouchers->PurchaseLedger->find('list')->where(['accounting_group_id'=>13,'freeze'=>0]);
 		
 		$CgstTax = $this->PurchaseVouchers->CgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'CGST']);
 		//pr($CgstTax->toArray()); exit;
@@ -233,9 +233,9 @@ class PurchaseVouchersController extends AppController
             }
             $this->Flash->error(__('The purchase voucher could not be saved. Please, try again.'));
         }
-		$items = $this->PurchaseVouchers->Items->find('list');
-		$SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find('list')->where(['accounting_group_id'=>25]);
-        $PurchaseLedger = $this->PurchaseVouchers->PurchaseLedger->find('list')->where(['accounting_group_id'=>13]);
+		$items = $this->PurchaseVouchers->Items->find('list')->where(['freezed'=>0]);
+		$SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find('list')->where(['accounting_group_id'=>25,'freeze'=>0]);
+        $PurchaseLedger = $this->PurchaseVouchers->PurchaseLedger->find('list')->where(['accounting_group_id'=>13,'freeze'=>0]);
 		$CgstTax = $this->PurchaseVouchers->CgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'CGST']);
 		//pr($CgstTax->toArray()); exit;
 		$SgstTax = $this->PurchaseVouchers->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);

@@ -66,8 +66,8 @@ class PurchaseVoucherRowsController extends AppController
             }
             $this->Flash->error(__('The purchase voucher row could not be saved. Please, try again.'));
         }
-        $purchaseVouchers = $this->PurchaseVoucherRows->PurchaseVouchers->find('list', ['limit' => 200]);
-        $items = $this->PurchaseVoucherRows->Items->find('list', ['limit' => 200]);
+        $purchaseVouchers = $this->PurchaseVoucherRows->PurchaseVouchers->find('list');
+        $items = $this->PurchaseVoucherRows->Items->find('list')->where(['freezed'=>0]);
         $this->set(compact('purchaseVoucherRow', 'purchaseVouchers', 'items'));
         $this->set('_serialize', ['purchaseVoucherRow']);
     }
@@ -94,8 +94,8 @@ class PurchaseVoucherRowsController extends AppController
             }
             $this->Flash->error(__('The purchase voucher row could not be saved. Please, try again.'));
         }
-        $purchaseVouchers = $this->PurchaseVoucherRows->PurchaseVouchers->find('list', ['limit' => 200]);
-        $items = $this->PurchaseVoucherRows->Items->find('list', ['limit' => 200]);
+        $purchaseVouchers = $this->PurchaseVoucherRows->PurchaseVouchers->find('list');
+        $items = $this->PurchaseVoucherRows->Items->find('list')->where(['freezed'=>0]);
         $this->set(compact('purchaseVoucherRow', 'purchaseVouchers', 'items'));
         $this->set('_serialize', ['purchaseVoucherRow']);
     }
