@@ -60,9 +60,14 @@ class ItemDiscountsController extends AppController
         $itemDiscount = $this->ItemDiscounts->newEntity();
         if ($this->request->is('post')) {
 			$data=$this->request->data['item_discounts'];
+			$item_ids=$this->request->data['item_ids'];
 				
 			$itemDiscount = $this->ItemDiscounts->newEntities($data);
 			//pr($itemDiscount); exit;
+			
+			$query = $this->ItemDiscounts->query();
+			$query->delete()->where(['item_id'=> $item_ids])->execute();
+			
             if ($this->ItemDiscounts->saveMany($itemDiscount)) 
 			{
 				
