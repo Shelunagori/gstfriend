@@ -144,7 +144,7 @@ p{
 				<tr>
 					<td width="15px"style="border-left: none;"><?= $this->Number->format($i) ?></td>
 					<td width="30%"><?= h($purchaseVoucherRows->item->name) ?></td>
-					<td width="80"><?= $this->Number->format($purchaseVoucherRows->item->hsn_code) ?></td>
+					<td width="80"><?= h($purchaseVoucherRows->item->hsn_code) ?></td>
 					<td width="40" style="text-align:center"><?= $this->Number->format($purchaseVoucherRows->quantity) ?></td>
 					<td width="40" style="text-align:right"><?= $this->Number->format($purchaseVoucherRows->rate_per) ?></td>
 					<td width="40" style="text-align:right"><?= $this->Number->format($purchaseVoucherRows->amount) ?></td>

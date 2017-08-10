@@ -62,6 +62,7 @@ class CustomersController extends AppController
 			
             $customer = $this->Customers->patchEntity($customer, $this->request->getData());
             $customer->company_id=$company_id;
+			
             /*ledger table Entry Start*/
 				$Ledger = $this->Customers->Ledgers->newEntity();
 				$Ledger->name=$customer->name;

@@ -19,7 +19,7 @@ p{
 
 .hide { display:none; }
 </style>
-<?= $this->Form->create($invoice) ?>
+<?= $this->Form->create($invoice,['id'=>'form_3']) ?>
 <div style="width:100%;margin:auto;border:solid 1px;font-family: serif;background-color: #FFF;" class="maindiv">
 	
 	
@@ -136,6 +136,92 @@ p{
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
+	var form3 = $('#form_3');
+	var error3 = $('.alert-danger', form3);
+	var success3 = $('.alert-success', form3);
+	form3.validate({
+		errorElement: 'span', //default input error message container
+		errorClass: 'help-block help-block-error', // default input error message class
+		focusInvalid: true, // do not focus the last invalid input
+		
+		rules: {
+			transaction_date : {
+				  required: true,
+			},
+			customer_ledger_id : {
+				  required: true,
+			},
+			quantity:{
+				required: true,	
+			},
+			rate:{
+				required: true,	
+			},
+			discount_amount:{
+				required: true,	
+			},
+			item_id: {
+				required: true,
+			},
+			cgst_ledger_id: {
+				required: true,
+			},
+			sgst_ledger_id: {
+				required: true,
+			}
+		},
+
+		
+		errorPlacement: function (error, element) { // render error placement for each input type
+			if (element.parent(".input-group").size() > 0) {
+				error.insertAfter(element.parent(".input-group"));
+			} else if (element.attr("data-error-container")) { 
+				error.appendTo(element.attr("data-error-container"));
+			} else if (element.parents('.radio-list').size() > 0) { 
+				error.appendTo(element.parents('.radio-list').attr("data-error-container"));
+			} else if (element.parents('.radio-inline').size() > 0) { 
+				error.appendTo(element.parents('.radio-inline').attr("data-error-container"));
+			} else if (element.parents('.checkbox-list').size() > 0) {
+				error.appendTo(element.parents('.checkbox-list').attr("data-error-container"));
+			} else if (element.parents('.checkbox-inline').size() > 0) { 
+				error.appendTo(element.parents('.checkbox-inline').attr("data-error-container"));
+			} else {
+				error.insertAfter(element); // for other inputs, just perform default behavior
+			}
+		},
+
+		invalidHandler: function (event, validator) { //display error alert on form submit   
+			success3.hide();
+			error3.show();
+			//Metronic.scrollTo(error3, -200);
+		},
+
+		highlight: function (element) { // hightlight error inputs
+		   $(element)
+				.closest('.form-group').addClass('has-error'); // set error class to the control group
+		},
+
+		unhighlight: function (element) { // revert the change done by hightlight
+			$(element)
+				.closest('.form-group').removeClass('has-error'); // set error class to the control group
+		},
+
+		success: function (label) {
+			label
+				.closest('.form-group').removeClass('has-error'); // set success class to the control group
+		},
+
+		submitHandler: function (form3) {
+
+			form3[0].submit(); // submit the form
+		}
+
+	});
+	//--	 END OF VALIDATION
+	
+	
+
+
 	add_row();
 	$('.addrow').live("click",function() {
 		add_row();
@@ -157,19 +243,19 @@ $(document).ready(function() {
 		var i=0;
 		$("#mainTbl tbody#mainTbody tr.mainTr").each(function(){
 			$(this).find("td:eq(0) span.sr").html(++i); i--;
-			$(this).find("td:eq(1) select").attr({name:"invoice_rows["+i+"][item_id]", id:"invoice_rows-"+i+"-item_id"});
-			$(this).find("td:eq(2) input").attr({name:"invoice_rows["+i+"][hsn_code]", id:"invoice_rows-"+i+"-hsn_code"});
-			$(this).find("td:eq(3) input").attr({name:"invoice_rows["+i+"][quantity]", id:"invoice_rows-"+i+"-quantity"});
-			$(this).find("td:eq(4) input").attr({name:"invoice_rows["+i+"][rate]", id:"invoice_rows-"+i+"-rate"});
-			$(this).find("td:eq(5) input").attr({name:"invoice_rows["+i+"][amount]", id:"invoice_rows-"+i+"-amount"});
+			$(this).find("td:eq(1) select").attr({name:"invoice_rows["+i+"][item_id]", id:"invoice_rows-"+i+"-item_id"}).rules("add","required");
+			$(this).find("td:eq(2) input").attr({name:"invoice_rows["+i+"][hsn_code]", id:"invoice_rows-"+i+"-hsn_code"}).rules("add","required");
+			$(this).find("td:eq(3) input").attr({name:"invoice_rows["+i+"][quantity]", id:"invoice_rows-"+i+"-quantity"}).rules("add","required");
+			$(this).find("td:eq(4) input").attr({name:"invoice_rows["+i+"][rate]", id:"invoice_rows-"+i+"-rate"}).rules("add","required");
+			$(this).find("td:eq(5) input").attr({name:"invoice_rows["+i+"][amount]", id:"invoice_rows-"+i+"-amount"}).rules("add","required");
 			
-			$(this).find("td:eq(6) input").attr({name:"invoice_rows["+i+"][discount_amount]", id:"invoice_rows-"+i+"-discount_amount"});
-			$(this).find("td:eq(7) input").attr({name:"invoice_rows["+i+"][taxable_value]", id:"invoice_rows-"+i+"-taxable_value"});
-			$(this).find("td:eq(8) select").attr({name:"invoice_rows["+i+"][cgst_rate]", id:"invoice_rows-"+i+"-cgst_rate"});
-			$(this).find("td:eq(9) input").attr({name:"invoice_rows["+i+"][cgst_amount]", id:"invoice_rows-"+i+"-cgst_amount"});
-			$(this).find("td:eq(10) select").attr({name:"invoice_rows["+i+"][sgst_rate]", id:"invoice_rows-"+i+"-sgst_rate"});
-			$(this).find("td:eq(11) input").attr({name:"invoice_rows["+i+"][sgst_amount]", id:"invoice_rows-"+i+"-sgst_amount"});
-			$(this).find("td:eq(12) input").attr({name:"invoice_rows["+i+"][total]", id:"invoice_rows-"+i+"-total"});
+			$(this).find("td:eq(6) input").attr({name:"invoice_rows["+i+"][discount_amount]", id:"invoice_rows-"+i+"-discount_amount"}).rules("add","required");
+			$(this).find("td:eq(7) input").attr({name:"invoice_rows["+i+"][taxable_value]", id:"invoice_rows-"+i+"-taxable_value"}).rules("add","required");
+			$(this).find("td:eq(8) select").attr({name:"invoice_rows["+i+"][cgst_rate]", id:"invoice_rows-"+i+"-cgst_rate"}).rules("add","required");
+			$(this).find("td:eq(9) input").attr({name:"invoice_rows["+i+"][cgst_amount]", id:"invoice_rows-"+i+"-cgst_amount"}).rules("add","required");
+			$(this).find("td:eq(10) select").attr({name:"invoice_rows["+i+"][sgst_rate]", id:"invoice_rows-"+i+"-sgst_rate"}).rules("add","required");
+			$(this).find("td:eq(11) input").attr({name:"invoice_rows["+i+"][sgst_amount]", id:"invoice_rows-"+i+"-sgst_amount"}).rules("add","required");
+			$(this).find("td:eq(12) input").attr({name:"invoice_rows["+i+"][total]", id:"invoice_rows-"+i+"-total"}).rules("add","required");
 		i++;
 		});
 		calculation();
@@ -333,37 +419,37 @@ $(document).ready(function() {
 				<span class="sr"></span>
 				<button type="button" class="btn btn-xs red viewThisResult" role="button"><i class="fa fa-times"></i></button>
 			</td>
-			<td>
+			<td class="form-group">
 				<?php echo $this->Form->control('item_id',['empty' => "---Select---",'options'=>$items,'label'=>false,'style'=>'width: 100%;resize: none;','class'=>'form-control input-sm item']); ?>
 			</td>
-			<td class="hide">
-				<?php echo $this->Form->control('hsn_code',['label'=>false,'placeholder'=>'HSN code','style'=>'width: 100%;','class'=>'form-control input-sm']); ?>
+			<td class="hide form-group">
+				<?php echo $this->Form->control('hsn_code',['label'=>false,'placeholder'=>'HSN code','style'=>'width: 100%;','class'=>'form-control input-sm ']); ?>
 			</td>
-			<td style="text-align:center;">
+			<td style="text-align:center;" class="form-group">
 				<?php echo $this->Form->control('quantity',['label'=>false,'placeholder'=>'Qty','style'=>'width: 100%;text-align: center;','class'=>'form-control input-sm','value'=>1]); ?>
 			</td>
-			<td style="text-align:right;">
+			<td style="text-align:right;" class="form-group">
 				<?php echo $this->Form->control('rate',['label'=>false,'placeholder'=>'Rate','style'=>'width: 100%;text-align: right;','class'=>'calculate rate form-control input-sm']); ?>
 			</td>
-			<td style="text-align:right;">
+			<td style="text-align:right;" class="form-group">
 				<?php echo $this->Form->control('amount',['label'=>false,'placeholder'=>'Amount','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
 			</td>
-			<td style="text-align:right;">
+			<td style="text-align:right;" class="form-group">
 				<?php echo $this->Form->control('discount_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','class'=>'form-control input-sm']); ?>
 			</td>
-			<td style="text-align:right;">
+			<td style="text-align:right;" class="form-group">
 				<?php echo $this->Form->control('taxable_value',['label'=>false,'placeholder'=>'Taxable Value','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
 			</td>
-			<td style="text-align:right;">
+			<td style="text-align:right;" class="form-group">
 				<?php echo $this->Form->control('total_cgst',['empty' => "---Select---",'label'=>false,'autofocus','class'=>'form-control input-sm total_cgst','style'=>'width: 80px;border: none;text-align: right;','options'=>$taxs_CGST]); ?>
 			</td>
-			<td style="text-align:right;">
+			<td style="text-align:right;" class="form-group">
 				<?php echo $this->Form->control('cgst_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
 			</td>
-			<td style="text-align:right;">
+			<td style="text-align:right;" class="form-group">
 				<?php echo $this->Form->control('sgst_rate',['empty' => "---Select---",'label'=>false,'autofocus','class'=>'form-control input-sm sgst_rate','style'=>'width: 80px;border: none;text-align: right;','options'=>$taxs_SGST]); ?>
 			</td>
-			<td style="text-align:right;">
+			<td style="text-align:right;" class="form-group">
 				<?php echo $this->Form->control('sgst_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;border-right: none;">
@@ -389,6 +475,8 @@ $(document).ready(function() {
 <?php echo $this->Html->script('/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsPickers']); ?>
 <?php echo $this->Html->script('/assets/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsPickers']); ?>
 <?php echo $this->Html->script('/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsPickers']); ?>
+<?php echo $this->Html->script('/assets/global/plugins/jquery-validation/js/jquery.validate.min.js'); ?>
+<?php echo $this->Html->script('/assets/admin/pages/scripts/form-validation.js'); ?>
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <?php echo $this->Html->script('/assets/admin/pages/scripts/components-pickers.js', ['block' => 'PAGE_LEVEL_SCRIPTS_ComponentsPickers']); ?>
@@ -402,5 +490,6 @@ $(document).ready(function() {
 		QuickSidebar.init(); // init quick sidebar
 		Demo.init(); // init demo features
 		ComponentsPickers.init();
+		FormValidation.init();
 	});   
 </script>

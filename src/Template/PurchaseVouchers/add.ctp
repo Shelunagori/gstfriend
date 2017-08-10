@@ -47,7 +47,7 @@ p{
     padding:3px;
 }
 
-
+.hide { display:none; }
 .mainTr:hover .viewThisResult { display: block; }
 .mainTr:hover .sr { display: none; }
 .viewThisResult { display: none; }
@@ -87,8 +87,8 @@ p{
 								<td><br/></td>
 								<td><br/></td>
 							</tr>
-							<tr>
-								<td width="30%"><b>Purchase Ledger </b></td>
+							<tr class='hide'>
+								<td width="30%" ><b>Purchase Ledger </b></td>
 								<td class="form-group"><?php echo $this->Form->control('purchase_ledger_id',['options'=>$PurchaseLedger,'label' => false,'class' => 'form-control input-sm select2me']); ?> </td>
 							</tr>
 							
