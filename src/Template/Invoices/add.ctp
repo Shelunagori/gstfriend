@@ -35,7 +35,7 @@ p{
 							<td>
 							<div class="radio-list">
 								<label class="radio-inline">
-								<div class="radio" id="uniform-optionsRadios26"><span class="checked"><input type="radio" name="invoicetype" id="invoicetype" value="option2" checked></span></div> Option 2 </label>
+								<div class="radio" id="uniform-optionsRadios26"><span class="checked"><input type="radio" name="invoicetype" id="invoicetype" value="Credit" checked></span></div> Credit </label>
 								
 								<label class="radio-inline">
 								<div class="radio" id="uniform-optionsRadios25"><span class=""><input type="radio" name="invoicetype" id="invoicetype" value="Cash"></span></div> Cash </label>

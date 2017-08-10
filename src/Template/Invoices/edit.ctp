@@ -34,11 +34,12 @@ p{
 							<td>&nbsp;:&nbsp;</td>
 							<td>
 							<div class="radio-list">
+							
 								<label class="radio-inline">
-								<div class="radio" id="uniform-optionsRadios26"><span class="checked"><input type="radio" name="invoicetype" id="invoicetype" value="option2" checked></span></div> Option 2 </label>
+								<div class="radio" id="uniform-optionsRadios26"><span class="checked"><input type="radio" name="invoicetype" id="invoicetype" value="Credit" <?php if($invoice->invoicetype == 'Credit') { echo  'checked'; } ?> ></span></div> Credit </label>
 								
 								<label class="radio-inline">
-								<div class="radio" id="uniform-optionsRadios25"><span class=""><input type="radio" name="invoicetype" id="invoicetype" value="Cash"></span></div> Cash </label>
+								<div class="radio" id="uniform-optionsRadios25"><span class=""><input type="radio" name="invoicetype" id="invoicetype" value="Cash" <?php if($invoice->invoicetype == 'Cash') { echo  'checked'; } ?>></span></div> Cash </label>
 								
 							</div>
 							</td>
@@ -179,6 +180,12 @@ p{
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
+	
+	var radioValue = $("input[name='invoicetype']:checked").val();
+	if(radioValue == 'Cash'){
+		$('#cashhide').addClass('hide');
+	}else{ $('#cashhide').removeClass('hide'); }	
+	
 	rename_rows();
 	$('.addrow').live("click",function() {
 		add_row();
