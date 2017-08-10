@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 10, 2017 at 11:09 AM
+-- Generation Time: Aug 10, 2017 at 02:06 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -36,16 +36,6 @@ CREATE TABLE `accounting_entries` (
   `company_id` int(10) NOT NULL,
   `invoice_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `accounting_entries`
---
-
-INSERT INTO `accounting_entries` (`id`, `ledger_id`, `debit`, `credit`, `transaction_date`, `purchase_voucher_id`, `company_id`, `invoice_id`) VALUES
-(69, 29, '2000.00', '0.00', '2017-08-10', 0, 1, 13),
-(70, 18, '0.00', '2000.00', '2017-08-10', 0, 1, 13),
-(71, 19, '0.00', '0.00', '2017-08-10', 0, 1, 13),
-(72, 23, '0.00', '0.00', '2017-08-10', 0, 1, 13);
 
 -- --------------------------------------------------------
 
@@ -132,16 +122,9 @@ CREATE TABLE `customers` (
   `address` text NOT NULL,
   `state` varchar(100) NOT NULL,
   `freezed` tinyint(1) NOT NULL COMMENT '0==not freezed  1==freezed',
-  `company_id` int(11) NOT NULL
+  `company_id` int(11) NOT NULL,
+  `gstno` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `customers`
---
-
-INSERT INTO `customers` (`id`, `name`, `mobile`, `email`, `address`, `state`, `freezed`, `company_id`) VALUES
-(1, 'customer1', '4567891234', 'customer1@gmail.com', 'xyz', 'rajasthan', 1, 1),
-(2, 'customer2', '8694964494', 'saab@huewbfu.com', 'sjcbs', 'qbcq', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -162,13 +145,6 @@ CREATE TABLE `invoices` (
   `invoicetype` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `invoices`
---
-
-INSERT INTO `invoices` (`id`, `invoice_no`, `transaction_date`, `customer_ledger_id`, `sales_ledger_id`, `total_amount_before_tax`, `total_cgst`, `total_sgst`, `total_amount_after_tax`, `invoicetype`) VALUES
-(13, 1, '2017-08-10', 16, 18, '2000.00', '0.00', '0.00', '2000.00', 'Cash');
-
 -- --------------------------------------------------------
 
 --
@@ -185,19 +161,12 @@ CREATE TABLE `invoice_rows` (
   `discount_rate` decimal(5,2) DEFAULT NULL,
   `discount_amount` decimal(12,2) DEFAULT NULL,
   `taxable_value` decimal(15,2) DEFAULT NULL,
-  `cgst_rate` decimal(5,2) DEFAULT NULL,
+  `cgst_rate` int(10) DEFAULT NULL,
   `cgst_amount` decimal(12,2) DEFAULT NULL,
-  `sgst_rate` decimal(5,2) DEFAULT NULL,
+  `sgst_rate` int(10) DEFAULT NULL,
   `sgst_amount` decimal(12,2) DEFAULT NULL,
   `total` decimal(15,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `invoice_rows`
---
-
-INSERT INTO `invoice_rows` (`id`, `invoice_id`, `item_id`, `quantity`, `rate`, `amount`, `discount_rate`, `discount_amount`, `taxable_value`, `cgst_rate`, `cgst_amount`, `sgst_rate`, `sgst_amount`, `total`) VALUES
-(28, 13, 1, '10.00', '200.00', '2000.00', NULL, NULL, '2000.00', '19.00', '0.00', '23.00', '0.00', '2000.00');
 
 -- --------------------------------------------------------
 
@@ -216,15 +185,6 @@ CREATE TABLE `items` (
   `sgst_ledger_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `items`
---
-
-INSERT INTO `items` (`id`, `name`, `hsn_code`, `freezed`, `company_id`, `price`, `cgst_ledger_id`, `sgst_ledger_id`) VALUES
-(1, 'item 1', '123', 0, 1, '200.00', 19, 23),
-(2, 'item 2', '123', 0, 1, '500.00', 24, 28),
-(3, 'item 3', '', 0, 1, '1000.00', 26, 21);
-
 -- --------------------------------------------------------
 
 --
@@ -237,16 +197,6 @@ CREATE TABLE `item_discounts` (
   `item_id` int(10) NOT NULL,
   `discount` decimal(15,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `item_discounts`
---
-
-INSERT INTO `item_discounts` (`id`, `customer_ledger_id`, `item_id`, `discount`) VALUES
-(1, 16, 1, '1000.00'),
-(2, 17, 3, '200.00'),
-(8, 16, 2, '110.00'),
-(9, 17, 2, '101.00');
 
 -- --------------------------------------------------------
 
@@ -271,7 +221,6 @@ CREATE TABLE `ledgers` (
 --
 
 INSERT INTO `ledgers` (`id`, `name`, `accounting_group_id`, `freeze`, `company_id`, `supplier_id`, `customer_id`, `tax_percentage`, `gst_type`) VALUES
-(2, 'Manoj Tanwar', 25, 0, 1, 4, 0, '0.00', ''),
 (3, 'Purchase Account', 13, 0, 0, 0, 0, '0.00', ''),
 (4, '0% CGST', 29, 0, 1, 0, 0, '0.00', 'CGST'),
 (5, '2.5% CGST', 29, 0, 1, 0, 0, '2.50', 'CGST'),
@@ -283,21 +232,19 @@ INSERT INTO `ledgers` (`id`, `name`, `accounting_group_id`, `freeze`, `company_i
 (12, '6% SGST', 29, 0, 1, 0, 0, '6.00', 'SGST'),
 (13, '9% SGST', 29, 0, 1, 0, 0, '9.00', 'SGST'),
 (14, '14% SGST', 29, 0, 1, 0, 0, '14.00', 'SGST'),
-(15, 'spx floew', 25, 0, 1, 5, 0, '0.00', NULL),
-(16, 'customer1', 22, 1, 1, 0, 1, '0.00', NULL),
-(17, 'customer2', 22, 0, 1, 0, 2, '0.00', NULL),
 (18, 'Sales Accounts', 14, 0, 0, 0, 0, '0.00', ''),
-(19, '0% CGST', 30, 0, 1, 0, 0, '0.00', 'CGST'),
-(20, '9% SGST', 30, 0, 1, 0, 0, '9.00', 'SGST'),
+(19, '0% SGST', 30, 0, 1, 0, 0, '0.00', 'SGST'),
+(20, '2.5% SGST', 30, 0, 1, 0, 0, '2.50', 'SGST'),
 (21, '6% SGST', 30, 0, 1, 0, 0, '6.00', 'SGST'),
-(22, '2.5% SGST', 30, 0, 1, 0, 0, '2.50', 'SGST'),
-(23, '0% SGST', 30, 0, 1, 0, 0, '0.00', 'SGST'),
-(24, '14% CGST', 30, 0, 1, 0, 0, '14.00', 'CGST'),
-(25, '9% CGST', 30, 0, 1, 0, 0, '9.00', 'CGST'),
-(26, '6% CGST', 30, 0, 1, 0, 0, '6.00', 'CGST'),
-(27, '2.5% CGST', 30, 0, 1, 0, 0, '2.50', 'CGST'),
+(22, '9% SGST', 30, 0, 1, 0, 0, '9.00', 'SGST'),
+(23, '0% CGST', 30, 0, 1, 0, 0, '0.00', 'CGST'),
+(24, '2.5% CGST', 30, 0, 1, 0, 0, '2.50', 'CGST'),
+(25, '6% CGST', 30, 0, 1, 0, 0, '6.00', 'CGST'),
+(26, '9% CGST', 30, 0, 1, 0, 0, '9.00', 'CGST'),
+(27, '14%CGST', 30, 0, 1, 0, 0, '14.00', 'CGST'),
 (28, '14% SGST', 30, 0, 1, 0, 0, '14.00', 'SGST'),
-(29, 'Petty Cash', 31, 0, 1, 0, 0, '0.00', '');
+(29, 'Petty Cash', 31, 0, 1, 0, 0, '0.00', ''),
+(30, 'customer3', 22, 1, 1, 0, 3, '0.00', NULL);
 
 -- --------------------------------------------------------
 
@@ -337,13 +284,6 @@ CREATE TABLE `purchase_vouchers` (
   `company_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `purchase_vouchers`
---
-
-INSERT INTO `purchase_vouchers` (`id`, `voucher_no`, `reference_no`, `supplier_ledger_id`, `purchase_ledger_id`, `transaction_date`, `narration`, `company_id`) VALUES
-(26, 1, '12345', 2, 3, '2017-08-10', 'Test', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -366,14 +306,6 @@ CREATE TABLE `purchase_voucher_rows` (
   `total` decimal(15,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `purchase_voucher_rows`
---
-
-INSERT INTO `purchase_voucher_rows` (`id`, `purchase_voucher_id`, `item_id`, `quantity`, `rate_per`, `discount_amount`, `amount`, `taxable_value`, `cgst_ledger_id`, `cgst_amount`, `sgst_ledger_id`, `sgst_amount`, `total`) VALUES
-(66, 26, 1, '10.00', '10.00', '20.00', '100.00', 80, 5, '2.00', 10, '2.00', '84.00'),
-(67, 26, 2, '50.00', '5.00', '50.00', '250.00', 200, 4, '0.00', 9, '0.00', '200.00');
-
 -- --------------------------------------------------------
 
 --
@@ -388,19 +320,9 @@ CREATE TABLE `suppliers` (
   `address` text NOT NULL,
   `state` varchar(100) NOT NULL,
   `freezed` tinyint(1) NOT NULL COMMENT '0==not freezed  1==freezed',
-  `company_id` int(11) NOT NULL
+  `company_id` int(11) NOT NULL,
+  `gstno` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `suppliers`
---
-
-INSERT INTO `suppliers` (`id`, `name`, `mobile`, `email`, `address`, `state`, `freezed`, `company_id`) VALUES
-(1, 'anil', '', '', '', '', 0, 1),
-(2, 'cvbcvb', '', '', '', '', 0, 1),
-(3, 'anill', '9462952929', 'anilgurjer371@gmail.com', 'balicha', 'rajasthan', 1, 1),
-(4, 'Manoj Tanwar', '', '', '', '', 0, 1),
-(5, 'spx floew', '', '', '', '', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -520,7 +442,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `accounting_entries`
 --
 ALTER TABLE `accounting_entries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `accounting_groups`
 --
@@ -535,32 +457,32 @@ ALTER TABLE `companies`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `invoices`
 --
 ALTER TABLE `invoices`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `invoice_rows`
 --
 ALTER TABLE `invoice_rows`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `item_discounts`
 --
 ALTER TABLE `item_discounts`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `ledgers`
 --
 ALTER TABLE `ledgers`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT for table `nature_of_groups`
 --
@@ -570,17 +492,17 @@ ALTER TABLE `nature_of_groups`
 -- AUTO_INCREMENT for table `purchase_vouchers`
 --
 ALTER TABLE `purchase_vouchers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `purchase_voucher_rows`
 --
 ALTER TABLE `purchase_voucher_rows`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `suppliers`
 --
 ALTER TABLE `suppliers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `users`
 --
