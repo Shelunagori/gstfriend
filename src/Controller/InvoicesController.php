@@ -55,6 +55,7 @@ class InvoicesController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
         $invoice = $this->Invoices->newEntity();
+		$company_id=$this->Auth->User('company_id');
         if ($this->request->is('post')) {
             $invoice = $this->Invoices->patchEntity($invoice, $this->request->getData());
 			//Invoice Number Increment
@@ -74,6 +75,7 @@ class InvoicesController extends AppController
 					$Accounting_entries->debit = $invoice->total_amount_after_tax;
 					$Accounting_entries->credit = 0;
 					$Accounting_entries->transaction_date = $invoice->transaction_date;
+					$Accounting_entries->company_id=$company_id;
 					$Accounting_entries->invoice_id = $invoice->id;
 					$this->Invoices->AccountingEntries->save($Accounting_entries);				
 				}
@@ -85,6 +87,7 @@ class InvoicesController extends AppController
 					$Accounting_entries->debit = 0;
 					$Accounting_entries->credit = $invoice->total_amount_before_tax;
 					$Accounting_entries->transaction_date = $invoice->transaction_date;
+					$Accounting_entries->company_id=$company_id;
 					$Accounting_entries->invoice_id = $invoice->id;
 					$this->Invoices->AccountingEntries->save($Accounting_entries);				
 				}				
@@ -97,6 +100,7 @@ class InvoicesController extends AppController
 					$Accounting_entries->debit = 0;
 					$Accounting_entries->credit = $invoice_row->cgst_amount;
 					$Accounting_entries->transaction_date = $invoice->transaction_date;
+					$Accounting_entries->company_id=$company_id;
 					$Accounting_entries->invoice_id = $invoice->id;
 					$this->Invoices->AccountingEntries->save($Accounting_entries);
 
@@ -105,6 +109,7 @@ class InvoicesController extends AppController
 					$Accounting_entries->debit = 0;
 					$Accounting_entries->credit = $invoice_row->sgst_amount;
 					$Accounting_entries->transaction_date = $invoice->transaction_date;
+					$Accounting_entries->company_id=$company_id;
 					$Accounting_entries->invoice_id = $invoice->id;
 					$this->Invoices->AccountingEntries->save($Accounting_entries);
 					
@@ -156,12 +161,62 @@ class InvoicesController extends AppController
         $invoice = $this->Invoices->get($id, [
             'contain' => ['InvoiceRows']
         ]);
-		
+		$company_id=$this->Auth->User('company_id');
 		//pr($invoice->toArray()); exit;
 		
         if ($this->request->is(['patch', 'post', 'put'])) {
             $invoice = $this->Invoices->patchEntity($invoice, $this->request->getData());
             if ($this->Invoices->save($invoice)) {
+				$query = $this->Invoices->AccountingEntries->query();
+				$query->delete()->where(['invoice_id'=> $id])->execute();
+				if($invoice->total_amount_after_tax !=0)
+				{		
+					$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $invoice->customer_ledger_id;
+					$Accounting_entries->debit = $invoice->total_amount_after_tax;
+					$Accounting_entries->credit = 0;
+					$Accounting_entries->transaction_date = $invoice->transaction_date;
+					$Accounting_entries->company_id=$company_id;
+					$Accounting_entries->invoice_id = $invoice->id;
+					$this->Invoices->AccountingEntries->save($Accounting_entries);				
+				}
+
+				if($invoice->total_amount_before_tax !=0)
+				{		
+					$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $invoice->sales_ledger_id;
+					$Accounting_entries->debit = 0;
+					$Accounting_entries->credit = $invoice->total_amount_before_tax;
+					$Accounting_entries->transaction_date = $invoice->transaction_date;
+					$Accounting_entries->company_id=$company_id;
+					$Accounting_entries->invoice_id = $invoice->id;
+					$this->Invoices->AccountingEntries->save($Accounting_entries);				
+				}				
+				
+				
+				foreach($invoice->invoice_rows as $invoice_row)
+				{
+					$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $invoice_row->cgst_rate;
+					$Accounting_entries->debit = 0;
+					$Accounting_entries->credit = $invoice_row->cgst_amount;
+					$Accounting_entries->transaction_date = $invoice->transaction_date;
+					$Accounting_entries->company_id=$company_id;
+					$Accounting_entries->invoice_id = $invoice->id;
+					$this->Invoices->AccountingEntries->save($Accounting_entries);
+
+					$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $invoice_row->sgst_rate;
+					$Accounting_entries->debit = 0;
+					$Accounting_entries->credit = $invoice_row->sgst_amount;
+					$Accounting_entries->transaction_date = $invoice->transaction_date;
+					$Accounting_entries->company_id=$company_id;
+					$Accounting_entries->invoice_id = $invoice->id;
+					$this->Invoices->AccountingEntries->save($Accounting_entries);
+					
+				}
+
+					
                 $this->Flash->success(__('The invoice has been saved.'));
 
                 return $this->redirect(['action' => 'index']);

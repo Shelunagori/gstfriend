@@ -41,6 +41,7 @@ $(document).ready(function() {
 		
 		
 	});	
+<<<<<<< HEAD
 		
 	
 	$(".select_item").change(function() {
@@ -64,6 +65,8 @@ $(document).ready(function() {
 	
 	
 	
+=======
+>>>>>>> a064ae70df96ea9b6ffa34258a6e4d7093e52c67
 });
 </script>
 

@@ -1,4 +1,4 @@
-<?php $this->set('title', 'Invoice List'); ?>
+<?php $this->set('title', 'Purchase Voucher List'); ?>
 <div class="portlet light bordered">
 	<div class="portlet-title">
 		<div class="caption">
