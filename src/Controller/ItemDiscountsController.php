@@ -64,10 +64,10 @@ class ItemDiscountsController extends AppController
 				
 			$itemDiscount = $this->ItemDiscounts->newEntities($data);
 			//pr($itemDiscount); exit;
-			
+			//Replace Data In Table Start
 			$query = $this->ItemDiscounts->query();
 			$query->delete()->where(['item_id'=> $item_ids])->execute();
-			
+			//Replace Data In Table End
             if ($this->ItemDiscounts->saveMany($itemDiscount)) 
 			{
 				
