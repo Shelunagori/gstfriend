@@ -13,7 +13,7 @@
 				<?php echo $this->Html->tag('li', $this->Html->link('<i class="icon-home"></i> '.__('Add New Supplier'), ['controller' => 'Suppliers', 'action' => 'Add'], ['escape' => false])); ?>
 				<?php echo $this->Html->tag('li', $this->Html->link('<i class="icon-home"></i> '.__('List Suppliers'), ['controller' => 'Suppliers', 'action' => 'Index'], ['escape' => false])); ?>
 				<?php echo $this->Html->tag('li', $this->Html->link('<i class="icon-home"></i> '.__('Item   Vise Discount'), ['controller' => 'ItemDiscounts', 'action' => 'Add'], ['escape' => false])); ?>
-				<?php echo $this->Html->tag('li', $this->Html->link('<i class="icon-home"></i> '.__('List Item Discounts'), ['controller' => 'ItemDiscounts', 'action' => 'Index'], ['escape' => false])); ?>
+				
 			</ul>
 		</li>
 	</ul>

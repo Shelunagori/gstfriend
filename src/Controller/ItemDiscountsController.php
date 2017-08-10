@@ -59,7 +59,7 @@ class ItemDiscountsController extends AppController
 		$this->viewBuilder()->layout('index_layout');
         $itemDiscount = $this->ItemDiscounts->newEntity();
         if ($this->request->is('post')) {
-				$data=$this->request->data['item_discounts'];
+			$data=$this->request->data['item_discounts'];
 				
 			$itemDiscount = $this->ItemDiscounts->newEntities($data);
 			//pr($itemDiscount); exit;
@@ -72,7 +72,7 @@ class ItemDiscountsController extends AppController
             }
             $this->Flash->error(__('The item discount could not be saved. Please, try again.'));
         }
-        $customerLedgers = $this->ItemDiscounts->CustomerLedgers->find()->where(['accounting_group_id'=>22]);
+
         $items_datas = $this->ItemDiscounts->Items->find();
 			foreach($items_datas as $items_data)
 			{
@@ -85,7 +85,15 @@ class ItemDiscountsController extends AppController
 		$this->set('active_menu', 'ItemDiscounts.Add');
     }
 	
-
+	function getItemDiscount($item_id){
+		$customerLedgers = $this->ItemDiscounts->CustomerLedgers->find()->where(['accounting_group_id'=>22]);
+		$itemDiscounts = $this->ItemDiscounts->find()->where(['item_id'=>$item_id]);
+		$discount=[];
+		foreach($itemDiscounts as $itemDiscount){
+			$discount[$itemDiscount->customer_ledger_id]=$itemDiscount->discount;
+		}
+		$this->set(compact('customerLedgers','discount'));
+	}
 
     /**
      * Edit method
