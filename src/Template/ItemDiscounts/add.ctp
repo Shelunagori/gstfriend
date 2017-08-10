@@ -10,7 +10,7 @@ $this->set('title', 'Add');
 	<div class="portlet-body-form"  >
 		<?= $this->Form->create($itemDiscount) ?>
 		<fieldset>
-			<legend><?= __('Item Wise Discount') ?></legend>
+			<legend><?= __('Item Vise Discount') ?></legend>
 			<div class="form-body" >
 				<div class="row">
 					<div class="form-group col-md-4">
