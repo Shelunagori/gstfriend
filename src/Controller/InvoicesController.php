@@ -65,21 +65,38 @@ class InvoicesController extends AppController
 			}else{
 				$invoice->invoice_no=1;
 			}
-			//pr($invoice); exit;
+			//pr($invoice->invoicetype); exit;
             if ($this->Invoices->save($invoice)) {
 				
-				if($invoice->total_amount_after_tax !=0)
-				{		
-					$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
-					$Accounting_entries->ledger_id = $invoice->customer_ledger_id;
-					$Accounting_entries->debit = $invoice->total_amount_after_tax;
-					$Accounting_entries->credit = 0;
-					$Accounting_entries->transaction_date = $invoice->transaction_date;
-					$Accounting_entries->company_id=$company_id;
-					$Accounting_entries->invoice_id = $invoice->id;
-					$this->Invoices->AccountingEntries->save($Accounting_entries);				
+				if($invoice->invoicetype == 'Cash')
+				{
+					if($invoice->total_amount_after_tax !=0)
+					{		
+						$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
+						$Accounting_entries->ledger_id = 29;
+						$Accounting_entries->debit = $invoice->total_amount_after_tax;
+						$Accounting_entries->credit = 0;
+						$Accounting_entries->transaction_date = $invoice->transaction_date;
+						$Accounting_entries->company_id=$company_id;
+						$Accounting_entries->invoice_id = $invoice->id;
+						$this->Invoices->AccountingEntries->save($Accounting_entries);				
+					}					
 				}
-
+				else
+				{
+					if($invoice->total_amount_after_tax !=0)
+					{		
+						$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
+						$Accounting_entries->ledger_id = $invoice->customer_ledger_id;
+						$Accounting_entries->debit = $invoice->total_amount_after_tax;
+						$Accounting_entries->credit = 0;
+						$Accounting_entries->transaction_date = $invoice->transaction_date;
+						$Accounting_entries->company_id=$company_id;
+						$Accounting_entries->invoice_id = $invoice->id;
+						$this->Invoices->AccountingEntries->save($Accounting_entries);				
+					}					
+				}
+				
 				if($invoice->total_amount_before_tax !=0)
 				{		
 					$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
@@ -162,23 +179,42 @@ class InvoicesController extends AppController
             'contain' => ['InvoiceRows']
         ]);
 		$company_id=$this->Auth->User('company_id');
-		//pr($invoice->toArray()); exit;
+		
 		
         if ($this->request->is(['patch', 'post', 'put'])) {
             $invoice = $this->Invoices->patchEntity($invoice, $this->request->getData());
-            if ($this->Invoices->save($invoice)) {
+            
+			if ($this->Invoices->save($invoice)) {
 				$query = $this->Invoices->AccountingEntries->query();
 				$query->delete()->where(['invoice_id'=> $id])->execute();
-				if($invoice->total_amount_after_tax !=0)
-				{		
-					$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
-					$Accounting_entries->ledger_id = $invoice->customer_ledger_id;
-					$Accounting_entries->debit = $invoice->total_amount_after_tax;
-					$Accounting_entries->credit = 0;
-					$Accounting_entries->transaction_date = $invoice->transaction_date;
-					$Accounting_entries->company_id=$company_id;
-					$Accounting_entries->invoice_id = $invoice->id;
-					$this->Invoices->AccountingEntries->save($Accounting_entries);				
+				
+				if($invoice->invoicetype == 'Cash')
+				{
+					if($invoice->total_amount_after_tax !=0)
+					{		
+						$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
+						$Accounting_entries->ledger_id = 29;
+						$Accounting_entries->debit = $invoice->total_amount_after_tax;
+						$Accounting_entries->credit = 0;
+						$Accounting_entries->transaction_date = $invoice->transaction_date;
+						$Accounting_entries->company_id=$company_id;
+						$Accounting_entries->invoice_id = $invoice->id;
+						$this->Invoices->AccountingEntries->save($Accounting_entries);				
+					}					
+				}
+				else
+				{
+					if($invoice->total_amount_after_tax !=0)
+					{		
+						$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
+						$Accounting_entries->ledger_id = $invoice->customer_ledger_id;
+						$Accounting_entries->debit = $invoice->total_amount_after_tax;
+						$Accounting_entries->credit = 0;
+						$Accounting_entries->transaction_date = $invoice->transaction_date;
+						$Accounting_entries->company_id=$company_id;
+						$Accounting_entries->invoice_id = $invoice->id;
+						$this->Invoices->AccountingEntries->save($Accounting_entries);				
+					}					
 				}
 
 				if($invoice->total_amount_before_tax !=0)

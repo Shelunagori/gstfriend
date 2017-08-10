@@ -30,9 +30,18 @@ p{
 				<td style="border-right:solid 1px;padding:5px;" width="50%" valign="top">
 					<table>
 						<tr>
-							<td><b>Invoice No.</b></td>
+							<td><b>Invoice Type</b></td>
 							<td>&nbsp;:&nbsp;</td>
-							<td>-</td>
+							<td>
+							<div class="radio-list">
+								<label class="radio-inline">
+								<div class="radio" id="uniform-optionsRadios26"><span class="checked"><input type="radio" name="invoicetype" id="invoicetype" value="option2" checked></span></div> Option 2 </label>
+								
+								<label class="radio-inline">
+								<div class="radio" id="uniform-optionsRadios25"><span class=""><input type="radio" name="invoicetype" id="invoicetype" value="Cash"></span></div> Cash </label>
+								
+							</div>
+							</td>
 						</tr>
 						<tr>
 							<td><b>Invoice Date</b></td>
@@ -51,7 +60,7 @@ p{
 						<tr>
 							<td colspan="3"><b>Bill to Party</b></td>
 						</tr>
-						<tr>
+						<tr id='cashhide'>
 							<td><b>Name</b></td>
 							<td>&nbsp;:&nbsp;</td>
 							<td><?php echo $this->Form->control('customer_ledger_id',['label'=>false,'class'=>'form-control input-sm']); ?></td>
@@ -339,8 +348,14 @@ $(document).ready(function() {
 		$(this).closest('tr').find('td .total_cgst').val(cgst_ledger_id);
 		$(this).closest('tr').find('td .sgst_rate').val(sgst_ledger_id);
 		calculation();
-	});			
+	});	
 	
+    $("input[type='radio']").click(function(){
+            var radioValue = $("input[name='invoicetype']:checked").val();
+            if(radioValue == 'Cash'){
+                $('#cashhide').addClass('hide');
+            }else{ $('#cashhide').removeClass('hide'); }
+    });	
 	
 });
 </script>
