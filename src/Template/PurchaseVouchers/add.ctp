@@ -460,12 +460,13 @@ $(document).ready(function() {
 
 <?php 
 $Cgst=[];
-foreach($CgstTax as $GstTaxe){
+foreach($tax_CGSTS as $GstTaxe){
+
 	$Cgst[]=['text' =>$GstTaxe->name, 'value' => $GstTaxe->id, 'percentage'=>$GstTaxe->tax_percentage];
 }
 
 $Sgst=[];
-foreach($SgstTax as $SgstTaxe){
+foreach($tax_SGSTS as $SgstTaxe){
 	$Sgst[]=['text' =>$SgstTaxe->name, 'value' => $SgstTaxe->id, 'percentage'=>$SgstTaxe->tax_percentage];
 }
 ?>
