@@ -39,9 +39,9 @@ class InvoicesController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
         $invoice = $this->Invoices->get($id, [
-            'contain' => ['CustomerLedgers', 'SalesLedgers', 'InvoiceRows'=>['Items']]
+            'contain' => ['CustomerLedgers'=>['Customers'], 'SalesLedgers', 'InvoiceRows'=>['Items']]
         ]);
-
+		
         $this->set('invoice', $invoice);
         $this->set('_serialize', ['invoice']);
     }
@@ -263,14 +263,14 @@ class InvoicesController extends AppController
         $customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22]);
         $salesLedgers = $this->Invoices->SalesLedgers->find('list')->where(['accounting_group_id'=>14]);
         $items_datas = $this->Invoices->InvoiceRows->Items->find();
-		$tax_CGSTS = $this->Invoices->SalesLedgers->find()->where(['gst_type'=>'CGST']);
+		$tax_CGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'CGST']);
 
 		foreach($tax_CGSTS as $tax_CGST)
 		{
 			$taxs_CGST[]=['value'=>$tax_CGST->id,'text'=>$tax_CGST->name,'tax_rate'=>$tax_CGST->tax_percentage];
 		}		
 		
-		$tax_SGSTS = $this->Invoices->SalesLedgers->find()->where(['gst_type'=>'SGST']);
+		$tax_SGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'SGST']);
 		
 		foreach($tax_SGSTS as $tax_SGST)
 		{

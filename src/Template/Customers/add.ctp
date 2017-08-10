@@ -30,6 +30,10 @@ $this->set('title', 'Add');
 							<?php echo $this->Form->control('state' , ['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter State']); ?>
 						</div>
 						<div class="form-group">
+							<label class="control-label">GST No.</label>
+							<?php echo $this->Form->control('gstno' , ['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter GST NO.']); ?>
+						</div>
+						<div class="form-group">
 							<?php echo $this->Form->control('freezed'); ?>
 							<?php echo '';?>
 						</div>

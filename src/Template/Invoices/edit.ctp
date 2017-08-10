@@ -77,7 +77,7 @@ p{
 				<tr style="background-color: #e4e3e3;">
 					<th rowspan="2" style="border-left: none;">Sr. No.</th>
 					<th rowspan="2" width="30%">Item Description</th>
-					<th rowspan="2" width="80">HSN code</th>
+					<th rowspan="2" width="80" class="hide">HSN code</th>
 					<th rowspan="2" width="40">Qty</th>
 					<th rowspan="2" width="80">Rate</th>
 					<th rowspan="2" width="80">Amount</th>
@@ -104,7 +104,7 @@ p{
 					<td>
 						<?php echo $this->Form->control('item_id',['empty' => "---Select---",'options'=>$items,'label'=>false,'style'=>'width: 100%;resize: none;','class'=>'form-control input-sm item','value'=>$invoice_row->item_id]); ?>
 					</td>
-					<td>
+					<td class="hide">
 						<?php echo $this->Form->control('hsn_code',['label'=>false,'placeholder'=>'HSN code','style'=>'width: 100%;','class'=>'form-control input-sm']); ?>
 					</td>
 					<td style="text-align:center;">
@@ -381,7 +381,7 @@ $(document).ready(function() {
 			<td>
 				<?php echo $this->Form->control('item_id',['empty' => "---Select---",'options'=>$items,'label'=>false,'style'=>'width: 100%;resize: none;','class'=>'form-control input-sm item']); ?>
 			</td>
-			<td>
+			<td class="hide">
 				<?php echo $this->Form->control('hsn_code',['label'=>false,'placeholder'=>'HSN code','style'=>'width: 100%;','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:center;">
