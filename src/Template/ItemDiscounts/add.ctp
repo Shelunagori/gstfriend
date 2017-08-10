@@ -35,14 +35,6 @@ $this->set('title', 'Add');
 <script>
 $(document).ready(function() { 
 
-	
-	
-	$('.item').die().live("change",function() { 
-		
-		
-	});	
-
-	
 	$(".select_item").change(function() {
 		var item_id = $(this).find('option:selected').val();
 		var obj=$(this);
