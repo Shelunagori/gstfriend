@@ -26,6 +26,7 @@ class InvoicesController extends AppController
         $invoices = $this->paginate($invoic);
         $this->set(compact('invoices'));
         $this->set('_serialize', ['invoices']);
+		$this->set('active_menu','Invoices.Index');
     }
 
     /**
@@ -163,6 +164,7 @@ class InvoicesController extends AppController
 		
         $this->set(compact('invoice', 'customerLedgers', 'salesLedgers', 'items','taxs_CGST','taxs_SGST'));
         $this->set('_serialize', ['invoice']);
+		$this->set('active_menu', 'Invoices.Add');
     }
 
     /**
