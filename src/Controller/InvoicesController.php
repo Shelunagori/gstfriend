@@ -21,7 +21,7 @@ class InvoicesController extends AppController
     public function index()
     {
 		$this->viewBuilder()->layout('index_layout');
-		$invoic = $this->Invoices->find('all',['contain'=>['CustomerLedgers'=>['Customers'], 'SalesLedgers']]);
+		$invoic = $this->Invoices->find('all',['contain'=>['CustomerLedgers'=>['Customers'], 'SalesLedgers']])->order(['Invoices.id'=>'DESC']);
 	
         $invoices = $this->paginate($invoic);
         $this->set(compact('invoices'));

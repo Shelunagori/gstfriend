@@ -144,10 +144,11 @@ p{
 				</tr>
 			</thead>
 			<tbody>
-			<?php $i=0; foreach($invoice->invoice_rows as $invoice_row){  ?>
+			<?php $i=0; if(!empty($invoice->invoice_rows)) {
+			foreach($invoice->invoice_rows as $invoice_row){ ?>
 				<tr>
 					<td style="text-align:center;border-left: none;"><?= ++$i ?></td>
-					<td><?= $this->Text->autoParagraph(h($invoice_row->item->name)) ?></td>
+					<td><?= h($invoice_row->item->name) ?></td>
 					<td><?= $invoice_row->item->hsn_code ?></td>
 					<td style="text-align:center;"><?= $invoice_row->quantity ?></td>
 					<td style="text-align:right;"><?= $invoice_row->rate ?></td>
@@ -160,71 +161,26 @@ p{
 					<td style="text-align:right;"><?= $invoice_row->sgst_amount ?></td>
 					<td style="text-align:right;border-right: none;"><?= $invoice_row->total ?></td>
 				</tr>
-			<?php } ?>
+			<?php } } ?>
 			</tbody>
 		</table>
 		<?php
-			define("MAJOR", 'Rs');
-			define("MINOR", 'p');
-			class toWords  {
-					   var $Rs;
-					   var $pence;
-					   var $major;
-					   var $minor;
-					   var $words = '';
-					   var $number;
-					   var $magind;
-					   var $units = array('','one','two','three','four','five','six','seven','eight','nine');
-					   var $teens = array('ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen');
-					   var $tens = array('','ten','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety');
-					   var $mag = array('','thousand','million','billion','trillion');
-				function toWords($amount, $major=MAJOR, $minor=MINOR) {
-						 $this->major = $major;
-						 $this->minor = $minor;
-						 $this->number = number_format($amount,2);
-						 list($this->Rs,$this->pence) = explode('.',$this->number);
-						 $this->words = " $this->major $this->pence $this->minor";
-						 if ($this->Rs==0)
-							 $this->words = "Zero $this->words";
-						 else {
-							 $groups = explode(',',$this->Rs);
-							 $groups = array_reverse($groups);
-							 for ($this->magind=0; $this->magind<count($groups); $this->magind++) {
-								  if (($this->magind==1)&&(strpos($this->words,'hundred') === false)&&($groups[0]!='000'))
-									   $this->words = ' and ' . $this->words;
-								  $this->words = $this->_build($groups[$this->magind]).$this->words;
-							 }
-						 }
-				}
-				function _build($n) {
-						 $res = '';
-						 $na = str_pad("$n",3,"0",STR_PAD_LEFT);
-						 if ($na == '000') return '';
-						 if ($na{0} != 0)
-							 $res = ' '.$this->units[$na{0}] . ' hundred';
-						 if (($na{1}=='0')&&($na{2}=='0'))
-							  return $res . ' ' . $this->mag[$this->magind];
-						 $res .= $res==''? '' : ' and';
-						 $t = (int)$na{1}; $u = (int)$na{2};
-						 switch ($t) {
-								 case 0: $res .= ' ' . $this->units[$u]; break;
-								 case 1: $res .= ' ' . $this->teens[$u]; break;
-								 default:$res .= ' ' . $this->tens[$t] . ' ' . $this->units[$u] ; break;
-						 }
-						 $res .= ' ' . $this->mag[$this->magind];
-						 return $res;
-				}
-			}
-			   
-				$obj = new toWords($invoice->total_amount_after_tax);
-				
+		$grand_total=explode('.',$invoice->total_amount_after_tax);
+		$rupees=$grand_total[0];
+		$paisa_text='';
+		if(sizeof($grand_total)==2)
+		{
+			$grand_total[1]=str_pad($grand_total[1], 2, '0', STR_PAD_RIGHT);
+			$paisa=(int)$grand_total[1];
+			$paisa_text=' and ' . h(ucwords($this->NumberWords->convert_number_to_words($paisa))) .' Paisa';
+		}else{ $paisa_text=""; }
 		?>
 		<table width="100%" class="tbl">
 			<tbody>
 				<tr>
 					<td style="text-align:left;border-left: none;border-top: none;" rowspan="2" width="70%" valign="top">
 						<p><b>Amount in words : </b>
-						<?php  echo $obj->words;  ?>
+						<?= h(ucwords($this->NumberWords->convert_number_to_words($rupees))) ?> Rupees<?= h($paisa_text) ?>
 						</p>
 					</td>
 					<td style="text-align:right;border-top: none;"><b>Total Amount before Tax</b></td>
