@@ -24,7 +24,7 @@ class PurchaseVouchersController extends AppController
         $this->paginate = [
             'contain' => [ 'Companies','SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers']]
         ];
-        $purchaseVouchers = $this->paginate($this->PurchaseVouchers);
+        $purchaseVouchers = $this->paginate($this->PurchaseVouchers->find()->order(['PurchaseVouchers.id'=>'DESC']));
 
         $this->set(compact('purchaseVouchers'));
         $this->set('_serialize', ['purchaseVouchers']);

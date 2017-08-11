@@ -15,15 +15,11 @@
 			<table id="example1" class="table table-bordered table-striped">
 				<thead>
 					<tr>
-					<th scope="col">Sr.</th>
-					<th scope="col"><?= $this->Paginator->sort('voucher_no') ?></th>
-					<th scope="col"><?= $this->Paginator->sort('voucher_no_date') ?></th>
-					<th scope="col"><?= $this->Paginator->sort('supplier_name') ?></th>
-					<th scope="col"><?= $this->Paginator->sort('customer_name') ?></th>
-					<th scope="col"><?= $this->Paginator->sort('narration') ?></th>
-					<th scope="col" class="actions"><?= __('Actions') ?></th>
-					
-						
+						<th scope="col">Sr.</th>
+						<th scope="col">Voucher No</th>
+						<th scope="col">Date</th>
+						<th scope="col">Supplier</th>
+						<th scope="col" class="actions"><?= __('Actions') ?></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -39,9 +35,6 @@
 						<?= $this->Html->link(__($in_no), ['action' => 'view', $purchaseVoucher->id],['target'=>'_blank']) ?></td>
 						<td><?= h($purchaseVoucher->transaction_date) ?></td>
 						<td><?= h($purchaseVoucher->supplier_ledger->supplier->name) ?></td>
-						<td><?= h(@$purchaseVoucher->purchase_ledger->customer->name) ?></td>
-						
-						<td><?= h($purchaseVoucher->narration) ?></td>
 						<td class="actions">
 							<?= $this->Html->link(__('View'), ['action' => 'view', $purchaseVoucher->id]) ?>
 							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $purchaseVoucher->id]) ?>
