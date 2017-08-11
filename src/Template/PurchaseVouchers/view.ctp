@@ -134,12 +134,9 @@ p{
 				</tr>
 			</thead>
 			<tbody id="mainTbody">
-				<?php   $i=0; $total_before_tax=0; $total_cgst_amt=0; $total_sgst_amt=0;
+				<?php   $i=0;
 						foreach ($purchaseVoucher->purchase_voucher_rows as $purchaseVoucherRows):
 						$i++;
-						$total_before_tax=$total_before_tax+$purchaseVoucherRows->taxable_value;
-						$total_cgst_amt=$total_cgst_amt+$purchaseVoucherRows->cgst_amount;
-						$total_sgst_amt=$total_sgst_amt+$purchaseVoucherRows->sgst_amount;
 				?>
 				<tr>
 					<td width="15px"style="border-left: none;"><?= $this->Number->format($i) ?></td>
@@ -162,7 +159,7 @@ p{
 		</table>
 		<!--Convert Rupees ito Word- Start-->
 		<?php
-			$grand_total=explode('.',$invoice->total_amount_after_tax);
+			$grand_total=explode('.',$purchaseVoucher->total_amount_after_tax);
 			$rupees=$grand_total[0];
 			$paisa_text='';
 			if(sizeof($grand_total)==2)
