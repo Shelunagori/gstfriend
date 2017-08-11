@@ -183,19 +183,19 @@ p{
 						</p>
 					</td>
 					<td style="text-align:right;border-top: none;"><b>Total Amount before Tax</b></td>
-					<td style="text-align:right;border-right: none;border-top: none;" width="80"><?= $this->Number->format($total_amount_before_tax) ?></td>
+					<td style="text-align:right;border-right: none;border-top: none;" width="80"><?= $this->Number->format($purchaseVoucher->total_amount_before_tax) ?></td>
 				</tr>
 				<tr>
 					<td style="text-align:right;"><b>Total CGST</b></td>
-					<td style="text-align:right;border-right: none;"><?= $this->Number->format($total_cgst) ?></td>
+					<td style="text-align:right;border-right: none;"><?= $this->Number->format($purchaseVoucher->total_cgst) ?></td>
 				</tr>
 				<tr>
 					<td style="text-align:right;"><b>Total SGST</b></td>
-					<td style="text-align:right;border-right: none;"><?= $this->Number->format($total_sgst) ?></td>
+					<td style="text-align:right;border-right: none;"><?= $this->Number->format($purchaseVoucher->total_sgst) ?></td>
 				</tr>
 				<tr>
 					<td style="text-align:right;"><b>Total Amount after Tax</b></td>
-					<td style="text-align:right;border-right: none;" class="total_after_tax"><?= $this->Number->format($total_amount_after_tax)?></td>
+					<td style="text-align:right;border-right: none;" class="total_after_tax"><?= $this->Number->format($purchaseVoucher->total_amount_after_tax)?></td>
 				</tr>
 			</tbody>
 		</table>
