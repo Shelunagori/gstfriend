@@ -81,7 +81,7 @@ p{
 							
 							<tr>
 								<td width="30%"><b>Supplier Name</b></td>
-								<td width="50%" class="form-group"><?php echo $this->Form->control('supplier_ledger_id',['options'=>$SupplierLedger,'label' => false,'class' => 'form-control input-sm select2me']);?></td>
+								<td width="50%" class="form-group"><?php echo $this->Form->control('supplier_ledger_id',['empty'=>"----select----",'options'=>$SupplierLedger,'label' => false,'class' => 'form-control input-sm select2me']);?></td>
 							</tr>
 							<tr>
 								<td><br/></td>
@@ -470,7 +470,7 @@ foreach($SgstTax as $SgstTaxe){
 		<tr class="main_tr">
 			<td align="center" width="1px"></td>
 			<td width="20%" class="form-group">
-				<?php echo $this->Form->control('item_id', ['empty' => "---Select---",'options' =>$items, 'empty' => false,'label' => false,'class' => 'form-control input-sm itemchange']); ?>
+				<?php echo $this->Form->control('item_id', ['empty'=>"----select----",'options' =>$items, 'empty' => false,'label' => false,'class' => 'form-control input-sm itemchange']); ?>
 			</td>
 			
 			<td class="form-group">
