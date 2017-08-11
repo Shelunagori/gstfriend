@@ -63,7 +63,7 @@ p{
 						<tr id='cashhide'>
 							<td><b>Name</b></td>
 							<td>&nbsp;:&nbsp;</td>
-							<td><?php echo $this->Form->control('customer_ledger_id',['label'=>false,'class'=>'form-control input-sm']); ?></td>
+							<td><?php echo $this->Form->control('customer_ledger_id',['empty' => "---Select---",'label'=>false,'class'=>'form-control input-sm select2me']); ?></td>
 						</tr>
 					</table>
 				</td>

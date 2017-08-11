@@ -89,7 +89,7 @@ p{
 							</tr>
 							<tr class='hide'>
 								<td width="30%" ><b>Purchase Ledger </b></td>
-								<td class="form-group"><?php echo $this->Form->control('purchase_ledger_id',['options'=>$PurchaseLedger,'label' => false,'class' => 'form-control input-sm select2me']); ?> </td>
+								<td class="form-group"><?php echo $this->Form->control('purchase_ledger_id',['empty' => "---Select---",'options'=>$PurchaseLedger,'label' => false,'class' => 'form-control input-sm select2me']); ?> </td>
 							</tr>
 							
 						</table>
