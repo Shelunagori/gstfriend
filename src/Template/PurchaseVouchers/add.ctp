@@ -558,6 +558,8 @@ foreach($SgstTax as $SgstTaxe){
 <?php echo $this->Html->script('/assets/admin/pages/scripts/components-dropdowns.js', ['block' => 'PAGE_LEVEL_SCRIPTS_ComponentsDropdowns']); ?>
 <!-- END PAGE LEVEL SCRIPTS -->
 
+
+
 <?php 
 $js='  
 jQuery(document).ready(function() {

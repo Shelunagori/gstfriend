@@ -36,7 +36,7 @@ class InvoicesTable extends Table
         parent::initialize($config);
 
         $this->setTable('invoices');
-        $this->setDisplayField('id');
+        $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
 		$this->belongsTo('AccountingEntries');
@@ -51,6 +51,7 @@ class InvoicesTable extends Table
 			'foreignKey' => 'sales_ledger_id',
 			'propertyName' => 'sales_ledgers',
 		]);
+		
         $this->hasMany('InvoiceRows', [
             'foreignKey' => 'invoice_id',
 			'saveStrategy'=>'replace'

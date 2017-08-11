@@ -69,19 +69,16 @@ p{
 				<td style="border-right:solid 1px;padding:5px;" width="50%" valign="top">
 					<table>
 						<tr>
-							<td><b>Invoice No.</b></td>
+							<td width="80"><b>Invoice No.</b></td>
 							<td>&nbsp;:&nbsp;</td>
 							<td><?= h('#'.str_pad($invoice->invoice_no, 4, '0', STR_PAD_LEFT)) ?></td>
 						</tr>
 						<tr>
-							<td><b>Invoice Date</b></td>
-							<td>&nbsp;:&nbsp;</td>
-							<td><?= $invoice->transaction_date ?></td>
 						</tr>
 						<tr>
-							<td><b>State</b></td>
+							<td width="80"><b>Invoice Date</b></td>
 							<td>&nbsp;:&nbsp;</td>
-							<td>Rajasthan</td>
+							<td><?= $invoice->transaction_date ?></td>
 						</tr>
 					</table>
 				</td>
@@ -108,7 +105,7 @@ p{
 							<td width="50"><b>State</b></td>
 							<td><?php echo $invoice->customer_ledgers->customer->state; ?></td>
 							<td><b>GSTIN</b></td>
-							<td><?php echo $invoice->customer_ledgers->customer->gstno; ?></td>
+							<td><?php echo $invoice->customer_ledgers->customer->gstno;?></td>
 						</tr>
 					</table>
 					<?php  } else{?>
@@ -147,7 +144,7 @@ p{
 				</tr>
 			</thead>
 			<tbody>
-			<?php $i=0; foreach($invoice->invoice_rows as $invoice_row){ ?>
+			<?php $i=0; foreach($invoice->invoice_rows as $invoice_row){  ?>
 				<tr>
 					<td style="text-align:center;border-left: none;"><?= ++$i ?></td>
 					<td><?= $this->Text->autoParagraph(h($invoice_row->item->name)) ?></td>
@@ -276,7 +273,7 @@ p{
 						<div align="center"><b>Customer Signture</b></div>
 					</td>
 					<td style="border-top: none;border-right: none;border-bottom: none;" valign="bottom">
-						<div align="center"><b>For NEW BHAGYALAXMI MOBILE POINT</b></div><br/><br/><br/>
+						
 						<div align="center"><span style="border-top: solid 1px;"><b>Authorised signatory</b><span></div>
 					</td>
 				</tr>
