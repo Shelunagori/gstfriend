@@ -179,11 +179,11 @@ p{
 						</p>
 					</td>
 					<td style="text-align:right;border-top: none;"><b>Total Amount before Tax</b></td>
-					<td style="text-align:right;border-right: none;border-top: none;" width="80"><?= $this->Number->format($total_before_tax) ?></td>
+					<td style="text-align:right;border-right: none;border-top: none;" width="80"><?= $this->Number->format($total_amount_before_tax) ?></td>
 				</tr>
 				<tr>
 					<td style="text-align:right;"><b>Total CGST</b></td>
-					<td style="text-align:right;border-right: none;"><?= $this->Number->format($total_cgst_amt) ?></td>
+					<td style="text-align:right;border-right: none;"><?= $this->Number->format($total_cgst) ?></td>
 				</tr>
 				<tr>
 					<td style="border-left: none;border-top: none;" rowspan="2" width="70%" valign="top">
@@ -198,11 +198,11 @@ p{
 						</table>
 					</td>
 					<td style="text-align:right;"><b>Total SGST</b></td>
-					<td style="text-align:right;border-right: none;"><?= $this->Number->format($total_sgst_amt) ?></td>
+					<td style="text-align:right;border-right: none;"><?= $this->Number->format($total_sgst) ?></td>
 				</tr>
 				<tr>
 					<td style="text-align:right;"><b>Total Amount after Tax</b></td>
-					<td style="text-align:right;border-right: none;" class="total_after_tax"><?= $this->Number->format($total_before_tax+ $total_cgst_amt+$total_sgst_amt )?></td>
+					<td style="text-align:right;border-right: none;" class="total_after_tax"><?= $this->Number->format($total_amount_after_tax)?></td>
 				</tr>
 			</tbody>
 		</table>

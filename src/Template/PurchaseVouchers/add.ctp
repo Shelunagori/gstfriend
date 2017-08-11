@@ -196,10 +196,6 @@ $(document).ready(function() {
 			purchase_ledger_id : {
 				  required: true,
 			},
-			narration:{
-				required: true
-			},
-			
 			quantity:{
 				required: true,	
 			},
@@ -474,7 +470,7 @@ foreach($SgstTax as $SgstTaxe){
 		<tr class="main_tr">
 			<td align="center" width="1px"></td>
 			<td width="20%" class="form-group">
-				<?php echo $this->Form->control('item_id', ['options' =>$items, 'empty' => false,'label' => false,'class' => 'form-control input-sm itemchange']); ?>
+				<?php echo $this->Form->control('item_id', ['empty' => "---Select---",'options' =>$items, 'empty' => false,'label' => false,'class' => 'form-control input-sm itemchange']); ?>
 			</td>
 			
 			<td class="form-group">
