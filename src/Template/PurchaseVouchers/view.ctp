@@ -48,8 +48,12 @@ p{
     padding:3px;
 }
 </style>
-<a class="btn  blue hidden-print" style="margin-left:88%;" onclick="javascript:window.print();">Print <i class="fa fa-print"></i></a>
-<?= $this->Html->link(__('Edit'), ['action' => 'edit', $purchaseVoucher->id],['class'=>'btn yellow-crusta hidden-print']) ?>
+<div class="row">
+	<div class="col-md-12">
+		<a class="btn  blue hidden-print" style="margin-left:88%;" onclick="javascript:window.print();">Print <i class="fa fa-print"></i></a>
+		<?= $this->Html->link(__('Edit'), ['action' => 'edit', $purchaseVoucher->id],['class'=>'btn yellow-crusta hidden-print']) ?>
+	</div>
+</div>	
 <div style="width:80%;margin:auto;border:solid 1px;font-family: serif;background-color: #FFF;margin-top:2%" class="maindiv">
 	<table width="100%">
 		<tr>
@@ -173,7 +177,7 @@ p{
 		<table width="100%" class="tbl total">
 			<tbody>
 				<tr>
-					<td style="text-align:left;border-left: none;border-top: none;" rowspan="2" width="70%" valign="top">
+					<td style="text-align:left;border-left: none;border-top: none;" rowspan="4" width="70%" valign="top">
 						<p><b>Amount in words : </b>
 						<?= h(ucwords($this->NumberWords->convert_number_to_words($rupees))) ?> Rupees<?= h($paisa_text) ?>
 						</p>
@@ -186,17 +190,6 @@ p{
 					<td style="text-align:right;border-right: none;"><?= $this->Number->format($total_cgst) ?></td>
 				</tr>
 				<tr>
-					<td style="border-left: none;border-top: none;" rowspan="2" width="70%" valign="top">
-						<table width="100%" class="nbtbl">
-							<tr>
-								<td colspan="2"><b><u>Bank Details:-</u></b> Union Bank of India</td>
-							</tr>
-							<tr>
-								<td><b>Bank A/C : </b>760101010050042</td>
-								<td><b>IFSC Code: </b>UBIN0576018</td>
-							</tr>
-						</table>
-					</td>
 					<td style="text-align:right;"><b>Total SGST</b></td>
 					<td style="text-align:right;border-right: none;"><?= $this->Number->format($total_sgst) ?></td>
 				</tr>
@@ -221,9 +214,11 @@ p{
 				</tr>
 				<tr>
 					<td style="border-top: none;border-left: none;border-bottom: none;" width="50%" valign="top">
+						<div align="center"></div>
 						<div align="center"><b>Customer Signture</b></div>
 					</td>
 					<td style="border-top: none;border-right: none;border-bottom: none;" valign="bottom">
+						<div align="center"></div>
 						<div align="center"><span style="border-top: solid 1px;"><b>Authorised signatory</b><span></div>
 					</td>
 				</tr>
