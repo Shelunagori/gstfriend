@@ -30,18 +30,16 @@ p{
 				<td style="border-right:solid 1px;padding:5px;" width="50%" valign="top">
 					<table>
 						<tr>
-							<td><b>Invoice Type</b></td>
-							<td>&nbsp;:&nbsp;</td>
+							<td><div><b>Invoice Type</b></div></br></td>
+							<td><div>&nbsp;:&nbsp;</div></br></td>
 							<td>
 							<div class="radio-list">
-							
 								<label class="radio-inline">
 								<div class="radio" id="uniform-optionsRadios26"><span class="checked"><input type="radio" name="invoicetype" id="invoicetype" value="Credit" <?php if($invoice->invoicetype == 'Credit') { echo  'checked'; } ?> ></span></div> Credit </label>
 								
 								<label class="radio-inline">
 								<div class="radio" id="uniform-optionsRadios25"><span class=""><input type="radio" name="invoicetype" id="invoicetype" value="Cash" <?php if($invoice->invoicetype == 'Cash') { echo  'checked'; } ?>></span></div> Cash </label>
-								
-							</div>
+							</div></br>
 							</td>
 						</tr>
 						<tr>

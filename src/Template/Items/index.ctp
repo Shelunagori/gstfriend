@@ -8,14 +8,14 @@ $this->set('title', 'List');
 			<table id="example1" class="table table-bordered table-striped">
 				<thead style="text-align:center;">
 					<tr >
-						<th scope="col" style="text-align:center">Sr. No.</th>
-						<th scope="col" style="text-align:center">NAME</th>
-						<th scope="col" style="text-align:center">HSN CODE</th>
-						<th scope="col" style="text-align:center">PRICE</th>
-						<th scope="col" style="text-align:center">CGST</th>
-						<th scope="col" style="text-align:center">SGST</th>
-						<th scope="col" style="text-align:center">FREEZED</th>
-						<th scope="col" class="actions" style="text-align:center"><?= __('Actions') ?></th>
+						<th scope="col" >Sr. No.</th>
+						<th scope="col" >Name</th>
+						<th scope="col" >HSN Code</th>
+						<th scope="col" >Price</th>
+						<th scope="col" >CGST</th>
+						<th scope="col" >SGST</th>
+						<th scope="col" >Freezed</th>
+						<th scope="col" class="actions" ><?= __('Actions') ?></th>
 					</tr>
 				</thead>
 				<tbody>

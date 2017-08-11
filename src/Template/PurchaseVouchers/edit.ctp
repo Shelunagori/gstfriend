@@ -195,7 +195,7 @@ p{
 					<tr>
 						<td style="border-top: none;" width="200" colspan="7" rowspan="4" class="form-group">
 							<label class="control-label" >Narration</label>
-							<?php echo $this->Form->control('narration',['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Narration','required']); ?> 
+							<?php echo $this->Form->control('narration',['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Narration']); ?> 
 						</td>
 						<td style="text-align:right;border-top: none;" width="35" colspan="4"><b>Total Amount before Tax</b></td>
 						<td style="text-align:right;border-right: none;border-top: none;" width="55" >

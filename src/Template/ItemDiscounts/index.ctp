@@ -12,10 +12,10 @@ $this->set('title', 'List');
 			<table id="example1" class="table table-bordered form-group table-striped">
 				<thead>
 					<tr>
-						<th scope="col" style="text-align:center">Sr.No.</th>
-						<th scope="col" style="text-align:center">ITEM NAME</th>
-						<th scope="col" style="text-align:center">PRICE</th>
-						<th scope="col" class="actions" style="text-align:center"><?= __('Actions') ?></th>
+						<th scope="col" >Sr.No.</th>
+						<th scope="col" >Item Name</th>
+						<th scope="col" >Price</th>
+						<th scope="col" class="actions" ><?= __('Actions') ?></th>
 					</tr>
 				</thead>
 				<tbody>

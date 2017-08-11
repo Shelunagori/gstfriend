@@ -8,13 +8,13 @@ $this->set('title', 'List');
 			<table id="example1" class="table table-bordered form-group table-striped">
 				<thead>
 					<tr>
-						<th scope="col" style="text-align:center">Sr.No.</th>
-						<th scope="col" style="text-align:center">NAME</th>
-						<th scope="col" style="text-align:center">MOBILE NO.</th>
-						<th scope="col" style="text-align:center">EMAIL</th>
-						<th scope="col" style="text-align:center">STATE</th>
-						<th scope="col" style="text-align:center">FREEZED</th>
-						<th scope="col" class="actions" style="text-align:center"><?= __('Actions') ?></th>
+						<th scope="col">Sr.No.</th>
+						<th scope="col">Name</th>
+						<th scope="col">Mobile No.</th>
+						<th scope="col">Email</th>
+						<th scope="col">State</th>
+						<th scope="col">Freezed</th>
+						<th scope="col" class="actions" ><?= __('Actions') ?></th>
 					</tr>
 				</thead>
 				<tbody>

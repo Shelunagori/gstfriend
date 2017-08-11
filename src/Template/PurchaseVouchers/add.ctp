@@ -560,8 +560,4 @@ jQuery(document).ready(function() {
 		ComponentsDropdowns.init();
 		FormValidation.init();
 });'; 
-?>
-<?php echo $this->Html->scriptBlock($js, ['block'=>'bottomJS']); ?>
-
-
-	
+?>	

@@ -30,17 +30,16 @@ p{
 				<td style="border-right:solid 1px;padding:5px;" width="50%" valign="top">
 					<table>
 						<tr>
-							<td><b>Invoice Type</b></td>
-							<td>&nbsp;:&nbsp;</td>
+							<td><div><b>Invoice Type</b></div></br></td>
+							<td><div>&nbsp;:&nbsp;</div></br></td>
 							<td>
-							<div class="radio-list">
-								<label class="radio-inline">
-								<div class="radio" id="uniform-optionsRadios26"><span class="checked"><input type="radio" name="invoicetype" id="invoicetype" value="Credit" checked></span></div> Credit </label>
-								
-								<label class="radio-inline">
-								<div class="radio" id="uniform-optionsRadios25"><span class=""><input type="radio" name="invoicetype" id="invoicetype" value="Cash"></span></div> Cash </label>
-								
-							</div>
+								<div class="radio-list">
+									<label class="radio-inline">
+									<div class="radio" id="uniform-optionsRadios26"><span class="checked"><input type="radio" name="invoicetype" id="invoicetype" value="Credit" checked></span></div> Credit </label>
+									
+									<label class="radio-inline">
+									<div class="radio" id="uniform-optionsRadios25"><span class=""><input type="radio" name="invoicetype" id="invoicetype" value="Cash"></span></div> Cash </label>
+								</div></br>
 							</td>
 						</tr>
 						<tr>
@@ -55,7 +54,7 @@ p{
 						</tr>
 					</table>
 				</td>
-				<td style="padding:5px;" valign="top">
+				<td style="padding:5px;" >
 					<table width="100%">
 						<tr>
 							<td colspan="3"><b>Bill to Party</b></td>
@@ -63,7 +62,7 @@ p{
 						<tr id='cashhide'>
 							<td><b>Name</b></td>
 							<td>&nbsp;:&nbsp;</td>
-							<td><?php echo $this->Form->control('customer_ledger_id',['empty' => "---Select---",'label'=>false,'class'=>'form-control input-sm select2me']); ?></td>
+							<td class="form-group"><?php echo $this->Form->control('customer_ledger_id',['empty' => "---Select---",'label'=>false,'class'=>'form-control input-sm ']); ?></td>
 						</tr>
 					</table>
 				</td>
@@ -243,7 +242,7 @@ $(document).ready(function() {
 		var i=0;
 		$("#mainTbl tbody#mainTbody tr.mainTr").each(function(){
 			$(this).find("td:eq(0) span.sr").html(++i); i--;
-			$(this).find("td:eq(1) select").select2().attr({name:"invoice_rows["+i+"][item_id]", id:"invoice_rows-"+i+"-item_id"}).rules("add","required");
+			$(this).find("td:nth-child(2) select").select2().attr({name:"invoice_rows["+i+"][item_id]", id:"invoice_rows-"+i+"-item_id"}).rules("add","required");
 			$(this).find("td:eq(2) input").attr({name:"invoice_rows["+i+"][hsn_code]", id:"invoice_rows-"+i+"-hsn_code"}).rules("add","required");
 			$(this).find("td:eq(3) input").attr({name:"invoice_rows["+i+"][quantity]", id:"invoice_rows-"+i+"-quantity"}).rules("add","required");
 			$(this).find("td:eq(4) input").attr({name:"invoice_rows["+i+"][rate]", id:"invoice_rows-"+i+"-rate"}).rules("add","required");
@@ -409,7 +408,7 @@ $(document).ready(function() {
 				<button type="button" class="btn btn-xs red viewThisResult" role="button"><i class="fa fa-times"></i></button>
 			</td>
 			<td class="form-group">
-				<?php echo $this->Form->control('item_id',['empty' => "---Select---",'options'=>$items,'label'=>false,'style'=>'width: 100%;resize: none;','class'=>'form-control input-sm item select2me']); ?>
+				<?php echo $this->Form->control('item_id',['options'=>$items,'label'=>false,'style'=>'width: 100%;resize: none;','class'=>'form-control input-sm item ']); ?>
 			</td>
 			<td class="hide form-group">
 				<?php echo $this->Form->control('hsn_code',['label'=>false,'placeholder'=>'HSN code','style'=>'width: 100%;','class'=>'form-control input-sm ']); ?>
@@ -469,6 +468,7 @@ $(document).ready(function() {
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <?php echo $this->Html->script('/assets/admin/pages/scripts/components-pickers.js', ['block' => 'PAGE_LEVEL_SCRIPTS_ComponentsPickers']); ?>
+<?php echo $this->Html->script('/assets/admin/pages/scripts/components-dropdowns.js', ['block' => 'PAGE_LEVEL_SCRIPTS_ComponentsDropdowns']); ?>
 <!-- END PAGE LEVEL SCRIPTS -->
 <?php echo $this->Html->script('/assets/global/plugins/bootstrap-select/bootstrap-select.min.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsDropdowns']); ?>
 <?php echo $this->Html->script('/assets/global/plugins/select2/select2.min.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsDropdowns']); ?>
@@ -483,7 +483,13 @@ $(document).ready(function() {
 		Layout.init(); // init current layout
 		QuickSidebar.init(); // init quick sidebar
 		Demo.init(); // init demo features
-		ComponentsPickers.init();
-		FormValidation.init();
 	});   
 </script>
+<?php 
+$js='  
+jQuery(document).ready(function() {
+		ComponentsPickers.init();
+		ComponentsDropdowns.init();
+		FormValidation.init();
+});'; 
+?>
