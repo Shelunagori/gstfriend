@@ -138,11 +138,9 @@ p{
 						}
 					?>
 					<!--Get Gst Value with Percent end--->
-					<?php   $i=1; $total_before_tax=0; $total_cgst_amt=0; $total_sgst_amt=0; 
+					<?php   $i=1; 
 							foreach ($purchaseVoucher->purchase_voucher_rows as $purchaseVoucherRow){
-								$total_before_tax=$total_before_tax+$purchaseVoucherRow->taxable_value;
-								$total_cgst_amt=$total_cgst_amt+$purchaseVoucherRow->cgst_amount;
-								$total_sgst_amt=$total_sgst_amt+$purchaseVoucherRow->sgst_amount; 
+								
 					?>
 							<tr id="main_tr">
 								<td width="15px"style="border-left: none;"><?= h($i++) ?></td>
@@ -159,19 +157,19 @@ p{
 									<?php echo $this->Form->control('amount', ['type'=>'text','label' => false,'class' => 'form-control input-sm','required','value'=>$purchaseVoucherRow->amount]); ?>
 								</td>
 								<td width="44px" class="form-group">
-									<?php echo $this->Form->control('discount_amount', ['type'=>'text','label' => false,'class' => 'form-control input-sm','required','value'=>$purchaseVoucherRow->discount_amount]); ?>
+									<?php echo $this->Form->control('discount_amount', ['type'=>'text','label' => false,'class' => 'form-control input-sm','value'=>$purchaseVoucherRow->discount_amount]); ?>
 								</td>
 								<td width="48px" class="form-group">
 									<?php echo $this->Form->control('taxable_value', ['type'=>'text','label' => false,'class' => 'form-control input-sm','required','value'=>$purchaseVoucherRow->taxable_value]); ?>
 								</td>
 								<td width="35px" class="form-group">
-									<?php echo $this->Form->control('cgst_ledger_id', ['options' =>$Cgst,'label' => false,'class' => 'form-control input-sm gst_call','required','value'=>$purchaseVoucherRow->cgst_ledger_id]); ?>
+									<?php echo $this->Form->control('cgst_ledger_id', ['options' =>$Cgst,'label' => false,'class' => 'form-control input-sm gst_call','value'=>$purchaseVoucherRow->cgst_ledger_id]); ?>
 								</td>
 								<td width="43px" class="form-group">
 									<?php echo $this->Form->control('cgst_amount', ['type'=>'text','label' => false,'class' => 'form-control input-sm','required','value'=>$purchaseVoucherRow->cgst_amount]); ?>
 								</td>
 								<td width="43px" class="form-group">
-									<?php echo $this->Form->control('sgst_ledger_id', ['options' =>$Sgst,'label' => false,'class' => 'form-control input-sm gst_call','required','value'=>$purchaseVoucherRow->sgst_ledger_id]); ?>
+									<?php echo $this->Form->control('sgst_ledger_id', ['options' =>$Sgst,'label' => false,'class' => 'form-control input-sm gst_call','value'=>$purchaseVoucherRow->sgst_ledger_id]); ?>
 								</td>
 								<td width="43px" class="form-group">
 									<?php echo $this->Form->control('sgst_amount', ['type'=>'text','label' => false,'class' => 'form-control input-sm','required','value'=>$purchaseVoucherRow->sgst_amount]); ?>
@@ -267,9 +265,6 @@ $(document).ready(function() {
 				required: true,	
 			},
 			rate_per:{
-				required: true,	
-			},
-			discount_amount:{
 				required: true,	
 			},
 			item_id: {
@@ -375,15 +370,15 @@ $(document).ready(function() {
 					
 			$(this).find("td:nth-child(5) input").attr({name:"purchase_voucher_rows["+j+"][amount]", id:"purchase_voucher_rows-"+j+"-amount"}).rules("add","required");
 			
-			$(this).find("td:nth-child(6) input").attr({name:"purchase_voucher_rows["+j+"][discount_amount]", id:"purchase_voucher_rows-"+j+"-discount_amount"}).rules("add","required");
+			$(this).find("td:nth-child(6) input").attr({name:"purchase_voucher_rows["+j+"][discount_amount]", id:"purchase_voucher_rows-"+j+"-discount_amount"});
 			
 			$(this).find("td:nth-child(7) input").attr({name:"purchase_voucher_rows["+j+"][taxable_value]", id:"purchase_voucher_rows-"+j+"-taxable_value"}).rules("add","required");
 			
-			$(this).find("td:nth-child(8) select").select2().attr({name:"purchase_voucher_rows["+j+"][cgst_ledger_id]", id:"purchase_voucher_rows-"+j+"-cgst_ledger_id"}).rules("add","required");
+			$(this).find("td:nth-child(8) select").attr({name:"purchase_voucher_rows["+j+"][cgst_ledger_id]", id:"purchase_voucher_rows-"+j+"-cgst_ledger_id"}).rules("add","required");
 			
 			$(this).find("td:nth-child(9) input").attr({name:"purchase_voucher_rows["+j+"][cgst_amount]", id:"purchase_voucher_rows-"+j+"-cgst_amount"}).rules("add","required");
 			
-			$(this).find("td:nth-child(10) select").select2().attr({name:"purchase_voucher_rows["+j+"][sgst_ledger_id]", id:"purchase_voucher_rows-"+j+"-sgst_ledger_id"}).rules("add","required");
+			$(this).find("td:nth-child(10) select").attr({name:"purchase_voucher_rows["+j+"][sgst_ledger_id]", id:"purchase_voucher_rows-"+j+"-sgst_ledger_id"}).rules("add","required");
 			
 			$(this).find("td:nth-child(11) input").attr({name:"purchase_voucher_rows["+j+"][sgst_amount]", id:"purchase_voucher_rows-"+j+"-sgst_amount"}).rules("add","required");
 			
