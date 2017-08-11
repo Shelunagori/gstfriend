@@ -44,6 +44,19 @@ class InvoiceRowsTable extends Table
         $this->belongsTo('Items', [
             'foreignKey' => 'item_id'
         ]);
+
+		$this->belongsTo('TaxSGST', [
+			'className' => 'Ledgers',
+			'foreignKey' => 'sgst_rate',
+			'propertyName' => 'sgst',
+		]);
+
+		$this->belongsTo('TaxCGST', [
+			'className' => 'Ledgers',
+			'foreignKey' => 'cgst_rate',
+			'propertyName' => 'cgst',
+		]);		
+		
     }
 
     /**

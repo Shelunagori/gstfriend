@@ -40,9 +40,9 @@ class InvoicesController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
         $invoice = $this->Invoices->get($id, [
-            'contain' => ['CustomerLedgers'=>['Customers'], 'SalesLedgers', 'InvoiceRows'=>['Items']]
+            'contain' => ['CustomerLedgers'=>['Customers'], 'SalesLedgers', 'InvoiceRows'=>['Items','TaxCGST','TaxSGST']]
         ]);
-		
+		//pr($invoice->toArray());exit;
         $this->set('invoice', $invoice);
         $this->set('_serialize', ['invoice']);
     }

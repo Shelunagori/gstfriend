@@ -159,9 +159,9 @@ p{
 					<td style="text-align:right;"><?= $invoice_row->amount ?></td>
 					<td style="text-align:right;"><?= $invoice_row->discount_amount ?></td>
 					<td style="text-align:right;"><?= $invoice_row->taxable_value ?></td>
-					<td style="text-align:right;"><?= $invoice_row->cgst_rate ?></td>
+					<td style="text-align:right;"><?= $invoice_row->cgst->tax_percentage ?>%</td>
 					<td style="text-align:right;"><?= $invoice_row->cgst_amount ?></td>
-					<td style="text-align:right;"><?= $invoice_row->sgst_rate ?></td>
+					<td style="text-align:right;"><?= $invoice_row->sgst->tax_percentage ?>%</td>
 					<td style="text-align:right;"><?= $invoice_row->sgst_amount ?></td>
 					<td style="text-align:right;border-right: none;"><?= $invoice_row->total ?></td>
 				</tr>
