@@ -50,7 +50,7 @@ p{
 </style>
 <div class="row">
 	<div class="col-md-12">
-		<a class="btn  blue hidden-print" style="margin-left:88%;" onclick="javascript:window.print();">Print <i class="fa fa-print"></i></a>
+		<a class="btn  blue hidden-print" style="margin-left:77%;" onclick="javascript:window.print();">Print <i class="fa fa-print"></i></a>
 		<?= $this->Html->link(__('Edit'), ['action' => 'edit', $purchaseVoucher->id],['class'=>'btn yellow-crusta hidden-print']) ?>
 	</div>
 </div>	
