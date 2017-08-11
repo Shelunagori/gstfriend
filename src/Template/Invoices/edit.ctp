@@ -366,11 +366,7 @@ $(document).ready(function() {
 	
 });
 </script>
-<style>
-.mainTr:hover .viewThisResult { display: block; }
-.mainTr:hover .sr { display: none; }
-.viewThisResult { display: none; }
-</style>
+
 <table id="sampleTbl" style="display:none;">
 	<tbody>
 		<tr class="mainTr">
