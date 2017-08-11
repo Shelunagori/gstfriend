@@ -16,12 +16,10 @@
 			<thead>
 				<tr>
 					<th scope="col">Sr.</th>
-					<th scope="col"><?= $this->Paginator->sort('invoice_no') ?></th>
-					<th scope="col"><?= $this->Paginator->sort('invoice_date') ?></th>
-					<th scope="col"><?= $this->Paginator->sort('party_name') ?></th>
-					<th scope="col"><?= $this->Paginator->sort('party_mobile') ?></th>
-					<th scope="col"><?= $this->Paginator->sort('party_state') ?></th>
-					<th scope="col"><?= $this->Paginator->sort('total_amount_after_tax') ?></th>
+					<th scope="col">Invoice No</th>
+					<th scope="col">Invoice Date</th>
+					<th scope="col">Customer</th>
+					<th scope="col">Total Amount After Tax</th>
 					<th scope="col" class="actions"><?= __('Actions') ?></th>
 				</tr>
 			</thead>
@@ -35,8 +33,6 @@
 						<?= $this->Html->link(__($in_no), ['action' => 'view', $invoice->id],['target'=>'_blank']) ?></td>
 					<td><?= h($invoice->transaction_date) ?></td>
 					<td><?= h($invoice->customer_ledgers['customer']['name']) ?></td>
-					<td><?= h($invoice->customer_ledgers['customer']['mobile']) ?></td>
-					<td><?= h($invoice->customer_ledgers['customer']['state']) ?></td>
 					<td align="right"><?= $this->Number->format($invoice->total_amount_after_tax,[ 'places' => 2]) ?></td>
 					<td class="actions">
 						<?= $this->Html->link(__('Edit'), ['action' => 'edit', $invoice->id]) ?>

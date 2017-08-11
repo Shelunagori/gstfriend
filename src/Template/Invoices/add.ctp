@@ -249,7 +249,7 @@ $(document).ready(function() {
 			$(this).find("td:eq(4) input").attr({name:"invoice_rows["+i+"][rate]", id:"invoice_rows-"+i+"-rate"}).rules("add","required");
 			$(this).find("td:eq(5) input").attr({name:"invoice_rows["+i+"][amount]", id:"invoice_rows-"+i+"-amount"}).rules("add","required");
 			
-			$(this).find("td:eq(6) input").attr({name:"invoice_rows["+i+"][discount_amount]", id:"invoice_rows-"+i+"-discount_amount"}).rules("add","required");
+			$(this).find("td:eq(6) input").attr({name:"invoice_rows["+i+"][discount_amount]", id:"invoice_rows-"+i+"-discount_amount"});
 			$(this).find("td:eq(7) input").attr({name:"invoice_rows["+i+"][taxable_value]", id:"invoice_rows-"+i+"-taxable_value"}).rules("add","required");
 			$(this).find("td:eq(8) select").attr({name:"invoice_rows["+i+"][cgst_rate]", id:"invoice_rows-"+i+"-cgst_rate"}).rules("add","required");
 			$(this).find("td:eq(9) input").attr({name:"invoice_rows["+i+"][cgst_amount]", id:"invoice_rows-"+i+"-cgst_amount"}).rules("add","required");
@@ -286,9 +286,7 @@ $(document).ready(function() {
 			var amount=parseFloat(quantity*rate).toFixed(2);
 			$(this).find("td:eq(5) input").val(amount);
 			
-			//var discount_rate=parseFloat($(this).find("td:eq(6) input").val());
-			//if(!discount_rate){ discount_rate=0; }
-			//var discount_amount=parseFloat(amount*discount_rate/100).toFixed(2);
+			
 			
 			var discount_amount = parseFloat($(this).find("td:eq(6) input").val());
 			if(!discount_amount){ discount_amount=0; }
@@ -347,12 +345,7 @@ $(document).ready(function() {
 			
 			$(this).find("td:eq(8) input").val(taxable_value.toFixed(2));
 			
-			/*var discount_rate=parseFloat($(this).find("td:eq(6) input").val());
-			if(!discount_rate){ discount_rate=0; }
 			
-			var to_be_divide_for_discount=100-parseFloat(discount_rate);
-			var amount=(taxable_value/to_be_divide_for_discount)*100;
-			*/
 			$(this).find("td:eq(5) input").val(taxable_value.toFixed(2));
 			
 			var quantity=parseFloat($(this).find("td:eq(3) input").val());
@@ -381,7 +374,7 @@ $(document).ready(function() {
 		$('input[name="total_amount_after_tax"]').val(total_amount_after_tax.toFixed(2));
 	}
 	
-	$('input[name="party_name"]').focus();
+	//$('input[name="party_name"]').focus();
 	
 	$('.item').die().live("change",function() { 
 		var rate = $(this).find('option:selected').attr('rate');
@@ -395,10 +388,10 @@ $(document).ready(function() {
 	
 	
     $("input[type='radio']").click(function(){
-            var radioValue = $("input[name='invoicetype']:checked").val();
-            if(radioValue == 'Cash'){
-                $('#cashhide').addClass('hide');
-            }else{ $('#cashhide').removeClass('hide'); }
+		var radioValue = $("input[name='invoicetype']:checked").val();
+		if(radioValue == 'Cash'){
+			$('#cashhide').addClass('hide');
+		}else{ $('#cashhide').removeClass('hide'); }
     });
         
     
@@ -437,13 +430,13 @@ $(document).ready(function() {
 				<?php echo $this->Form->control('taxable_value',['label'=>false,'placeholder'=>'Taxable Value','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;" class="form-group">
-				<?php echo $this->Form->control('total_cgst',['empty' => "---Select---",'label'=>false,'autofocus','class'=>'form-control input-sm total_cgst','style'=>'width: 80px;border: none;text-align: right;','options'=>$taxs_CGST]); ?>
+				<?php echo $this->Form->control('total_cgst',['empty' => "---Select---",'label'=>false,'class'=>'form-control input-sm total_cgst','style'=>'width: 80px;border: none;text-align: right;','options'=>$taxs_CGST]); ?>
 			</td>
 			<td style="text-align:right;" class="form-group">
 				<?php echo $this->Form->control('cgst_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;" class="form-group">
-				<?php echo $this->Form->control('sgst_rate',['empty' => "---Select---",'label'=>false,'autofocus','class'=>'form-control input-sm sgst_rate','style'=>'width: 80px;border: none;text-align: right;','options'=>$taxs_SGST]); ?>
+				<?php echo $this->Form->control('sgst_rate',['empty' => "---Select---",'label'=>false,'class'=>'form-control input-sm sgst_rate','style'=>'width: 80px;border: none;text-align: right;','options'=>$taxs_SGST]); ?>
 			</td>
 			<td style="text-align:right;" class="form-group">
 				<?php echo $this->Form->control('sgst_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
@@ -484,7 +477,7 @@ $(document).ready(function() {
 <?php echo $this->Html->css('/assets/global/plugins/select2/select2.css', ['block' => 'cssComponentsDropdowns']); ?>
 <?php echo $this->Html->css('/assets/global/plugins/jquery-multi-select/css/multi-select.css', ['block' => 'cssComponentsDropdowns']); ?>
 <script>
-	jQuery(document).ready(function() {  
+	jQuery(document).ready(function() {
 		// initiate layout and plugins
 		Metronic.init(); // init metronic core components
 		Layout.init(); // init current layout
