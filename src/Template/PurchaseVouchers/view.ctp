@@ -214,11 +214,11 @@ p{
 				</tr>
 				<tr>
 					<td style="border-top: none;border-left: none;border-bottom: none;" width="50%" valign="top">
-						<div align="center"></div>
+						<div align="center"></br></br></br></div>
 						<div align="center"><b>Customer Signture</b></div>
 					</td>
 					<td style="border-top: none;border-right: none;border-bottom: none;" valign="bottom">
-						<div align="center"></div>
+						<div align="center"></br></br></br></div>
 						<div align="center"><span style="border-top: solid 1px;"><b>Authorised signatory</b><span></div>
 					</td>
 				</tr>
