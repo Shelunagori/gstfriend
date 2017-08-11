@@ -162,7 +162,7 @@ p{
 		</table>
 		<!--Convert Rupees ito Word- Start-->
 		<?php
-			$grand_total=explode('.',$invoice->total_amount_after_tax);
+			$grand_total=explode('.',$purchaseVoucher->total_amount_after_tax);
 			$rupees=$grand_total[0];
 			$paisa_text='';
 			if(sizeof($grand_total)==2)
