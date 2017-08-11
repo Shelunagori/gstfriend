@@ -81,7 +81,7 @@ p{
 							
 							<tr>
 								<td width="30%"><b>Supplier Name</b></td>
-								<td width="50%" class="form-group"><?php echo $this->Form->control('supplier_ledger_id',['empty'=>"----select----",'options'=>$SupplierLedger,'label' => false,'class' => 'form-control input-sm select2me']);?></td>
+								<td width="50%" class="form-group"><?php echo $this->Form->control('supplier_ledger_id',['options'=>$SupplierLedger,'label' => false,'class' => 'form-control input-sm select2me']);?></td>
 							</tr>
 							<tr>
 								<td><br/></td>
@@ -89,7 +89,7 @@ p{
 							</tr>
 							<tr class='hide'>
 								<td width="30%" ><b>Purchase Ledger </b></td>
-								<td class="form-group"><?php echo $this->Form->control('purchase_ledger_id',['empty' => "---Select---",'options'=>$PurchaseLedger,'label' => false,'class' => 'form-control input-sm select2me']); ?> </td>
+								<td class="form-group"><?php echo $this->Form->control('purchase_ledger_id',['options'=>$PurchaseLedger,'label' => false,'class' => 'form-control input-sm select2me']); ?> </td>
 							</tr>
 							
 						</table>

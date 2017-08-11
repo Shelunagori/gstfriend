@@ -100,7 +100,7 @@ class PurchaseVouchersController extends AppController
 					$Accounting_entries->company_id=$company_id;
 					$this->PurchaseVouchers->AccountingEntries->save($Accounting_entries);				
 				}
-
+				
 				if($purchaseVoucher->total_amount_before_tax !=0)
 				{		
 					$Accounting_entries = $this->PurchaseVouchers->AccountingEntries->newEntity();
@@ -112,7 +112,7 @@ class PurchaseVouchersController extends AppController
 					$Accounting_entries->company_id=$company_id;
 					$this->PurchaseVouchers->AccountingEntries->save($Accounting_entries);				
 				}				
-				
+			
 				
 				foreach($purchaseVoucher->purchase_voucher_rows as $purchase_voucher_row)
 				{
