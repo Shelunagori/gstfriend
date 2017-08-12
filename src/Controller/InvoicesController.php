@@ -143,10 +143,19 @@ class InvoicesController extends AppController
         $customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22,'freeze'=>0]);
         $salesLedgers = $this->Invoices->SalesLedgers->find('list')->where(['accounting_group_id'=>14,'freeze'=>0]);
         $items_datas = $this->Invoices->InvoiceRows->Items->find()->where(['freezed'=>0]);
-        $customer_discounts = $this->Invoices->ItemDiscounts->find();
-		pr($customer_discounts);
+        $customer_discounts = $this->Invoices->InvoiceRows->Items->find();
+		pr($customer_discounts->toarray());
 		$tax_CGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'CGST']);
-
+		
+		
+		$this->loadModel('ItemDiscounts');
+		$CustomerDiscounts = $this->ItemDiscounts->find('all', [
+			'limit' => 5,
+			'order' => 'Articles.created DESC'
+		]);
+		
+		
+		
 		foreach($tax_CGSTS as $tax_CGST)
 		{
 			$taxs_CGST[]=['value'=>$tax_CGST->id,'text'=>$tax_CGST->name,'tax_rate'=>$tax_CGST->tax_percentage];

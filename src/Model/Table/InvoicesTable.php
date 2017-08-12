@@ -53,7 +53,6 @@ class InvoicesTable extends Table
 		]);
 		
 		
-		
         $this->hasMany('InvoiceRows', [
             'foreignKey' => 'invoice_id',
 			'saveStrategy'=>'replace'

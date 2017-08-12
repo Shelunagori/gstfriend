@@ -62,7 +62,7 @@ p{
 						<tr id='cashhide'>
 							<td><b>Name</b></td>
 							<td>&nbsp;:&nbsp;</td>
-							<td class="form-group"><?php echo $this->Form->control('customer_ledger_id',['empty' => "---Select---",'label'=>false,'class'=>'form-control input-sm ']); ?></td>
+							<td class="form-group"><?php echo $this->Form->control('customer_ledger_id',['empty' => "---Select---",'label'=>false,'class'=>'form-control input-sm cstmr']); ?></td>
 						</tr>
 					</table>
 				</td>
@@ -407,6 +407,9 @@ $(document).ready(function() {
 		$(this).closest('tr').find('td .rate').val(rate);
 		$(this).closest('tr').find('td .total_cgst').val(cgst_ledger_id);
 		$(this).closest('tr').find('td .sgst_rate').val(sgst_ledger_id);
+		var customer = $(".cstmr").find('option:selected').val();
+		var item = $(this).find('option:selected').val();
+		alert(customer);
 		calculation();
 	});			
 	
