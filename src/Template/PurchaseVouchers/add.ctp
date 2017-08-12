@@ -372,6 +372,7 @@ $(document).ready(function() {
 			
 			var total=parseFloat(taxable_value)+parseFloat(cgst_amount)+parseFloat(sgst_amount);
 			$(this).find("td:nth-child(12) input").val(total.toFixed(2));
+			
 			total_amount_after_tax=total_amount_after_tax+total;
 			
 		});

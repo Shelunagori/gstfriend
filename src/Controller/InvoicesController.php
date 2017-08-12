@@ -143,6 +143,8 @@ class InvoicesController extends AppController
         $customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22,'freeze'=>0]);
         $salesLedgers = $this->Invoices->SalesLedgers->find('list')->where(['accounting_group_id'=>14,'freeze'=>0]);
         $items_datas = $this->Invoices->InvoiceRows->Items->find()->where(['freezed'=>0]);
+        $customer_discounts = $this->Invoices->ItemDiscounts->find();
+		pr($customer_discounts);
 		$tax_CGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'CGST']);
 
 		foreach($tax_CGSTS as $tax_CGST)
@@ -161,7 +163,7 @@ class InvoicesController extends AppController
 		{
 			$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->price,'cgst_ledger_id'=>$items_data->cgst_ledger_id,'sgst_ledger_id'=>$items_data->sgst_ledger_id];
 		}
-		
+//pr($items->toArray()) ;
         $this->set(compact('invoice', 'customerLedgers', 'salesLedgers', 'items','taxs_CGST','taxs_SGST'));
         $this->set('_serialize', ['invoice']);
 		$this->set('active_menu', 'Invoices.Add');

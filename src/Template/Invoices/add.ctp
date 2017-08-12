@@ -131,7 +131,9 @@ p{
 </div>
 <div align="center"><?= $this->Form->button(__('Generate Invoice'),['class'=>'btn green']) ?></div>
 <?= $this->Form->end() ?>
-
+<?php foreach($items as $item){
+		}
+	?>
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 <script>
 $(document).ready(function() {
@@ -278,46 +280,69 @@ $(document).ready(function() {
 		var total_sgst=0;
 		var total_amount_after_tax=0;
 		$("#mainTbl tbody#mainTbody tr.mainTr").each(function(){
-			var quantity=parseFloat($(this).find("td:eq(3) input").val());
-			if(!quantity){ quantity=0; }
-			var rate=parseFloat($(this).find("td:eq(4) input").val());
-			if(!rate){ rate=0; }
-			var amount=parseFloat(quantity*rate).toFixed(2);
-			$(this).find("td:eq(5) input").val(amount);
 			
+			var total=parseFloat($(this).find("td:eq(12) input").val());
+			if(!total){ total=0; }
 			
-			
-			var discount_amount = parseFloat($(this).find("td:eq(6) input").val());
-			if(!discount_amount){ discount_amount=0; }
-			var taxable_value=parseFloat(amount-discount_amount);
-			$(this).find("td:eq(7) input").val(taxable_value);
-			
-			total_amount_before_tax=total_amount_before_tax+taxable_value;
-			
-			var cgst_rate=parseFloat($(this).find("td:eq(8) option:selected").attr('tax_rate'));
-			if(!cgst_rate){ cgst_rate=0; }
-			var cgst_amount=parseFloat(taxable_value*cgst_rate/100).toFixed(2);
-			total_cgst=parseFloat(total_cgst)+parseFloat(cgst_amount);
-			
-			$(this).find("td:eq(9) input").val(cgst_amount);
-			
+			total_amount_after_tax=total_amount_after_tax+total
 			var sgst_rate=parseFloat($(this).find("td:eq(10) option:selected").attr('tax_rate'));
 			if(!sgst_rate){ sgst_rate=0; }
-			var sgst_amount=parseFloat(taxable_value*sgst_rate/100).toFixed(2);
+			$(this).val(sgst_rate);
+			var sgst_per=parseFloat($(this).val());
+			var cgst_rate=parseFloat($(this).find("td:eq(8) option:selected").attr('tax_rate'));
+			if(!cgst_rate){ cgst_rate=0; }
+			$(this).val(cgst_rate);
+			var cgst_per=parseFloat($(this).val());
+			if(!cgst_per){ cgst_per=0; }
+			var total_tax=(sgst_per+cgst_per);
+			//tax value calculate start
+			var taxable_value =  (total/((total_tax)+100))*100;
+			$(this).find("td:eq(7) input").val(taxable_value.toFixed(2));
+			var cgst_amount = taxable_value * (cgst_per/100);
+			total_cgst=parseFloat(total_cgst)+parseFloat(cgst_amount);
+			var sgst_amount = taxable_value * (sgst_per/100);
 			total_sgst=parseFloat(total_sgst)+parseFloat(sgst_amount);
+			//tax value calculate end
+			$(this).find("td:eq(9) input").val(total_cgst.toFixed(2));
+			$(this).find("td:eq(11) input").val(total_sgst.toFixed(2));
+			var discount_amount=parseFloat($(this).find("td:eq(6) input").val());
+			if(!discount_amount){ discount_amount=0; }
+			var amount = taxable_value+discount_amount;
+			$(this).find("td:eq(5) input").val(amount.toFixed(2));
+			var quantity=parseFloat($(this).find("td:eq(3) input").val());
+			if(!quantity){ quantity=0; }
+			var rate = amount/ quantity;
+			$(this).find("td:eq(4) input").val(rate.toFixed(2));
 			
-			$(this).find("td:eq(11) input").val(sgst_amount);
-			
-			var total=parseFloat(taxable_value)+parseFloat(cgst_amount)+parseFloat(sgst_amount);
-			$(this).find("td:eq(12) input").val(total.toFixed(2));
-			total_amount_after_tax=total_amount_after_tax+total;
-			
+			total_amount_before_tax=total_amount_before_tax+taxable_value;			
 		});
-		$('input[name="total_amount_before_tax"]').val(total_amount_before_tax.toFixed(2));
+		$('input[name="total_amount_after_tax"]').val(total_amount_after_tax.toFixed(2));
 		$('input[name="total_cgst"]').val(total_cgst.toFixed(2));
 		$('input[name="total_sgst"]').val(total_sgst.toFixed(2));
-		$('input[name="total_amount_after_tax"]').val(total_amount_after_tax.toFixed(2));
+		$('input[name="total_amount_before_tax"]').val(total_amount_before_tax.toFixed(2));
 	}
+	
+	//change value on change quantity start
+	$(".change_qty").on('keyup',function(){
+		
+		$("#mainTbl tbody#mainTbody tr.mainTr").each(function(){
+			var rate = $(this).find('option:selected').attr('rate');
+			
+			var quantity=parseFloat($(this).find("td:eq(3) input").val());
+			
+			var total=rate*quantity;
+			
+			$(this).find("td:eq(12) input").val(total.toFixed(2));
+		});
+		calculation();
+	});
+	//change value on change quantity end
+	
+	
+	
+	
+	
+	
 	
 	$('.revCalculate').live("keyup",function() {
 		reverseCalculation();
@@ -400,6 +425,10 @@ $(document).ready(function() {
 });
 </script>
 
+
+
+
+
 <table id="sampleTbl" style="display:none;">
 	<tbody>
 		<tr class="mainTr">
@@ -408,16 +437,16 @@ $(document).ready(function() {
 				<button type="button" class="btn btn-xs red viewThisResult" role="button"><i class="fa fa-times"></i></button>
 			</td>
 			<td class="form-group">
-				<?php echo $this->Form->control('item_id',['options'=>$items,'label'=>false,'style'=>'width: 100%;resize: none;','class'=>'form-control input-sm item ']); ?>
+				<?php echo $this->Form->control('item_id',['empty'=>"----select----",'options'=>$items,'label'=>false,'style'=>'width: 100%;resize: none;','class'=>'form-control input-sm item ']); ?>
 			</td>
 			<td class="hide form-group">
 				<?php echo $this->Form->control('hsn_code',['label'=>false,'placeholder'=>'HSN code','style'=>'width: 100%;','class'=>'form-control input-sm ']); ?>
 			</td>
 			<td style="text-align:center;" class="form-group">
-				<?php echo $this->Form->control('quantity',['label'=>false,'placeholder'=>'Qty','style'=>'width: 100%;text-align: center;','class'=>'form-control input-sm','value'=>1]); ?>
+				<?php echo $this->Form->control('quantity',['label'=>false,'placeholder'=>'Qty','style'=>'width: 100%;text-align: center;','class'=>'form-control input-sm change_qty','value'=>1]); ?>
 			</td>
 			<td style="text-align:right;" class="form-group">
-				<?php echo $this->Form->control('rate',['label'=>false,'placeholder'=>'Rate','style'=>'width: 100%;text-align: right;','class'=>'calculate rate form-control input-sm']); ?>
+				<?php echo $this->Form->control('rate',['label'=>false,'placeholder'=>'Rate','style'=>'width: 100%;text-align: right;','class'=>'calculate form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;" class="form-group">
 				<?php echo $this->Form->control('amount',['label'=>false,'placeholder'=>'Amount','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
@@ -441,7 +470,7 @@ $(document).ready(function() {
 				<?php echo $this->Form->control('sgst_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;border-right: none;">
-				<?php echo $this->Form->control('total',['label'=>false,'placeholder'=>'Total','style'=>'width: 100%;text-align: right;','class'=>'revCalculate','class'=>'form-control input-sm']); ?>
+				<?php echo $this->Form->control('total',['label'=>false,'placeholder'=>'Total','style'=>'width: 100%;text-align: right;','class'=>'revCalculate','class'=>'form-control rate input-sm']); ?>
 			</td>
 		</tr>
 	</tbody>
