@@ -212,7 +212,7 @@ class InvoicesController extends AppController
 		
         if ($this->request->is(['patch', 'post', 'put'])) {
             $invoice = $this->Invoices->patchEntity($invoice, $this->request->getData());
-            
+           // pr($invoice);exit;
 			if ($this->Invoices->save($invoice)) {
 				$query = $this->Invoices->AccountingEntries->query();
 				$query->delete()->where(['invoice_id'=> $id])->execute();

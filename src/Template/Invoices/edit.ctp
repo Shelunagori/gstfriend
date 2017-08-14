@@ -62,7 +62,7 @@ p{
 						<tr id='cashhide'>
 							<td><b>Name</b></td>
 							<td>&nbsp;:&nbsp;</td>
-							<td><?php echo $this->Form->control('customer_ledger_id',['label'=>false,'class'=>'form-control input-sm']); ?></td>
+							<td><?php echo $this->Form->control('customer_ledger_id',['label'=>false,'class'=>'form-control cstmr input-sm']); ?></td>
 						</tr>
 					</table>
 				</td>
@@ -115,7 +115,7 @@ p{
 						<?php echo $this->Form->control('amount',['label'=>false,'placeholder'=>'Amount','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm','value'=>$invoice_row->amount]); ?>
 					</td>
 					<td style="text-align:right;">
-						<?php echo $this->Form->control('discount_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','class'=>'form-control input-sm','value'=>$invoice_row->discount_amount]); ?>
+						<?php echo $this->Form->control('discount_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','class'=>'form-control discount input-sm','value'=>$invoice_row->discount_amount]); ?>
 					</td>
 					<td style="text-align:right;">
 						<?php echo $this->Form->control('taxable_value',['label'=>false,'placeholder'=>'Taxable Value','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm','value'=>$invoice_row->taxable_value]); ?>
@@ -244,6 +244,7 @@ $(document).ready(function() {
 			var quantity=parseFloat($(this).find("td:eq(3) input").val());
 			if(!quantity){ quantity=0; }
 			var total=parseFloat($(this).find("td:eq(12) input").val());
+			if(!total){ total=0; }
 			total_amount_after_tax=total_amount_after_tax+total
 			var sgst_rate=parseFloat($(this).find("td:eq(10) option:selected").attr('tax_rate'));
 			if(!sgst_rate){ sgst_rate=0; }
@@ -379,12 +380,12 @@ $(document).ready(function() {
 		var obj = $(this);
 		var url="<?php echo $this->Url->build(['controller'=>'Invoices','action'=>'CustomerDiscount']);?>";
 		if(customer != '')
-		{
+		{	
 			url=url+'/'+customer+'/'+item;
 			$.ajax({ 
 					url:url,
 					type:"GET",
-				}).done(function(response){
+				}).done(function(response){ 
 					obj.closest('tr').find('td .discount').val(response);
 					calculation();
 				});
@@ -423,7 +424,7 @@ $(document).ready(function() {
 				<?php echo $this->Form->control('amount',['label'=>false,'placeholder'=>'Amount','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;">
-				<?php echo $this->Form->control('discount_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','class'=>'form-control input-sm']); ?>
+				<?php echo $this->Form->control('discount_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','class'=>'form-control discount input-sm']); ?>
 			</td>
 			<td style="text-align:right;">
 				<?php echo $this->Form->control('taxable_value',['label'=>false,'placeholder'=>'Taxable Value','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>

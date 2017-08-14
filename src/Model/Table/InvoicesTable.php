@@ -80,10 +80,7 @@ class InvoicesTable extends Table
             ->requirePresence('invoice_no', 'create')
             ->notEmpty('invoice_no');
 
-        $validator
-            ->date('transaction_date')
-            ->requirePresence('transaction_date', 'create')
-            ->notEmpty('transaction_date');
+   
 
         $validator
             ->decimal('total_amount_before_tax')
