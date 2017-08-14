@@ -64,6 +64,11 @@ p{
 							<td>&nbsp;:&nbsp;</td>
 							<td class="form-group"><?php echo $this->Form->control('customer_ledger_id',['empty' => "---Select---",'label'=>false,'class'=>'form-control input-sm cstmr']); ?></td>
 						</tr>
+						<tr id='cashshow' class="hide">
+							<td><b>Name</b></td>
+							<td>&nbsp;:&nbsp;</td>
+							<td class="form-group"><?php echo $this->Form->control('customername',['label'=>false,'class'=>'form-control input-sm ']); ?></td>
+						</tr>
 					</table>
 				</td>
 			</tr>
@@ -410,12 +415,11 @@ $(document).ready(function() {
 		$(this).closest('tr').find('td .rate').val(rate);
 		$(this).closest('tr').find('td .total_cgst').val(cgst_ledger_id);
 		$(this).closest('tr').find('td .sgst_rate').val(sgst_ledger_id);
+		
 		var customer = $(".cstmr").find('option:selected').val();
 		var item = $(this).find('option:selected').val();
 		var obj = $(this);
 		var url="<?php echo $this->Url->build(['controller'=>'Invoices','action'=>'CustomerDiscount']);?>";
-		
-		
 		if(customer != '')
 		{
 			url=url+'/'+customer+'/'+item;
@@ -426,7 +430,7 @@ $(document).ready(function() {
 					obj.closest('tr').find('td .discount').val(response);
 					calculation();
 				});
-			}
+		}
 
 		else{
 			alert('Please Select Customer');
@@ -444,7 +448,10 @@ $(document).ready(function() {
 		var radioValue = $("input[name='invoicetype']:checked").val();
 		if(radioValue == 'Cash'){
 			$('#cashhide').addClass('hide');
-		}else{ $('#cashhide').removeClass('hide'); }
+		}else{ 
+				$('#cashhide').removeClass('hide'); 
+			 
+			}
     });
         
     
