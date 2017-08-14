@@ -434,19 +434,14 @@ $(document).ready(function() {
 	});			
 	
 	
-=======
-		
->>>>>>> 69309e17eb71cce3a23775601e4049e7c90d3c5c
+
     $("input[type='radio']").click(function(){
 		var radioValue = $("input[name='invoicetype']:checked").val();
 		if(radioValue == 'Cash'){
 			$('#cashhide').addClass('hide');
-<<<<<<< HEAD
 		}else{ 
 				$('#cashhide').removeClass('hide'); 
-			 
 			}
-=======
 			$('.item').die().live("change",function() { 
 				var rate = $(this).find('option:selected').attr('rate');
 				var cgst_ledger_id = $(this).find('option:selected').attr('cgst_ledger_id');
