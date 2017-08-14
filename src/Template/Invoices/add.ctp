@@ -419,7 +419,6 @@ $(document).ready(function() {
 				url:url,
 				type:"GET",
 			}).done(function(response){
-				 
 				obj.closest('tr').find('td .discount').val(response);
 				calculation();
 			});
