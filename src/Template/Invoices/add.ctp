@@ -396,52 +396,23 @@ $(document).ready(function() {
 	}
 	
 	//$('input[name="party_name"]').focus();
-<<<<<<< HEAD
-	
-	$('.item').die().live("change",function() { 
-		var rate = $(this).find('option:selected').attr('rate');
-		var cgst_ledger_id = $(this).find('option:selected').attr('cgst_ledger_id');
-		var sgst_ledger_id = $(this).find('option:selected').attr('sgst_ledger_id');
-		$(this).closest('tr').find('td .rate').val(rate);
-		$(this).closest('tr').find('td .total_cgst').val(cgst_ledger_id);
-		$(this).closest('tr').find('td .sgst_rate').val(sgst_ledger_id);
-		
-		var customer = $(".cstmr").find('option:selected').val();
-		var item = $(this).find('option:selected').val();
-		var obj = $(this);
-		var url="<?php echo $this->Url->build(['controller'=>'Invoices','action'=>'CustomerDiscount']);?>";
-		if(customer != '')
-		{
-			url=url+'/'+customer+'/'+item;
-			$.ajax({ 
-					url:url,
-					type:"GET",
-				}).done(function(response){
-					obj.closest('tr').find('td .discount').val(response);
-					calculation();
-				});
-		}
 
-		else{
-			alert('Please Select Customer');
-			obj.val('').select2();
-			return false;
-		}	
-		
-
-		
-		
-	});			
 	
+	
+	myfunc();
 	
 
     $("input[type='radio']").click(function(){
+		myfunc();
+    });
+	
+	function myfunc()
+	{
 		var radioValue = $("input[name='invoicetype']:checked").val();
 		if(radioValue == 'Cash'){
 			$('#cashhide').addClass('hide');
-		}else{ 
-				$('#cashhide').removeClass('hide'); 
-			}
+			$('#cashshow').removeClass('hide');
+		
 			$('.item').die().live("change",function() { 
 				var rate = $(this).find('option:selected').attr('rate');
 				var cgst_ledger_id = $(this).find('option:selected').attr('cgst_ledger_id');
@@ -450,9 +421,10 @@ $(document).ready(function() {
 				$(this).closest('tr').find('td .total_cgst').val(cgst_ledger_id);
 				$(this).closest('tr').find('td .sgst_rate').val(sgst_ledger_id);
 			});				
-		
+		}
 		else{ 
 			$('#cashhide').removeClass('hide');
+			$('#cashshow').addClass('hide');
 			
 			$('.item').die().live("change",function() { 
 				var rate = $(this).find('option:selected').attr('rate');
@@ -475,16 +447,18 @@ $(document).ready(function() {
 							obj.closest('tr').find('td .discount').val(response);
 							calculation();
 						});
-					}
+				}
 				else{
 					alert('Please Select Customer');
 					obj.val('').select2();
 					return false;
 				}		
 			});					
-			
 		}
-    });
+		
+		
+		
+	}
     	
 });
 </script>
