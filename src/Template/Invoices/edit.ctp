@@ -45,7 +45,7 @@ p{
 						<tr>
 							<td><b>Invoice Date</b></td>
 							<td>&nbsp;:&nbsp;</td>
-							<td><?php echo $this->Form->control('transaction_date',['label'=>false,'placeholder'=>'dd-mm-yyyy','type'=>'text','class'=>'date-picker form-control input-sm','data-date-format'=>'dd-mm-yyyy','value'=>date('d-m-Y')]); ?></td>
+							<td><?php echo $this->Form->control('transaction_date',['label'=>false,'placeholder'=>'dd-mm-yyyy','type'=>'text','class'=>'date-picker form-control input-sm','data-date-format'=>'dd-mm-yyyy']); ?></td>
 						</tr>
 						<tr>
 							<td> <span class='hide'> <b>Sales Account</b> </span> </td>
@@ -63,6 +63,11 @@ p{
 							<td><b>Name</b></td>
 							<td>&nbsp;:&nbsp;</td>
 							<td><?php echo $this->Form->control('customer_ledger_id',['label'=>false,'class'=>'form-control cstmr input-sm']); ?></td>
+						</tr>
+						<tr id='cashshow' class="hide">
+							<td><b>Name</b></td>
+							<td>&nbsp;:&nbsp;</td>
+							<td class="form-group"><?php echo $this->Form->control('customer_name',['label'=>false,'class'=>'form-control input-sm ']); ?></td>
 						</tr>
 					</table>
 				</td>
@@ -368,35 +373,64 @@ $(document).ready(function() {
 	$('input[name="party_name"]').focus();
 	
 	
-	$('.item').die().live("change",function() { 
-		var rate = $(this).find('option:selected').attr('rate');
-		var cgst_ledger_id = $(this).find('option:selected').attr('cgst_ledger_id');
-		var sgst_ledger_id = $(this).find('option:selected').attr('sgst_ledger_id');
-		$(this).closest('tr').find('td .rate').val(rate);
-		$(this).closest('tr').find('td .total_cgst').val(cgst_ledger_id);
-		$(this).closest('tr').find('td .sgst_rate').val(sgst_ledger_id);
-		var customer = $(".cstmr").find('option:selected').val();
-		var item = $(this).find('option:selected').val();
-		var obj = $(this);
-		var url="<?php echo $this->Url->build(['controller'=>'Invoices','action'=>'CustomerDiscount']);?>";
-		if(customer != '')
-		{	
-			url=url+'/'+customer+'/'+item;
-			$.ajax({ 
-					url:url,
-					type:"GET",
-				}).done(function(response){ 
-					obj.closest('tr').find('td .discount').val(response);
-					calculation();
-				});
+	myfunc();
+	$("input[type='radio']").click(function(){
+		myfunc();
+    });
+	
+	function myfunc()
+	{
+		var radioValue = $("input[name='invoicetype']:checked").val();
+		if(radioValue == 'Cash'){
+			$('#cashhide').addClass('hide');
+			$('#cashshow').removeClass('hide');
+		
+			$('.item').die().live("change",function() { 
+				var rate = $(this).find('option:selected').attr('rate');
+				var cgst_ledger_id = $(this).find('option:selected').attr('cgst_ledger_id');
+				var sgst_ledger_id = $(this).find('option:selected').attr('sgst_ledger_id');
+				$(this).closest('tr').find('td .rate').val(rate);
+				$(this).closest('tr').find('td .total_cgst').val(cgst_ledger_id);
+				$(this).closest('tr').find('td .sgst_rate').val(sgst_ledger_id);
+			});				
 		}
-
-		else{
-			alert('Please Select Customer');
-			obj.val('').select2();
-			return false;
+		else{ 
+			$('#cashhide').removeClass('hide');
+			$('#cashshow').addClass('hide');
+			
+			$('.item').die().live("change",function() { 
+				var rate = $(this).find('option:selected').attr('rate');
+				var cgst_ledger_id = $(this).find('option:selected').attr('cgst_ledger_id');
+				var sgst_ledger_id = $(this).find('option:selected').attr('sgst_ledger_id');
+				$(this).closest('tr').find('td .rate').val(rate);
+				$(this).closest('tr').find('td .total_cgst').val(cgst_ledger_id);
+				$(this).closest('tr').find('td .sgst_rate').val(sgst_ledger_id);
+				var customer = $(".cstmr").find('option:selected').val();
+				var item = $(this).find('option:selected').val();
+				var obj = $(this);
+				var url="<?php echo $this->Url->build(['controller'=>'Invoices','action'=>'CustomerDiscount']);?>";
+				if(customer != '')
+				{
+					url=url+'/'+customer+'/'+item;
+					$.ajax({ 
+							url:url,
+							type:"GET",
+						}).done(function(response){
+							obj.closest('tr').find('td .discount').val(response);
+							calculation();
+						});
+				}
+				else{
+					alert('Please Select Customer');
+					obj.val('').select2();
+					return false;
+				}		
+			});					
 		}
-	});		
+		
+		
+		
+	}
 	
 });
 </script>

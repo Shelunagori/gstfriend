@@ -65,9 +65,10 @@ class InvoicesController extends AppController
 				$invoice->invoice_no=$last_invoice->invoice_no+1;
 			}else{
 				$invoice->invoice_no=1;
-			}
-			//pr($invoice->invoicetype); exit;
-            if ($this->Invoices->save($invoice)) {
+			} 
+			$invoice->transaction_date = date('Y-m-d',strtotime($invoice->transaction_date));
+			
+			if ($this->Invoices->save($invoice)) {
 				
 				if($invoice->invoicetype == 'Cash')
 				{
@@ -212,7 +213,8 @@ class InvoicesController extends AppController
 		
         if ($this->request->is(['patch', 'post', 'put'])) {
             $invoice = $this->Invoices->patchEntity($invoice, $this->request->getData());
-           // pr($invoice);exit;
+          
+			$invoice->transaction_date = date('Y-m-d',strtotime($invoice->transaction_date));
 			if ($this->Invoices->save($invoice)) {
 				$query = $this->Invoices->AccountingEntries->query();
 				$query->delete()->where(['invoice_id'=> $id])->execute();

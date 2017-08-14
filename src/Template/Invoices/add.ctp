@@ -67,7 +67,7 @@ p{
 						<tr id='cashshow' class="hide">
 							<td><b>Name</b></td>
 							<td>&nbsp;:&nbsp;</td>
-							<td class="form-group"><?php echo $this->Form->control('customername',['label'=>false,'class'=>'form-control input-sm ']); ?></td>
+							<td class="form-group"><?php echo $this->Form->control('customer_name',['label'=>false,'class'=>'form-control input-sm ']); ?></td>
 						</tr>
 					</table>
 				</td>
@@ -164,6 +164,9 @@ $(document).ready(function() {
 				required: true,	
 			},
 			discount_amount:{
+				required: true,	
+			},
+			customer_name:{
 				required: true,	
 			},
 			item_id: {
@@ -400,9 +403,7 @@ $(document).ready(function() {
 	
 	
 	myfunc();
-	
-
-    $("input[type='radio']").click(function(){
+	$("input[type='radio']").click(function(){
 		myfunc();
     });
 	
@@ -455,9 +456,6 @@ $(document).ready(function() {
 				}		
 			});					
 		}
-		
-		
-		
 	}
     	
 });

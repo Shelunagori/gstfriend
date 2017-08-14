@@ -75,7 +75,7 @@ p{
 							</tr>
 							<tr>
 								<td width="40%"><b>Transaction Date</b></td>
-								<td class="form-group"><?php echo $this->Form->input('transaction_date', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker' , 'data-date-format'=>'dd-mm-yyyy','required','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y",strtotime('today'))]); ?></td>
+								<td class="form-group"><?php echo $this->Form->input('transaction_date', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker' , 'data-date-format'=>'dd-mm-yyyy','required','placeholder'=>'dd-mm-yyy']); ?></td>
 							</tr>
 						</table>
 					</td>
