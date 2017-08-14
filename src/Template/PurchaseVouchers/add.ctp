@@ -552,13 +552,15 @@ foreach($SgstTax as $SgstTaxe){
 <?php echo $this->Html->script('/assets/admin/pages/scripts/components-dropdowns.js', ['block' => 'PAGE_LEVEL_SCRIPTS_ComponentsDropdowns']); ?>
 <!-- END PAGE LEVEL SCRIPTS -->
 
-
-
-<?php 
-$js='  
-jQuery(document).ready(function() {
+<script>
+	jQuery(document).ready(function() {
+		// initiate layout and plugins
+		Metronic.init(); // init metronic core components
+		Layout.init(); // init current layout
+		QuickSidebar.init(); // init quick sidebar
+		Demo.init(); // init demo features
 		ComponentsPickers.init();
 		ComponentsDropdowns.init();
 		FormValidation.init();
-});'; 
-?>	
+	});   
+</script>

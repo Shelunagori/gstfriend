@@ -541,13 +541,8 @@ $(document).ready(function() {
 		Layout.init(); // init current layout
 		QuickSidebar.init(); // init quick sidebar
 		Demo.init(); // init demo features
-	});   
-</script>
-<?php 
-$js='  
-jQuery(document).ready(function() {
 		ComponentsPickers.init();
 		ComponentsDropdowns.init();
 		FormValidation.init();
-});'; 
-?>
+	});   
+</script>
