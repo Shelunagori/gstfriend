@@ -177,9 +177,17 @@ class InvoicesController extends AppController
 	function CustomerDiscount($customer_id,$item_id){
 		
 		$CustomerDiscounts = $this->Invoices->InvoiceRows->Items->ItemDiscounts->find()->where(['ItemDiscounts.customer_ledger_id'=>$customer_id,'ItemDiscounts.item_id'=>$item_id]);
-		foreach($CustomerDiscounts as $CustomerDiscount)
+		$CustomerDiscount = 0;
+		if(!empty($CustomerDiscounts))
+		{	
+			foreach($CustomerDiscounts as $CustomerDis)
+			{
+				$CustomerDiscount = $CustomerDis->discount;
+			}
+		}
+		else
 		{
-			$CustomerDiscount = $CustomerDiscount->discount;
+			$CustomerDiscount = 0;
 		}
 		 echo $CustomerDiscount; exit;
 		
