@@ -219,10 +219,6 @@ $(document).ready(function() {
 
 	});
 	//--	 END OF VALIDATION
-	
-	
-
-
 	add_row();
 	$('.addrow').live("click",function() {
 		add_row();
@@ -341,12 +337,7 @@ $(document).ready(function() {
 	});
 	//change value on change quantity end
 	
-	
-	
-	
-	
-	
-	
+
 	$('.revCalculate').live("keyup",function() {
 		reverseCalculation();
 	});
@@ -371,8 +362,6 @@ $(document).ready(function() {
 			var taxable_value=(total/to_be_divide)*100;
 			
 			$(this).find("td:eq(8) input").val(taxable_value.toFixed(2));
-			
-			
 			$(this).find("td:eq(5) input").val(taxable_value.toFixed(2));
 			
 			var quantity=parseFloat($(this).find("td:eq(3) input").val());
@@ -402,55 +391,55 @@ $(document).ready(function() {
 	}
 	
 	//$('input[name="party_name"]').focus();
-	
-	$('.item').die().live("change",function() { 
-		var rate = $(this).find('option:selected').attr('rate');
-		var cgst_ledger_id = $(this).find('option:selected').attr('cgst_ledger_id');
-		var sgst_ledger_id = $(this).find('option:selected').attr('sgst_ledger_id');
-		$(this).closest('tr').find('td .rate').val(rate);
-		$(this).closest('tr').find('td .total_cgst').val(cgst_ledger_id);
-		$(this).closest('tr').find('td .sgst_rate').val(sgst_ledger_id);
-		var customer = $(".cstmr").find('option:selected').val();
-		var item = $(this).find('option:selected').val();
-		var obj = $(this);
-		var url="<?php echo $this->Url->build(['controller'=>'Invoices','action'=>'CustomerDiscount']);?>";
 		
-		
-		if(customer != '')
-		{
-			url=url+'/'+customer+'/'+item;
-			$.ajax({ 
-					url:url,
-					type:"GET",
-				}).done(function(response){
-					obj.closest('tr').find('td .discount').val(response);
-					calculation();
-				});
-			}
-
-		else{
-			alert('Please Select Customer');
-			obj.val('').select2();
-			return false;
-		}	
-		
-
-		
-		
-	});			
-	
-	
     $("input[type='radio']").click(function(){
 		var radioValue = $("input[name='invoicetype']:checked").val();
 		if(radioValue == 'Cash'){
 			$('#cashhide').addClass('hide');
-		}else{ $('#cashhide').removeClass('hide'); }
+			$('.item').die().live("change",function() { 
+				var rate = $(this).find('option:selected').attr('rate');
+				var cgst_ledger_id = $(this).find('option:selected').attr('cgst_ledger_id');
+				var sgst_ledger_id = $(this).find('option:selected').attr('sgst_ledger_id');
+				$(this).closest('tr').find('td .rate').val(rate);
+				$(this).closest('tr').find('td .total_cgst').val(cgst_ledger_id);
+				$(this).closest('tr').find('td .sgst_rate').val(sgst_ledger_id);
+			});				
+		}
+		else{ 
+			$('#cashhide').removeClass('hide');
+			
+			$('.item').die().live("change",function() { 
+				var rate = $(this).find('option:selected').attr('rate');
+				var cgst_ledger_id = $(this).find('option:selected').attr('cgst_ledger_id');
+				var sgst_ledger_id = $(this).find('option:selected').attr('sgst_ledger_id');
+				$(this).closest('tr').find('td .rate').val(rate);
+				$(this).closest('tr').find('td .total_cgst').val(cgst_ledger_id);
+				$(this).closest('tr').find('td .sgst_rate').val(sgst_ledger_id);
+				var customer = $(".cstmr").find('option:selected').val();
+				var item = $(this).find('option:selected').val();
+				var obj = $(this);
+				var url="<?php echo $this->Url->build(['controller'=>'Invoices','action'=>'CustomerDiscount']);?>";
+				if(customer != '')
+				{
+					url=url+'/'+customer+'/'+item;
+					$.ajax({ 
+							url:url,
+							type:"GET",
+						}).done(function(response){
+							obj.closest('tr').find('td .discount').val(response);
+							calculation();
+						});
+					}
+				else{
+					alert('Please Select Customer');
+					obj.val('').select2();
+					return false;
+				}		
+			});					
+			
+		}
     });
-        
-    
-	
-	
-	
+    	
 });
 </script>
 
