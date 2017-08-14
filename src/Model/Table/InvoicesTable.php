@@ -53,15 +53,16 @@ class InvoicesTable extends Table
 		]);
 		
 		
+		
         $this->hasMany('InvoiceRows', [
             'foreignKey' => 'invoice_id',
 			'saveStrategy'=>'replace'
         ]);
     }
 
-	public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options) {
+	/* public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options) {
 		$data['transaction_date'] = date('Y-m-d',strtotime($data['transaction_date']));
-	}
+	} */
     /**
      * Default validation rules.
      *

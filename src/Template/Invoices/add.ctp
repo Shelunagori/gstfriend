@@ -331,8 +331,10 @@ $(document).ready(function() {
 			var quantity=parseFloat($(this).find("td:eq(3) input").val());
 			
 			var total=rate*quantity;
+			var discount=discount*quantity;
 			
 			$(this).find("td:eq(12) input").val(total.toFixed(2));
+			$(this).find("td:eq(6) input").val(discount.toFixed(2));
 		});
 		calculation();
 	});
@@ -409,8 +411,20 @@ $(document).ready(function() {
 		$(this).closest('tr').find('td .sgst_rate').val(sgst_ledger_id);
 		var customer = $(".cstmr").find('option:selected').val();
 		var item = $(this).find('option:selected').val();
-		alert(customer);
-		calculation();
+		var obj = $(this);
+		var url="<?php echo $this->Url->build(['controller'=>'Invoices','action'=>'CustomerDiscount']);?>";
+		url=url+'/'+customer+'/'+item;
+		//alert(url);
+		$.ajax({ 
+				url:url,
+				type:"GET",
+			}).done(function(response){
+				 
+				obj.closest('tr').find('td .discount').val(response);
+				calculation();
+			});
+		
+		
 	});			
 	
 	
@@ -455,7 +469,7 @@ $(document).ready(function() {
 				<?php echo $this->Form->control('amount',['label'=>false,'placeholder'=>'Amount','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
 			</td>
 			<td style="text-align:right;" class="form-group">
-				<?php echo $this->Form->control('discount_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','class'=>'form-control input-sm']); ?>
+				<?php echo $this->Form->control('discount_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','class'=>'form-control discount input-sm']); ?>
 			</td>
 			<td style="text-align:right;" class="form-group">
 				<?php echo $this->Form->control('taxable_value',['label'=>false,'placeholder'=>'Taxable Value','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>

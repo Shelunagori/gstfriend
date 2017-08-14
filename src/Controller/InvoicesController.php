@@ -144,15 +144,10 @@ class InvoicesController extends AppController
         $salesLedgers = $this->Invoices->SalesLedgers->find('list')->where(['accounting_group_id'=>14,'freeze'=>0]);
         $items_datas = $this->Invoices->InvoiceRows->Items->find()->where(['freezed'=>0]);
         $customer_discounts = $this->Invoices->InvoiceRows->Items->find();
-		pr($customer_discounts->toarray());
+	
 		$tax_CGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'CGST']);
 		
 		
-		$this->loadModel('ItemDiscounts');
-		$CustomerDiscounts = $this->ItemDiscounts->find('all', [
-			'limit' => 5,
-			'order' => 'Articles.created DESC'
-		]);
 		
 		
 		
@@ -177,6 +172,19 @@ class InvoicesController extends AppController
         $this->set('_serialize', ['invoice']);
 		$this->set('active_menu', 'Invoices.Add');
     }
+	
+	
+	function CustomerDiscount($customer_id,$item_id){
+		
+		$CustomerDiscounts = $this->Invoices->InvoiceRows->Items->ItemDiscounts->find()->where(['ItemDiscounts.customer_ledger_id'=>$customer_id,'ItemDiscounts.item_id'=>$item_id]);
+		foreach($CustomerDiscounts as $CustomerDiscount)
+		{
+			$CustomerDiscount = $CustomerDiscount->discount;
+		}
+		 echo $CustomerDiscount; exit;
+		
+	}
+	
 
     /**
      * Edit method

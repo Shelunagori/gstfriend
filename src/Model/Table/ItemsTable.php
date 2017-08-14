@@ -58,6 +58,9 @@ class ItemsTable extends Table
             'joinType' => 'INNER'
         ]);
 		
+		
+		$this->belongsTo('ItemDiscounts');
+		
 		$this->belongsTo('PurchaseVouchers', [
             'foreignKey' => 'purchase_voucher_id',
             'joinType' => 'INNER'
