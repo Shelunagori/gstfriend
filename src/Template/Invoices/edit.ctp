@@ -288,12 +288,15 @@ $(document).ready(function() {
 		
 		$("#mainTbl tbody#mainTbody tr.mainTr").each(function(){
 			var rate = $(this).find('option:selected').attr('rate');
-			
+			var discount = parseFloat($(this).find("td:eq(6) input").val());
+			if(!discount){ discount=0; }
 			var quantity=parseFloat($(this).find("td:eq(3) input").val());
 			
 			var total=rate*quantity;
+			var discount=discount*quantity;
 			
 			$(this).find("td:eq(12) input").val(total.toFixed(2));
+			$(this).find("td:eq(6) input").val(discount.toFixed(2));
 		});
 		calculation();
 	});
@@ -371,15 +374,28 @@ $(document).ready(function() {
 		$(this).closest('tr').find('td .rate').val(rate);
 		$(this).closest('tr').find('td .total_cgst').val(cgst_ledger_id);
 		$(this).closest('tr').find('td .sgst_rate').val(sgst_ledger_id);
-		calculation();
-	});	
-	
-    $("input[type='radio']").click(function(){
-            var radioValue = $("input[name='invoicetype']:checked").val();
-            if(radioValue == 'Cash'){
-                $('#cashhide').addClass('hide');
-            }else{ $('#cashhide').removeClass('hide'); }
-    });	
+		var customer = $(".cstmr").find('option:selected').val();
+		var item = $(this).find('option:selected').val();
+		var obj = $(this);
+		var url="<?php echo $this->Url->build(['controller'=>'Invoices','action'=>'CustomerDiscount']);?>";
+		if(customer != '')
+		{
+			url=url+'/'+customer+'/'+item;
+			$.ajax({ 
+					url:url,
+					type:"GET",
+				}).done(function(response){
+					obj.closest('tr').find('td .discount').val(response);
+					calculation();
+				});
+		}
+
+		else{
+			alert('Please Select Customer');
+			obj.val('').select2();
+			return false;
+		}
+	});		
 	
 });
 </script>

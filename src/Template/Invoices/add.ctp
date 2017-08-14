@@ -430,7 +430,7 @@ $(document).ready(function() {
 
 		else{
 			alert('Please Select Customer');
-			obj.find('.item').text('----select----');
+			obj.val('').select2();
 			return false;
 		}	
 		
