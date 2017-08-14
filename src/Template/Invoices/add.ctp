@@ -327,13 +327,13 @@ $(document).ready(function() {
 		
 		$("#mainTbl tbody#mainTbody tr.mainTr").each(function(){
 			var rate = $(this).find('option:selected').attr('rate');
-			var discount = $(this).find('option:input').attr('CustomerDiscount');
-			
+			var discount = parseFloat($(this).find("td:eq(6) input").val());
+			if(!discount){ discount=0; }
 			var quantity=parseFloat($(this).find("td:eq(3) input").val());
 			
 			var total=rate*quantity;
 			var discount=discount*quantity;
-			alert(discount);
+			
 			$(this).find("td:eq(12) input").val(total.toFixed(2));
 			$(this).find("td:eq(6) input").val(discount.toFixed(2));
 		});
