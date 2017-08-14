@@ -327,6 +327,7 @@ $(document).ready(function() {
 		
 		$("#mainTbl tbody#mainTbody tr.mainTr").each(function(){
 			var rate = $(this).find('option:selected').attr('rate');
+			var discount = $(this).find('option:input').attr('CustomerDiscount');
 			
 			var quantity=parseFloat($(this).find("td:eq(3) input").val());
 			
@@ -413,15 +414,27 @@ $(document).ready(function() {
 		var item = $(this).find('option:selected').val();
 		var obj = $(this);
 		var url="<?php echo $this->Url->build(['controller'=>'Invoices','action'=>'CustomerDiscount']);?>";
-		url=url+'/'+customer+'/'+item;
-		//alert(url);
-		$.ajax({ 
-				url:url,
-				type:"GET",
-			}).done(function(response){
-				obj.closest('tr').find('td .discount').val(response);
-				calculation();
-			});
+		
+		
+		if(customer != '')
+		{
+			url=url+'/'+customer+'/'+item;
+			$.ajax({ 
+					url:url,
+					type:"GET",
+				}).done(function(response){
+					obj.closest('tr').find('td .discount').val(response);
+					calculation();
+				});
+			}
+
+		else{
+			alert('Please Select Customer');
+			obj.find('.item').text('----select----');
+			return false;
+		}	
+		
+
 		
 		
 	});			

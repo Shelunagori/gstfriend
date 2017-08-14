@@ -19,12 +19,10 @@ $this->set('title', 'Add');
 					</div >
 				</div>
 				<div class="row main_div">
-					<div class="form-group col-md-12 main_table">
+					<div class="form-group col-md-12 main_table"> 
+					<!-- this div close at ajax page get_item_discount.ctp -->
 						
-					</div >
-					<div class="form-group" style="text-align:center">
-						<button type="submit" class="btn btn-primary">Submit	
-					</div>
+
 				</div>
 			</div>
 		</fieldset>
