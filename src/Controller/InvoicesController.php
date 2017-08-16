@@ -52,13 +52,20 @@ class InvoicesController extends AppController
      */
     public function view($id = null)
     {
+		$company_id=$this->Auth->User('company_id');
 		$this->viewBuilder()->layout('index_layout');
         $invoice = $this->Invoices->get($id, [
             'contain' => ['CustomerLedgers'=>['Customers'], 'SalesLedgers', 'InvoiceRows'=>['Items','TaxCGST','TaxSGST']]
         ]);
-		//pr($invoice->toArray());exit;
-        $this->set('invoice', $invoice);
+		
+		$companies = $this->Invoices->Companies->find()->where(['id' => $company_id]);
+		//pr($companies->toArray());exit;
+        
+		$this->set(compact('invoice','companies'));
+		$this->set('invoice', $invoice);
         $this->set('_serialize', ['invoice']);
+		
+		
     }
 
     /**
