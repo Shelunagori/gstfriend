@@ -206,7 +206,7 @@ p{
 		</table>
 		<table width="100%" class="tbl">
 			<tbody>
-				<tr>
+				<!--<tr>
 					<td style="border-top: none;border-left: none;border-right: none;"  valign="top" colspan="2">
 						<b><u>Terms & Conditions</u></b>
 						<ol>
@@ -216,7 +216,7 @@ p{
 							<li>Here will be fouth term or condition. </li>
 						</ol>
 					</td>
-				</tr>
+				</tr>-->
 				<tr>
 					<td style="border-top: none;border-left: none;border-bottom: none;" width="50%" valign="top">
 						<div align="center"></br></br></br></div>
