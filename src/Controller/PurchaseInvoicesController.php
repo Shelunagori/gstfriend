@@ -29,9 +29,16 @@ class PurchaseInvoicesController extends AppController
     }
 	
 	//Report Generate Function Start
-	function datewisereport($datefrom,$dateto){
-		
-		$reportdatas = $this->PurchaseInvoices->find();
+	function datewisereport($datefrom,$dateto)
+	{
+		$StartDate = date('Y-m-d',strtotime($datefrom));
+		$EndDate = date('Y-m-d', strtotime($dateto));
+
+		$reportdatas = $this->PurchaseInvoices->find()
+		->where(['PurchaseInvoices.date BETWEEN :start AND :end' ])
+		->bind(':start', $StartDate, 'date')
+		->bind(':end',   $EndDate, 'date')
+		->order(['PurchaseInvoices.id'=>'DESC']);
 		
 		$this->set(compact('reportdatas'));
 	}

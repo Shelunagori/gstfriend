@@ -29,9 +29,16 @@ class InvoicesController extends AppController
 		$this->set('active_menu','Invoices.Index');
     }
 	
-	function datewiseinvoicereport($datefrom,$dateto){
-		
-		$reportdatas = $this->Invoices->find();
+	function datewiseinvoicereport($datefrom,$dateto)
+	{
+		$StartDate = date('Y-m-d',strtotime($datefrom));
+		$EndDate = date('Y-m-d', strtotime($dateto));
+
+		$reportdatas = $this->Invoices->find()
+		->where(['Invoices.transaction_date BETWEEN :start AND :end' ])
+		->bind(':start', $StartDate, 'date')
+		->bind(':end',   $EndDate, 'date')
+		->order(['Invoices.id'=>'DESC']);
 		
 		$this->set(compact('reportdatas'));
 	}

@@ -52,11 +52,11 @@ $this->set('title', 'List');
 					<div class="form-group col-md-9">
 						<div class="form-group col-md-4">
 							<label class="control-label">Date From</label>
-							<?php echo $this->Form->input('from', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker datefrom' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy']); ?>
+							<?php echo $this->Form->input('from', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker datefrom firstdate' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy']); ?>
 						</div>
 						<div class="form-group col-md-4">
 							<label class="control-label">Date To</label>
-							<?php echo $this->Form->input('to', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker dateto' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y",strtotime('today'))]); ?>
+							<?php echo $this->Form->input('to', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker dateto lastdate' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y",strtotime('today'))]); ?>
 						</div>
 						<div class="form-group col-md-1">
 							<label class="control-label"></label>
@@ -91,22 +91,31 @@ $this->set('title', 'List');
 $(document).ready(function() { 
 
 	$(".go").on('click',function() { 
-		var datefrom = $('.datefrom').val();
-		
-		var dateto = $('.dateto').val();
-		var obj=$(this);
-		var url="<?php echo $this->Url->build(['controller'=>'PurchaseInvoices','action'=>'datewisereport']);?>";
-		url=url+'/'+datefrom+'/'+dateto,
-		
-		$.ajax({ 
-			url: url,
-			type: 'GET',
-		}).done(function(response) {
-			alert(response);
-			$(".main_table").html(response);
+		var startdate = $('.firstdate').val();
+		var enddate = $('.lastdate').val();	
+		if(startdate < enddate)
+		{
+			var datefrom = $('.datefrom').val();
 			
+			var dateto = $('.dateto').val();
+			var obj=$(this);
+			var url="<?php echo $this->Url->build(['controller'=>'PurchaseInvoices','action'=>'datewisereport']);?>";
+			url=url+'/'+datefrom+'/'+dateto,
 			
-		});
+			$.ajax({ 
+				url: url,
+				type: 'GET',
+			}).done(function(response) {
+				$(".main_table").html(response);
+				
+				
+			});
+		}else
+		{
+			alert('Please Select Valid Date');
+			$('.lastdate').val('');
+			$('.firstdate').val('');
+		}	
     });
 	
 
