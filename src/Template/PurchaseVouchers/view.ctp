@@ -60,11 +60,13 @@ p{
 			<td width="30%" style="padding:5px;"><?php echo $this->Html->image('/img/viewlogo.png', ['height' => '100px']); ?></td>
 			<td>
 				<div align="center" style="color: #c4151c;"><b>
-					<span style="font-size:16px;color: #c4151c !important;" style="">COMPANY NAME HERE</span><br/>
-					<span style="color: #4a4c4c;">Company Address Here,</span><br/>
-					<span style="color: #4a4c4c;">Udaipur, Rajasthan. PIN: 313001</span><br/>
-					<span style="color: #4a4c4c;">Tel: +91 9876543210</span><br/>
+					<?php foreach($companies as $company) {?>
+					<span style="font-size:30px;color: #c4151c !important;" style=""><?= $company->name ?></span><br/>
+					<span style="color: #4a4c4c;"><?= $company->address ?></span><br/>
+					<span style="color: #4a4c4c;"><?= $company->district ?>&nbsp,&nbsp<?= $company->state ?></span><br/>
+					<span style="color: #4a4c4c;"><?= $company->phone_no ?></span><br/>
 					<span style="color: #4a4c4c;">GSTIN: 08BICPD5795A1ZG</span></b>
+				<?php } ?>	
 				</div>
 			</td>
 			<td width="30%"></td>

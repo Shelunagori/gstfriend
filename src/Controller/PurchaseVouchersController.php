@@ -41,6 +41,7 @@ class PurchaseVouchersController extends AppController
     public function view($id = null)
     {
 		$this->viewBuilder()->layout('index_layout');
+		$company_id=$this->Auth->User('company_id');
         $purchaseVoucher = $this->PurchaseVouchers->get($id, [
             'contain' => ['SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers'],'Companies', 'AccountingEntries', 'PurchaseVoucherRows'=>['Items']]
         ]);
@@ -57,7 +58,10 @@ class PurchaseVouchersController extends AppController
 			
 		}
 		// Tax value show in view page end
-		$this->set(compact('cgst_per','sgst_per'));
+		
+		$companies = $this->PurchaseVouchers->Companies->find()->where(['id' => $company_id]);
+		
+		$this->set(compact('cgst_per','sgst_per','companies'));
         $this->set('purchaseVoucher', $purchaseVoucher);
         $this->set('_serialize', ['purchaseVoucher']);
     }

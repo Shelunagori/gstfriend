@@ -59,8 +59,7 @@ class InvoicesController extends AppController
         ]);
 		
 
-		//pr($invoice->toArray());exit;
-        $this->set('invoice', $invoice);
+		
 
 		$companies = $this->Invoices->Companies->find()->where(['id' => $company_id]);
 		//pr($companies->toArray());exit;
