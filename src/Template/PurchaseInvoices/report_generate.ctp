@@ -1,115 +1,63 @@
-<?php $this->set('title', 'Invoice List'); ?>
-<div class="portlet light bordered">
-	<div class="portlet-title">
-		<div class="caption">
-			<i class="icon-cursor font-purple-intense"></i>
-			<span class="caption-subject font-purple-intense ">Invoices</span>
-		</div>
-		<div class="actions">
-			
-		</div>
-	</div>
-	<div align='right' ><button class="btn btn-success  showdata" ><b>Invoice Report</b>&nbsp; &nbsp;</div><br>
-	<div class="portlet-body">
-		<div class="table-scrollable hidetable">
-		<?php $page_no=$this->Paginator->current('Invoices'); $page_no=($page_no-1)*20; ?>
-			<table class="table table-bordered table-striped  ">
-				<thead>
-					<tr>
-						<th scope="col">Sr.</th>
-						<th scope="col">Invoice No</th>
-						<th scope="col">Invoice Date</th>
-						<th scope="col">Customer</th>
-						<th scope="col">Total Amount After Tax</th>
-						<th scope="col" class="actions"><?= __('Actions') ?></th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php 
-					foreach ($invoices as $invoice): ?>
-					<tr>
-						<td><?= h(++$page_no) ?></td>
-						<td>
-							<?php $in_no='#'.str_pad($invoice->invoice_no, 4, '0', STR_PAD_LEFT);  ?>
-							<?= $this->Html->link(__($in_no), ['action' => 'view', $invoice->id],['target'=>'_blank']) ?></td>
-						<td><?= h($invoice->transaction_date) ?></td>
-						<td><?= h($invoice->customer_ledgers['customer']['name']) ?></td>
-						<td align="right"><?= $this->Number->format($invoice->total_amount_after_tax,[ 'places' => 2]) ?></td>
-						<td class="actions">
-							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $invoice->id]) ?>
-							<?= $this->Html->link(__('View'), ['action' => 'view', $invoice->id]) ?>
-						</td>
-					</tr>
-					<?php endforeach; ?>
-				</tbody>
-			</table>
-		</div>
-		<div class="form-body hide reportshow" >
-			<div class="row">
-				<div class="form-group col-md-9">
-					<div class="form-group col-md-4">
+<?php
+/**
+  * @var \App\View\AppView $this
+  */
+
+$this->set('title', 'Report');
+?>
+<div class="portlet light bordered  col-md-9" style="margin-left:10%">
+	<div class="portlet-body-form"  >
+		<?= $this->Form->create($purchaseInvoice) ?>
+		<fieldset>
+			<legend><?= __('Date Wise Report') ?></legend>
+			<div class="form-body" >
+				<div class="row">
+					<div class="form-group col-md-6">
 						<label class="control-label">Date From</label>
 						<?php echo $this->Form->input('from', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker datefrom' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy']); ?>
-					</div>
-					<div class="form-group col-md-4">
 						<label class="control-label">Date To</label>
 						<?php echo $this->Form->input('to', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker dateto' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y",strtotime('today'))]); ?>
+					</div >
+					<div class="form-group col-md-6">
+						<button class="go btn btn-default" name="go">Go
 					</div>
-					<div class="form-group col-md-1">
-						<label class="control-label"></label>
-						<button class="go btn btn-success" name="go">Go
-					</div>		
-				</div >
-			</div>
-			<div class="row main_div">
-				<div class="form-group col-md-12 main_table"> 
-				
+				</div>
+				<div class="row main_div">
+					<div class="form-group col-md-12 main_table"> 
+					<!-- this div close at ajax page get_item_discount.ctp -->
+						
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="paginator">
-			<ul class="pagination">
-				<?= $this->Paginator->first('<< ' . __('first')) ?>
-				<?= $this->Paginator->prev('< ' . __('previous')) ?>
-				<?= $this->Paginator->numbers() ?>
-				<?= $this->Paginator->next(__('next') . ' >') ?>
-				<?= $this->Paginator->last(__('last') . ' >>') ?>
-			</ul>
-			<p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
-		</div>
+		</fieldset>
+		<?= $this->Form->end() ?>
 	</div>
-</div>
-
-
+</div> 
 <?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
 
 <script>
 $(document).ready(function() { 
 
-	$(".go").on('click',function() { 
+	$(".go").on('click',function() {
 		var datefrom = $('.datefrom').val();
 		
 		var dateto = $('.dateto').val();
 		var obj=$(this);
-		var url="<?php echo $this->Url->build(['controller'=>'Invoices','action'=>'datewiseinvoicereport']);?>";
+		var url="<?php echo $this->Url->build(['controller'=>'PurchaseInvoices','action'=>'datewisereport']);?>";
 		url=url+'/'+datefrom+'/'+dateto,
 		
 		$.ajax({ 
 			url: url,
 			type: 'GET',
 		}).done(function(response) {
-			alert(response);
-			$(".main_table").html(response);
-			
+			//$(".main_table").html(response);
 			
 		});
     });
 	
-
-	$(".showdata").click(function(){ 
-		$('.hidetable').addClass('hide');
-		$('.paginator').addClass('hide');
-		$('.reportshow').removeClass('hide');
+	$(".showdate").click(function(){
+		$('#cashhide').addClass('hide');
+		$('#reportshow').removeClass('hide');
     });
 
 });

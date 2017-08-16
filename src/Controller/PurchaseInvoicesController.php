@@ -27,6 +27,16 @@ class PurchaseInvoicesController extends AppController
         $this->set('_serialize', ['purchaseInvoices']);
 		$this->set('active_menu', 'PurchaseInvoices.Index');
     }
+	
+	//Report Generate Function Start
+	function datewisereport($datefrom,$dateto){
+		
+		$reportdatas = $this->PurchaseInvoices->find();
+		
+		$this->set(compact('reportdatas'));
+	}
+	
+	//Report Generate Function End
 
     /**
      * View method
@@ -45,7 +55,16 @@ class PurchaseInvoicesController extends AppController
         $this->set('purchaseInvoice', $purchaseInvoice);
         $this->set('_serialize', ['purchaseInvoice']);
     }
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
     /**
      * Add method
      *

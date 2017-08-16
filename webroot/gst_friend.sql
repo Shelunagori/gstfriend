@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
+-- version 4.7.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 11, 2017 at 07:16 AM
--- Server version: 10.1.21-MariaDB
--- PHP Version: 5.6.30
+-- Generation Time: Aug 14, 2017 at 07:17 PM
+-- Server version: 10.1.25-MariaDB
+-- PHP Version: 7.1.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -67,7 +69,41 @@ INSERT INTO `accounting_entries` (`id`, `ledger_id`, `debit`, `credit`, `transac
 (29, 31, '1156.40', '0.00', '2017-08-11', 0, 1, 5),
 (30, 18, '0.00', '980.00', '2017-08-11', 0, 1, 5),
 (31, 26, '0.00', '88.20', '2017-08-11', 0, 1, 5),
-(32, 22, '0.00', '88.20', '2017-08-11', 0, 1, 5);
+(32, 22, '0.00', '88.20', '2017-08-11', 0, 1, 5),
+(33, 29, '1000.00', '0.00', '0000-00-00', 0, 1, 6),
+(34, 18, '0.00', '847.46', '0000-00-00', 0, 1, 6),
+(35, 26, '0.00', '76.27', '0000-00-00', 0, 1, 6),
+(36, 22, '0.00', '76.27', '0000-00-00', 0, 1, 6),
+(37, 29, '1000.00', '0.00', '0000-00-00', 0, 1, 7),
+(38, 18, '0.00', '847.46', '0000-00-00', 0, 1, 7),
+(39, 25, '0.00', '76.27', '0000-00-00', 0, 1, 7),
+(40, 21, '0.00', '76.27', '0000-00-00', 0, 1, 7),
+(41, 29, '2000.00', '0.00', '0000-00-00', 0, 1, 8),
+(42, 18, '0.00', '1785.71', '0000-00-00', 0, 1, 8),
+(43, 26, '0.00', '107.14', '0000-00-00', 0, 1, 8),
+(44, 22, '0.00', '107.14', '0000-00-00', 0, 1, 8),
+(45, 29, '2000.00', '0.00', '0000-00-00', 0, 1, 9),
+(46, 18, '0.00', '1785.71', '0000-00-00', 0, 1, 9),
+(47, 26, '0.00', '107.14', '0000-00-00', 0, 1, 9),
+(48, 22, '0.00', '107.14', '0000-00-00', 0, 1, 9),
+(49, 29, '2000.00', '0.00', '0000-00-00', 0, 1, 10),
+(50, 18, '0.00', '1785.71', '0000-00-00', 0, 1, 10),
+(51, 26, '0.00', '107.14', '0000-00-00', 0, 1, 10),
+(52, 22, '0.00', '107.14', '0000-00-00', 0, 1, 10),
+(53, 32, '2000.00', '0.00', '0000-00-00', 0, 1, 11),
+(54, 18, '0.00', '1785.71', '0000-00-00', 0, 1, 11),
+(55, 25, '0.00', '107.14', '0000-00-00', 0, 1, 11),
+(56, 21, '0.00', '107.14', '0000-00-00', 0, 1, 11),
+(57, 25, '0.00', '0.00', '0000-00-00', 0, 1, 12),
+(58, 21, '0.00', '0.00', '0000-00-00', 0, 1, 12),
+(59, 32, '2000.00', '0.00', '2017-08-14', 0, 1, 13),
+(60, 18, '0.00', '1785.71', '2017-08-14', 0, 1, 13),
+(61, 25, '0.00', '107.14', '2017-08-14', 0, 1, 13),
+(62, 21, '0.00', '107.14', '2017-08-14', 0, 1, 13),
+(63, 29, '1000.00', '0.00', '2017-08-14', 0, 1, 14),
+(64, 18, '0.00', '847.46', '2017-08-14', 0, 1, 14),
+(65, 25, '0.00', '76.27', '2017-08-14', 0, 1, 14),
+(66, 21, '0.00', '76.27', '2017-08-14', 0, 1, 14);
 
 -- --------------------------------------------------------
 
@@ -178,7 +214,8 @@ CREATE TABLE `invoices` (
   `id` int(10) NOT NULL,
   `invoice_no` int(10) NOT NULL,
   `transaction_date` date NOT NULL,
-  `customer_ledger_id` int(10) NOT NULL,
+  `customer_ledger_id` int(10) DEFAULT NULL,
+  `customer_name` varchar(30) DEFAULT NULL,
   `sales_ledger_id` int(11) NOT NULL,
   `total_amount_before_tax` decimal(15,2) NOT NULL,
   `total_cgst` decimal(15,2) NOT NULL,
@@ -191,12 +228,21 @@ CREATE TABLE `invoices` (
 -- Dumping data for table `invoices`
 --
 
-INSERT INTO `invoices` (`id`, `invoice_no`, `transaction_date`, `customer_ledger_id`, `sales_ledger_id`, `total_amount_before_tax`, `total_cgst`, `total_sgst`, `total_amount_after_tax`, `invoicetype`) VALUES
-(1, 1, '2017-08-10', 32, 18, '2970.00', '207.90', '207.90', '3385.80', 'Credit'),
-(2, 2, '2017-08-10', 31, 18, '0.00', '0.00', '0.00', '0.00', 'Credit'),
-(3, 3, '2017-08-10', 31, 18, '1978.00', '49.45', '118.68', '2146.13', 'Credit'),
-(4, 4, '2017-08-10', 31, 18, '970.00', '87.30', '87.30', '1144.60', 'Credit'),
-(5, 5, '2017-08-11', 31, 18, '980.00', '88.20', '88.20', '1156.40', 'Credit');
+INSERT INTO `invoices` (`id`, `invoice_no`, `transaction_date`, `customer_ledger_id`, `customer_name`, `sales_ledger_id`, `total_amount_before_tax`, `total_cgst`, `total_sgst`, `total_amount_after_tax`, `invoicetype`) VALUES
+(1, 1, '2017-08-10', 32, '', 18, '2970.00', '207.90', '207.90', '3385.80', 'Credit'),
+(2, 2, '2017-08-10', 31, '', 18, '0.00', '0.00', '0.00', '0.00', 'Credit'),
+(3, 3, '2017-08-10', 31, '', 18, '1978.00', '49.45', '118.68', '2146.13', 'Credit'),
+(4, 4, '2017-08-10', 31, '', 18, '970.00', '87.30', '87.30', '1144.60', 'Credit'),
+(5, 5, '2017-08-11', 31, '', 18, '980.00', '88.20', '88.20', '1156.40', 'Credit'),
+(6, 6, '0000-00-00', NULL, NULL, 18, '847.46', '76.27', '76.27', '1000.00', 'Cash'),
+(7, 7, '0000-00-00', NULL, NULL, 18, '847.46', '76.27', '76.27', '1000.00', 'Cash'),
+(8, 8, '0000-00-00', NULL, 'anil', 18, '1785.71', '107.14', '107.14', '2000.00', 'Cash'),
+(9, 9, '0000-00-00', NULL, 'anil1', 18, '1785.71', '107.14', '107.14', '2000.00', 'Cash'),
+(10, 10, '0000-00-00', NULL, 'anil', 18, '1785.71', '107.14', '107.14', '2000.00', 'Cash'),
+(11, 11, '0000-00-00', 32, '', 18, '1785.71', '107.14', '107.14', '2000.00', 'Credit'),
+(12, 12, '0000-00-00', NULL, '', 18, '0.00', '0.00', '0.00', '0.00', 'Cash'),
+(13, 13, '2017-08-14', 32, '', 18, '1785.71', '107.14', '107.14', '2000.00', 'Credit'),
+(14, 14, '2017-08-14', NULL, 'anil', 18, '847.46', '76.27', '76.27', '1000.00', 'Cash');
 
 -- --------------------------------------------------------
 
@@ -231,7 +277,16 @@ INSERT INTO `invoice_rows` (`id`, `invoice_id`, `item_id`, `quantity`, `rate`, `
 (3, 2, NULL, '1.00', NULL, '0.00', NULL, NULL, '0.00', NULL, '0.00', NULL, '0.00', '0.00'),
 (4, 3, 2, '1.00', '2000.00', '2000.00', NULL, '22.00', '1978.00', 24, '49.45', 21, '118.68', '2146.13'),
 (5, 4, 1, '1.00', '1000.00', '1000.00', NULL, '30.00', '970.00', 26, '87.30', 22, '87.30', '1144.60'),
-(6, 5, 1, '1.00', '1000.00', '1000.00', NULL, '20.00', '980.00', 26, '88.20', 22, '88.20', '1156.40');
+(6, 5, 1, '1.00', '1000.00', '1000.00', NULL, '20.00', '980.00', 26, '88.20', 22, '88.20', '1156.40'),
+(7, 6, 1, '1.00', '947.46', '947.46', NULL, '100.00', '847.46', 26, '76.27', 22, '76.27', '1000.00'),
+(8, 7, 2, '1.00', '847.46', '847.46', NULL, NULL, '847.46', 25, '76.27', 21, '76.27', '2000.00'),
+(9, 8, 1, '1.00', '1785.71', '1785.71', NULL, NULL, '1785.71', 26, '107.14', 22, '107.14', '1000.00'),
+(10, 9, 1, '1.00', '1785.71', '1785.71', NULL, NULL, '1785.71', 26, '107.14', 22, '107.14', '1000.00'),
+(11, 10, 1, '1.00', '1785.71', '1785.71', NULL, NULL, '1785.71', 26, '107.14', 22, '107.14', '1000.00'),
+(12, 11, 2, '1.00', '1785.71', '1785.71', NULL, NULL, '1785.71', 25, '107.14', 21, '107.14', '2000.00'),
+(13, 12, 2, '1.00', '0.00', '0.00', NULL, NULL, '0.00', 25, '0.00', 21, '0.00', '2000.00'),
+(14, 13, 2, '1.00', '1785.71', '1785.71', NULL, NULL, '1785.71', 25, '107.14', 21, '107.14', '2000.00'),
+(15, 14, 2, '1.00', '847.46', '847.46', NULL, NULL, '847.46', 25, '76.27', 21, '76.27', '2000.00');
 
 -- --------------------------------------------------------
 
@@ -359,6 +414,30 @@ INSERT INTO `nature_of_groups` (`id`, `name`) VALUES
 (2, 'Liabilities'),
 (3, 'Income'),
 (4, 'Expenses');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_invoices`
+--
+
+CREATE TABLE `purchase_invoices` (
+  `id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `invoice_no` int(50) NOT NULL,
+  `base_amount` decimal(15,2) NOT NULL,
+  `cgst` decimal(15,2) NOT NULL,
+  `sgst` decimal(15,2) NOT NULL,
+  `total` decimal(15,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `purchase_invoices`
+--
+
+INSERT INTO `purchase_invoices` (`id`, `date`, `invoice_no`, `base_amount`, `cgst`, `sgst`, `total`) VALUES
+(1, '2017-08-09', 123456, '14000.00', '500.00', '500.00', '15000.00'),
+(2, '2017-08-14', 123, '600.00', '200.00', '200.00', '1000.00');
 
 -- --------------------------------------------------------
 
@@ -529,6 +608,12 @@ ALTER TABLE `nature_of_groups`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `purchase_invoices`
+--
+ALTER TABLE `purchase_invoices`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `purchase_vouchers`
 --
 ALTER TABLE `purchase_vouchers`
@@ -560,7 +645,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `accounting_entries`
 --
 ALTER TABLE `accounting_entries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 --
 -- AUTO_INCREMENT for table `accounting_groups`
 --
@@ -580,12 +665,12 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT for table `invoices`
 --
 ALTER TABLE `invoices`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `invoice_rows`
 --
 ALTER TABLE `invoice_rows`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `items`
 --
@@ -607,6 +692,11 @@ ALTER TABLE `ledgers`
 ALTER TABLE `nature_of_groups`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
+-- AUTO_INCREMENT for table `purchase_invoices`
+--
+ALTER TABLE `purchase_invoices`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
 -- AUTO_INCREMENT for table `purchase_vouchers`
 --
 ALTER TABLE `purchase_vouchers`
@@ -625,7 +715,8 @@ ALTER TABLE `suppliers`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -28,7 +28,14 @@ class InvoicesController extends AppController
         $this->set('_serialize', ['invoices']);
 		$this->set('active_menu','Invoices.Index');
     }
-
+	
+	function datewiseinvoicereport($datefrom,$dateto){
+		
+		$reportdatas = $this->Invoices->find();
+		
+		$this->set(compact('reportdatas'));
+	}
+	
     /**
      * View method
      *
