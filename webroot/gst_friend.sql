@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 16, 2017 at 08:43 AM
+-- Generation Time: Aug 16, 2017 at 10:51 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -166,15 +166,20 @@ INSERT INTO `accounting_groups` (`id`, `nature_of_group_id`, `name`, `parent_id`
 
 CREATE TABLE `companies` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
+  `name` varchar(255) NOT NULL,
+  `address` text NOT NULL,
+  `logo` varchar(50) NOT NULL,
+  `district` varchar(50) NOT NULL,
+  `state` varchar(25) NOT NULL,
+  `phone_no` int(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `companies`
 --
 
-INSERT INTO `companies` (`id`, `name`) VALUES
-(1, 'phppoets');
+INSERT INTO `companies` (`id`, `name`, `address`, `logo`, `district`, `state`, `phone_no`) VALUES
+(1, 'phppoets', 'subhash nagar sevasram', 'f.png', 'udaipur', 'rajasthan', 1234567891);
 
 -- --------------------------------------------------------
 
