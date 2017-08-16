@@ -58,16 +58,16 @@ class InvoicesController extends AppController
             'contain' => ['CustomerLedgers'=>['Customers'], 'SalesLedgers', 'InvoiceRows'=>['Items','TaxCGST','TaxSGST']]
         ]);
 		
-<<<<<<< HEAD
+
 		//pr($invoice->toArray());exit;
         $this->set('invoice', $invoice);
-=======
+
 		$companies = $this->Invoices->Companies->find()->where(['id' => $company_id]);
 		//pr($companies->toArray());exit;
         
 		$this->set(compact('invoice','companies'));
 		$this->set('invoice', $invoice);
->>>>>>> 863ae6b64a276c121d7039a5da62f1bfd1064956
+
         $this->set('_serialize', ['invoice']);
 		
 		
