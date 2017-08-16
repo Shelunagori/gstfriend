@@ -392,6 +392,7 @@ $(document).ready(function() {
 				$(this).closest('tr').find('td .rate').val(rate);
 				$(this).closest('tr').find('td .total_cgst').val(cgst_ledger_id);
 				$(this).closest('tr').find('td .sgst_rate').val(sgst_ledger_id);
+				calculation();
 			});				
 		}
 		else{ 

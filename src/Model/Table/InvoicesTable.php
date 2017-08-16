@@ -52,7 +52,7 @@ class InvoicesTable extends Table
 			'propertyName' => 'sales_ledgers',
 		]);
 		
-		
+		$this->belongsTo('Companies');		
 		
         $this->hasMany('InvoiceRows', [
             'foreignKey' => 'invoice_id',

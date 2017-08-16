@@ -41,6 +41,8 @@ p{
 									<div class="radio" id="uniform-optionsRadios25"><span class=""><input type="radio" name="invoicetype" id="invoicetype" value="Cash"></span></div> Cash </label>
 								</div></br>
 							</td>
+							
+							</td>
 						</tr>
 						<tr>
 							<td><b>Invoice Date</b></td>
@@ -57,15 +59,18 @@ p{
 				<td style="padding:5px;" >
 					<table width="100%">
 						<tr>
-							<td colspan="3"><b>Bill to Party</b></td>
+							<td style='width: 21%;padding-bottom: 5px;'><b> Invoice No : </b></td>
+							<td style='padding-bottom: 5px;'>&nbsp;:&nbsp;</td>
+							<td style='padding-bottom: 5px;'><b> <?php echo $invoice_no; ?> </b></td>
 						</tr>
+						
 						<tr id='cashhide'>
-							<td><b>Name</b></td>
+							<td style='width: 21%;'><b>Bill to Party Name</b></td>
 							<td>&nbsp;:&nbsp;</td>
 							<td class="form-group"><?php echo $this->Form->control('customer_ledger_id',['empty' => "---Select---",'label'=>false,'class'=>'form-control input-sm cstmr']); ?></td>
 						</tr>
 						<tr id='cashshow' class="hide">
-							<td><b>Name</b></td>
+							<td style='width: 21%;'><b>Bill to Party Name</b></td>
 							<td>&nbsp;:&nbsp;</td>
 							<td class="form-group"><?php echo $this->Form->control('customer_name',['label'=>false,'class'=>'form-control input-sm ']); ?></td>
 						</tr>
@@ -413,7 +418,6 @@ $(document).ready(function() {
 		if(radioValue == 'Cash'){
 			$('#cashhide').addClass('hide');
 			$('#cashshow').removeClass('hide');
-		
 			$('.item').die().live("change",function() { 
 				var rate = $(this).find('option:selected').attr('rate');
 				var cgst_ledger_id = $(this).find('option:selected').attr('cgst_ledger_id');
@@ -421,12 +425,13 @@ $(document).ready(function() {
 				$(this).closest('tr').find('td .rate').val(rate);
 				$(this).closest('tr').find('td .total_cgst').val(cgst_ledger_id);
 				$(this).closest('tr').find('td .sgst_rate').val(sgst_ledger_id);
-			});				
+				calculation();
+			});
+				
 		}
 		else{ 
 			$('#cashhide').removeClass('hide');
 			$('#cashshow').addClass('hide');
-			
 			$('.item').die().live("change",function() { 
 				var rate = $(this).find('option:selected').attr('rate');
 				var cgst_ledger_id = $(this).find('option:selected').attr('cgst_ledger_id');
@@ -451,6 +456,9 @@ $(document).ready(function() {
 				}
 				else{
 					alert('Please Select Customer');
+					obj.closest('tr').find('td .rate').val('');
+					obj.closest('tr').find('td .total_cgst').val('');
+					obj.closest('tr').find('td .sgst_rate').val('');					
 					obj.val('').select2();
 					return false;
 				}		
@@ -460,10 +468,6 @@ $(document).ready(function() {
     	
 });
 </script>
-
-
-
-
 
 <table id="sampleTbl" style="display:none;">
 	<tbody>

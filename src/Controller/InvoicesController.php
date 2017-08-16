@@ -52,14 +52,25 @@ class InvoicesController extends AppController
      */
     public function view($id = null)
     {
+		$company_id=$this->Auth->User('company_id');
 		$this->viewBuilder()->layout('index_layout');
         $invoice = $this->Invoices->get($id, [
             'contain' => ['CustomerLedgers'=>['Customers'], 'SalesLedgers', 'InvoiceRows'=>['Items','TaxCGST','TaxSGST']]
         ]);
 		
+<<<<<<< HEAD
 		//pr($invoice->toArray());exit;
         $this->set('invoice', $invoice);
+=======
+		$companies = $this->Invoices->Companies->find()->where(['id' => $company_id]);
+		//pr($companies->toArray());exit;
+        
+		$this->set(compact('invoice','companies'));
+		$this->set('invoice', $invoice);
+>>>>>>> 863ae6b64a276c121d7039a5da62f1bfd1064956
         $this->set('_serialize', ['invoice']);
+		
+		
     }
 
     /**
@@ -152,7 +163,7 @@ class InvoicesController extends AppController
 				
                 $this->Flash->success(__('The invoice has been saved.'));
 
-                return $this->redirect(['action' => 'Add']);
+                return $this->redirect(['action' => 'view/'.$invoice->id]);
             }
             $this->Flash->error(__('The invoice could not be saved. Please, try again.'));
         }
@@ -162,10 +173,6 @@ class InvoicesController extends AppController
         $customer_discounts = $this->Invoices->InvoiceRows->Items->find();
 	
 		$tax_CGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'CGST']);
-		
-		
-		
-		
 		
 		foreach($tax_CGSTS as $tax_CGST)
 		{
@@ -183,8 +190,17 @@ class InvoicesController extends AppController
 		{
 			$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->price,'cgst_ledger_id'=>$items_data->cgst_ledger_id,'sgst_ledger_id'=>$items_data->sgst_ledger_id];
 		}
-//pr($items->toArray()) ;
-        $this->set(compact('invoice', 'customerLedgers', 'salesLedgers', 'items','taxs_CGST','taxs_SGST'));
+
+
+		$last_invoice=$this->Invoices->find()->select(['invoice_no'])->order(['invoice_no' => 'DESC'])->first();
+		if($last_invoice){
+				$invoice_no=$last_invoice->invoice_no+1;
+		}else{
+				$invoice_no=1;
+		} 
+		
+		
+        $this->set(compact('invoice', 'customerLedgers', 'salesLedgers', 'items','taxs_CGST','taxs_SGST','invoice_no'));
         $this->set('_serialize', ['invoice']);
 		$this->set('active_menu', 'Invoices.Add');
     }

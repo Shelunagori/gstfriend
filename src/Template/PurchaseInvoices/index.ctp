@@ -52,7 +52,7 @@ $this->set('title', 'List');
 					<div class="form-group col-md-9">
 						<div class="form-group col-md-4">
 							<label class="control-label">Date From</label>
-							<?php echo $this->Form->input('from', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker datefrom firstdate' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy']); ?>
+							<?php echo $this->Form->input('from', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker datefrom firstdate' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y",strtotime('today'))]); ?>
 						</div>
 						<div class="form-group col-md-4">
 							<label class="control-label">Date To</label>
@@ -93,7 +93,7 @@ $(document).ready(function() {
 	$(".go").on('click',function() { 
 		var startdate = $('.firstdate').val();
 		var enddate = $('.lastdate').val();	
-		if(startdate < enddate)
+		if(startdate <= enddate)
 		{
 			var datefrom = $('.datefrom').val();
 			
