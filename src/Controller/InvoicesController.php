@@ -56,6 +56,7 @@ class InvoicesController extends AppController
         $invoice = $this->Invoices->get($id, [
             'contain' => ['CustomerLedgers'=>['Customers'], 'SalesLedgers', 'InvoiceRows'=>['Items','TaxCGST','TaxSGST']]
         ]);
+		
 		//pr($invoice->toArray());exit;
         $this->set('invoice', $invoice);
         $this->set('_serialize', ['invoice']);
