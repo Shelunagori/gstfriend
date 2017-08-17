@@ -138,9 +138,9 @@ p{
 						}
 					?>
 					<!--Get Gst Value with Percent end--->
-					<?php   $i=1; 
-							foreach ($purchaseVoucher->purchase_voucher_rows as $purchaseVoucherRow){
-								
+					<?php  
+						$i=1; 
+						foreach ($purchaseVoucher->purchase_voucher_rows as $purchaseVoucherRow){	
 					?>
 							<tr id="main_tr">
 								<td width="15px"style="border-left: none;"><?= h($i++) ?></td>
@@ -185,8 +185,6 @@ p{
 					<?php
 					}
 					?>
-					
-					
 				</tbody>
 			</table>
 		

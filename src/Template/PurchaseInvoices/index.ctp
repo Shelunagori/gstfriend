@@ -32,7 +32,7 @@ $this->set('title', 'List');
 					?>
 					<tr>
 						<td><?= $this->Number->format($i) ?></td>
-						<td><?= h($purchaseInvoice->date) ?></td>
+						<td><?= h($purchaseInvoice->transaction_date) ?></td>
 						<td><?= $this->Number->format($purchaseInvoice->invoice_no) ?></td>
 						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->base_amount) ?></td>
 						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->total_cgst) ?></td>

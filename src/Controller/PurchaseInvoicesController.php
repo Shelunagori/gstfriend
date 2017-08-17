@@ -159,20 +159,81 @@ class PurchaseInvoicesController extends AppController
     public function edit($id = null)
     {
 		$this->viewBuilder()->layout('index_layout');
+		$company_id=$this->Auth->User('company_id');
         $purchaseInvoice = $this->PurchaseInvoices->get($id, [
-            'contain' => []
+            'contain' => ['PurchaseInvoiceRows']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $purchaseInvoice = $this->PurchaseInvoices->patchEntity($purchaseInvoice, $this->request->getData());
-			$purchaseInvoice->date = date('Y-m-d',strtotime($purchaseInvoice->date));
+			$purchaseInvoice->transaction_date = date('Y-m-d',strtotime($purchaseInvoice->transaction_date));
+			$purchaseInvoice->company_id = $company_id;
             if ($this->PurchaseInvoices->save($purchaseInvoice)) {
+				
+								//Acconting Entry Start
+				if($purchaseInvoice->total !=0)
+				{		
+					$Accounting_entries = $this->PurchaseInvoices->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $purchaseInvoice->supplier_ledger_id;
+					$Accounting_entries->debit = 0;
+					$Accounting_entries->credit = $purchaseInvoice->total;
+					$Accounting_entries->transaction_date = $purchaseInvoice->transaction_date;
+					$Accounting_entries->purchase_voucher_id = $purchaseInvoice->id;
+					$Accounting_entries->company_id=$company_id;
+					$this->PurchaseInvoices->AccountingEntries->save($Accounting_entries);				
+				}
+				
+				if($purchaseInvoice->base_amount !=0)
+				{		
+					$Accounting_entries = $this->PurchaseInvoices->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $purchaseInvoice->purchase_ledger_id;
+					$Accounting_entries->debit = $purchaseInvoice->base_amount;
+					$Accounting_entries->credit = 0;
+					$Accounting_entries->transaction_date = $purchaseInvoice->transaction_date;
+					$Accounting_entries->purchase_voucher_id = $purchaseInvoice->id;
+					$Accounting_entries->company_id=$company_id;
+					$this->PurchaseInvoices->AccountingEntries->save($Accounting_entries);				
+				}				
+			
+				
+				foreach($purchaseInvoice->purchase_invoice_rows as $purchase_invoice_row)
+				{
+					$Accounting_entries = $this->PurchaseInvoices->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $purchase_invoice_row->cgst_ledger_id;
+					$Accounting_entries->debit = $purchase_invoice_row->cgst_amount;
+					$Accounting_entries->credit = 0;
+					$Accounting_entries->transaction_date = $purchaseInvoice->transaction_date;
+					$Accounting_entries->purchase_voucher_id = $purchaseInvoice->id;
+					$Accounting_entries->company_id=$company_id;
+					$this->PurchaseInvoices->AccountingEntries->save($Accounting_entries);
+
+					$Accounting_entries = $this->PurchaseInvoices->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $purchase_invoice_row->sgst_ledger_id;
+					$Accounting_entries->debit = $purchase_invoice_row->sgst_amount;
+					$Accounting_entries->credit = 0;
+					$Accounting_entries->transaction_date = $purchaseInvoice->transaction_date;
+					$Accounting_entries->purchase_voucher_id = $purchaseInvoice->id;
+					$Accounting_entries->company_id=$company_id;
+					$this->PurchaseInvoices->AccountingEntries->save($Accounting_entries);
+					
+				}
+				
+				
+				//Accounting Entry End	
                 $this->Flash->success(__('The purchase invoice has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The purchase invoice could not be saved. Please, try again.'));
         }
-        $this->set(compact('purchaseInvoice'));
+	
+		$SupplierLedger = $this->PurchaseInvoices->SupplierLedger->find('list')->where(['accounting_group_id'=>25,'freeze'=>0]);
+        $PurchaseLedger = $this->PurchaseInvoices->PurchaseLedger->find('list')->where(['accounting_group_id'=>13,'freeze'=>0]);
+		
+		$CgstTax = $this->PurchaseInvoices->CgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'CGST']);
+		
+		$SgstTax = $this->PurchaseInvoices->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);
+		
+        $this->set(compact('purchaseInvoice','SupplierLedger','PurchaseLedger','CgstTax','SgstTax'));
         $this->set('_serialize', ['purchaseInvoice']);
     }
 
