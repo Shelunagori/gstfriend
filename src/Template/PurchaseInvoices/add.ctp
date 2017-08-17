@@ -85,6 +85,7 @@ $this->set('title', 'Add Invoice');
 								<td><b><?php echo $this->Form->control('total_cgst',['label'=>false,'type'=>'text','placeholder'=>'0.00','style'=>'text-align: right;','class'=>'cgst totalcgst','readonly']); ?></b></td>
 								<td ><b>Total SGST</b></td>
 								<td><b><?php echo $this->Form->control('total_sgst',['label'=>false,'type'=>'text','placeholder'=>'0.00','style'=>'text-align: right;','class'=>'sgst totalsgst','readonly']); ?></b></td>
+								<td></td>
 							</tfoot>
 						</table><br>
 						<div class="form-group">

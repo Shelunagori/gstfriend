@@ -7,15 +7,14 @@
 			</div>
 			<div class="details">
 				<div class="number">
-					<?= h($last_voucher->id) ?>
+					
 				</div>
 				<div class="desc">
 					Purchase Report
 				</div>
 			</div>
-			<a class="more" href="http://localhost/gstfriend/PurchaseInvoices">
-			View more <i class="m-icon-swapright m-icon-white"></i>
-			</a>
+	
+			<?=  $this->Html->tag('li', $this->Html->link('View More<i class="m-icon-swapright m-icon-white"></i>', ['controller' => 'PurchaseInvoices', 'action' => 'index','class'=>'more'])); ?>
 		</div>
 	</div>
 	<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -25,7 +24,7 @@
 			</div>
 			<div class="details">
 				<div class="number">
-					<?= h($last_invoice->invoice_no) ?>
+					
 				</div>
 				<div class="desc">
 					 Invoice Report
