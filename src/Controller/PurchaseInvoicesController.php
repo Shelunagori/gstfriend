@@ -91,7 +91,11 @@ class PurchaseInvoicesController extends AppController
             }
             $this->Flash->error(__('The purchase invoice could not be saved. Please, try again.'));
         }
-        $this->set(compact('purchaseInvoice'));
+		$CgstTax = $this->PurchaseInvoices->CgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'CGST']);
+		
+		$SgstTax = $this->PurchaseInvoices->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);
+		
+        $this->set(compact('purchaseInvoice','CgstTax','SgstTax'));
         $this->set('_serialize', ['purchaseInvoice']);
 		$this->set('active_menu', 'PurchaseInvoices.Add');
     }

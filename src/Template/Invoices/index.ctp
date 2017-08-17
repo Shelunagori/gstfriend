@@ -49,7 +49,7 @@
 				<div class="form-group col-md-9">
 					<div class="form-group col-md-4">
 						<label class="control-label">Date From</label>
-						<?php echo $this->Form->input('from', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker datefrom firstdate' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y",strtotime('today'))]); ?>
+						<?php echo $this->Form->input('from', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker datefrom firstdate' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy']); ?>
 					</div>
 					<div class="form-group col-md-4">
 						<label class="control-label">Date To</label>
@@ -110,7 +110,6 @@ $(document).ready(function() {
 		}else
 		{
 			alert('Please Select Valid Date');
-			$('.lastdate').val('');
 			$('.firstdate').val('');
 		}
 	});

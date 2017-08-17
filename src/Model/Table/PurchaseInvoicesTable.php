@@ -29,6 +29,22 @@ class PurchaseInvoicesTable extends Table
     public function initialize(array $config)
     {
         parent::initialize($config);
+		
+		$this->belongsTo('CgstLedger', [
+			'className' => 'Ledgers',
+			'foreignKey' => 'cgst_ledger_id',
+		]);
+		
+		$this->belongsTo('SgstLedger', [
+			'className' => 'Ledgers',
+			'foreignKey' => 'sgst_ledger_id',
+		]);
+		
+		
+		$this->belongsTo('Ledgers', [
+            'foreignKey' => 'ledger_id',
+            'joinType' => 'INNER'
+        ]);
 
         $this->setTable('purchase_invoices');
         $this->setDisplayField('id');

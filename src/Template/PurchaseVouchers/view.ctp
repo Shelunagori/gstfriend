@@ -111,6 +111,10 @@ p{
 							<td width="50"><b>State</b></td>
 							<td><?= h($purchaseVoucher->supplier_ledger->supplier->state) ?></td>
 						</tr>
+						<tr>
+							<td width="50"><b>GST No.</b></td>
+							<td><?= h($purchaseVoucher->supplier_ledger->supplier->gstno) ?></td>
+						</tr>
 					</table>
 				</td>
 			</tr>

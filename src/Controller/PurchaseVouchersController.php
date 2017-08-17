@@ -144,7 +144,7 @@ class PurchaseVouchersController extends AppController
 
 			
 				$this->Flash->success(__('The purchase voucher has been saved.'));
-				return $this->redirect(['action' => 'add']);
+				return $this->redirect(['action' => 'view/'.$invoice->id]);
             }
             $this->Flash->error(__('The purchase voucher could not be saved. Please, try again.'));
         }
