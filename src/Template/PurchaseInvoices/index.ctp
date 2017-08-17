@@ -12,7 +12,7 @@ $this->set('title', 'List');
 	<div class="portlet-body-form"  >
 		<div class="form-body">
 			<h3><?= __('Purchae Invoice List') ?></h3>
-			<div align='right' ><button class="btn btn-success  showdata" ><b>Report</b>&nbsp; &nbsp;</div><br>
+			<div align='right' ><button class="btn btn-success  showdata" ><b>Purchase Report</b>&nbsp; &nbsp;</div><br>
 			<table id="example1" class="table table-bordered table-striped hidetable">
 				<thead style="text-align:center;">
 					<tr >

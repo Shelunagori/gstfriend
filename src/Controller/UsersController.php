@@ -48,7 +48,7 @@ class UsersController extends AppController
     public function index()
     {
         $users = $this->paginate($this->Users);
-
+		
         $this->set(compact('users'));
         $this->set('_serialize', ['users']);
     }
@@ -143,6 +143,11 @@ class UsersController extends AppController
 		
 		$company_id=$this->Auth->User('company_id');
 		
+		
+		$last_invoice=$this->Users->Invoices->find()->select(['invoice_no'])->order(['invoice_no' => 'DESC'])->first();
+		$last_voucher=$this->Users->PurchaseInvoices->find()->select(['id'])->order(['id' => 'DESC'])->first();
+		 
+		$this->set(compact('user','last_invoice','last_voucher'));
 		$this->set('active_menu', 'Users.Dashboard');
     }
 	

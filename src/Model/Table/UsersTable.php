@@ -29,6 +29,10 @@ class UsersTable extends Table
     public function initialize(array $config)
     {
         parent::initialize($config);
+		
+		
+		$this->belongsTo('Invoices');
+		$this->belongsTo('PurchaseInvoices');
 
         $this->setTable('users');
         $this->setDisplayField('name');

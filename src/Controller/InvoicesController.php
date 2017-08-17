@@ -54,6 +54,7 @@ class InvoicesController extends AppController
     {
 		$company_id=$this->Auth->User('company_id');
 		$this->viewBuilder()->layout('index_layout');
+		
         $invoice = $this->Invoices->get($id, [
             'contain' => ['CustomerLedgers'=>['Customers'], 'SalesLedgers', 'InvoiceRows'=>['Items','TaxCGST','TaxSGST']]
         ]);

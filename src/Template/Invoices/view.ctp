@@ -116,9 +116,13 @@ p{
 					</table>
 					<?php  } else{?>
 					<table width="100%">
-						<tr>
+						<!---<tr>
 							<td width="50"><b>Type</b></td>
 							<td>Cash</td>
+						</tr>-->
+						<tr>		
+							<td width="60"><b>Name</b></td>
+							<td><?php echo $invoice->customer_name; ?></td>
 						</tr>
 					</table>	
 					<?php } ?>
