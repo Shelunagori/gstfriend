@@ -4,13 +4,50 @@
   */
 $this->set('title', 'Add Invoice');
 ?>
-<div class="portlet light bordered  col-md-6" >
+<style>
+
+.tbl td, .tbl th {
+    border: 1px solid black;
+}
+
+
+.tbl th {
+    text-align:center;
+}
+.tbl td {
+    padding:3px;
+}
+
+
+</style>
+
+<div class="portlet light bordered  col-md-7" >
 	<div class="portlet-body-form"  >
 		<?= $this->Form->create($purchaseInvoice) ?>
 		<fieldset>
 			<legend><?= __('Purchase Invoice') ?></legend>
 			<div class="form-body" >
 				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group col-md-5">
+							<div class="row">
+								<label class="control-label">Invoice Date<label>
+							</div>
+							<div class="row">		
+								<?php echo $this->Form->input('transaction_date', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y",strtotime('today'))]); ?>
+							</div>
+						</div>
+						<div class="form-group col-md-1">
+						</div>
+						<div class="form-group col-md-6 hide">
+							<div  class="row">
+								<label class="control-label">Purchase Ledger</label>
+							</div>
+							<div class="row">
+								<?php echo $this->Form->control('purchase_ledger_id',['options'=>$PurchaseLedger,'label' => false,'class' => 'form-control input-sm']); ?> 
+							</div>
+						</div>
+					</div>
 					<div class="col-md-12">
 						<div class="form-group col-md-5">
 							<div class="row">
@@ -24,18 +61,14 @@ $this->set('title', 'Add Invoice');
 						</div>
 						<div class="form-group col-md-6">
 							<div class="row">
-								<label class="control-label">Invoice Date<label>
+								<label class="control-label">Supplier Name</label>
 							</div>
-							<div class="row">		
-								<?php echo $this->Form->input('date', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y",strtotime('today'))]); ?>
+							<div class="row">	
+								<?php echo $this->Form->control('supplier_ledger_id',['empty'=>"---select---",'options'=>$SupplierLedger,'label' => false,'class' => 'form-control input-sm select2me']);?>
 							</div>
-						</div>
+						</div>	
 					</div>	
 					<div class="col-md-12 main_div">	
-						<div class="form-group">
-							<label class="control-label">Total Amount </label>
-							<?php echo $this->Form->control('total',['label' => false,'type'=>'text','class' => 'form-control input-sm firstupercase total calculate','placeholder'=>'Enter Total Amount']); ?> 
-						</div>
 						<table width="100%" class="tbl" id="main_table">
 							<thead>
 								<tr style="background-color: #e4e3e3;">
@@ -48,12 +81,16 @@ $this->set('title', 'Add Invoice');
 								
 							</tbody>
 							<tfoot >
-								<td><b>Total CGST</b></td>
-								<td><b><?php echo $this->Form->control('total_cgst',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 65px;border: none;text-align: right;','tabindex'=>'-1','class'=>'cgst']); ?></b></td>
-								<td><b>Total SGST</b></td>
-								<td><b><?php echo $this->Form->control('total_sgst',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 65px;border: none;text-align: right;','tabindex'=>'-1','class'=>'sgst']); ?></b></td>
+								<td ><b>Total CGST</b></td>
+								<td><b><?php echo $this->Form->control('total_cgst',['label'=>false,'type'=>'text','placeholder'=>'0.00','style'=>'text-align: right;','class'=>'cgst totalcgst','readonly']); ?></b></td>
+								<td ><b>Total SGST</b></td>
+								<td><b><?php echo $this->Form->control('total_sgst',['label'=>false,'type'=>'text','placeholder'=>'0.00','style'=>'text-align: right;','class'=>'sgst totalsgst','readonly']); ?></b></td>
 							</tfoot>
-						</table>
+						</table><br>
+						<div class="form-group">
+							<label class="control-label">Total Amount </label>
+							<?php echo $this->Form->control('total',['label' => false,'type'=>'text','class' => 'form-control input-sm firstupercase total calculate','placeholder'=>'Enter Total Amount']); ?> 
+						</div>
 						<div class="form-group">
 							<label class="control-label">Base Amount</label>
 							<?php echo $this->Form->control('base_amount', ['label' => false,'type'=>'text','class' => 'form-control input-sm firstupercase baseamount','placeholder'=>'0.00','readonly']); ?>
@@ -76,19 +113,15 @@ $(document).ready(function(){
 		baseamount();
 	});
 	
-	$('.addcgst').on('keyup', function() {alert();
-		baseamount();
-	});
 	
-	$('.addsgst').on('keyup', function() {alert();
-		baseamount();
-	});
+	
+	
 	
 	function baseamount(){
 		var baseamount=0;
 		var total= parseFloat($('.total').val());
-		var sgst = parseFloat($('.sgst').val());
-		var cgst = parseFloat($('.cgst').val()); 
+		var sgst = parseFloat($('.totalsgst').val());
+		var cgst = parseFloat($('.totalcgst').val()); 
 		var baseamount = sgst + cgst;
 		var amount = total - baseamount;	
 		$('.baseamount').val(amount);
@@ -115,13 +148,13 @@ $(document).ready(function(){
 	function rename_rows(){
 		var j=0;
 		$("#main_table tbody#main_tbody tr").each(function(){
-			$(this).find("td:nth-child(1) select").attr({name:"purchase_invoices["+j+"][cgst_ledger_id]", id:"purchase_invoices-"+j+"-cgst_ledger_id"});
+			$(this).find("td:nth-child(1) select").attr({name:"purchase_invoice_rows["+j+"][cgst_ledger_id]", id:"purchase_invoice_rows-"+j+"-cgst_ledger_id"});
 			
-			$(this).find("td:nth-child(2) input").attr({name:"purchase_invoices["+j+"][cgst_amount]", id:"purchase_invoices-"+j+"-cgst_amount"});
+			$(this).find("td:nth-child(2) input").attr({name:"purchase_invoice_rows["+j+"][cgst_amount]", id:"purchase_invoice_rows-"+j+"-cgst_amount"});
 			
-			$(this).find("td:nth-child(3) select").attr({name:"purchase_invoices["+j+"][sgst_ledger_id]", id:"purchase_invoices-"+j+"-sgst_ledger_id"});
+			$(this).find("td:nth-child(3) select").attr({name:"purchase_invoice_rows["+j+"][sgst_ledger_id]", id:"purchase_invoice_rows-"+j+"-sgst_ledger_id"});
 			
-			$(this).find("td:nth-child(4) input").attr({name:"purchase_invoices["+j+"][sgst_amount]", id:"purchase_invoices-"+j+"-sgst_amount"});
+			$(this).find("td:nth-child(4) input").attr({name:"purchase_invoice_rows["+j+"][sgst_amount]", id:"purchase_invoice_rows-"+j+"-sgst_amount"});
 			j++;
 	   });
 	};
@@ -173,13 +206,13 @@ foreach($SgstTax as $SgstTaxe){
 				<?php echo $this->Form->control('cgst_ledger_id', ['options' =>$Cgst,'label' => false,'class' => 'form-control input-sm gst_call','placeholder'=>'CGST']); ?> 
 			</td>
 			<td class="form-group">
-				<?php echo $this->Form->control('cgst_amount',['label' => false,'class' => 'form-control input-sm cgst_amount addcgst','placeholder'=>'Amount']); ?> 
+				<?php echo $this->Form->control('cgst_amount',['label' => false,'class' => 'form-control input-sm firstupercase cgst_amount addcgst','placeholder'=>'Amount']); ?> 
 			</td>
 			<td class="form-group">
 				<?php echo $this->Form->control('sgst_ledger_id',['options' =>$Sgst,'label' => false,'class' => 'form-control input-sm gst_call','placeholder'=>'SGST']); ?>
 			</td>
 			<td class="form-group">			
-				<?php echo $this->Form->control('sgst_amount',['label' => false,'class' => 'form-control input-sm sgst_amount addsgst','placeholder'=>'Amount']); ?>
+				<?php echo $this->Form->control('sgst_amount',['label' => false,'class' => 'form-control input-sm firstupercase sgst_amount addsgst','placeholder'=>'Amount']); ?>
 			</td>
 			<td>
 				<input type="button" value="+" class="add"/>
@@ -196,10 +229,16 @@ foreach($SgstTax as $SgstTaxe){
 <?php echo $this->Html->css('/assets/global/plugins/bootstrap-colorpicker/css/colorpicker.css', ['block' => 'cssComponentsPickers']); ?>
 <?php echo $this->Html->css('/assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css', ['block' => 'cssComponentsPickers']); ?>
 <?php echo $this->Html->css('/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css', ['block' => 'cssComponentsPickers']); ?>
+<?php echo $this->Html->css('/assets/global/plugins/bootstrap-select/bootstrap-select.min.css', ['block' => 'cssComponentsDropdowns']); ?>
+<?php echo $this->Html->css('/assets/global/plugins/select2/select2.css', ['block' => 'cssComponentsDropdowns']); ?>
+<?php echo $this->Html->css('/assets/global/plugins/jquery-multi-select/css/multi-select.css', ['block' => 'cssComponentsDropdowns']); ?>
 
 <!-- END PAGE LEVEL STYLES -->
 
 <!-- BEGIN PAGE LEVEL PLUGINS -->
+<?php echo $this->Html->script('/assets/global/plugins/bootstrap-select/bootstrap-select.min.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsDropdowns']); ?>
+<?php echo $this->Html->script('/assets/global/plugins/select2/select2.min.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsDropdowns']); ?>
+<?php echo $this->Html->script('/assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsDropdowns']); ?>
 <?php echo $this->Html->script('/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsPickers']); ?>
 <?php echo $this->Html->script('/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsPickers']); ?>
 <?php echo $this->Html->script('/assets/global/plugins/clockface/js/clockface.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsPickers']); ?>
@@ -222,5 +261,6 @@ foreach($SgstTax as $SgstTaxe){
 		QuickSidebar.init(); // init quick sidebar
 		Demo.init(); // init demo features
 		ComponentsPickers.init();
+		ComponentsDropdowns.init();
 	});   
 </script>

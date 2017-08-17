@@ -35,8 +35,8 @@ $this->set('title', 'List');
 						<td><?= h($purchaseInvoice->date) ?></td>
 						<td><?= $this->Number->format($purchaseInvoice->invoice_no) ?></td>
 						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->base_amount) ?></td>
-						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->cgst) ?></td>
-						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->sgst) ?></td>
+						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->total_cgst) ?></td>
+						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->total_sgst) ?></td>
 						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->total) ?></td>
 						<td class="actions">
 							<?php $this->Html->link(__('View'), ['action' => 'view', $purchaseInvoice]) ?>

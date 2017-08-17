@@ -5,6 +5,8 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Event\Event;
+use ArrayObject;
 
 /**
  * PurchaseInvoices Model
@@ -30,20 +32,43 @@ class PurchaseInvoicesTable extends Table
     {
         parent::initialize($config);
 		
+		$this->belongsTo('SupplierLedger', [
+			'className' => 'Ledgers',
+			'foreignKey' => 'supplier_ledger_id',
+			'propertyName' => 'supplier_ledger',
+		]);
+		
+		$this->belongsTo('PurchaseLedger', [
+			'className' => 'Ledgers',
+			'foreignKey' => 'purchase_ledger_id',
+			'propertyName' => 'purchase_ledger',
+		]);
+		
 		$this->belongsTo('CgstLedger', [
 			'className' => 'Ledgers',
 			'foreignKey' => 'cgst_ledger_id',
+			'propertyName' => 'cgst_ledger',
 		]);
 		
 		$this->belongsTo('SgstLedger', [
 			'className' => 'Ledgers',
 			'foreignKey' => 'sgst_ledger_id',
+			'propertyName' => 'sgst_ledger',
 		]);
 		
 		
 		$this->belongsTo('Ledgers', [
             'foreignKey' => 'ledger_id',
             'joinType' => 'INNER'
+        ]);
+		
+		$this->hasMany('AccountingEntries', [
+			'foreignKey' => 'purchase_invoice_id'
+        ]);
+		
+		$this->hasMany('PurchaseInvoiceRows', [
+            'foreignKey' => 'purchase_invoice_id',
+			'saveStrategy'=>'replace'
         ]);
 
         $this->setTable('purchase_invoices');
