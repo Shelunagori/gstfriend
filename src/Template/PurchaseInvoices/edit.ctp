@@ -98,7 +98,7 @@ $this->set('title', 'Edit Invoice');
 									 $i=1;
 									foreach ($purchaseInvoice->purchase_invoice_rows as $purchaseInvoiceRow){
 								?>
-								<tr id="main_tr">
+								<tr class="main_tr">
 									<td class="form-group">
 										<?php echo $this->Form->control('cgst_ledger_id', ['options' =>$Cgst,'label' => false,'class' => 'form-control input-sm gst_call','value'=>$purchaseInvoiceRow->cgst_ledger_id]); ?>
 									</td>
@@ -122,7 +122,7 @@ $this->set('title', 'Edit Invoice');
 							</tbody>
 							<tfoot >
 								<td ><b>Total CGST</b></td>
-								<td><b><?php echo $this->Form->control('total_cgst',['label'=>false,'type'=>'text','style'=>'text-align: right;','class'=>'cgst totalcgst','readonly','value'=>''.$purchaseInvoice->total_cgst.'']); ?></b></td>
+								<td><b><?php echo $this->Form->control('total_cgst',['label'=>false,'type'=>'text','style'=>'text-align: right;','class'=>'cgst totalcgst','readonly','value'=>$purchaseInvoice->total_cgst]); ?></b></td>
 								<td ><b>Total SGST</b></td>
 								<td><b><?php echo $this->Form->control('total_sgst',['label'=>false,'type'=>'text','placeholder'=>'0.00','style'=>'text-align: right;','class'=>'sgst totalsgst','readonly']); ?></b></td>
 							</tfoot>
