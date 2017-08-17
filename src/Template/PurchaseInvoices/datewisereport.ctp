@@ -18,17 +18,17 @@
 		?>
 		<tr>
 			<td><?php echo $i; ?></td>
-			<td><?= h($reportdata->date) ?></td>
+			<td><?= h($reportdata->transaction_date) ?></td>
 			<td><?php echo $reportdata->invoice_no; ?></td>
 			<td style="text-align:right"><?php echo $reportdata->base_amount; ?></td>
-			<td style="text-align:right"><?php echo $reportdata->cgst; ?></td>
-			<td style="text-align:right"><?php echo $reportdata->sgst; ?></td>
+			<td style="text-align:right"><?php echo $reportdata->total_cgst; ?></td>
+			<td style="text-align:right"><?php echo $reportdata->total_sgst; ?></td>
 			<td style="text-align:right"><?php echo $reportdata->total; ?></td>
 		</tr>
 		<?php 	
 			$baseamount = $baseamount + $reportdata->base_amount;
-			$cgstamount = $cgstamount + $reportdata->cgst;
-			$sgstamount = $sgstamount + $reportdata->sgst;
+			$cgstamount = $cgstamount + $reportdata->total_cgst;
+			$sgstamount = $sgstamount + $reportdata->total_sgst;
 			$totalamount = $totalamount + $reportdata->total;
 			endforeach;  
 		?>

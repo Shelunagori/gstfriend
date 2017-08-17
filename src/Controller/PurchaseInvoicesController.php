@@ -35,7 +35,7 @@ class PurchaseInvoicesController extends AppController
 		$EndDate = date('Y-m-d', strtotime($dateto));
 
 		$reportdatas = $this->PurchaseInvoices->find()
-		->where(['PurchaseInvoices.date BETWEEN :start AND :end' ])
+		->where(['PurchaseInvoices.transaction_date BETWEEN :start AND :end' ])
 		->bind(':start', $StartDate, 'date')
 		->bind(':end',   $EndDate, 'date')
 		->order(['PurchaseInvoices.id'=>'DESC']);
