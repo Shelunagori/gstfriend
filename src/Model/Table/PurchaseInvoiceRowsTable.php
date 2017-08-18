@@ -36,13 +36,25 @@ class PurchaseInvoiceRowsTable extends Table
 
         $this->setTable('purchase_invoice_rows');
         $this->setDisplayField('id');
-        $this->setPrimaryKey('id');
-
-        
+        $this->setPrimaryKey('id');   
         $this->belongsTo('PurchaseInvoices', [
             'foreignKey' => 'purchase_invoice_id',
             'joinType' => 'INNER'
         ]);
+
+
+		$this->belongsTo('CgstLedger', [
+			'className' => 'Ledgers',
+			'foreignKey' => 'cgst_ledger_id',
+			'propertyName' => 'cgst_ledger',
+		]);
+		
+		$this->belongsTo('SgstLedger', [
+			'className' => 'Ledgers',
+			'foreignKey' => 'sgst_ledger_id',
+			'propertyName' => 'sgst_ledger',
+		]);
+		
     }
 
     /**

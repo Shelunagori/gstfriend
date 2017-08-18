@@ -39,7 +39,7 @@
 			<?php  
 			if($this->request->is('post'))
 			{ ?>
-			<div class='col-md-6'>
+			<div class='col-md-12'>
 			<?php if(!empty($accountingEntries['PurchaseInvoices']->toArray()))
 			{  ?>
 				<center><h3>INPUT GST</h3> </center> <hr>
@@ -50,7 +50,9 @@
 							<th>Transaction Date</th>
 							<th>Invoice No.</th>
 							<th>Base Amount</th>
+							<th>CGST Percentage</th>
 							<th>CGST Amount</th>
+							<th>SGST Percentage</th>
 							<th>SGST Amount</th>
 							<th>Total</th>
 						</tr>
@@ -65,7 +67,23 @@
 							<td><?= h($PurchaseInvoice->transaction_date) ?></td>
 							<td><?php echo $PurchaseInvoice->invoice_no; ?></td>
 							<td style="text-align:right"><?php echo $PurchaseInvoice->base_amount; ?></td>
+							<td style="text-align:right">
+								<?php foreach($PurchaseInvoice->purchase_invoice_rows as $purchase_invoice_row)
+								{
+									echo $purchase_invoice_row->cgst_ledger->name;
+								}
+								?>
+							</td>
 							<td style="text-align:right"><?php echo $PurchaseInvoice->total_cgst; ?></td>
+
+							<td style="text-align:right">
+								<?php foreach($PurchaseInvoice->purchase_invoice_rows as $purchase_invoice_row)
+								{
+									echo $purchase_invoice_row->sgst_ledger->name;
+								}
+								?>
+							</td>							
+							
 							<td style="text-align:right"><?php echo $PurchaseInvoice->total_sgst; ?></td>
 							<td style="text-align:right"><?php echo $PurchaseInvoice->total; ?></td>
 						</tr>
@@ -79,7 +97,7 @@
 					</tbody>
 					<tfoot>
 						<tr>
-							<td colspan="3" style="text-align:right"><b>TOTAL </b></td>
+							<td colspan="5" style="text-align:right"><b>TOTAL </b></td>
 							<td class="totalbase" style="text-align:right"><b><?php  echo $baseamount; ?></b></td>
 							<td class="totalcgst" style="text-align:right"><b><?php echo $cgstamount; ?></b></td>
 							<td class="totalsgst" style="text-align:right"><b><?php echo $sgstamount; ?></b></td>
@@ -89,7 +107,7 @@
 				</table> 			
 			<?php }  else { echo 'No Data Found in Purchase Invoices (Input GST)'; } ?>
 			</div>
-			<div class='col-md-6'>
+			<div class='col-md-12'>
 			<?php if(!empty($accountingEntries['Invoices']->toArray()))
 			{ ?> 
 
@@ -101,7 +119,9 @@
 							<th>Transaction Date</th>
 							<th>Invoice No.</th>
 							<th>Base Amount</th>
+							<th>CGST Percentage</th>
 							<th>CGST Amount</th>
+							<th>SGST Percentage</th>
 							<th>SGST Amount</th>
 							<th>Total</th>
 						</tr>
@@ -118,7 +138,23 @@
 							<td><?= h($invoice->transaction_date) ?></td>
 							<td><?php echo $invoice->invoice_no; ?></td>
 							<td style="text-align:right"><?php echo $invoice->total_amount_before_tax; ?></td>
+
+							<td style="text-align:right">
+								<?php foreach($invoice->invoice_rows as $invoice_row)
+								{
+									echo $invoice_row->cgst->name;
+								}
+								?>
+							</td>							
+							
 							<td style="text-align:right"><?php echo $invoice->total_cgst; ?></td>
+							<td style="text-align:right">
+								<?php foreach($invoice->invoice_rows as $invoice_row)
+								{
+									echo $invoice_row->sgst->name;
+								}
+								?>
+							</td>	
 							<td style="text-align:right"><?php echo $invoice->total_sgst; ?></td>
 							<td style="text-align:right"><?php echo $invoice->total_amount_after_tax; ?></td>
 						</tr>
@@ -132,7 +168,7 @@
 					</tbody>
 					<tfoot>
 						<tr>
-							<td colspan="3" style="text-align:right"><b>TOTAL </b></td>
+							<td colspan="5" style="text-align:right"><b>TOTAL </b></td>
 							<td class="totalbase" style="text-align:right"><b><?php  echo $baseamount_invoices; ?></b></td>
 							<td class="totalcgst" style="text-align:right"><b><?php echo $cgstamount_invoices; ?></b></td>
 							<td class="totalsgst" style="text-align:right"><b><?php echo $sgstamount_invoices; ?></b></td>
@@ -140,7 +176,7 @@
 						</tr>
 					</tfoot>
 				</table> 
-			<?php } else { echo 'No Data Found in Invoices (Output GST)'; } } ?>
+			<?php } else { echo 'No Data Found in Invoices (Output GST)'; }  ?>
 			</div>				
 				</div>
 				
@@ -156,7 +192,7 @@
 						</table>
 					</div>
 				</div>
-				
+		<?php } ?>	
 				
 			</div>
 		</div>
