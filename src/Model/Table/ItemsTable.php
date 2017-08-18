@@ -60,6 +60,7 @@ class ItemsTable extends Table
 		
 		
 		$this->belongsTo('ItemDiscounts');
+		$this->belongsTo('TaxTypes');
 		
 		$this->belongsTo('PurchaseVouchers', [
             'foreignKey' => 'purchase_voucher_id',

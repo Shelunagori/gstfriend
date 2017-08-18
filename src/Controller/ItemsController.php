@@ -68,8 +68,11 @@ class ItemsController extends AppController
             }
             $this->Flash->error(__('The item could not be saved. Please, try again.'));
         }
-		 $cgstLedgers = $this->Items->CgstLedgers->find('list')->where(['accounting_group_id'=>30,'gst_type'=>'CGST']);
-        $sgstLedgers = $this->Items->SgstLedgers->find('list')->where(['accounting_group_id'=>30,'gst_type'=>'SGST']);
+		 
+		$taxtypes = $this->Items->TaxTypes->find('list');
+        
+		pr($taxtypes->toArray());exit;
+		
         $this->set(compact('item','companies','cgstLedgers','sgstLedgers'));
         $this->set('_serialize', ['item']);
 		$this->set('active_menu', 'Items.Add');
