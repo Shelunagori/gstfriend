@@ -109,9 +109,6 @@ class ItemsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['company_id'], 'Companies'));
-        $rules->add($rules->existsIn(['cgst_ledger_id'], 'CgstLedgers'));
-        $rules->add($rules->existsIn(['sgst_ledger_id'], 'SgstLedgers'));
-
         return $rules;
     }
 }
