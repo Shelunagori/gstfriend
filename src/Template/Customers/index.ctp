@@ -2,9 +2,17 @@
 $this->set('title', 'List');
 ?>
 <div class="portlet light bordered " >
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="icon-cursor font-purple-intense"></i>
+			<span class="caption-subject font-purple-intense ">Customers List</span>
+		</div>
+		<div class="actions">
+			
+		</div>
+	</div>
 	<div class="portlet-body-form"  >
 		<div class="form-body">
-			<h3><?= __('Customers List') ?></h3>
 			<table id="example1" class="table table-bordered form-group table-striped">
 				<thead>
 					<tr>
