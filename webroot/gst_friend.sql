@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 17, 2017 at 12:32 PM
+-- Generation Time: Aug 18, 2017 at 12:02 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -157,7 +157,10 @@ INSERT INTO `customers` (`id`, `name`, `mobile`, `email`, `address`, `state`, `f
 (1, 'customer1', '1234567891', 'customer1@gmail.com', 'xyz', 'raj', 0, 1, 'gst003'),
 (2, 'customer2', '4654564564', 'customer2@gmail.com', 'abc', '', 0, 1, 'gst1'),
 (3, 'customer3', '4464646484', '', '', 'guj', 1, 1, ''),
-(4, 'customer4', '4986461561', '', '', '', 0, 1, 'gst2');
+(4, 'customer4', '4986461561', '', '', '', 0, 1, 'gst2'),
+(5, 'anil gurjar', '8963023698', 'anilgurjer371@gmail.com', '', '', 0, 1, ''),
+(6, 'fsdjkhgskv', '', '', '', '', 0, 1, ''),
+(7, 'bghjb', '', '', '', '', 0, 1, '');
 
 -- --------------------------------------------------------
 
@@ -178,26 +181,6 @@ CREATE TABLE `invoices` (
   `total_amount_after_tax` decimal(15,2) NOT NULL,
   `invoicetype` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `invoices`
---
-
-INSERT INTO `invoices` (`id`, `invoice_no`, `transaction_date`, `customer_ledger_id`, `customer_name`, `sales_ledger_id`, `total_amount_before_tax`, `total_cgst`, `total_sgst`, `total_amount_after_tax`, `invoicetype`) VALUES
-(1, 1, '2017-08-10', 32, '', 18, '2970.00', '207.90', '207.90', '3385.80', 'Credit'),
-(2, 2, '2017-08-10', 31, '', 18, '0.00', '0.00', '0.00', '0.00', 'Credit'),
-(3, 3, '2017-08-10', 31, '', 18, '1978.00', '49.45', '118.68', '2146.13', 'Credit'),
-(4, 4, '2017-08-10', 31, '', 18, '970.00', '87.30', '87.30', '1144.60', 'Credit'),
-(5, 5, '2017-08-11', 31, '', 18, '980.00', '88.20', '88.20', '1156.40', 'Credit'),
-(6, 6, '0000-00-00', NULL, NULL, 18, '847.46', '76.27', '76.27', '1000.00', 'Cash'),
-(7, 7, '0000-00-00', NULL, NULL, 18, '847.46', '76.27', '76.27', '1000.00', 'Cash'),
-(8, 8, '0000-00-00', NULL, 'anil', 18, '1785.71', '107.14', '107.14', '2000.00', 'Cash'),
-(9, 9, '0000-00-00', NULL, 'anil1', 18, '1785.71', '107.14', '107.14', '2000.00', 'Cash'),
-(10, 10, '0000-00-00', NULL, 'anil', 18, '1785.71', '107.14', '107.14', '2000.00', 'Cash'),
-(11, 11, '0000-00-00', 32, '', 18, '1785.71', '107.14', '107.14', '2000.00', 'Credit'),
-(12, 12, '0000-00-00', NULL, '', 18, '0.00', '0.00', '0.00', '0.00', 'Cash'),
-(13, 13, '2017-08-14', 32, '', 18, '1785.71', '107.14', '107.14', '2000.00', 'Credit'),
-(14, 14, '2017-08-14', NULL, 'anil123456', 18, '847.46', '76.27', '76.27', '1000.00', 'Cash');
 
 -- --------------------------------------------------------
 
@@ -221,27 +204,6 @@ CREATE TABLE `invoice_rows` (
   `sgst_amount` decimal(12,2) DEFAULT NULL,
   `total` decimal(15,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `invoice_rows`
---
-
-INSERT INTO `invoice_rows` (`id`, `invoice_id`, `item_id`, `quantity`, `rate`, `amount`, `discount_rate`, `discount_amount`, `taxable_value`, `cgst_rate`, `cgst_amount`, `sgst_rate`, `sgst_amount`, `total`) VALUES
-(1, 1, 2, '1.00', '2000.00', '2000.00', NULL, '20.00', '1980.00', 25, '118.80', 21, '118.80', '2217.60'),
-(2, 1, 1, '1.00', '1000.00', '1000.00', NULL, '10.00', '990.00', 26, '89.10', 22, '89.10', '1168.20'),
-(3, 2, NULL, '1.00', NULL, '0.00', NULL, NULL, '0.00', NULL, '0.00', NULL, '0.00', '0.00'),
-(4, 3, 2, '1.00', '2000.00', '2000.00', NULL, '22.00', '1978.00', 24, '49.45', 21, '118.68', '2146.13'),
-(5, 4, 1, '1.00', '1000.00', '1000.00', NULL, '30.00', '970.00', 26, '87.30', 22, '87.30', '1144.60'),
-(6, 5, 1, '1.00', '1000.00', '1000.00', NULL, '20.00', '980.00', 26, '88.20', 22, '88.20', '1156.40'),
-(7, 6, 1, '1.00', '947.46', '947.46', NULL, '100.00', '847.46', 26, '76.27', 22, '76.27', '1000.00'),
-(8, 7, 2, '1.00', '847.46', '847.46', NULL, NULL, '847.46', 25, '76.27', 21, '76.27', '2000.00'),
-(9, 8, 1, '1.00', '1785.71', '1785.71', NULL, NULL, '1785.71', 26, '107.14', 22, '107.14', '1000.00'),
-(10, 9, 1, '1.00', '1785.71', '1785.71', NULL, NULL, '1785.71', 26, '107.14', 22, '107.14', '1000.00'),
-(11, 10, 1, '1.00', '1785.71', '1785.71', NULL, NULL, '1785.71', 26, '107.14', 22, '107.14', '1000.00'),
-(12, 11, 2, '1.00', '1785.71', '1785.71', NULL, NULL, '1785.71', 25, '107.14', 21, '107.14', '2000.00'),
-(13, 12, 2, '1.00', '0.00', '0.00', NULL, NULL, '0.00', 25, '0.00', 21, '0.00', '2000.00'),
-(14, 13, 2, '1.00', '1785.71', '1785.71', NULL, NULL, '1785.71', 25, '107.14', 21, '107.14', '2000.00'),
-(15, 14, 2, '1.00', '847.46', '847.46', NULL, NULL, '847.46', 25, '76.27', 21, '76.27', '2000.00');
 
 -- --------------------------------------------------------
 
@@ -347,7 +309,18 @@ INSERT INTO `ledgers` (`id`, `name`, `accounting_group_id`, `freeze`, `company_i
 (34, 'customer4', 22, 0, 1, 0, 4, '0.00', NULL),
 (35, 'supplier1', 25, 0, 1, 1, 0, '0.00', NULL),
 (36, 'supplier2', 25, 1, 1, 2, 0, '0.00', NULL),
-(37, 'supplier3', 25, 0, 1, 3, 0, '0.00', NULL);
+(37, 'supplier3', 25, 0, 1, 3, 0, '0.00', NULL),
+(38, 'anil gurjar', 22, 0, 1, 0, 5, '0.00', NULL),
+(39, '0% IGST', 29, 0, 1, 0, 0, '0.00', 'IGST'),
+(40, '5% IGST', 29, 0, 1, 0, 0, '5.00', 'IGST'),
+(41, '12% IGST', 29, 0, 1, 0, 0, '12.00', 'IGST'),
+(42, '18% IGST', 29, 0, 1, 0, 0, '18.00', 'IGST'),
+(43, '28% IGST', 29, 0, 1, 0, 0, '28.00', 'IGST'),
+(44, '0% IGST', 30, 0, 1, 0, 0, '0.00', 'IGST'),
+(45, '5% IGST', 30, 0, 1, 0, 0, '5.00', 'IGST'),
+(46, '12% IGST', 30, 0, 1, 0, 0, '12.00', 'IGST'),
+(47, '18% IGST', 30, 0, 1, 0, 0, '18.00', 'IGST'),
+(48, '28% IGST', 30, 0, 1, 0, 0, '28.00', 'IGST');
 
 -- --------------------------------------------------------
 
@@ -389,14 +362,6 @@ CREATE TABLE `purchase_invoices` (
   `company_id` int(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `purchase_invoices`
---
-
-INSERT INTO `purchase_invoices` (`id`, `transaction_date`, `invoice_no`, `supplier_ledger_id`, `base_amount`, `total_cgst`, `total_sgst`, `total`, `purchase_ledger_id`, `company_id`) VALUES
-(1, '2017-08-17', 498, 37, '700.00', '650.00', '650.00', '2000.00', 3, 0),
-(2, '2017-08-17', 446, 37, '1000.00', '200.00', '200.00', '1400.00', 3, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -411,15 +376,6 @@ CREATE TABLE `purchase_invoice_rows` (
   `sgst_amount` decimal(15,2) NOT NULL,
   `purchase_invoice_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `purchase_invoice_rows`
---
-
-INSERT INTO `purchase_invoice_rows` (`id`, `cgst_ledger_id`, `cgst_amount`, `sgst_ledger_id`, `sgst_amount`, `purchase_invoice_id`) VALUES
-(1, 5, '150.00', 10, '150.00', 1),
-(2, 7, '500.00', 13, '500.00', 1),
-(3, 5, '200.00', 10, '200.00', 2);
 
 -- --------------------------------------------------------
 
@@ -437,13 +393,6 @@ CREATE TABLE `purchase_vouchers` (
   `narration` text NOT NULL,
   `company_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `purchase_vouchers`
---
-
-INSERT INTO `purchase_vouchers` (`id`, `voucher_no`, `reference_no`, `supplier_ledger_id`, `purchase_ledger_id`, `transaction_date`, `narration`, `company_id`) VALUES
-(1, 1, '123', 37, 3, '2017-08-10', 'xyz', 1);
 
 -- --------------------------------------------------------
 
@@ -466,15 +415,6 @@ CREATE TABLE `purchase_voucher_rows` (
   `sgst_amount` decimal(15,2) NOT NULL,
   `total` decimal(15,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `purchase_voucher_rows`
---
-
-INSERT INTO `purchase_voucher_rows` (`id`, `purchase_voucher_id`, `item_id`, `quantity`, `rate_per`, `discount_amount`, `amount`, `taxable_value`, `cgst_ledger_id`, `cgst_amount`, `sgst_ledger_id`, `sgst_amount`, `total`) VALUES
-(3, 1, 2, '10.00', '500.00', '100.00', '5000.00', 4900, 5, '122.50', 10, '122.50', '5145.00'),
-(4, 1, 1, '5.00', '100.00', '50.00', '500.00', 450, 4, '0.00', 9, '0.00', '450.00'),
-(5, 1, 1, '10.00', '20.00', '30.00', '200.00', 170, 5, '4.25', 10, '4.25', '178.50');
 
 -- --------------------------------------------------------
 
@@ -502,6 +442,34 @@ INSERT INTO `suppliers` (`id`, `name`, `mobile`, `email`, `address`, `state`, `f
 (1, 'supplier1', '5644986496', 'supplier1@gmail.com', 'jhjckasbcjka', 'raj', 0, 1, 'gst002'),
 (2, 'supplier2', '8798745645', '', '', '', 1, 1, ''),
 (3, 'supplier3', '4848445646', 'supplier3@gmail.com', 'xyz', 'rajasthan', 0, 1, 'gst003');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tax_types`
+--
+
+CREATE TABLE `tax_types` (
+  `id` int(11) NOT NULL,
+  `gst_type` varchar(100) NOT NULL,
+  `percentage` int(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tax_types`
+--
+
+INSERT INTO `tax_types` (`id`, `gst_type`, `percentage`) VALUES
+(1, '0% IGST', 0),
+(2, '0% (CGST+SGST)', 0),
+(3, '5% IGST', 5),
+(4, '5% (CGST+SGST)', 5),
+(5, '12% IGST', 12),
+(6, '12% (CGST+SGST)', 12),
+(7, '18% IGST', 18),
+(8, '18% (CGST+SGST)', 18),
+(9, '28% IGST', 28),
+(10, '28% (CGST+SGST)', 28);
 
 -- --------------------------------------------------------
 
@@ -620,6 +588,12 @@ ALTER TABLE `suppliers`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tax_types`
+--
+ALTER TABLE `tax_types`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -648,17 +622,17 @@ ALTER TABLE `companies`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `invoices`
 --
 ALTER TABLE `invoices`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `invoice_rows`
 --
 ALTER TABLE `invoice_rows`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `items`
 --
@@ -673,7 +647,7 @@ ALTER TABLE `item_discounts`
 -- AUTO_INCREMENT for table `ledgers`
 --
 ALTER TABLE `ledgers`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 --
 -- AUTO_INCREMENT for table `nature_of_groups`
 --
@@ -683,27 +657,32 @@ ALTER TABLE `nature_of_groups`
 -- AUTO_INCREMENT for table `purchase_invoices`
 --
 ALTER TABLE `purchase_invoices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `purchase_invoice_rows`
 --
 ALTER TABLE `purchase_invoice_rows`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `purchase_vouchers`
 --
 ALTER TABLE `purchase_vouchers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `purchase_voucher_rows`
 --
 ALTER TABLE `purchase_voucher_rows`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `suppliers`
 --
 ALTER TABLE `suppliers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `tax_types`
+--
+ALTER TABLE `tax_types`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `users`
 --
