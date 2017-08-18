@@ -61,6 +61,9 @@ class ItemsController extends AppController
         if ($this->request->is('post')) {
             $item = $this->Items->patchEntity($item, $this->request->getData());
 			$item->company_id=$company_id;
+			$item->cgst_ledger_id = 0;
+			$item->sgst_ledger_id = 0;
+			$item->igst_ledger_id = 0;
 			
 			$gst_type = $item->gst_type;
 			
@@ -71,11 +74,35 @@ class ItemsController extends AppController
 			{
 				foreach($taxtypes as $taxtype)
 				{
-					$this->Items->TaxTypes->Ledgers->find()
-					->where(['name'=>$taxtype->tax_type_name,'accounting_group_id'=>30]);					
+					$gst_ids[] = $this->Items->Ledgers->find()
+					->where(['name'=>$taxtype->tax_type_name,'accounting_group_id'=>30])->toArray();	
 				}
 			}
 			
+			if(!empty($gst_ids))
+			{
+				foreach($gst_ids as $gst_id_data)
+				{
+					foreach($gst_id_data as $gst_id)
+					{
+						if($gst_id->gst_type == 'CGST')
+						{
+							$item->cgst_ledger_id = $gst_id->id;
+						}
+
+						if($gst_id->gst_type == 'SGST')
+						{
+							$item->sgst_ledger_id = $gst_id->id;
+						}
+						
+						if($gst_id->gst_type == 'IGST')
+						{
+							$item->igst_ledger_id = $gst_id->id;
+						}						
+						
+					}
+				}
+			}
 			
 			
             if ($this->Items->save($item)) {
