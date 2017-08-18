@@ -33,6 +33,12 @@ class TaxTypesTable extends Table
         $this->setTable('tax_types');
         $this->setDisplayField('gst_type');
         $this->setPrimaryKey('id');
+		
+		$this->hasMany('TaxTypeRows', [
+            'foreignKey' => 'tax_type_id',
+		]);
+
+		
     }
 
     /**

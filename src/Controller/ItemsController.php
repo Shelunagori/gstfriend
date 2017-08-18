@@ -61,6 +61,23 @@ class ItemsController extends AppController
         if ($this->request->is('post')) {
             $item = $this->Items->patchEntity($item, $this->request->getData());
 			$item->company_id=$company_id;
+			
+			$gst_type = $item->gst_type;
+			
+			$taxtypes = $this->Items->TaxTypes->TaxTypeRows->find()
+						->where(['tax_type_id'=>$gst_type]);
+			
+			if(!empty($taxtypes->toArray()))
+			{
+				foreach($taxtypes as $taxtype)
+				{
+					$this->Items->TaxTypes->Ledgers->find()
+					->where(['name'=>$taxtype->tax_type_name,'accounting_group_id'=>30]);					
+				}
+			}
+			
+			
+			
             if ($this->Items->save($item)) {
                 $this->Flash->success(__('The item has been saved.'));
 
