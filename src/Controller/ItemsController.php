@@ -70,10 +70,8 @@ class ItemsController extends AppController
         }
 		 
 		$taxtypes = $this->Items->TaxTypes->find('list');
-        
-		pr($taxtypes->toArray());exit;
-		
-        $this->set(compact('item','companies','cgstLedgers','sgstLedgers'));
+    
+        $this->set(compact('item','companies','taxtypes'));
         $this->set('_serialize', ['item']);
 		$this->set('active_menu', 'Items.Add');
     }
