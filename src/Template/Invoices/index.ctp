@@ -49,11 +49,11 @@
 				<div class="form-group col-md-9">
 					<div class="form-group col-md-4">
 						<label class="control-label">Date From</label>
-						<?php echo $this->Form->input('from', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker datefrom firstdate' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy']); ?>
+						<?php echo $this->Form->input('from', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker datefrom firstdate' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y")]); ?>
 					</div>
 					<div class="form-group col-md-4">
 						<label class="control-label">Date To</label>
-						<?php echo $this->Form->input('to', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker dateto lastdate' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y",strtotime('today'))]); ?>
+						<?php echo $this->Form->input('to', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker dateto lastdate' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y")]); ?>
 					</div>
 					<div class="form-group col-md-1">
 						<label class="control-label"></label>
@@ -62,7 +62,7 @@
 				</div >
 			</div>
 			<div class="row main_div">
-				<div class="form-group col-md-12 main_table"> 
+				<div class="form-group col-md-12" id='main_table_div'> 
 				
 				</div>
 			</div>
@@ -89,6 +89,7 @@ $(document).ready(function() {
 	
 	
 	$(".go").on('click',function() {
+		$('#main_table_div').html('<i class="fa fa-refresh fa-spin fa-1x fa-fw"></i><b> Loading... </b>');
 		var startdate = $('.firstdate').val();
 		var enddate = $('.lastdate').val();	
 		if(startdate <= enddate)
@@ -105,7 +106,7 @@ $(document).ready(function() {
 				type: 'GET',
 			}).done(function(response) 
 			{
-				$(".main_table").html(response);
+				$("#main_table_div").html(response);
 			});
 		}else
 		{

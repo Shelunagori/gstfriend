@@ -1,6 +1,22 @@
 <?php $this->set('title','Dashboard | GST Friend'); ?>
 <div class="row">
 	<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+		<div class="dashboard-stat green-haze">
+			<div class="visual">
+				<i class="fa fa-shopping-cart"></i>
+			</div>
+			<div class="details">
+				<div class="number">
+					 
+				</div>
+				<div class="desc">
+					 GST Report
+				</div>
+			</div>
+			<?php echo $this->Html->link('View More<i class="m-icon-swapright m-icon-white"></i>',array('controller'=>'AccountingEntries','action'=>'index'),['escape'=>false,'class'=>'more']); ?>
+		</div>	
+	</div>
+	<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 		<div class="dashboard-stat blue-madison">
 			<div class="visual">
 				<i class="fa fa-comments"></i>
@@ -13,8 +29,7 @@
 					Purchase Report
 				</div>
 			</div>
-	
-			<?=  $this->Html->tag('li', $this->Html->link('View More<i class="m-icon-swapright m-icon-white"></i>', ['controller' => 'PurchaseInvoices', 'action' => 'index','class'=>'more'])); ?>
+				<?php echo $this->Html->link('View More<i class="m-icon-swapright m-icon-white"></i>',array('controller'=>'PurchaseInvoices','action'=>'index'),['escape'=>false,'class'=>'more']); ?>
 		</div>
 	</div>
 	<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -30,9 +45,8 @@
 					 Invoice Report
 				</div>
 			</div>
-			<a class="more" href="http://localhost/gstfriend/invoices">
-			View more <i class="m-icon-swapright m-icon-white"></i>
-			</a>
+			
+				<?php echo $this->Html->link('View More<i class=""m-icon-swapright m-icon-white"></i>',array('controller'=>'Invoices','action'=>'index'),['escape'=>false,'class'=>'more']); ?>			
 		</div>
 	</div>
 	
