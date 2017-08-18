@@ -94,11 +94,26 @@ class SuppliersController extends AppController
     public function edit($id = null)
     {
 		$this->viewBuilder()->layout('index_layout');
+		$company_id=$this->Auth->User('company_id');
         $supplier = $this->Suppliers->get($id, [
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $supplier = $this->Suppliers->patchEntity($supplier, $this->request->getData());
+			$supplier->company_id=$company_id;
+			
+			$query = $this->Suppliers->Ledgers->query();
+			$query->update()
+				->set([ /*ledger table Entry Start*/
+						'name'=>$supplier->name,
+						'freeze'=>$supplier->freezed,
+						'accounting_group_id'=>25,
+						'company_id'=>$company_id
+						/*ledger table Entry end*/	
+					 ])
+				->where(['supplier_id' => $id])
+				->execute();
+			
             if ($this->Suppliers->save($supplier)) {
                 $this->Flash->success(__('The supplier has been saved.'));
 

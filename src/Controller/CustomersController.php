@@ -104,18 +104,26 @@ class CustomersController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $customer = $this->Customers->patchEntity($customer, $this->request->getData());
 			$customer->company_id=$company_id;
+				
+				
 			$query = $this->Customers->Ledgers->query();
-			$query->delete()->where(['customer_id'=> $id])->execute();
-            /*ledger table Entry Start*/
-				$Ledger = $this->Customers->Ledgers->patchEntity($customer, $this->request->getData());
-				$Ledger->name=$customer->name;
-				$Ledger->freeze=$customer->freezed;
-				$Ledger->accounting_group_id=22;
-				$Ledger->company_id=$company_id;
-				$customer->ledgers = [$Ledger];
-			 /*ledger table Entry end*/	
+			$query->update()
+				->set([ /*ledger table Entry Start*/
+						'name'=>$customer->name,
+						'freeze'=>$customer->freezed,
+						'accounting_group_id'=>22,
+						'company_id'=>$company_id
+						/*ledger table Entry end*/	
+					 ])
+				->where(['customer_id' => $id])
+				->execute();	
+				
+			
 			 
             if ($this->Customers->save($customer)) {
+				
+				
+				
                 $this->Flash->success(__('The customer has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
