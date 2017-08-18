@@ -22,13 +22,27 @@ class AccountingEntriesController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
 		$accountingEntries = $this->AccountingEntries->newEntity();
-        if ($this->request->is('post')) {	
+        if ($this->request->is('post')) {
+
+		$StartDate =  date('Y-m-d',strtotime($this->request->data['start']));
+		$EndDate =  date('Y-m-d',strtotime($this->request->data['end']));
+			
 		$accountingEntries['PurchaseInvoices'] = $this->AccountingEntries->PurchaseInvoices->find()
-		->contain(['PurchaseInvoiceRows'=>['CgstLedger','SgstLedger']]);	
-		$accountingEntries['Invoices'] = $this->AccountingEntries->Invoices->find()
-		->contain(['InvoiceRows'=>['TaxCGST','TaxSGST']]);
-		}
+		->contain(['PurchaseInvoiceRows'=>['CgstLedger','SgstLedger']])
+		->where(['PurchaseInvoices.transaction_date BETWEEN :start AND :end' ])
+		->bind(':start', $StartDate, 'date')
+		->bind(':end',   $EndDate, 'date')
+		->order(['PurchaseInvoices.id'=>'DESC']);
 		
+		
+		$accountingEntries['Invoices'] = $this->AccountingEntries->Invoices->find()
+		->contain(['InvoiceRows'=>['TaxCGST','TaxSGST']])
+		->where(['Invoices.transaction_date BETWEEN :start AND :end' ])
+		->bind(':start', $StartDate, 'date')
+		->bind(':end',   $EndDate, 'date')
+		->order(['Invoices.id'=>'DESC']);
+		
+		}
 		//pr($accountingEntries['Invoices']->toArray());exit;
         $this->set(compact('accountingEntries'));
         $this->set('_serialize', ['accountingEntries']);

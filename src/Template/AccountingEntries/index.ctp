@@ -20,11 +20,11 @@
 					<div class="form-group col-md-9">
 						<div class="form-group col-md-4">
 							<label class="control-label">Date From</label>
-							<?php echo $this->Form->input('from', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker datefrom firstdate' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y")]); ?>
+							<?php echo $this->Form->input('start', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker datefrom firstdate' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y"),'required']); ?>
 						</div>
 						<div class="form-group col-md-4">
 							<label class="control-label">Date To</label>
-							<?php echo $this->Form->input('to', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker dateto lastdate' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y")]); ?>
+							<?php echo $this->Form->input('end', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker dateto lastdate' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y"),'required']); ?>
 						</div>
 						<div class="form-group col-md-1">
 							<label class="control-label"></label>
@@ -40,6 +40,77 @@
 			if($this->request->is('post'))
 			{ ?>
 			<div class='col-md-12'>
+			<?php if(!empty($accountingEntries['Invoices']->toArray()))
+			{ ?> 
+
+				<center><h3>OUTPUT GST</h3> </center> <hr>
+				<table class=" table table-bordered table-hover" id='main_tbl' >
+					<thead >
+						<tr>
+							<th>Sr. No.</th>
+							<th>Transaction Date</th>
+							<th>Invoice No.</th>
+							<th>Base Amount</th>
+							<th>CGST Percentage</th>
+							<th>CGST Amount</th>
+							<th>SGST Percentage</th>
+							<th>SGST Amount</th>
+							<th>Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php 	$i=0;
+								$baseamount_invoices = 0;  $cgstamount_invoices=0;  $sgstamount_invoices=0;  $totalamount_invoices=0;
+								
+								foreach ($accountingEntries['Invoices'] as $invoice): 
+								$i++;
+						?>
+						<tr>
+							<td><?php echo $i; ?></td>
+							<td><?= h($invoice->transaction_date) ?></td>
+							<td><?php echo $invoice->invoice_no; ?></td>
+							<td style="text-align:right"><?php echo $invoice->total_amount_before_tax; ?></td>
+
+							<td style="text-align:right">
+								<?php foreach($invoice->invoice_rows as $invoice_row)
+								{
+									echo $invoice_row->cgst->name.'<br>';
+								}
+								?>
+							</td>							
+							
+							<td style="text-align:right"><?php echo $invoice->total_cgst; ?></td>
+							<td style="text-align:right">
+								<?php foreach($invoice->invoice_rows as $invoice_row)
+								{
+									echo $invoice_row->sgst->name.'<br>';
+								}
+								?>
+							</td>	
+							<td style="text-align:right"><?php echo $invoice->total_sgst; ?></td>
+							<td style="text-align:right"><?php echo $invoice->total_amount_after_tax; ?></td>
+						</tr>
+						<?php 
+							$baseamount_invoices = $baseamount_invoices + $invoice->total_amount_before_tax;
+							$cgstamount_invoices = $cgstamount_invoices + $invoice->total_cgst;
+							$sgstamount_invoices = $sgstamount_invoices + $invoice->total_sgst;
+							$totalamount_invoices = $totalamount_invoices + $invoice->total_amount_after_tax;
+							endforeach;
+						?>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="5" style="text-align:right"><b>TOTAL </b></td>
+							<td class="totalbase" style="text-align:right"><b><?php  echo $baseamount_invoices; ?></b></td>
+							<td class="totalcgst" style="text-align:right"><b><?php echo $cgstamount_invoices; ?></b></td>
+							<td class="totalsgst" style="text-align:right"><b><?php echo $sgstamount_invoices; ?></b></td>
+							<td class="totalamount" style="text-align:right"><b><?php echo $totalamount_invoices; ?></b></td>
+						</tr>
+					</tfoot>
+				</table> 
+			<?php } else { echo 'No Data Found in Invoices (Output GST)'; }  ?>
+			</div>	
+		<div class='col-md-12'>
 			<?php if(!empty($accountingEntries['PurchaseInvoices']->toArray()))
 			{  ?>
 				<center><h3>INPUT GST</h3> </center> <hr>
@@ -107,77 +178,7 @@
 				</table> 			
 			<?php }  else { echo 'No Data Found in Purchase Invoices (Input GST)'; } ?>
 			</div>
-			<div class='col-md-12'>
-			<?php if(!empty($accountingEntries['Invoices']->toArray()))
-			{ ?> 
-
-				<center><h3>OUTPUT GST</h3> </center> <hr>
-				<table class=" table table-bordered table-hover" id='main_tbl' >
-					<thead >
-						<tr>
-							<th>Sr. No.</th>
-							<th>Transaction Date</th>
-							<th>Invoice No.</th>
-							<th>Base Amount</th>
-							<th>CGST Percentage</th>
-							<th>CGST Amount</th>
-							<th>SGST Percentage</th>
-							<th>SGST Amount</th>
-							<th>Total</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php 	$i=0;
-								$baseamount_invoices = 0;  $cgstamount_invoices=0;  $sgstamount_invoices=0;  $totalamount_invoices=0;
-								
-								foreach ($accountingEntries['Invoices'] as $invoice): 
-								$i++;
-						?>
-						<tr>
-							<td><?php echo $i; ?></td>
-							<td><?= h($invoice->transaction_date) ?></td>
-							<td><?php echo $invoice->invoice_no; ?></td>
-							<td style="text-align:right"><?php echo $invoice->total_amount_before_tax; ?></td>
-
-							<td style="text-align:right">
-								<?php foreach($invoice->invoice_rows as $invoice_row)
-								{
-									echo $invoice_row->cgst->name;
-								}
-								?>
-							</td>							
-							
-							<td style="text-align:right"><?php echo $invoice->total_cgst; ?></td>
-							<td style="text-align:right">
-								<?php foreach($invoice->invoice_rows as $invoice_row)
-								{
-									echo $invoice_row->sgst->name;
-								}
-								?>
-							</td>	
-							<td style="text-align:right"><?php echo $invoice->total_sgst; ?></td>
-							<td style="text-align:right"><?php echo $invoice->total_amount_after_tax; ?></td>
-						</tr>
-						<?php 
-							$baseamount_invoices = $baseamount_invoices + $invoice->total_amount_before_tax;
-							$cgstamount_invoices = $cgstamount_invoices + $invoice->total_cgst;
-							$sgstamount_invoices = $sgstamount_invoices + $invoice->total_sgst;
-							$totalamount_invoices = $totalamount_invoices + $invoice->total_amount_after_tax;
-							endforeach;
-						?>
-					</tbody>
-					<tfoot>
-						<tr>
-							<td colspan="5" style="text-align:right"><b>TOTAL </b></td>
-							<td class="totalbase" style="text-align:right"><b><?php  echo $baseamount_invoices; ?></b></td>
-							<td class="totalcgst" style="text-align:right"><b><?php echo $cgstamount_invoices; ?></b></td>
-							<td class="totalsgst" style="text-align:right"><b><?php echo $sgstamount_invoices; ?></b></td>
-							<td class="totalamount" style="text-align:right"><b><?php echo $totalamount_invoices; ?></b></td>
-						</tr>
-					</tfoot>
-				</table> 
-			<?php } else { echo 'No Data Found in Invoices (Output GST)'; }  ?>
-			</div>				
+			
 				</div>
 				
 				<div class='col-md-12'>
@@ -186,7 +187,7 @@
 							<tr>
 								<td style="text-align:right"><b>Net Payable : </b></td>
 								<td style="text-align:right"> 
-									<?php echo $totalamount_invoices - $totalamount ?>
+									<?php echo @$totalamount_invoices - @$totalamount ?>
 								</td>
 							</tr>
 						</table>
