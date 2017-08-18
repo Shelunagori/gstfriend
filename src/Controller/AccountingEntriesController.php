@@ -23,8 +23,10 @@ class AccountingEntriesController extends AppController
 		$this->viewBuilder()->layout('index_layout');
 		$accountingEntries = $this->AccountingEntries->newEntity();
         if ($this->request->is('post')) {	
-		$accountingEntries['PurchaseInvoices'] = $this->AccountingEntries->PurchaseInvoices->find();	
-		$accountingEntries['Invoices'] = $this->AccountingEntries->Invoices->find();
+		$accountingEntries['PurchaseInvoices'] = $this->AccountingEntries->PurchaseInvoices->find()
+		->contain(['PurchaseInvoiceRows'=>['CgstLedger','SgstLedger']]);	
+		$accountingEntries['Invoices'] = $this->AccountingEntries->Invoices->find()
+		->contain(['InvoiceRows'=>['TaxCGST','TaxSGST']]);
 		}
 		
 		//pr($accountingEntries['Invoices']->toArray());exit;
