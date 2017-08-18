@@ -97,11 +97,24 @@ class CustomersController extends AppController
     public function edit($id = null)
     {
 		$this->viewBuilder()->layout('index_layout');
-        $customer = $this->Customers->get($id, [
+        $company_id=$this->Auth->User('company_id');
+		$customer = $this->Customers->get($id, [
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $customer = $this->Customers->patchEntity($customer, $this->request->getData());
+			$customer->company_id=$company_id;
+			$query = $this->Customers->Ledgers->query();
+			$query->delete()->where(['customer_id'=> $id])->execute();
+            /*ledger table Entry Start*/
+				$Ledger = $this->Customers->Ledgers->patchEntity($customer, $this->request->getData());
+				$Ledger->name=$customer->name;
+				$Ledger->freeze=$customer->freezed;
+				$Ledger->accounting_group_id=22;
+				$Ledger->company_id=$company_id;
+				$customer->ledgers = [$Ledger];
+			 /*ledger table Entry end*/	
+			 
             if ($this->Customers->save($customer)) {
                 $this->Flash->success(__('The customer has been saved.'));
 
