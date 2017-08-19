@@ -251,10 +251,15 @@ class InvoicesController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $invoice = $this->Invoices->patchEntity($invoice, $this->request->getData());
           
-			$invoice->transaction_date = date('Y-m-d',strtotime($invoice->transaction_date));
+			$last_invoice=$this->Invoices->find()->select(['invoice_no'])->order(['invoice_no' => 'DESC'])->first();
+				if($last_invoice){
+					$invoice->invoice_no=$last_invoice->invoice_no+1;
+				}else{
+					$invoice->invoice_no=1;
+				} 
+				$invoice->transaction_date = date('Y-m-d',strtotime($invoice->transaction_date));
+				
 			if ($this->Invoices->save($invoice)) {
-				$query = $this->Invoices->AccountingEntries->query();
-				$query->delete()->where(['invoice_id'=> $id])->execute();
 				
 				if($invoice->invoicetype == 'Cash')
 				{
@@ -284,7 +289,7 @@ class InvoicesController extends AppController
 						$this->Invoices->AccountingEntries->save($Accounting_entries);				
 					}					
 				}
-
+				
 				if($invoice->total_amount_before_tax !=0)
 				{		
 					$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
@@ -319,8 +324,8 @@ class InvoicesController extends AppController
 					$this->Invoices->AccountingEntries->save($Accounting_entries);
 					
 				}
-
-					
+				
+				
                 $this->Flash->success(__('The invoice has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -332,15 +337,15 @@ class InvoicesController extends AppController
         $salesLedgers = $this->Invoices->SalesLedgers->find('list')->where(['accounting_group_id'=>14,'freeze'=>0]);
         $items_datas = $this->Invoices->InvoiceRows->Items->find()->where(['freezed'=>0]);
 		
-		
 		foreach($items_datas as $items_data)
 		{
-			$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->price,'cgst_ledger_id'=>$items_data->cgst_ledger_id,'sgst_ledger_id'=>$items_data->sgst_ledger_id];
-		}		
-		
-		
+			$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->price,'cgst_ledger_id'=>$items_data->cgst_ledger_id,'sgst_ledger_id'=>$items_data->sgst_ledger_id,'igst_ledger_id'=>$items_data->igst_ledger_id];
+		}
+			
+        $customer_discounts = $this->Invoices->InvoiceRows->Items->find();
+	
 		$tax_CGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'CGST']);
-
+		
 		foreach($tax_CGSTS as $tax_CGST)
 		{
 			$taxs_CGST[]=['value'=>$tax_CGST->id,'text'=>$tax_CGST->name,'tax_rate'=>$tax_CGST->tax_percentage];
@@ -352,17 +357,26 @@ class InvoicesController extends AppController
 		{
 			$taxs_SGST[]=['value'=>$tax_SGST->id,'text'=>$tax_SGST->name,'tax_rate'=>$tax_SGST->tax_percentage];
 		}		
+		
+		
 
+
+		$last_invoice=$this->Invoices->find()->select(['invoice_no'])->order(['invoice_no' => 'DESC'])->first();
+		if($last_invoice){
+				$invoice_no=$last_invoice->invoice_no+1;
+		}else{
+				$invoice_no=1;
+		} 
 
 		$tax_IGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'IGST']);
 		
 		foreach($tax_IGSTS as $tax_IGST)
 		{
 			$taxs_IGST[]=['value'=>$tax_IGST->id,'text'=>$tax_IGST->name,'tax_rate'=>$tax_IGST->tax_percentage];
-		}			
+		}		
 		
 		//pr($taxs_IGST); exit;
-        $this->set(compact('invoice','customerLedgers','salesLedgers','items','taxs_CGST','taxs_SGST','taxs_IGST'));
+        $this->set(compact('invoice', 'customerLedgers', 'salesLedgers', 'items','taxs_CGST','taxs_SGST','invoice_no','taxs_IGST'));
         $this->set('_serialize', ['invoice']);
     }
 
