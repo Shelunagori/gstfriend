@@ -441,7 +441,7 @@ $(document).ready(function() {
 	
 	
 	
-	
+	calculation();
 
 	$('#main_table input').die().live("keyup","blur",function() { 
 		calculation();
@@ -459,9 +459,9 @@ $(document).ready(function() {
 		$("#main_table tbody#main_tbody tr.main_tr").each(function(){ 
 			var total=parseFloat($(this).find("td:nth-child(14) input").val());
 			if(!total){ total=0; }
-			alert(total);
+			alert(total_amount_after_tax);
 			
-			total_amount_after_tax=total_amount_after_tax+total;
+			total_amount_after_tax=total_amount_after_tax+total
 			
 			
 			var sgst_rate=parseFloat($(this).find("td:nth-child(10) option:selected").attr('percentage'));
