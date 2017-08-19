@@ -27,7 +27,7 @@ $this->set('title', 'Edit');
 						</div>
 						<div class="form-group">
 							<label class="control-label">GST Type</label>
-							<?php echo $this->Form->control('gst_type', ['options' => $taxtypes,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Item Name']); ?>
+							<?php echo $this->Form->control('tax_type_id', ['options' => $taxtypes,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Item Name','value'=>$item->tax_type_id]); ?>
 						</div>
 						<div class="form-group">
 							<?php echo $this->Form->control('freezed'); ?>
