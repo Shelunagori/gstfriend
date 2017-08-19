@@ -282,19 +282,23 @@ $(document).ready(function() {
 			
 			if(cgst_ledger_id == 0 || sgst_ledger_id == 0)
 			{
-				$('.gst').hide();
+				$(this).closest('tr').find('.gst').hide();
+				$(this).closest('table#main_table').find('th.gst').hide();
 			}
 			else
 			{
-				$('.gst').show();
+				$(this).closest('tr').find('.gst').show();
+				$(this).closest('table#main_table').find('th.gst').show();
 			}
 			if(igst_ledger_id == 0)
 			{
-				$('.igst').hide();
+				$(this).closest('tr').find('.igst').hide();
+				$(this).closest('table#main_table').find('th.igst').hide();
 			}
 			else
 			{
-				$('.igst').show();
+				$(this).closest('tr').find('.igst').show();
+				$(this).closest('table#main_table').find('th.igst').show();
 			}			
 			
 			
@@ -430,11 +434,6 @@ $(document).ready(function() {
 			
 		
 				
-				
-				
-				
-			
-			
 			var discount_amount=parseFloat($(this).find("td:nth-child(6) input").val());
 			if(!discount_amount){ discount_amount=0; }
 			var amount = taxable_value+discount_amount;
