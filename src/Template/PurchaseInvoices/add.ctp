@@ -82,7 +82,7 @@ $this->set('title', 'Add Invoice');
 							</tbody>
 							<tfoot>
 								<td><b>Total GST</b></td>
-								<td colspan='2'><b><?php echo $this->Form->control('total_cgst',['label'=>false,'type'=>'text','placeholder'=>'0.00','style'=>'text-align: right;','class'=>'cgst totalcgst','readonly']); ?></b></td>
+								<td colspan='2'><b><?php echo $this->Form->control('total_cgst',['label'=>false,'type'=>'text','placeholder'=>'0.00','style'=>'text-align: right;','class'=>'gst totalgst','readonly']); ?></b></td>
 								
 							</tfoot>
 						</table><br>
@@ -119,10 +119,9 @@ $(document).ready(function(){
 	function baseamount(){
 		var baseamount=0;
 		var total= parseFloat($('.total').val());
-		var sgst = parseFloat($('.totalsgst').val());
-		var cgst = parseFloat($('.totalcgst').val()); 
-		var baseamount = sgst + cgst;
-		var amount = total - baseamount;	
+		var gst = parseFloat($('.totalgst').val()); 
+		
+		var amount = total - gst;	
 		$('.baseamount').val(amount);
 	}
 	
@@ -147,36 +146,30 @@ $(document).ready(function(){
 	function rename_rows(){
 		var j=0;
 		$("#main_table tbody#main_tbody tr").each(function(){
-			$(this).find("td:nth-child(1) select").attr({name:"purchase_invoice_rows["+j+"][tax_type_id]", id:"purchase_invoice_rows-"+j+"-tax_type_id"});
+			$(this).find("td:nth-child(1) select").select2().attr({name:"purchase_invoice_rows["+j+"][tax_type_id]", id:"purchase_invoice_rows-"+j+"-tax_type_id"});
 			
 			$(this).find("td:nth-child(2) input").attr({name:"purchase_invoice_rows["+j+"][tax_amount]", id:"purchase_invoice_rows-"+j+"-tax_amount"});
 			j++;
 	   });
 	};
 	
+	
 	$('.cgst_amount').live("keyup",function() {
 		calculation();
-	});
-	
-	$('.sgst_amount').live("keyup",function() {
-		calculation();
+		baseamount();
 	});
 	
 	calculation();
 	function calculation(){ 
 		var total_cgst=0;
-		var total_sgst=0;
 		$("#main_table tbody#main_tbody tr.main_tr").each(function(){
 			
 			var cgst_amount=$(this).find("td:nth-child(2) input").val();
 			if(!cgst_amount){ cgst_amount=0; }
 			total_cgst=parseFloat(total_cgst)+parseFloat(cgst_amount);
-			var sgst_amount=$(this).find("td:nth-child(4) input").val();
-			if(!sgst_amount){ sgst_amount=0; }
-			total_sgst=parseFloat(total_sgst)+parseFloat(sgst_amount);
+			
 		});
 		$('input[name="total_cgst"]').val(total_cgst.toFixed(2));
-		$('input[name="total_sgst"]').val(total_sgst.toFixed(2));
 	}
 
 });
@@ -187,7 +180,7 @@ $(document).ready(function(){
 	<tbody class="sample_tbody">
 		<tr class="main_tr">	
 			<td class="form-group">
-				<?php echo $this->Form->control('tax_type_id', ['options' => $taxtypes,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Item Name']); ?>
+				<?php echo $this->Form->control('tax_type_id', ['options' => $taxtypes,'label' => false,'class' => 'form-control input-sm ','placeholder'=>'Enter Item Name']); ?>
 			</td>
 			<td class="form-group">
 				<?php echo $this->Form->control('cgst_amount',['label' => false,'class' => 'form-control input-sm firstupercase cgst_amount addcgst','placeholder'=>'Amount']); ?> 
