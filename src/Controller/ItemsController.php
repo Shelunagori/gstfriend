@@ -65,7 +65,7 @@ class ItemsController extends AppController
 			$item->sgst_ledger_id = 0;
 			$item->igst_ledger_id = 0;
 			
-			$gst_type = $item->gst_type;
+			$gst_type = $item->tax_type_id;
 			
 			$taxtypes = $this->Items->TaxTypes->TaxTypeRows->find()
 						->where(['tax_type_id'=>$gst_type]);
@@ -133,6 +133,7 @@ class ItemsController extends AppController
         $item = $this->Items->get($id, [
             'contain' => []
         ]);
+		$company_id=$this->Auth->User('company_id');
         if ($this->request->is(['patch', 'post', 'put'])) {
             $item = $this->Items->patchEntity($item, $this->request->getData());
 			$item->company_id=$company_id;
@@ -140,7 +141,7 @@ class ItemsController extends AppController
 			$item->sgst_ledger_id = 0;
 			$item->igst_ledger_id = 0;
 			
-			$gst_type = $item->gst_type;
+			$gst_type = $item->tax_type_id;
 			
 			$taxtypes = $this->Items->TaxTypes->TaxTypeRows->find()
 						->where(['tax_type_id'=>$gst_type]);
@@ -183,11 +184,10 @@ class ItemsController extends AppController
                 $this->Flash->success(__('The item has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
-            }
+            } //pr($item); exit;
             $this->Flash->error(__('The item could not be saved. Please, try again.'));
         }
-		/* $cgstLedgers = $this->Items->CgstLedgers->find('list')->where(['accounting_group_id'=>30,'gst_type'=>'CGST']);
-        $sgstLedgers = $this->Items->SgstLedgers->find('list')->where(['accounting_group_id'=>30,'gst_type'=>'SGST']); */
+		//pr($item); exit;
 		$taxtypes = $this->Items->TaxTypes->find('list');
     
         $this->set(compact('item', 'companies','taxtypes'));
