@@ -154,7 +154,7 @@ p{
 							<tr id="main_tr">
 								<td width="15px"style="border-left: none;"><?= h($i++) ?></td>
 								<td width="30%" class="form-group">
-									<?php echo $this->Form->control('item_id', ['options' =>$items, 'empty' => false,'label' => false,'class' => 'form-control input-sm ','required','value'=>$purchaseVoucherRow->item_id]); ?>
+									<?php echo $this->Form->control('item_id', ['options' =>$items, 'empty' => false,'label' => false,'class' => 'form-control input-sm item','required','value'=>$purchaseVoucherRow->item_id]); ?>
 								</td>	
 								<td width="40" class="form-group">
 									<?php echo $this->Form->control('quantity', ['type'=>'text','label' => false,'class' => 'form-control input-sm','required','value'=>$purchaseVoucherRow->quantity]); ?>
@@ -402,6 +402,46 @@ $(document).ready(function() {
 	// Rename End
 	//calculation Start
 	
+	
+	$('.item').die().live("change",function() { 
+			var rate = $(this).find('option:selected').attr('rate');
+			var cgst_ledger_id = $(this).find('option:selected').attr('cgst_ledger_id');
+			var sgst_ledger_id = $(this).find('option:selected').attr('sgst_ledger_id');
+			var igst_ledger_id = $(this).find('option:selected').attr('igst_ledger_id');
+			
+			if(cgst_ledger_id == 0 || sgst_ledger_id == 0)
+			{
+				$(this).closest('tr').find('.gst').hide();
+				
+			}
+			else
+			{
+				$(this).closest('tr').find('.gst').show();
+				
+			}
+			if(igst_ledger_id == 0)
+			{
+				$(this).closest('tr').find('.igst').hide();
+				
+			}
+			else
+			{
+				$(this).closest('tr').find('.igst').show();
+				
+			}			
+			
+			
+			$(this).closest('tr').find('td .rate').val(rate);
+			$(this).closest('tr').find('td .cgst').val(cgst_ledger_id);
+			$(this).closest('tr').find('td .sgst').val(sgst_ledger_id);
+			$(this).closest('tr').find('td .igst').val(igst_ledger_id);
+			calculation();
+		});
+	
+	
+	
+	
+	
 
 	$('#main_table input').die().live("keyup","blur",function() { 
 		calculation();
@@ -419,8 +459,9 @@ $(document).ready(function() {
 		$("#main_table tbody#main_tbody tr.main_tr").each(function(){ 
 			var total=parseFloat($(this).find("td:nth-child(14) input").val());
 			if(!total){ total=0; }
+			alert(total);
 			
-			total_amount_after_tax=total_amount_after_tax+total
+			total_amount_after_tax=total_amount_after_tax+total;
 			
 			
 			var sgst_rate=parseFloat($(this).find("td:nth-child(10) option:selected").attr('percentage'));
@@ -567,7 +608,7 @@ foreach($SgstTax as $SgstTaxe){
 		<tr class="main_tr">
 			<td align="center" width="1px"></td>
 			<td width="20%" class="form-group">
-				<?php echo $this->Form->control('item_id', ['empty'=>"----select----",'options' =>$items, 'label' => false,'class' => 'form-control item input-sm itemchange select2me ']); ?>
+				<?php echo $this->Form->control('item_id', ['empty'=>"----select----",'options' =>$items, 'label' => false,'class' => 'form-control item input-sm itemchange']); ?>
 			
 			</td>
 			
