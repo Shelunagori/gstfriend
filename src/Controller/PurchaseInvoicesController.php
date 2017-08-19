@@ -125,6 +125,16 @@ class PurchaseInvoicesController extends AppController
 					$Accounting_entries->purchase_voucher_id = $purchaseInvoice->id;
 					$Accounting_entries->company_id=$company_id;
 					$this->PurchaseInvoices->AccountingEntries->save($Accounting_entries);
+
+
+					$Accounting_entries = $this->PurchaseInvoices->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $purchase_invoice_row->igst_ledger_id;
+					$Accounting_entries->debit = $purchase_invoice_row->igst_amount;
+					$Accounting_entries->credit = 0;
+					$Accounting_entries->transaction_date = $purchaseInvoice->transaction_date;
+					$Accounting_entries->purchase_voucher_id = $purchaseInvoice->id;
+					$Accounting_entries->company_id=$company_id;
+					$this->PurchaseInvoices->AccountingEntries->save($Accounting_entries);					
 					
 				}
 				
@@ -144,7 +154,9 @@ class PurchaseInvoicesController extends AppController
 		
 		$SgstTax = $this->PurchaseInvoices->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);
 		
-        $this->set(compact('purchaseInvoice','SupplierLedger','PurchaseLedger','CgstTax','SgstTax'));
+		$IgstTax = $this->PurchaseInvoices->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'IGST']);
+		
+        $this->set(compact('purchaseInvoice','SupplierLedger','PurchaseLedger','CgstTax','SgstTax','IgstTax'));
         $this->set('_serialize', ['purchaseInvoice']);
 		$this->set('active_menu', 'PurchaseInvoices.Add');
     }
@@ -214,6 +226,15 @@ class PurchaseInvoicesController extends AppController
 					$Accounting_entries->purchase_voucher_id = $purchaseInvoice->id;
 					$Accounting_entries->company_id=$company_id;
 					$this->PurchaseInvoices->AccountingEntries->save($Accounting_entries);
+
+					$Accounting_entries = $this->PurchaseInvoices->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $purchase_invoice_row->igst_ledger_id;
+					$Accounting_entries->debit = $purchase_invoice_row->igst_amount;
+					$Accounting_entries->credit = 0;
+					$Accounting_entries->transaction_date = $purchaseInvoice->transaction_date;
+					$Accounting_entries->purchase_voucher_id = $purchaseInvoice->id;
+					$Accounting_entries->company_id=$company_id;
+					$this->PurchaseInvoices->AccountingEntries->save($Accounting_entries);					
 					
 				}
 				
@@ -232,8 +253,10 @@ class PurchaseInvoicesController extends AppController
 		$CgstTax = $this->PurchaseInvoices->CgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'CGST']);
 		
 		$SgstTax = $this->PurchaseInvoices->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);
+
+		$IgstTax = $this->PurchaseInvoices->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'IGST']);
 		
-        $this->set(compact('purchaseInvoice','SupplierLedger','PurchaseLedger','CgstTax','SgstTax'));
+        $this->set(compact('purchaseInvoice','SupplierLedger','PurchaseLedger','CgstTax','SgstTax','IgstTax'));
         $this->set('_serialize', ['purchaseInvoice']);
     }
 

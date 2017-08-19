@@ -200,6 +200,9 @@ class PurchaseVouchersController extends AppController
 		$company_id=$this->Auth->User('company_id');
         if ($this->request->is(['patch', 'post', 'put'])) {
             $purchaseVoucher = $this->PurchaseVouchers->patchEntity($purchaseVoucher, $this->request->getData());
+			
+			//pr($purchaseVoucher); exit;
+			
             if ($this->PurchaseVouchers->save($purchaseVoucher)) {
 
 				$query = $this->PurchaseVouchers->AccountingEntries->query();
@@ -249,6 +252,15 @@ class PurchaseVouchersController extends AppController
 					$Accounting_entries->purchase_voucher_id = $purchaseVoucher->id;
 					$Accounting_entries->company_id=$company_id;
 					$this->PurchaseVouchers->AccountingEntries->save($Accounting_entries);
+
+					$Accounting_entries = $this->PurchaseVouchers->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $purchase_voucher_row->igst_ledger_id;
+					$Accounting_entries->debit = $purchase_voucher_row->igst_amount;
+					$Accounting_entries->credit = 0;
+					$Accounting_entries->transaction_date = $purchaseVoucher->transaction_date;
+					$Accounting_entries->purchase_voucher_id = $purchaseVoucher->id;
+					$Accounting_entries->company_id=$company_id;
+					$this->PurchaseVouchers->AccountingEntries->save($Accounting_entries);					
 					
 				}		
 				
@@ -258,15 +270,22 @@ class PurchaseVouchersController extends AppController
             }
             $this->Flash->error(__('The purchase voucher could not be saved. Please, try again.'));
         }
-		$items = $this->PurchaseVouchers->Items->find('list')->where(['freezed'=>0]);
+		
+		$items_datas = $this->PurchaseVouchers->Items->find()->where(['freezed'=>0]);
+		
+		
+		foreach($items_datas as $items_data)
+		{
+			$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->price,'cgst_ledger_id'=>$items_data->input_cgst_ledger_id,'sgst_ledger_id'=>$items_data->input_sgst_ledger_id,'igst_ledger_id'=>$items_data->input_igst_ledger_id];
+		}
 		$SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find('list')->where(['accounting_group_id'=>25,'freeze'=>0]);
         $PurchaseLedger = $this->PurchaseVouchers->PurchaseLedger->find('list')->where(['accounting_group_id'=>13,'freeze'=>0]);
 		$CgstTax = $this->PurchaseVouchers->CgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'CGST']);
-		//pr($CgstTax->toArray()); exit;
+		
 		$SgstTax = $this->PurchaseVouchers->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);
 		
 		$IgstTax = $this->PurchaseVouchers->IgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'IGST']);
-		
+		//pr($IgstTax->toArray()); exit;
         $this->set(compact('purchaseVoucher', 'SupplierLedger' , 'PurchaseLedger','items','CgstTax','SgstTax','IgstTax'));
         $this->set('_serialize', ['purchaseVoucher']);
     }

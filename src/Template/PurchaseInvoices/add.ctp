@@ -21,7 +21,7 @@ $this->set('title', 'Add Invoice');
 
 </style>
 
-<div class="portlet light bordered  col-md-7" >
+<div class="portlet light bordered  col-md-8" >
 	<div class="portlet-body-form"  >
 		<?= $this->Form->create($purchaseInvoice) ?>
 		<fieldset>
