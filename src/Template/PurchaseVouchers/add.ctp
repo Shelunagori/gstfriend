@@ -365,7 +365,7 @@ $(document).ready(function() {
 			j++;
 	   });
 	   calculation();
-	};
+	}
 
 	//Add Row Script End
 	
@@ -454,7 +454,7 @@ $(document).ready(function() {
 	// Calculation In Row End
 	// ReverseCalculation In Row Start
 	$('.revCalculate').live("keyup",function() {
-		reverseCalculation();
+		calculation();
 	});
 	
 	function reverseCalculation(){

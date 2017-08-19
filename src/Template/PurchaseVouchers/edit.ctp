@@ -140,6 +140,11 @@ p{
 						foreach($SgstTax as $SgstTaxe){
 							$Sgst[]=['text' =>$SgstTaxe->name, 'value' => $SgstTaxe->id, 'percentage'=>$SgstTaxe->tax_percentage];
 						}
+
+						$Igst=[];
+						foreach($IgstTax as $IgstTaxe){
+							$Igst[]=['text' =>$IgstTaxe->name, 'value' => $IgstTaxe->id, 'percentage'=>$IgstTaxe->tax_percentage];
+						}						
 					?>
 					<!--Get Gst Value with Percent end--->
 					<?php  
@@ -178,6 +183,13 @@ p{
 								<td width="43px" class="form-group">
 									<?php echo $this->Form->control('sgst_amount', ['type'=>'text','label' => false,'class' => 'form-control input-sm','required','value'=>$purchaseVoucherRow->sgst_amount]); ?>
 								</td>
+								<td width="43px" class="form-group">
+									<?php echo $this->Form->control('igst_ledger_id', ['options' =>$Sgst,'label' => false,'class' => 'form-control input-sm gst_call','value'=>$purchaseVoucherRow->igst_ledger_id]); ?>
+								</td>
+								<td width="43px" class="form-group">
+									<?php echo $this->Form->control('igst_amount', ['type'=>'text','label' => false,'class' => 'form-control input-sm','required','value'=>$purchaseVoucherRow->igst_amount]); ?>
+								</td>								
+								
 								<td width="34px" class="form-group">
 									<?php echo $this->Form->control('total', ['type'=>'text','label' => false,'class' => 'form-control input-sm','required','value'=>$purchaseVoucherRow->total]); ?>
 								</td>
@@ -195,7 +207,7 @@ p{
 			<table width="100%" class="tbl">
 				<tbody>
 					<tr>
-						<td style="border-top: none;" width="200" colspan="7" rowspan="4" class="form-group">
+						<td style="border-top: none;" width="200" colspan="7" rowspan="5" class="form-group">
 							<label class="control-label" >Narration</label>
 							<?php echo $this->Form->control('narration',['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Narration']); ?> 
 						</td>
@@ -217,8 +229,13 @@ p{
 						<td style="text-align:right;border-right: none;" width="55">
 							<?php echo $this->Form->control('total_sgst',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 65px;border: none;text-align: right;','tabindex'=>'-1']); ?>
 						</td>
-						
 					</tr>
+					<tr>
+						<td style="text-align:right;" colspan="4"><b>Total IGST</b></td>
+						<td style="text-align:right;border-right: none;" width="55">
+							<?php echo $this->Form->control('total_igst',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 65px;border: none;text-align: right;','tabindex'=>'-1']); ?>
+						</td>
+					</tr>					
 					<tr>
 						<td style="text-align:right;" colspan="4"><b>Total Amount after Tax</b></td>
 						<td style="text-align:right;" width="55" >
@@ -326,31 +343,23 @@ $(document).ready(function() {
 	
 	
 	//--	 END OF VALIDATION
-	
-	
-	
-	
-	
-	
-	
+
 	// Add Row Start */
-	$(document).on("click",".add",function(){
+		$(document).on("click",".add",function(){
 				add_row();
 		});
-	
-	function add_row(){ 
-			var tr=$("#sample_table tbody tr.main_tr1").clone();
+		
+		function add_row(){
+			var tr=$("#sample_table tbody tr.main_tr").clone();
 			$("#main_table tbody#main_tbody").append(tr);
 			rename_rows();
-			
-			
 		}
 		
 	
 		$(document).on("click",".deleterow",function() {
 			$(this).closest('tr').remove();
 			rename_rows();
-			calculation();
+		
 			
 			});
 	// Add Row	End	
@@ -358,13 +367,13 @@ $(document).ready(function() {
 		
 	function rename_rows(){
 		var j=0;
-		$("#main_table tbody#main_tbody tr ").each(function(){
+		$("#main_table tbody#main_tbody tr").each(function(){
 			$(this).find('td:nth-child(1)').html(j+1);					
 			$(this).find("td:nth-child(2) select").select2().attr({name:"purchase_voucher_rows["+j+"][item_id]", id:"purchase_voucher_rows-"+j+"-item_id"}).rules("add","required");
 
 			$(this).find("td:nth-child(3) input").attr({name:"purchase_voucher_rows["+j+"][quantity]", id:"purchase_voucher_rows-"+j+"-quantity"}).rules("add","required");
 
-			$(this).find("td:nth-child(4) input").attr({name:"purchase_voucher_rows["+j+"][rate_per]", id:"purchase_voucher_rows-"+j+"-rate_per"}).rules("add","required");							
+			$(this).find("td:nth-child(4) input").attr({name:"purchase_voucher_rows["+j+"][rate_per]", id:"purchase_voucher_rows-"+j+"-rate_per"}).rules("add","required");						
 					
 			$(this).find("td:nth-child(5) input").attr({name:"purchase_voucher_rows["+j+"][amount]", id:"purchase_voucher_rows-"+j+"-amount"}).rules("add","required");
 			
@@ -380,16 +389,20 @@ $(document).ready(function() {
 			
 			$(this).find("td:nth-child(11) input").attr({name:"purchase_voucher_rows["+j+"][sgst_amount]", id:"purchase_voucher_rows-"+j+"-sgst_amount"}).rules("add","required");
 			
-			$(this).find("td:nth-child(12) input").attr({name:"purchase_voucher_rows["+j+"][total]", id:"purchase_voucher_rows-"+j+"-total"}).rules("add","required");
-			j++;
 			
+			$(this).find("td:nth-child(12) select").attr({name:"purchase_voucher_rows["+j+"][igst_ledger_id]", id:"purchase_voucher_rows-"+j+"-igst_ledger_id"}).rules("add","required");
+			
+			$(this).find("td:nth-child(13) input").attr({name:"purchase_voucher_rows["+j+"][igst_amount]", id:"purchase_voucher_rows-"+j+"-igst_amount"}).rules("add","required");			
+			
+			$(this).find("td:nth-child(14) input").attr({name:"purchase_voucher_rows["+j+"][total]", id:"purchase_voucher_rows-"+j+"-total"}).rules("add","required");
+			j++;
 	   });
-	   
-	};
+	   calculation();
+	}
 	// Rename End
 	//calculation Start
 	
-	calculation();
+
 	$('#main_table input').die().live("keyup","blur",function() { 
 		calculation();
 	});
@@ -398,54 +411,73 @@ $(document).ready(function() {
 	});
 	
 	function calculation(){ 
-	
 		var total_amount_before_tax=0;
 		var total_cgst=0;
 		var total_sgst=0;
+		var total_igst=0;
 		var total_amount_after_tax=0;
-		$("#main_table tbody#main_tbody tr").each(function(){
-			var quantity=parseFloat($(this).find("td:nth-child(3) input").val());
-			if(!quantity){ quantity=0; }
-			var rate=parseFloat($(this).find("td:nth-child(4) input").val());
-			if(!rate){ rate=0; }
-			var amount=parseFloat(quantity*rate).toFixed(2);
-			$(this).find("td:nth-child(5) input").val(amount);
+		$("#main_table tbody#main_tbody tr.main_tr").each(function(){ 
+			var total=parseFloat($(this).find("td:nth-child(14) input").val());
+			if(!total){ total=0; }
+			
+			total_amount_after_tax=total_amount_after_tax+total
+			
+			
+			var sgst_rate=parseFloat($(this).find("td:nth-child(10) option:selected").attr('percentage'));
+			if(!sgst_rate){ sgst_rate=0; }
+			var sgst_per=parseFloat(sgst_rate);
+			
+			
+			var cgst_rate=parseFloat($(this).find("td:nth-child(8) option:selected").attr('percentage'));
+			if(!cgst_rate){ cgst_rate=0; }
+			var cgst_per=parseFloat(cgst_rate);
+			
+			
+			var igst_rate=parseFloat($(this).find("td:nth-child(12) option:selected").attr('percentage'));
+			if(!igst_rate){ igst_rate=0; }
+			
+			var igst_per=parseFloat(igst_rate);
 			
 			
 			
-			var discount_amount=parseFloat($(this).find("td:nth-child(6) input").val());
-			if(!discount_amount){ discount_amount=0; }
-			var taxable_value=parseFloat(amount-discount_amount);
-			$(this).find("td:nth-child(7) input").val(taxable_value);
+			var total_tax=parseFloat(sgst_per)+parseFloat(cgst_per)+parseFloat(igst_per);
 			
-			total_amount_before_tax=total_amount_before_tax+taxable_value;
+			//tax value calculate start
+			var taxable_value =  (total/((total_tax)+100))*100;
 			
-			
-			var cgst_ledger_id=parseFloat($(this).find("td:nth-child(8) option:selected").attr("percentage"));
-
-			
-			if(!cgst_ledger_id){ cgst_ledger_id=0; }
-			var cgst_amount=parseFloat(taxable_value*cgst_ledger_id/100).toFixed(2);
+			$(this).find("td:nth-child(7) input").val(taxable_value.toFixed(2));
+			var cgst_amount = taxable_value * (cgst_per/100);
+			$(this).find("td:nth-child(9) input").val(cgst_amount.toFixed(2));
 			total_cgst=parseFloat(total_cgst)+parseFloat(cgst_amount);
 			
-			$(this).find("td:nth-child(9) input").val(cgst_amount);
-			
-			var sgst_ledger_id=parseFloat($(this).find("td:nth-child(10) option:selected").attr('percentage'));
-			if(!sgst_ledger_id){ sgst_ledger_id=0; }
-			var sgst_amount=parseFloat(taxable_value*sgst_ledger_id/100).toFixed(2);
+			var sgst_amount = taxable_value * (sgst_per/100);
+			$(this).find("td:nth-child(11) input").val(sgst_amount.toFixed(2));
 			total_sgst=parseFloat(total_sgst)+parseFloat(sgst_amount);
 			
-			$(this).find("td:nth-child(11) input").val(sgst_amount);
 			
-			var total=parseFloat(taxable_value)+parseFloat(cgst_amount)+parseFloat(sgst_amount);
-			$(this).find("td:nth-child(12) input").val(total.toFixed(2));
-			total_amount_after_tax=total_amount_after_tax+total;
+
+			var igst_amount = taxable_value * (igst_per/100);
+			$(this).find("td:nth-child(13) input").val(igst_amount.toFixed(2));
+			total_igst=parseFloat(total_igst)+parseFloat(igst_amount);
 			
+		
+				
+			var discount_amount=parseFloat($(this).find("td:nth-child(6) input").val());
+			if(!discount_amount){ discount_amount=0; }
+			var amount = taxable_value+discount_amount;
+			$(this).find("td:nth-child(5) input").val(amount.toFixed(2));
+			var quantity=parseFloat($(this).find("td:nth-child(3) input").val());
+			if(!quantity){ quantity=0; }
+			var rate = amount/ quantity;
+			$(this).find("td:nth-child(4) input").val(rate.toFixed(2));
+			
+			total_amount_before_tax=total_amount_before_tax+taxable_value;			
 		});
-		$('input[name="total_amount_before_tax"]').val(total_amount_before_tax.toFixed(2));
+		$('input[name="total_amount_after_tax"]').val(total_amount_after_tax.toFixed(2));
 		$('input[name="total_cgst"]').val(total_cgst.toFixed(2));
 		$('input[name="total_sgst"]').val(total_sgst.toFixed(2));
-		$('input[name="total_amount_after_tax"]').val(total_amount_after_tax.toFixed(2));
+		$('input[name="total_igst"]').val(total_igst.toFixed(2));
+		$('input[name="total_amount_before_tax"]').val(total_amount_before_tax.toFixed(2));
 	}
 	//Calculation In Row End
 	//ReverseCalculation In Row Start
@@ -532,17 +564,18 @@ foreach($SgstTax as $SgstTaxe){
 
 <table id="sample_table" style="display:none">
 	<tbody id="sample_tbody">
-		<tr class="main_tr1">
-			<td align="center" width="1px"><?= h($i) ?></td>
+		<tr class="main_tr">
+			<td align="center" width="1px"></td>
 			<td width="20%" class="form-group">
-				<?php echo $this->Form->control('item_id', ['empty' => "---Select---",'options' =>$items, 'empty' => false,'label' => false,'class' => 'form-control input-sm']); ?>
+				<?php echo $this->Form->control('item_id', ['empty'=>"----select----",'options' =>$items, 'label' => false,'class' => 'form-control item input-sm itemchange select2me ']); ?>
+			
 			</td>
 			
 			<td class="form-group">
-				<?php echo $this->Form->control('quantity',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Qty']); ?> 
+				<?php echo $this->Form->control('quantity',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Qty','value'=>1]); ?> 
 			</td>
 			<td class="form-group">
-				<?php echo $this->Form->control('rate_per',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Rate']); ?> 
+				<?php echo $this->Form->control('rate_per',['label' => false,'class' => 'form-control input-sm rate_per','placeholder'=>'Rate']); ?> 
 			</td>
 			<td class="form-group">
 				<?php echo $this->Form->control('amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?> 
@@ -554,17 +587,26 @@ foreach($SgstTax as $SgstTaxe){
 				<?php echo $this->Form->control('taxable_value',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?> 
 			</td>
 			<td class="form-group">
-				<?php echo $this->Form->control('cgst_ledger_id', ['options' =>$Cgst,'label' => false,'class' => 'form-control input-sm gst_call','placeholder'=>'CGST']); ?> 
+				<?php echo $this->Form->control('cgst_ledger_id', ['options' =>$Cgst,'label' => false,'class' => 'form-control gst cgst input-sm gst_call','placeholder'=>'CGST']); ?> 
 			</td>
 			<td class="form-group">
-				<?php echo $this->Form->control('cgst_amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?> 
+				<?php echo $this->Form->control('cgst_amount',['label' => false,'class' => 'form-control gst input-sm ','placeholder'=>'Amount']); ?> 
 			</td>
 			<td class="form-group">
-				<?php echo $this->Form->control('sgst_ledger_id',['options' =>$Sgst,'label' => false,'class' => 'form-control input-sm gst_call','placeholder'=>'SGST']); ?> 
+				<?php echo $this->Form->control('sgst_ledger_id',['options' =>$Sgst,'label' => false,'class' => 'form-control gst sgst input-sm gst_call','placeholder'=>'SGST']); ?> 
 			</td>
 			<td class="form-group">
-				<?php echo $this->Form->control('sgst_amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?>
+				<?php echo $this->Form->control('sgst_amount',['label' => false,'class' => 'form-control gst input-sm ','placeholder'=>'Amount']); ?>
 			</td>
+			
+			<td class="form-group">
+				<?php echo $this->Form->control('igst_ledger_id',['options' =>$Igst,'label' => false,'class' => 'form-control input-sm igst gst_call','placeholder'=>'IGST']); ?> 
+			</td>
+			<td class="form-group">
+				<?php echo $this->Form->control('igst_amount',['label' => false,'class' => 'form-control igst input-sm ','placeholder'=>'Amount']); ?>
+			</td>			
+			
+			
 			<td class="form-group">
 				<?php echo $this->Form->control('total',['label' => false,'name'=>'total','class' => 'form-control input-sm ','placeholder'=>'Total']); ?>
 			</td>
