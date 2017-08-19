@@ -64,6 +64,9 @@ class ItemsController extends AppController
 			$item->cgst_ledger_id = 0;
 			$item->sgst_ledger_id = 0;
 			$item->igst_ledger_id = 0;
+			$item->input_cgst_ledger_id = 0;
+			$item->input_sgst_ledger_id = 0;
+			$item->input_igst_ledger_id = 0;			
 			
 			$gst_type = $item->tax_type_id;
 			
@@ -75,7 +78,11 @@ class ItemsController extends AppController
 				foreach($taxtypes as $taxtype)
 				{
 					$gst_ids[] = $this->Items->Ledgers->find()
-					->where(['name'=>$taxtype->tax_type_name,'accounting_group_id'=>30])->toArray();	
+					->where(['name'=>$taxtype->tax_type_name,'accounting_group_id'=>30])->toArray();
+
+					$input_gst_ids[] = $this->Items->Ledgers->find()
+					->where(['name'=>$taxtype->tax_type_name,'accounting_group_id'=>29])->toArray();
+					
 				}
 			}
 			
@@ -103,6 +110,32 @@ class ItemsController extends AppController
 					}
 				}
 			}
+
+
+			if(!empty($input_gst_ids))
+			{
+				foreach($input_gst_ids as $input_gst_id_data)
+				{
+					foreach($input_gst_id_data as $input_gst_id)
+					{
+						if($input_gst_id->gst_type == 'CGST')
+						{
+							$item->input_cgst_ledger_id = $input_gst_id->id;
+						}
+
+						if($gst_id->gst_type == 'SGST')
+						{
+							$item->input_sgst_ledger_id = $input_gst_id->id;
+						}
+						
+						if($gst_id->gst_type == 'IGST')
+						{
+							$item->input_igst_ledger_id = $input_gst_id->id;
+						}						
+						
+					}
+				}
+			}			
 			
 			
             if ($this->Items->save($item)) {
@@ -140,6 +173,9 @@ class ItemsController extends AppController
 			$item->cgst_ledger_id = 0;
 			$item->sgst_ledger_id = 0;
 			$item->igst_ledger_id = 0;
+			$item->input_cgst_ledger_id = 0;
+			$item->input_sgst_ledger_id = 0;
+			$item->input_igst_ledger_id = 0;	
 			
 			$gst_type = $item->tax_type_id;
 			
@@ -152,6 +188,8 @@ class ItemsController extends AppController
 				{
 					$gst_ids[] = $this->Items->Ledgers->find()
 					->where(['name'=>$taxtype->tax_type_name,'accounting_group_id'=>30])->toArray();	
+					$input_gst_ids[] = $this->Items->Ledgers->find()
+					->where(['name'=>$taxtype->tax_type_name,'accounting_group_id'=>29])->toArray();
 				}
 			}
 			
@@ -179,6 +217,33 @@ class ItemsController extends AppController
 					}
 				}
 			}
+			
+			
+			if(!empty($input_gst_ids))
+			{
+				foreach($input_gst_ids as $input_gst_id_data)
+				{
+					foreach($input_gst_id_data as $input_gst_id)
+					{
+						if($input_gst_id->gst_type == 'CGST')
+						{
+							$item->input_cgst_ledger_id = $input_gst_id->id;
+						}
+
+						if($gst_id->gst_type == 'SGST')
+						{
+							$item->input_sgst_ledger_id = $input_gst_id->id;
+						}
+						
+						if($gst_id->gst_type == 'IGST')
+						{
+							$item->input_igst_ledger_id = $input_gst_id->id;
+						}						
+						
+					}
+				}
+			}			
+			
 			
             if ($this->Items->save($item)) {
                 $this->Flash->success(__('The item has been saved.'));

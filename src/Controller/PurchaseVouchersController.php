@@ -140,24 +140,37 @@ class PurchaseVouchersController extends AppController
 					
 				}
 
-
-
-			
 				$this->Flash->success(__('The purchase voucher has been saved.'));
 				return $this->redirect(['action' => 'view/'.$invoice->id]);
             }
             $this->Flash->error(__('The purchase voucher could not be saved. Please, try again.'));
         }
-		$items = $this->PurchaseVouchers->Items->find('list')->where(['freezed'=>0]);
+		$items_datas = $this->PurchaseVouchers->Items->find()->where(['freezed'=>0]);
+		
+		
+		foreach($items_datas as $items_data)
+		{
+			$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->price,'cgst_ledger_id'=>$items_data->input_cgst_ledger_id,'sgst_ledger_id'=>$items_data->input_sgst_ledger_id,'igst_ledger_id'=>$items_data->input_igst_ledger_id];
+		}
+		
+		
+		
+		
+		
 		$SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find('list')->where(['accounting_group_id'=>25,'freeze'=>0]);
         $PurchaseLedger = $this->PurchaseVouchers->PurchaseLedger->find('list')->where(['accounting_group_id'=>13,'freeze'=>0]);
 		
 		$CgstTax = $this->PurchaseVouchers->CgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'CGST']);
-		//pr($CgstTax->toArray()); exit;
+
+		$SgstTax = $this->PurchaseVouchers->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);		
+
+		$IgstTax = $this->PurchaseVouchers->IgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'IGST']);
+		
+		//pr($IgstTax->toArray()); exit;
 		
 		
-		$SgstTax = $this->PurchaseVouchers->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);
-		$this->set(compact('purchaseVoucher', 'SupplierLedger','PurchaseLedger','items','CgstTax','SgstTax'));
+
+		$this->set(compact('purchaseVoucher', 'SupplierLedger','PurchaseLedger','items','CgstTax','SgstTax','IgstTax'));
         $this->set('_serialize', ['purchaseVoucher']);
 		$this->set('active_menu', 'PurchaseVouchers.Add');
     }

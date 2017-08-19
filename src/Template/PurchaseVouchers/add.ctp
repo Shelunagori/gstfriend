@@ -108,17 +108,20 @@ p{
 						<th rowspan="2" width="80">Amount</th>
 						<th rowspan="2" width="80">Discount</th>
 						<th rowspan="2" width="80">Taxable Value</th>
-						<th colspan="2">CGST</th>
-						<th colspan="2">SGST</th>
+						<th colspan="2" class='gst'>CGST</th>
+						<th colspan="2" class='gst'>SGST</th>
+						<th colspan="2" class='igst'>IGST</th>
 						<th rowspan="2" style="border-right: none;" width="80">Total</th>
 						<th rowspan="2" width="80">Action</th>
 						
 					</tr>
 					<tr style="background-color: #e4e3e3;">
-						<th width="80">Rate</th>
-						<th width="80">Amount</th>
-						<th width="80">Rate</th>
-						<th width="80">Amount</th>
+						<th width="80" class='gst'>Rate</th>
+						<th width="80" class='gst'>Amount</th>
+						<th width="80" class='gst'>Rate</th>
+						<th width="80" class='gst'>Amount</th>
+						<th width="80" class='igst'>Rate</th>
+						<th width="80" class='igst'>Amount</th>						
 					</tr>
 				</thead>
 				<tbody id="main_tbody">
@@ -311,7 +314,12 @@ $(document).ready(function() {
 			
 			$(this).find("td:nth-child(11) input").attr({name:"purchase_voucher_rows["+j+"][sgst_amount]", id:"purchase_voucher_rows-"+j+"-sgst_amount"}).rules("add","required");
 			
-			$(this).find("td:nth-child(12) input").attr({name:"purchase_voucher_rows["+j+"][total]", id:"purchase_voucher_rows-"+j+"-total"}).rules("add","required");
+			
+			$(this).find("td:nth-child(12) select").attr({name:"purchase_voucher_rows["+j+"][igst_ledger_id]", id:"purchase_voucher_rows-"+j+"-igst_ledger_id"}).rules("add","required");
+			
+			$(this).find("td:nth-child(13) input").attr({name:"purchase_voucher_rows["+j+"][igst_amount]", id:"purchase_voucher_rows-"+j+"-igst_amount"}).rules("add","required");			
+			
+			$(this).find("td:nth-child(14) input").attr({name:"purchase_voucher_rows["+j+"][total]", id:"purchase_voucher_rows-"+j+"-total"}).rules("add","required");
 			j++;
 	   });
 	   calculation();
@@ -445,6 +453,41 @@ $(document).ready(function() {
 	
 	$('input[name="party_name"]').focus();
 	// ReverseCalculation In Row End	
+
+
+
+		$('.item').die().live("change",function() { 
+			var rate = $(this).find('option:selected').attr('rate');
+			var cgst_ledger_id = $(this).find('option:selected').attr('cgst_ledger_id');
+			var sgst_ledger_id = $(this).find('option:selected').attr('sgst_ledger_id');
+			var igst_ledger_id = $(this).find('option:selected').attr('igst_ledger_id');
+			
+			if(cgst_ledger_id == 0 || sgst_ledger_id == 0)
+			{
+				$('.gst').hide();
+			}
+			else
+			{
+				$('.gst').show();
+			}
+			if(igst_ledger_id == 0)
+			{
+				$('.igst').hide();
+			}
+			else
+			{
+				$('.igst').show();
+			}			
+			
+			
+			$(this).closest('tr').find('td .rate').val(rate);
+			$(this).closest('tr').find('td .cgst').val(cgst_ledger_id);
+			$(this).closest('tr').find('td .sgst').val(sgst_ledger_id);
+			$(this).closest('tr').find('td .igst').val(igst_ledger_id);
+			//calculation();
+		});
+
+
 	
 		
 	});
@@ -463,6 +506,13 @@ $Sgst=[];
 foreach($SgstTax as $SgstTaxe){
 	$Sgst[]=['text' =>$SgstTaxe->name, 'value' => $SgstTaxe->id, 'percentage'=>$SgstTaxe->tax_percentage];
 }
+
+$Igst=[];
+foreach($IgstTax as $IgstTaxe){
+	$Igst[]=['text' =>$IgstTaxe->name, 'value' => $IgstTaxe->id, 'percentage'=>$IgstTaxe->tax_percentage];
+}
+
+
 ?>
 
 
@@ -471,7 +521,7 @@ foreach($SgstTax as $SgstTaxe){
 		<tr class="main_tr">
 			<td align="center" width="1px"></td>
 			<td width="20%" class="form-group">
-				<?php echo $this->Form->control('item_id', ['empty'=>"----select----",'options' =>$items, 'empty' => false,'label' => false,'class' => 'form-control input-sm itemchange ']); ?>
+				<?php echo $this->Form->control('item_id', ['empty'=>"----select----",'options' =>$items, 'empty' => false,'label' => false,'class' => 'form-control item input-sm itemchange ']); ?>
 			</td>
 			
 			<td class="form-group">
@@ -489,18 +539,27 @@ foreach($SgstTax as $SgstTaxe){
 			<td class="form-group">
 				<?php echo $this->Form->control('taxable_value',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?> 
 			</td>
-			<td class="form-group">
-				<?php echo $this->Form->control('cgst_ledger_id', ['options' =>$Cgst,'label' => false,'class' => 'form-control input-sm gst_call','placeholder'=>'CGST']); ?> 
+			<td class="form-group gst">
+				<?php echo $this->Form->control('cgst_ledger_id', ['options' =>$Cgst,'label' => false,'class' => 'form-control cgst input-sm gst_call','placeholder'=>'CGST']); ?> 
 			</td>
-			<td class="form-group">
+			<td class="form-group gst">
 				<?php echo $this->Form->control('cgst_amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?> 
 			</td>
-			<td class="form-group">
-				<?php echo $this->Form->control('sgst_ledger_id',['options' =>$Sgst,'label' => false,'class' => 'form-control input-sm gst_call','placeholder'=>'SGST']); ?> 
+			<td class="form-group gst">
+				<?php echo $this->Form->control('sgst_ledger_id',['options' =>$Sgst,'label' => false,'class' => 'form-control sgst input-sm gst_call','placeholder'=>'SGST']); ?> 
 			</td>
-			<td class="form-group">
+			<td class="form-group gst">
 				<?php echo $this->Form->control('sgst_amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?>
 			</td>
+			
+			<td class="form-group igst">
+				<?php echo $this->Form->control('igst_ledger_id',['options' =>$Igst,'label' => false,'class' => 'form-control input-sm igst gst_call','placeholder'=>'IGST']); ?> 
+			</td>
+			<td class="form-group igst">
+				<?php echo $this->Form->control('igst_amount',['label' => false,'class' => 'form-control  input-sm ','placeholder'=>'Amount']); ?>
+			</td>			
+			
+			
 			<td class="form-group">
 				<?php echo $this->Form->control('total',['label' => false,'name'=>'total','class' => 'form-control input-sm ','placeholder'=>'Total']); ?>
 			</td>
