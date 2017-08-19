@@ -332,13 +332,14 @@ $(document).ready(function() {
 			
 			$(this).find("td:eq(7) input").val(taxable_value.toFixed(2));
 			var cgst_amount = taxable_value * (cgst_per/100);
+			$(this).find("td:eq(9) input").val(cgst_amount.toFixed(2));
 			total_cgst=parseFloat(total_cgst)+parseFloat(cgst_amount);
-			
+
 			var sgst_amount = taxable_value * (sgst_per/100);
+			$(this).find("td:eq(11) input").val(sgst_amount.toFixed(2));
 			total_sgst=parseFloat(total_sgst)+parseFloat(sgst_amount);
 			
-			$(this).find("td:eq(9) input").val(total_cgst.toFixed(2));
-			$(this).find("td:eq(11) input").val(total_sgst.toFixed(2));
+			
 
 
 			var igst_amount = taxable_value * (igst_per/100);
