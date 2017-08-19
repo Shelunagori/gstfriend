@@ -144,14 +144,17 @@ p{
 						$Igst=[];
 						foreach($IgstTax as $IgstTaxe){
 							$Igst[]=['text' =>$IgstTaxe->name, 'value' => $IgstTaxe->id, 'percentage'=>$IgstTaxe->tax_percentage];
-						}						
+						}
+
+					
+						
 					?>
 					<!--Get Gst Value with Percent end--->
 					<?php  
 						$i=1; 
 						foreach ($purchaseVoucher->purchase_voucher_rows as $purchaseVoucherRow){	
 					?>
-							<tr id="main_tr">
+							<tr class="main_tr">
 								<td width="15px"style="border-left: none;"><?= h($i++) ?></td>
 								<td width="30%" class="form-group">
 									<?php echo $this->Form->control('item_id', ['options' =>$items, 'empty' => false,'label' => false,'class' => 'form-control input-sm item','required','value'=>$purchaseVoucherRow->item_id]); ?>
@@ -184,7 +187,7 @@ p{
 									<?php echo $this->Form->control('sgst_amount', ['type'=>'text','label' => false,'class' => 'form-control input-sm','required','value'=>$purchaseVoucherRow->sgst_amount]); ?>
 								</td>
 								<td width="43px" class="form-group">
-									<?php echo $this->Form->control('igst_ledger_id', ['options' =>$Sgst,'label' => false,'class' => 'form-control input-sm gst_call','value'=>$purchaseVoucherRow->igst_ledger_id]); ?>
+									<?php echo $this->Form->control('igst_ledger_id', ['options' =>$Igst,'label' => false,'class' => 'form-control igst input-sm gst_call','value'=>$purchaseVoucherRow->igst_ledger_id]); ?>
 								</td>
 								<td width="43px" class="form-group">
 									<?php echo $this->Form->control('igst_amount', ['type'=>'text','label' => false,'class' => 'form-control input-sm','required','value'=>$purchaseVoucherRow->igst_amount]); ?>
@@ -429,19 +432,13 @@ $(document).ready(function() {
 				$(this).closest('tr').find('.igst').show();
 				
 			}			
-			
-			
 			$(this).closest('tr').find('td .rate').val(rate);
 			$(this).closest('tr').find('td .cgst').val(cgst_ledger_id);
 			$(this).closest('tr').find('td .sgst').val(sgst_ledger_id);
 			$(this).closest('tr').find('td .igst').val(igst_ledger_id);
 			calculation();
 		});
-	
-	
-	
-	
-	calculation();
+
 
 	$('#main_table input').die().live("keyup","blur",function() { 
 		calculation();
@@ -459,8 +456,7 @@ $(document).ready(function() {
 		$("#main_table tbody#main_tbody tr.main_tr").each(function(){ 
 			var total=parseFloat($(this).find("td:nth-child(14) input").val());
 			if(!total){ total=0; }
-			alert(total_amount_after_tax);
-			
+
 			total_amount_after_tax=total_amount_after_tax+total
 			
 			
@@ -526,66 +522,13 @@ $(document).ready(function() {
 		reverseCalculation();
 	});
 	
-	function reverseCalculation(){
-		var total_amount_before_tax=0;
-		var total_cgst=0;
-		var total_sgst=0;
-		var total_amount_after_tax=0;
-		$("#main_table tbody#main_tbody tr").each(function(){
-			var total=parseFloat($(this).find("td:nth-child(12) input").val());
-			if(!total){ total=0; }
-			
-			var cgst_ledger_id=parseFloat($(this).find("td:nth-child(8) option:selected").attr('percentage'));
-			if(cgst_ledger_id){ cgst_ledger_id=0; }
-			
-			var sgst_ledger_id=parseFloat($(this).find("td:nth-child(10) option:selected").attr('percentage'));
-			if(!sgst_ledger_id){ sgst_ledger_id=0; }
-			
-			var to_be_divide=parseFloat(cgst_ledger_id)+parseFloat(sgst_ledger_id)+100;
-			
-			var taxable_value=(total/to_be_divide)*100;
-			
-			$(this).find("td:nth-child(7) input").val(taxable_value.toFixed(2));
-			
-			/* var discount_rate=parseFloat($(this).find("td:nth-child(6) input").val());
-			if(!discount_rate){ discount_rate=0; }
-			
-			var to_be_divide_for_discount=100-parseFloat(discount_rate);
-			var amount=(taxable_value/to_be_divide_for_discount)*100;
-			 */
-			$(this).find("td:nth-child(5) input").val(taxable_value.toFixed(2));
-			
-			var quantity=parseFloat($(this).find("td:nth-child(3) input").val());
-			if(!quantity){ quantity=0; }
-			
-			var rate=taxable_value/quantity;
-			$(this).find("td:nth-child(4) input").val(rate.toFixed(2));
-			
-			
-			$(this).find("td:nth-child(6) input").val(taxable_value.toFixed(2));
-			
-			var cgst_amount=(taxable_value*cgst_rate)/100;
-			$(this).find("td:nth-child(9) input").val(cgst_amount.toFixed(2));
-			
-			var sgst_amount=(taxable_value*sgst_rate)/100;
-			$(this).find("td:nth-child(11) input").val(sgst_amount.toFixed(2));
-			
-			total_amount_before_tax=total_amount_before_tax+taxable_value;
-			total_cgst=parseFloat(total_cgst)+parseFloat(cgst_amount);
-			total_sgst=parseFloat(total_sgst)+parseFloat(sgst_amount);
-			total_amount_after_tax=total_amount_after_tax+total;
-		});
-		$('input[name="total_amount_before_tax"]').val(total_amount_before_tax.toFixed(2));
-		$('input[name="total_cgst"]').val(total_cgst.toFixed(2));
-		$('input[name="total_sgst"]').val(total_sgst.toFixed(2));
-		$('input[name="total_amount_after_tax"]').val(total_amount_after_tax.toFixed(2));
-	}
 	
 	$('input[name="party_name"]').focus();
 	//calculation End
 	
 	
 	});
+	
 </script>					
 
 
