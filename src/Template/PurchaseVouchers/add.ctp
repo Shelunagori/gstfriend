@@ -450,6 +450,8 @@ $(document).ready(function() {
 	$('.revCalculate').live("keyup",function() {
 		calculation();
 	});
+	
+	
 });
 </script>					
 
@@ -486,7 +488,7 @@ foreach($IgstTax as $IgstTaxe){
 			</td>
 			
 			<td class="form-group">
-				<?php echo $this->Form->control('quantity',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Qty','value'=>1]); ?> 
+				<?php echo $this->Form->control('quantity',['label' => false,'class' => 'form-control change_qty input-sm ','placeholder'=>'Qty','value'=>1]); ?> 
 			</td>
 			<td class="form-group">
 				<?php echo $this->Form->control('rate_per',['label' => false,'class' => 'form-control input-sm rate_per','placeholder'=>'Rate']); ?> 

@@ -378,7 +378,7 @@ $(document).ready(function() {
 			var total=rate*quantity;
 			var discount=discount*quantity;
 			
-			$(this).find("td:eq(12) input").val(total.toFixed(2));
+			$(this).find("td:eq(14) input").val(total.toFixed(2));
 			$(this).find("td:eq(6) input").val(discount.toFixed(2));
 		});
 		calculation();
