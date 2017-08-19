@@ -188,7 +188,7 @@ class InvoicesController extends AppController
 		
 		foreach($items_datas as $items_data)
 		{
-			$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->price,'cgst_ledger_id'=>$items_data->cgst_ledger_id,'sgst_ledger_id'=>$items_data->sgst_ledger_id];
+			$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->price,'cgst_ledger_id'=>$items_data->cgst_ledger_id,'sgst_ledger_id'=>$items_data->sgst_ledger_id,'igst_ledger_id'=>$items_data->igst_ledger_id];
 		}
 
 
@@ -198,9 +198,15 @@ class InvoicesController extends AppController
 		}else{
 				$invoice_no=1;
 		} 
+
+		$tax_IGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'IGST']);
 		
+		foreach($tax_IGSTS as $tax_IGST)
+		{
+			$taxs_IGST[]=['value'=>$tax_IGST->id,'text'=>$tax_IGST->name,'tax_rate'=>$tax_IGST->tax_percentage];
+		}		
 		
-        $this->set(compact('invoice', 'customerLedgers', 'salesLedgers', 'items','taxs_CGST','taxs_SGST','invoice_no'));
+        $this->set(compact('invoice', 'customerLedgers', 'salesLedgers', 'items','taxs_CGST','taxs_SGST','invoice_no','taxs_IGST'));
         $this->set('_serialize', ['invoice']);
 		$this->set('active_menu', 'Invoices.Add');
     }
@@ -346,10 +352,17 @@ class InvoicesController extends AppController
 		{
 			$taxs_SGST[]=['value'=>$tax_SGST->id,'text'=>$tax_SGST->name,'tax_rate'=>$tax_SGST->tax_percentage];
 		}		
+
+
+		$tax_IGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'IGST']);
 		
+		foreach($tax_IGSTS as $tax_IGST)
+		{
+			$taxs_IGST[]=['value'=>$tax_IGST->id,'text'=>$tax_IGST->name,'tax_rate'=>$tax_IGST->tax_percentage];
+		}			
 		
-		//pr($invoice->toArray()); exit;
-        $this->set(compact('invoice','customerLedgers','salesLedgers','items','taxs_CGST','taxs_SGST'));
+		//pr($taxs_IGST); exit;
+        $this->set(compact('invoice','customerLedgers','salesLedgers','items','taxs_CGST','taxs_SGST','taxs_IGST'));
         $this->set('_serialize', ['invoice']);
     }
 
