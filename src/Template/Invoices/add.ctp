@@ -112,7 +112,7 @@ p{
 		<table width="100%" class="tbl">
 			<tbody>
 				<tr>
-					<td rowspan="4" style="border-left: none;border-top: none;border-bottom: none;" width="70%" valign="top">
+					<td rowspan="5" style="border-left: none;border-top: none;border-bottom: none;" width="70%" valign="top">
 						<button type="button" class="btn blue-hoki  btn-xs addrow"><i class="fa fa-plus"></i> Add row</button>
 					</td>
 					<td style="text-align:right;border-top: none;"><b>Total Amount before Tax</b></td>
@@ -130,6 +130,12 @@ p{
 					<td style="text-align:right;"><b>Total SGST</b></td>
 					<td style="text-align:right;border-right: none;">
 						<?php echo $this->Form->control('total_sgst',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 80px;border: none;text-align: right;','tabindex'=>'-1']); ?>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align:right;"><b>Total IGST</b></td>
+					<td style="text-align:right;border-right: none;">
+						<?php echo $this->Form->control('total_igst',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 65px;border: none;text-align: right;','tabindex'=>'-1']); ?>
 					</td>
 				</tr>
 				<tr>
@@ -336,8 +342,8 @@ $(document).ready(function() {
 
 
 			var igst_amount = taxable_value * (igst_per/100);
+			$(this).find("td:eq(13) input").val(igst_amount.toFixed(2));
 			total_igst=parseFloat(total_igst)+parseFloat(igst_amount);
-			$(this).find("td:eq(13) input").val(total_igst.toFixed(2));
 			
 		
 				

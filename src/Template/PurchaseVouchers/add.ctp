@@ -155,14 +155,12 @@ p{
 						<td style="text-align:right;border-right: none;" width="55">
 							<?php echo $this->Form->control('total_sgst',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 65px;border: none;text-align: right;','tabindex'=>'-1']); ?>
 						</td>
-						
 					</tr>
 					<tr>
 						<td style="text-align:right;" colspan="4"><b>Total IGST</b></td>
 						<td style="text-align:right;border-right: none;" width="55">
 							<?php echo $this->Form->control('total_igst',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 65px;border: none;text-align: right;','tabindex'=>'-1']); ?>
 						</td>
-						
 					</tr>
 					<tr>
 						<td style="text-align:right;" colspan="4"><b>Total Amount after Tax</b></td>
@@ -430,8 +428,8 @@ $(document).ready(function() {
 
 
 			var igst_amount = taxable_value * (igst_per/100);
+			$(this).find("td:nth-child(13) input").val(igst_amount.toFixed(2));
 			total_igst=parseFloat(total_igst)+parseFloat(igst_amount);
-			$(this).find("td:nth-child(13) input").val(total_igst.toFixed(2));
 			
 		
 				
