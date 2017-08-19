@@ -53,6 +53,12 @@ class ItemsTable extends Table
 			'propertyName' => 'sgst_ledger',
 		]);
 		
+		$this->belongsTo('IgstLedgers', [
+			'className' => 'Ledgers',
+			'foreignKey' => 'igst_ledger_id',
+			'propertyName' => 'igst_ledger',
+		]);
+		
 		$this->belongsTo('Ledgers', [
             'foreignKey' => 'ledger_id',
             'joinType' => 'INNER'
