@@ -135,6 +135,50 @@ class ItemsController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $item = $this->Items->patchEntity($item, $this->request->getData());
+			$item->company_id=$company_id;
+			$item->cgst_ledger_id = 0;
+			$item->sgst_ledger_id = 0;
+			$item->igst_ledger_id = 0;
+			
+			$gst_type = $item->gst_type;
+			
+			$taxtypes = $this->Items->TaxTypes->TaxTypeRows->find()
+						->where(['tax_type_id'=>$gst_type]);
+			
+			if(!empty($taxtypes->toArray()))
+			{
+				foreach($taxtypes as $taxtype)
+				{
+					$gst_ids[] = $this->Items->Ledgers->find()
+					->where(['name'=>$taxtype->tax_type_name,'accounting_group_id'=>30])->toArray();	
+				}
+			}
+			
+			if(!empty($gst_ids))
+			{
+				foreach($gst_ids as $gst_id_data)
+				{
+					foreach($gst_id_data as $gst_id)
+					{
+						if($gst_id->gst_type == 'CGST')
+						{
+							$item->cgst_ledger_id = $gst_id->id;
+						}
+
+						if($gst_id->gst_type == 'SGST')
+						{
+							$item->sgst_ledger_id = $gst_id->id;
+						}
+						
+						if($gst_id->gst_type == 'IGST')
+						{
+							$item->igst_ledger_id = $gst_id->id;
+						}						
+						
+					}
+				}
+			}
+			
             if ($this->Items->save($item)) {
                 $this->Flash->success(__('The item has been saved.'));
 
@@ -142,9 +186,11 @@ class ItemsController extends AppController
             }
             $this->Flash->error(__('The item could not be saved. Please, try again.'));
         }
-		$cgstLedgers = $this->Items->CgstLedgers->find('list')->where(['accounting_group_id'=>30,'gst_type'=>'CGST']);
-        $sgstLedgers = $this->Items->SgstLedgers->find('list')->where(['accounting_group_id'=>30,'gst_type'=>'SGST']);
-        $this->set(compact('item', 'companies','cgstLedgers','sgstLedgers'));
+		/* $cgstLedgers = $this->Items->CgstLedgers->find('list')->where(['accounting_group_id'=>30,'gst_type'=>'CGST']);
+        $sgstLedgers = $this->Items->SgstLedgers->find('list')->where(['accounting_group_id'=>30,'gst_type'=>'SGST']); */
+		$taxtypes = $this->Items->TaxTypes->find('list');
+    
+        $this->set(compact('item', 'companies','taxtypes'));
         $this->set('_serialize', ['item']);
     }
 
