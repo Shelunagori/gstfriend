@@ -72,20 +72,18 @@ $this->set('title', 'Add Invoice');
 						<table width="100%" class="tbl" id="main_table">
 							<thead>
 								<tr style="background-color: #e4e3e3;">
-									<th colspan="2">CGST Amount</th>
-									<th colspan="2">SGST Amount</th>
+									<th>GST Type</th>
+									<th>Item Tax Amount </th>
 									<th>Action</th>
 								</tr>	
 							</thead>
 							<tbody id="main_tbody">
 								
 							</tbody>
-							<tfoot >
-								<td ><b>Total CGST</b></td>
-								<td><b><?php echo $this->Form->control('total_cgst',['label'=>false,'type'=>'text','placeholder'=>'0.00','style'=>'text-align: right;','class'=>'cgst totalcgst','readonly']); ?></b></td>
-								<td ><b>Total SGST</b></td>
-								<td><b><?php echo $this->Form->control('total_sgst',['label'=>false,'type'=>'text','placeholder'=>'0.00','style'=>'text-align: right;','class'=>'sgst totalsgst','readonly']); ?></b></td>
-								<td></td>
+							<tfoot>
+								<td><b>Total GST</b></td>
+								<td colspan='2'><b><?php echo $this->Form->control('total_cgst',['label'=>false,'type'=>'text','placeholder'=>'0.00','style'=>'text-align: right;','class'=>'cgst totalcgst','readonly']); ?></b></td>
+								
 							</tfoot>
 						</table><br>
 						<div class="form-group">
@@ -149,13 +147,9 @@ $(document).ready(function(){
 	function rename_rows(){
 		var j=0;
 		$("#main_table tbody#main_tbody tr").each(function(){
-			$(this).find("td:nth-child(1) select").attr({name:"purchase_invoice_rows["+j+"][cgst_ledger_id]", id:"purchase_invoice_rows-"+j+"-cgst_ledger_id"});
+			$(this).find("td:nth-child(1) select").attr({name:"purchase_invoice_rows["+j+"][tax_type_id]", id:"purchase_invoice_rows-"+j+"-tax_type_id"});
 			
-			$(this).find("td:nth-child(2) input").attr({name:"purchase_invoice_rows["+j+"][cgst_amount]", id:"purchase_invoice_rows-"+j+"-cgst_amount"});
-			
-			$(this).find("td:nth-child(3) select").attr({name:"purchase_invoice_rows["+j+"][sgst_ledger_id]", id:"purchase_invoice_rows-"+j+"-sgst_ledger_id"});
-			
-			$(this).find("td:nth-child(4) input").attr({name:"purchase_invoice_rows["+j+"][sgst_amount]", id:"purchase_invoice_rows-"+j+"-sgst_amount"});
+			$(this).find("td:nth-child(2) input").attr({name:"purchase_invoice_rows["+j+"][tax_amount]", id:"purchase_invoice_rows-"+j+"-tax_amount"});
 			j++;
 	   });
 	};
@@ -188,33 +182,17 @@ $(document).ready(function(){
 });
 
 </script>
-<?php 
-$Cgst=[];
-foreach($CgstTax as $GstTaxe){
 
-	$Cgst[]=['text' =>$GstTaxe->name, 'value' => $GstTaxe->id, 'percentage'=>$GstTaxe->tax_percentage];
-}
-
-$Sgst=[];
-foreach($SgstTax as $SgstTaxe){
-	$Sgst[]=['text' =>$SgstTaxe->name, 'value' => $SgstTaxe->id, 'percentage'=>$SgstTaxe->tax_percentage];
-}
-?>
 <table class="sample_table" style="display:none">
 	<tbody class="sample_tbody">
 		<tr class="main_tr">	
 			<td class="form-group">
-				<?php echo $this->Form->control('cgst_ledger_id', ['options' =>$Cgst,'label' => false,'class' => 'form-control input-sm gst_call','placeholder'=>'CGST']); ?> 
+				<?php echo $this->Form->control('tax_type_id', ['options' => $taxtypes,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Item Name']); ?>
 			</td>
 			<td class="form-group">
 				<?php echo $this->Form->control('cgst_amount',['label' => false,'class' => 'form-control input-sm firstupercase cgst_amount addcgst','placeholder'=>'Amount']); ?> 
 			</td>
-			<td class="form-group">
-				<?php echo $this->Form->control('sgst_ledger_id',['options' =>$Sgst,'label' => false,'class' => 'form-control input-sm gst_call','placeholder'=>'SGST']); ?>
-			</td>
-			<td class="form-group">			
-				<?php echo $this->Form->control('sgst_amount',['label' => false,'class' => 'form-control input-sm firstupercase sgst_amount addsgst','placeholder'=>'Amount']); ?>
-			</td>
+
 			<td>
 				<input type="button" value="+" class="add"/>
 				<input type="button" value="X" class="deleterow" />

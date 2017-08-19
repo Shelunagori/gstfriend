@@ -154,9 +154,9 @@ class PurchaseInvoicesController extends AppController
 		
 		$SgstTax = $this->PurchaseInvoices->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);
 		
-		$IgstTax = $this->PurchaseInvoices->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'IGST']);
+		$taxtypes = $this->PurchaseInvoices->TaxTypes->find('list');
 		
-        $this->set(compact('purchaseInvoice','SupplierLedger','PurchaseLedger','CgstTax','SgstTax','IgstTax'));
+        $this->set(compact('purchaseInvoice','SupplierLedger','PurchaseLedger','CgstTax','SgstTax','taxtypes'));
         $this->set('_serialize', ['purchaseInvoice']);
 		$this->set('active_menu', 'PurchaseInvoices.Add');
     }
@@ -254,9 +254,9 @@ class PurchaseInvoicesController extends AppController
 		
 		$SgstTax = $this->PurchaseInvoices->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);
 
-		$IgstTax = $this->PurchaseInvoices->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'IGST']);
+		$taxtypes = $this->Items->TaxTypes->find('list');
 		
-        $this->set(compact('purchaseInvoice','SupplierLedger','PurchaseLedger','CgstTax','SgstTax','IgstTax'));
+        $this->set(compact('purchaseInvoice','SupplierLedger','PurchaseLedger','CgstTax','SgstTax','taxtypes'));
         $this->set('_serialize', ['purchaseInvoice']);
     }
 

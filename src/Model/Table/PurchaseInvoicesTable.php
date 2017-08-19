@@ -70,6 +70,8 @@ class PurchaseInvoicesTable extends Table
             'foreignKey' => 'purchase_invoice_id',
 			'saveStrategy'=>'replace'
         ]);
+		
+		$this->belongsTo('TaxTypes');
 
         $this->setTable('purchase_invoices');
         $this->setDisplayField('id');
