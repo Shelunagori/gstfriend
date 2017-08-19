@@ -102,12 +102,13 @@ p{
 				<thead>
 					<tr style="background-color: #e4e3e3;">
 						<th rowspan="2" style="border-left: none;">Sr. No.</th>
-						<th rowspan="2" width="30%">Item </th>
-						<th rowspan="2" width="40">Qty</th>
-						<th rowspan="2" width="80">Rate</th>
+						<th rowspan="2" width="350">Item Description</th>
+						<th rowspan="2" width="80" class="hide">HSN code</th>
+						<th rowspan="2" width="100">Qty</th>
+						<th rowspan="2" width="100">Rate</th>
 						<th rowspan="2" width="80">Amount</th>
-						<th rowspan="2" width="80">Discount</th>
-						<th rowspan="2" width="80">Taxable Value</th>
+						<th rowspan="2" width="130">Discount Amount </th>
+						<th rowspan="2" width="100">Taxable Value</th>
 						<th colspan="2" class='gst'>CGST</th>
 						<th colspan="2" class='gst'>SGST</th>
 						<th colspan="2" class='igst'>IGST</th>
@@ -283,22 +284,22 @@ $(document).ready(function() {
 			if(cgst_ledger_id == 0 || sgst_ledger_id == 0)
 			{
 				$(this).closest('tr').find('.gst').hide();
-				$(this).closest('table#main_table').find('th.gst').hide();
+				
 			}
 			else
 			{
 				$(this).closest('tr').find('.gst').show();
-				$(this).closest('table#main_table').find('th.gst').show();
+				
 			}
 			if(igst_ledger_id == 0)
 			{
 				$(this).closest('tr').find('.igst').hide();
-				$(this).closest('table#main_table').find('th.igst').hide();
+				
 			}
 			else
 			{
 				$(this).closest('tr').find('.igst').show();
-				$(this).closest('table#main_table').find('th.igst').show();
+				
 			}			
 			
 			
@@ -558,7 +559,7 @@ foreach($IgstTax as $IgstTaxe){
 			</td>
 			
 			<td class="form-group">
-				<?php echo $this->Form->control('quantity',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Qty']); ?> 
+				<?php echo $this->Form->control('quantity',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Qty','value'=>1]); ?> 
 			</td>
 			<td class="form-group">
 				<?php echo $this->Form->control('rate_per',['label' => false,'class' => 'form-control input-sm rate_per','placeholder'=>'Rate']); ?> 

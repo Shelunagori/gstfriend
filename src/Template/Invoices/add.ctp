@@ -84,13 +84,13 @@ p{
 			<thead>
 				<tr style="background-color: #e4e3e3;">
 					<th rowspan="2" style="border-left: none;">Sr. No.</th>
-					<th rowspan="2" width="30%">Item Description</th>
+					<th rowspan="2" width="350">Item Description</th>
 					<th rowspan="2" width="80" class="hide">HSN code</th>
-					<th rowspan="2" width="40">Qty</th>
-					<th rowspan="2" width="80">Rate</th>
+					<th rowspan="2" width="100">Qty</th>
+					<th rowspan="2" width="100">Rate</th>
 					<th rowspan="2" width="80">Amount</th>
-					<th rowspan="2">Discount Amount </th>
-					<th rowspan="2" width="80">Taxable Value</th>
+					<th rowspan="2" width="130">Discount Amount </th>
+					<th rowspan="2" width="100">Taxable Value</th>
 					<th colspan="2" class='gst'>CGST</th>
 					<th colspan="2" class='gst'>SGST</th>
 					<th colspan="2" class='igst'>IGST</th>					
@@ -268,7 +268,10 @@ $(document).ready(function() {
 			$(this).find("td:eq(9) input").attr({name:"invoice_rows["+i+"][cgst_amount]", id:"invoice_rows-"+i+"-cgst_amount"}).rules("add","required");
 			$(this).find("td:eq(10) select").attr({name:"invoice_rows["+i+"][sgst_rate]", id:"invoice_rows-"+i+"-sgst_rate"}).rules("add","required");
 			$(this).find("td:eq(11) input").attr({name:"invoice_rows["+i+"][sgst_amount]", id:"invoice_rows-"+i+"-sgst_amount"}).rules("add","required");
-			$(this).find("td:eq(12) input").attr({name:"invoice_rows["+i+"][total]", id:"invoice_rows-"+i+"-total"}).rules("add","required");
+			$(this).find("td:eq(12) select").attr({name:"invoice_rows["+j+"][igst_ledger_id]", id:"invoice_rows-"+j+"-igst_ledger_id"}).rules("add","required");
+			
+			$(this).find("td:eq(13) input").attr({name:"invoice_rows["+j+"][igst_amount]", id:"invoice_rows-"+j+"-igst_amount"}).rules("add","required");
+			$(this).find("td:eq(14) input").attr({name:"invoice_rows["+i+"][total]", id:"invoice_rows-"+i+"-total"}).rules("add","required");
 		i++;
 		});
 		calculation();
@@ -290,33 +293,54 @@ $(document).ready(function() {
 		var total_amount_before_tax=0;
 		var total_cgst=0;
 		var total_sgst=0;
+		var total_igst=0;
 		var total_amount_after_tax=0;
-		$("#mainTbl tbody#mainTbody tr.mainTr").each(function(){
-			
-			var total=parseFloat($(this).find("td:eq(12) input").val());
+		$("#mainTbl tbody#mainTbody tr.mainTr").each(function(){ 
+			var total=parseFloat($(this).find("td:eq(14) input").val());
 			if(!total){ total=0; }
 			
 			total_amount_after_tax=total_amount_after_tax+total
+			
+			
 			var sgst_rate=parseFloat($(this).find("td:eq(10) option:selected").attr('tax_rate'));
 			if(!sgst_rate){ sgst_rate=0; }
-			$(this).val(sgst_rate);
-			var sgst_per=parseFloat($(this).val());
+			var sgst_per=parseFloat(sgst_rate);
+			
+			
 			var cgst_rate=parseFloat($(this).find("td:eq(8) option:selected").attr('tax_rate'));
 			if(!cgst_rate){ cgst_rate=0; }
-			$(this).val(cgst_rate);
-			var cgst_per=parseFloat($(this).val());
-			if(!cgst_per){ cgst_per=0; }
-			var total_tax=(sgst_per+cgst_per);
+			var cgst_per=parseFloat(cgst_rate);
+			
+			
+			var igst_rate=parseFloat($(this).find("td:eq(12) option:selected").attr('tax_rate'));
+			if(!igst_rate){ igst_rate=0; }
+			
+			var igst_per=parseFloat(igst_rate);
+			
+			
+			
+			var total_tax=parseFloat(sgst_per)+parseFloat(cgst_per)+parseFloat(igst_per);
+			
 			//tax value calculate start
 			var taxable_value =  (total/((total_tax)+100))*100;
+			
 			$(this).find("td:eq(7) input").val(taxable_value.toFixed(2));
 			var cgst_amount = taxable_value * (cgst_per/100);
 			total_cgst=parseFloat(total_cgst)+parseFloat(cgst_amount);
+			
 			var sgst_amount = taxable_value * (sgst_per/100);
 			total_sgst=parseFloat(total_sgst)+parseFloat(sgst_amount);
-			//tax value calculate end
+			
 			$(this).find("td:eq(9) input").val(total_cgst.toFixed(2));
 			$(this).find("td:eq(11) input").val(total_sgst.toFixed(2));
+
+
+			var igst_amount = taxable_value * (igst_per/100);
+			total_igst=parseFloat(total_igst)+parseFloat(igst_amount);
+			$(this).find("td:eq(13) input").val(total_igst.toFixed(2));
+			
+		
+				
 			var discount_amount=parseFloat($(this).find("td:eq(6) input").val());
 			if(!discount_amount){ discount_amount=0; }
 			var amount = taxable_value+discount_amount;
@@ -331,6 +355,7 @@ $(document).ready(function() {
 		$('input[name="total_amount_after_tax"]').val(total_amount_after_tax.toFixed(2));
 		$('input[name="total_cgst"]').val(total_cgst.toFixed(2));
 		$('input[name="total_sgst"]').val(total_sgst.toFixed(2));
+		$('input[name="total_igst"]').val(total_igst.toFixed(2));
 		$('input[name="total_amount_before_tax"]').val(total_amount_before_tax.toFixed(2));
 	}
 	
@@ -431,20 +456,25 @@ $(document).ready(function() {
 
 				if(cgst_ledger_id == 0 || sgst_ledger_id == 0)
 				{
-					$('.gst').hide();
+					$(this).closest('tr').find('.gst').hide();
+					$(this).closest('table#main_table').find('th.gst').hide();
 				}
 				else
 				{
-					$('.gst').show();
+					$(this).closest('tr').find('.gst').show();
+					$(this).closest('table#main_table').find('th.gst').show();
 				}
 				if(igst_ledger_id == 0)
 				{
-					$('.igst').hide();
+					$(this).closest('tr').find('.igst').hide();
+					$(this).closest('table#main_table').find('th.igst').hide();
 				}
 				else
 				{
-					$('.igst').show();
-				}
+					$(this).closest('tr').find('.igst').show();
+					$(this).closest('table#main_table').find('th.igst').show();
+				}			
+			
 
 				
 				$(this).closest('tr').find('td .rate').val(rate);
