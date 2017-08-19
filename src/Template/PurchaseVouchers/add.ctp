@@ -108,15 +108,12 @@ p{
 						<th rowspan="2" width="80">Amount</th>
 						<th rowspan="2" width="80">Discount</th>
 						<th rowspan="2" width="80">Taxable Value</th>
-						<th colspan="2">CGST</th>
-						<th colspan="2">SGST</th>
+						<th colspan="2">GST Type</th>
 						<th rowspan="2" style="border-right: none;" width="80">Total</th>
 						<th rowspan="2" width="80">Action</th>
 						
 					</tr>
 					<tr style="background-color: #e4e3e3;">
-						<th width="80">Rate</th>
-						<th width="80">Amount</th>
 						<th width="80">Rate</th>
 						<th width="80">Amount</th>
 					</tr>
@@ -145,13 +142,6 @@ p{
 							<?php echo $this->Form->control('total_cgst',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 65px;border: none;text-align: right;','tabindex'=>'-1']); ?>
 						</td>
 					
-					</tr>
-					<tr>
-						<td style="text-align:right;" colspan="4"><b>Total SGST</b></td>
-						<td style="text-align:right;border-right: none;" width="55">
-							<?php echo $this->Form->control('total_sgst',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 65px;border: none;text-align: right;','tabindex'=>'-1']); ?>
-						</td>
-						
 					</tr>
 					<tr>
 						<td style="text-align:right;" colspan="4"><b>Total Amount after Tax</b></td>
@@ -205,13 +195,10 @@ $(document).ready(function() {
 			item_id: {
 				required: true,
 			},
-			cgst_ledger_id: {
+			gst_type: {
 				required: true,
 			},
-			sgst_ledger_id: {
-				required: true,
-				
-			}
+			
 		},
 
 		
@@ -303,15 +290,11 @@ $(document).ready(function() {
 			
 			$(this).find("td:nth-child(7) input").attr({name:"purchase_voucher_rows["+j+"][taxable_value]", id:"purchase_voucher_rows-"+j+"-taxable_value"}).rules("add","required");
 			
-			$(this).find("td:nth-child(8) select").attr({name:"purchase_voucher_rows["+j+"][cgst_ledger_id]", id:"purchase_voucher_rows-"+j+"-cgst_ledger_id"}).rules("add","required");
+			$(this).find("td:nth-child(8) select").attr({name:"purchase_voucher_rows["+j+"][gst_type]", id:"purchase_voucher_rows-"+j+"-gst_type"}).rules("add","required");
 			
-			$(this).find("td:nth-child(9) input").attr({name:"purchase_voucher_rows["+j+"][cgst_amount]", id:"purchase_voucher_rows-"+j+"-cgst_amount"}).rules("add","required");
+			$(this).find("td:nth-child(9) input").attr({name:"purchase_voucher_rows["+j+"][tax_amount]", id:"purchase_voucher_rows-"+j+"-tax_amount"}).rules("add","required");
 			
-			$(this).find("td:nth-child(10) select").attr({name:"purchase_voucher_rows["+j+"][sgst_ledger_id]", id:"purchase_voucher_rows-"+j+"-sgst_ledger_id"}).rules("add","required");
-			
-			$(this).find("td:nth-child(11) input").attr({name:"purchase_voucher_rows["+j+"][sgst_amount]", id:"purchase_voucher_rows-"+j+"-sgst_amount"}).rules("add","required");
-			
-			$(this).find("td:nth-child(12) input").attr({name:"purchase_voucher_rows["+j+"][total]", id:"purchase_voucher_rows-"+j+"-total"}).rules("add","required");
+			$(this).find("td:nth-child(10) input").attr({name:"purchase_voucher_rows["+j+"][total]", id:"purchase_voucher_rows-"+j+"-total"}).rules("add","required");
 			j++;
 	   });
 	   calculation();
@@ -334,7 +317,6 @@ $(document).ready(function() {
 	function calculation(){ 
 		var total_amount_before_tax=0;
 		var total_cgst=0;
-		var total_sgst=0;
 		var total_amount_after_tax=0;
 		$("#main_table tbody#main_tbody tr.main_tr").each(function(){
 			var quantity=parseFloat($(this).find("td:nth-child(3) input").val());
@@ -354,31 +336,22 @@ $(document).ready(function() {
 			total_amount_before_tax=total_amount_before_tax+taxable_value;
 			
 			
-			var cgst_ledger_id=parseFloat($(this).find("td:nth-child(8) option:selected").attr("percentage"));
+			var gst_type=parseFloat($(this).find("td:nth-child(8) option:selected").attr("percentage"));
 
 			
-			if(!cgst_ledger_id){ cgst_ledger_id=0; }
-			var cgst_amount=parseFloat(taxable_value*cgst_ledger_id/100).toFixed(2);
-			total_cgst=parseFloat(total_cgst)+parseFloat(cgst_amount);
+			if(!gst_type){ gst_type=0; }
+			var tax_amount=parseFloat(taxable_value*gst_type/100).toFixed(2);
+			tax_amount=parseFloat(total_cgst)+parseFloat(tax_amount);
 			
-			$(this).find("td:nth-child(9) input").val(cgst_amount);
-			
-			var sgst_ledger_id=parseFloat($(this).find("td:nth-child(10) option:selected").attr('percentage'));
-			if(!sgst_ledger_id){ sgst_ledger_id=0; }
-			var sgst_amount=parseFloat(taxable_value*sgst_ledger_id/100).toFixed(2);
-			total_sgst=parseFloat(total_sgst)+parseFloat(sgst_amount);
-			
-			$(this).find("td:nth-child(11) input").val(sgst_amount);
-			
-			var total=parseFloat(taxable_value)+parseFloat(cgst_amount)+parseFloat(sgst_amount);
-			$(this).find("td:nth-child(12) input").val(total.toFixed(2));
+			$(this).find("td:nth-child(9) input").val(tax_amount);
+			var total=parseFloat(taxable_value)+parseFloat(tax_amount);
+			$(this).find("td:nth-child(10) input").val(total.toFixed(2));
 			
 			total_amount_after_tax=total_amount_after_tax+total;
 			
 		});
 		$('input[name="total_amount_before_tax"]').val(total_amount_before_tax.toFixed(2));
-		$('input[name="total_cgst"]').val(total_cgst.toFixed(2));
-		$('input[name="total_sgst"]').val(total_sgst.toFixed(2));
+		$('input[name="total_cgst"]').val(tax_amount.toFixed(2));
 		$('input[name="total_amount_after_tax"]').val(total_amount_after_tax.toFixed(2));
 	}
 	
@@ -452,18 +425,6 @@ $(document).ready(function() {
 
 
 
-<?php 
-$Cgst=[];
-foreach($CgstTax as $GstTaxe){
-
-	$Cgst[]=['text' =>$GstTaxe->name, 'value' => $GstTaxe->id, 'percentage'=>$GstTaxe->tax_percentage];
-}
-
-$Sgst=[];
-foreach($SgstTax as $SgstTaxe){
-	$Sgst[]=['text' =>$SgstTaxe->name, 'value' => $SgstTaxe->id, 'percentage'=>$SgstTaxe->tax_percentage];
-}
-?>
 
 
 <table id="sample_table" style="display:none">
@@ -490,16 +451,10 @@ foreach($SgstTax as $SgstTaxe){
 				<?php echo $this->Form->control('taxable_value',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?> 
 			</td>
 			<td class="form-group">
-				<?php echo $this->Form->control('cgst_ledger_id', ['options' =>$Cgst,'label' => false,'class' => 'form-control input-sm gst_call','placeholder'=>'CGST']); ?> 
+				<?php echo $this->Form->control('gst_type', ['options' => $taxtypes,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Item Name']); ?>
 			</td>
 			<td class="form-group">
-				<?php echo $this->Form->control('cgst_amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?> 
-			</td>
-			<td class="form-group">
-				<?php echo $this->Form->control('sgst_ledger_id',['options' =>$Sgst,'label' => false,'class' => 'form-control input-sm gst_call','placeholder'=>'SGST']); ?> 
-			</td>
-			<td class="form-group">
-				<?php echo $this->Form->control('sgst_amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?>
+				<?php echo $this->Form->control('tax_amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?>
 			</td>
 			<td class="form-group">
 				<?php echo $this->Form->control('total',['label' => false,'name'=>'total','class' => 'form-control input-sm ','placeholder'=>'Total']); ?>
