@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
+-- version 4.6.5.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 18, 2017 at 12:02 PM
--- Server version: 10.1.25-MariaDB
--- PHP Version: 7.1.7
+-- Generation Time: Aug 19, 2017 at 06:51 AM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -219,17 +217,17 @@ CREATE TABLE `items` (
   `company_id` int(11) NOT NULL,
   `price` decimal(15,2) NOT NULL,
   `cgst_ledger_id` int(10) NOT NULL,
-  `sgst_ledger_id` int(10) NOT NULL
+  `sgst_ledger_id` int(10) NOT NULL,
+  `igst_ledger_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `items`
 --
 
-INSERT INTO `items` (`id`, `name`, `hsn_code`, `freezed`, `company_id`, `price`, `cgst_ledger_id`, `sgst_ledger_id`) VALUES
-(1, 'item1', 'hsn001', 0, 1, '1000.00', 26, 22),
-(2, 'item2', 'hsn002', 0, 1, '2000.00', 25, 21),
-(3, 'item3', 'hsn003', 1, 1, '500.00', 24, 20);
+INSERT INTO `items` (`id`, `name`, `hsn_code`, `freezed`, `company_id`, `price`, `cgst_ledger_id`, `sgst_ledger_id`, `igst_ledger_id`) VALUES
+(4, 'GMCH', 'aa', 0, 1, '1000.00', 24, 20, 0),
+(5, 'GMCH', '1234456', 0, 1, '123456.00', 0, 0, 46);
 
 -- --------------------------------------------------------
 
@@ -474,6 +472,39 @@ INSERT INTO `tax_types` (`id`, `gst_type`, `percentage`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tax_type_rows`
+--
+
+CREATE TABLE `tax_type_rows` (
+  `id` int(11) NOT NULL,
+  `tax_type_id` int(11) NOT NULL,
+  `tax_type_name` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tax_type_rows`
+--
+
+INSERT INTO `tax_type_rows` (`id`, `tax_type_id`, `tax_type_name`) VALUES
+(1, 1, '0% IGST'),
+(2, 2, '0% CGST'),
+(3, 2, '0% SGST'),
+(4, 3, '5% IGST'),
+(5, 4, '2.5% CGST'),
+(6, 4, '2.5% SGST'),
+(7, 5, '12% IGST'),
+(8, 6, '6% CGST'),
+(9, 6, '6% SGST'),
+(10, 7, '18% IGST'),
+(11, 8, '9% CGST'),
+(12, 8, '9% SGST'),
+(13, 9, '28% IGST'),
+(14, 10, '14% CGST'),
+(15, 10, '14% SGST');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -594,6 +625,12 @@ ALTER TABLE `tax_types`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tax_type_rows`
+--
+ALTER TABLE `tax_type_rows`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -637,7 +674,7 @@ ALTER TABLE `invoice_rows`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `item_discounts`
 --
@@ -684,11 +721,15 @@ ALTER TABLE `suppliers`
 ALTER TABLE `tax_types`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
+-- AUTO_INCREMENT for table `tax_type_rows`
+--
+ALTER TABLE `tax_type_rows`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;COMMIT;
-
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
