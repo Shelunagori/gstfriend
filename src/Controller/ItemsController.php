@@ -22,7 +22,7 @@ class ItemsController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
         $this->paginate = [
-            'contain' => ['Companies','CgstLedgers','SgstLedgers']
+            'contain' => ['Companies','CgstLedgers','SgstLedgers','IgstLedgers']
         ];
         $items = $this->paginate($this->Items);
         $this->set(compact('items'));
