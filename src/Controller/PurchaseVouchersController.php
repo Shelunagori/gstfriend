@@ -26,6 +26,9 @@ class PurchaseVouchersController extends AppController
         ];
         $purchaseVouchers = $this->paginate($this->PurchaseVouchers->find()->order(['PurchaseVouchers.id'=>'DESC']));
 
+		
+		
+		
         $this->set(compact('purchaseVouchers'));
         $this->set('_serialize', ['purchaseVouchers']);
 		$this->set('active_menu', 'PurchaseVouchers.Index');
@@ -88,7 +91,7 @@ class PurchaseVouchersController extends AppController
 			}else{
 				$purchaseVoucher->voucher_no=1;
 			}
-			//End Voucher Number
+			
 			$purchaseVoucher->company_id=$company_id;
 			//pr($purchaseVoucher);exit;
             if ($this->PurchaseVouchers->save($purchaseVoucher)) {
@@ -138,10 +141,18 @@ class PurchaseVouchersController extends AppController
 					$Accounting_entries->company_id=$company_id;
 					$this->PurchaseVouchers->AccountingEntries->save($Accounting_entries);
 					
+					$Accounting_entries = $this->PurchaseVouchers->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $purchase_voucher_row->igst_ledger_id;
+					$Accounting_entries->debit = $purchase_voucher_row->igst_amount;
+					$Accounting_entries->credit = 0;
+					$Accounting_entries->transaction_date = $purchaseVoucher->transaction_date;
+					$Accounting_entries->purchase_voucher_id = $purchaseVoucher->id;
+					$Accounting_entries->company_id=$company_id;
+					$this->PurchaseVouchers->AccountingEntries->save($Accounting_entries);
 				}
 
 				$this->Flash->success(__('The purchase voucher has been saved.'));
-				return $this->redirect(['action' => 'view/'.$invoice->id]);
+				return $this->redirect(['action' => 'view/'.$purchaseVoucher->id]);
             }
             $this->Flash->error(__('The purchase voucher could not be saved. Please, try again.'));
         }
@@ -152,9 +163,6 @@ class PurchaseVouchersController extends AppController
 		{
 			$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->price,'cgst_ledger_id'=>$items_data->input_cgst_ledger_id,'sgst_ledger_id'=>$items_data->input_sgst_ledger_id,'igst_ledger_id'=>$items_data->input_igst_ledger_id];
 		}
-		
-		
-		
 		
 		
 		$SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find('list')->where(['accounting_group_id'=>25,'freeze'=>0]);

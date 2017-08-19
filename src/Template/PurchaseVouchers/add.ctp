@@ -553,7 +553,8 @@ foreach($IgstTax as $IgstTaxe){
 		<tr class="main_tr">
 			<td align="center" width="1px"></td>
 			<td width="20%" class="form-group">
-				<?php echo $this->Form->control('item_id', ['empty'=>"----select----",'options' =>$items, 'empty' => false,'label' => false,'class' => 'form-control item input-sm itemchange ']); ?>
+				<?php echo $this->Form->control('item_id', ['empty'=>"----select----",'options' =>$items, 'label' => false,'class' => 'form-control item input-sm itemchange select2me ']); ?>
+			
 			</td>
 			
 			<td class="form-group">
@@ -571,29 +572,29 @@ foreach($IgstTax as $IgstTaxe){
 			<td class="form-group">
 				<?php echo $this->Form->control('taxable_value',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?> 
 			</td>
-			<td class="form-group gst">
-				<?php echo $this->Form->control('cgst_ledger_id', ['options' =>$Cgst,'label' => false,'class' => 'form-control cgst input-sm gst_call','placeholder'=>'CGST']); ?> 
+			<td class="form-group">
+				<?php echo $this->Form->control('cgst_ledger_id', ['options' =>$Cgst,'label' => false,'class' => 'form-control gst cgst input-sm gst_call','placeholder'=>'CGST']); ?> 
 			</td>
-			<td class="form-group gst">
-				<?php echo $this->Form->control('cgst_amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?> 
+			<td class="form-group">
+				<?php echo $this->Form->control('cgst_amount',['label' => false,'class' => 'form-control gst input-sm ','placeholder'=>'Amount']); ?> 
 			</td>
-			<td class="form-group gst">
-				<?php echo $this->Form->control('sgst_ledger_id',['options' =>$Sgst,'label' => false,'class' => 'form-control sgst input-sm gst_call','placeholder'=>'SGST']); ?> 
+			<td class="form-group">
+				<?php echo $this->Form->control('sgst_ledger_id',['options' =>$Sgst,'label' => false,'class' => 'form-control gst sgst input-sm gst_call','placeholder'=>'SGST']); ?> 
 			</td>
-			<td class="form-group gst">
-				<?php echo $this->Form->control('sgst_amount',['label' => false,'class' => 'form-control input-sm ','placeholder'=>'Amount']); ?>
+			<td class="form-group">
+				<?php echo $this->Form->control('sgst_amount',['label' => false,'class' => 'form-control gst input-sm ','placeholder'=>'Amount']); ?>
 			</td>
 			
-			<td class="form-group igst">
+			<td class="form-group">
 				<?php echo $this->Form->control('igst_ledger_id',['options' =>$Igst,'label' => false,'class' => 'form-control input-sm igst gst_call','placeholder'=>'IGST']); ?> 
 			</td>
-			<td class="form-group igst">
-				<?php echo $this->Form->control('igst_amount',['label' => false,'class' => 'form-control  input-sm ','placeholder'=>'Amount']); ?>
+			<td class="form-group">
+				<?php echo $this->Form->control('igst_amount',['label' => false,'class' => 'form-control igst input-sm ','placeholder'=>'Amount']); ?>
 			</td>			
 			
 			
 			<td class="form-group">
-				<?php echo $this->Form->control('total',['label' => false,'name'=>'total','class' => 'form-control input-sm rate','placeholder'=>'Total']); ?>
+				<?php echo $this->Form->control('total',['label' => false,'name'=>'total','class' => 'form-control input-sm ','placeholder'=>'Total']); ?>
 			</td>
 			<td>
 				<input type="button" value="+" class="add"/>

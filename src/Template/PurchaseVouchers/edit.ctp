@@ -105,23 +105,27 @@ p{
 				<thead>
 					<tr style="background-color: #e4e3e3;">
 						<th rowspan="2" style="border-left: none;">Sr. No.</th>
-						<th rowspan="2" width="30%">Item </th>
-						<th rowspan="2" width="40">Qty</th>
-						<th rowspan="2" width="80">Rate</th>
+						<th rowspan="2" width="350">Item Description</th>
+						<th rowspan="2" width="80" class="hide">HSN code</th>
+						<th rowspan="2" width="100">Qty</th>
+						<th rowspan="2" width="100">Rate</th>
 						<th rowspan="2" width="80">Amount</th>
-						<th rowspan="2" width="80">Discount</th>
-						<th rowspan="2" width="80">Taxable Value</th>
-						<th colspan="2">CGST</th>
-						<th colspan="2">SGST</th>
+						<th rowspan="2" width="130">Discount Amount </th>
+						<th rowspan="2" width="100">Taxable Value</th>
+						<th colspan="2" class='gst'>CGST</th>
+						<th colspan="2" class='gst'>SGST</th>
+						<th colspan="2" class='igst'>IGST</th>
 						<th rowspan="2" style="border-right: none;" width="80">Total</th>
 						<th rowspan="2" width="80">Action</th>
 						
 					</tr>
 					<tr style="background-color: #e4e3e3;">
-						<th width="80">Rate</th>
-						<th width="80">Amount</th>
-						<th width="80">Rate</th>
-						<th width="80">Amount</th>
+						<th width="80" class='gst'>Rate</th>
+						<th width="80" class='gst'>Amount</th>
+						<th width="80" class='gst'>Rate</th>
+						<th width="80" class='gst'>Amount</th>
+						<th width="80" class='igst'>Rate</th>
+						<th width="80" class='igst'>Amount</th>						
 					</tr>
 				</thead>
 				<tbody id="main_tbody">
