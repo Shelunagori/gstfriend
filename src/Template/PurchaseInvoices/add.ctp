@@ -85,7 +85,7 @@ $this->set('title', 'Add Invoice');
 								<td colspan='2'><b><?php echo $this->Form->control('total_cgst',['label'=>false,'type'=>'text','placeholder'=>'0.00','style'=>'text-align: right;','class'=>'gst totalgst','readonly']); ?></b></td>
 								
 							</tfoot>
-						</table><br>
+						</table>
 						<div class="form-group">
 							<label class="control-label">Total Amount </label>
 							<?php echo $this->Form->control('total',['label' => false,'type'=>'text','class' => 'form-control input-sm firstupercase total calculate','placeholder'=>'Enter Total Amount']); ?> 
@@ -111,11 +111,7 @@ $(document).ready(function(){
 	$('.calculate').on('keyup', function() {
 		baseamount();
 	});
-	
-	
-	
-	
-	
+
 	function baseamount(){
 		var baseamount=0;
 		var total= parseFloat($('.total').val());
