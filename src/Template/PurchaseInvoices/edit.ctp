@@ -102,7 +102,7 @@ $this->set('title', 'Edit Invoice');
 										<?php echo $this->Form->control('tax_type_id', ['options' => $taxtypes,'label' => false,'class' => 'form-control input-sm ','placeholder'=>'Enter Item Name','value'=>$purchaseInvoiceRow->sgst_ledger_id]); ?>
 									</td>
 									<td class="form-group">
-										<?php echo $this->Form->control('cgst_amount',['label' => false,'class' => 'form-control input-sm firstupercase cgst_amount addcgst','placeholder'=>'Amount','value'=>$purchaseInvoiceRow->sgst_amount]); ?> 
+										<?php echo $this->Form->control('cgst_amount',['label' => false,'class' => 'form-control input-sm firstupercase cgst_amount addcgst','placeholder'=>'Amount','value'=>$purchaseInvoiceRow->cgst_amount]); ?> 
 									</td>
 									<td>
 										<input type="button" value="+" class="add"/>

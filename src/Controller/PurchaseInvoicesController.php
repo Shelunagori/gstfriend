@@ -223,7 +223,7 @@ class PurchaseInvoicesController extends AppController
             $purchaseInvoice = $this->PurchaseInvoices->patchEntity($purchaseInvoice, $this->request->getData());
 			$purchaseInvoice->transaction_date = date('Y-m-d',strtotime($purchaseInvoice->transaction_date));
 			$purchaseInvoice->company_id = $company_id;
-            if ($this->PurchaseInvoices->save($purchaseInvoice)) {
+            
 				
 			foreach($purchaseInvoice->purchase_invoice_rows as $purchase_invoice_row)
 			{
@@ -252,12 +252,12 @@ class PurchaseInvoicesController extends AppController
 							$purchaseInvoice->cgst_ledger_id = $input_gst_id->id;
 						}
 
-						if($gst_id->gst_type == 'SGST')
+						if($input_gst_id->gst_type == 'SGST')
 						{
 							$purchaseInvoice->sgst_ledger_id = $input_gst_id->id;
 						}
 						
-						if($gst_id->gst_type == 'IGST')
+						if($input_gst_id->gst_type == 'IGST')
 						{
 							$purchaseInvoice->igst_ledger_id = $input_gst_id->id;
 						}						
@@ -265,11 +265,11 @@ class PurchaseInvoicesController extends AppController
 					}
 				}
 			}
+			
+			if ($this->PurchaseInvoices->save($purchaseInvoice)) {	
 				
 				
-				
-				
-								//Acconting Entry Start
+				//Acconting Entry Start
 				if($purchaseInvoice->total !=0)
 				{		
 					$Accounting_entries = $this->PurchaseInvoices->AccountingEntries->newEntity();
