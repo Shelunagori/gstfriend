@@ -75,30 +75,60 @@ $this->set('title', 'Edit Invoice');
 						<table width="100%" class="tbl" id="main_table">
 							<thead>
 								<tr style="background-color: #e4e3e3;">
-									<th>GST Type</th>
-									<th>Item Tax Amount </th>
+									<th colspan="2">IGST Amount</th>
 									<th>Action</th>
 								</tr>	
 							</thead>
 							<tbody id="main_tbody">
-								
+								<!--Get Gst Value with Percent start--->
+								<?php 
+									$Cgst=[];
+									foreach($CgstTax as $GstTaxe){
+										$Cgst[]=['text' =>$GstTaxe->name, 'value' => $GstTaxe->id, 'percentage'=>$GstTaxe->tax_percentage];
+									}
+
+									$Sgst=[];
+									foreach($SgstTax as $SgstTaxe){
+										$Sgst[]=['text' =>$SgstTaxe->name, 'value' => $SgstTaxe->id, 'percentage'=>$SgstTaxe->tax_percentage];
+									}
+								?>
+								<!--Get Gst Value with Percent end--->
+								<?php  
+									 $i=1;
+									foreach ($purchaseInvoice->purchase_invoice_rows as $purchaseInvoiceRow){
+								?>
+								<tr class="main_tr">
+									<td class="form-group">
+										<?php echo $this->Form->control('tax_type_id', ['options' => $taxtypes,'label' => false,'class' => 'form-control input-sm ','placeholder'=>'Enter Item Name','value'=>$purchaseInvoiceRow->sgst_ledger_id]); ?>
+									</td>
+									<td class="form-group">
+										<?php echo $this->Form->control('cgst_amount',['label' => false,'class' => 'form-control input-sm firstupercase cgst_amount addcgst','placeholder'=>'Amount','value'=>$purchaseInvoiceRow->sgst_amount]); ?> 
+									</td>
+									<td>
+										<input type="button" value="+" class="add"/>
+										<input type="button" value="X" class="deleterow" />
+									</td>
+								</tr>	
+								<?php
+								}
+								?>
 							</tbody>
-							<tfoot>
-								<td><b>Total GST</b></td>
-								<td colspan='2'><b><?php echo $this->Form->control('total_cgst',['label'=>false,'type'=>'text','placeholder'=>'0.00','style'=>'text-align: right;','class'=>'gst totalgst','readonly']); ?></b></td>
-								
+							<tfoot >
+								<td ><b>Total GST</b></td>
+								<td colspan='2'><b><?php echo $this->Form->control('total_cgst',['label'=>false,'type'=>'text','style'=>'text-align: right;','class'=>'gst totalgst','readonly','value'=>$purchaseInvoice->total_cgst]); ?></b></td>
 							</tfoot>
 						</table><br>
+					</div>
+					<div class="col-md-12">	
 						<div class="form-group">
 							<label class="control-label">Total Amount </label>
-							<?php echo $this->Form->control('total',['label' => false,'type'=>'text','class' => 'form-control input-sm firstupercase total calculate','placeholder'=>'Enter Total Amount']); ?> 
+							<?php echo $this->Form->control('total',['label' => false,'type'=>'text','class' => 'form-control input-sm firstupercase total','placeholder'=>'Enter Total Amount']); ?> 
 						</div>
 						<div class="form-group">
 							<label class="control-label">Base Amount</label>
-							<?php echo $this->Form->control('base_amount', ['label' => false,'type'=>'text','class' => 'form-control input-sm firstupercase baseamount','placeholder'=>'0.00','readonly']); ?>
+							<?php echo $this->Form->control('base_amount', ['label' => false,'type'=>'text','class' => 'form-control input-sm firstupercase baseamount','placeholder'=>'Enter sgst Amount','readonly']); ?>
 						</div>
 					</div>
-					
 				</div> 
 			</div>
 		</fieldset>
@@ -116,19 +146,17 @@ $(document).ready(function(){
 	$('.calculate').on('keyup', function() {
 		baseamount();
 	});
-	
-	
+
 	function baseamount(){
 		var baseamount=0;
 		var total= parseFloat($('.total').val());
-		var sgst = parseFloat($('.totalsgst').val());
-		var cgst = parseFloat($('.totalcgst').val()); 
-		var baseamount = sgst + cgst;
-		var amount = total - baseamount;	
+		var gst = parseFloat($('.totalgst').val()); 
+		
+		var amount = total - gst;	
 		$('.baseamount').val(amount);
 	}
 	
-	
+	add_row();
 	function add_row(){
 		var table=$(".sample_table tbody.sample_tbody tr.main_tr").clone();
 		$("#main_table tbody#main_tbody ").append(table);
@@ -149,71 +177,47 @@ $(document).ready(function(){
 	function rename_rows(){
 		var j=0;
 		$("#main_table tbody#main_tbody tr").each(function(){
-			$(this).find("td:nth-child(1) select").attr({name:"purchase_invoice_rows["+j+"][cgst_ledger_id]", id:"purchase_invoice_rows-"+j+"-cgst_ledger_id"});
+			$(this).find("td:nth-child(1) select").select2().attr({name:"purchase_invoice_rows["+j+"][tax_type_id]", id:"purchase_invoice_rows-"+j+"-tax_type_id"});
 			
-			$(this).find("td:nth-child(2) input").attr({name:"purchase_invoice_rows["+j+"][cgst_amount]", id:"purchase_invoice_rows-"+j+"-cgst_amount"});
-			
-			$(this).find("td:nth-child(3) select").attr({name:"purchase_invoice_rows["+j+"][sgst_ledger_id]", id:"purchase_invoice_rows-"+j+"-sgst_ledger_id"});
-			
-			$(this).find("td:nth-child(4) input").attr({name:"purchase_invoice_rows["+j+"][sgst_amount]", id:"purchase_invoice_rows-"+j+"-sgst_amount"});
+			$(this).find("td:nth-child(2) input").attr({name:"purchase_invoice_rows["+j+"][tax_amount]", id:"purchase_invoice_rows-"+j+"-tax_amount"});
 			j++;
 	   });
 	};
 	
+	
 	$('.cgst_amount').live("keyup",function() {
 		calculation();
-	});
-	
-	$('.sgst_amount').live("keyup",function() {
-		calculation();
+		baseamount();
 	});
 	
 	calculation();
 	function calculation(){ 
 		var total_cgst=0;
-		var total_sgst=0;
 		$("#main_table tbody#main_tbody tr.main_tr").each(function(){
 			
 			var cgst_amount=$(this).find("td:nth-child(2) input").val();
 			if(!cgst_amount){ cgst_amount=0; }
 			total_cgst=parseFloat(total_cgst)+parseFloat(cgst_amount);
-			var sgst_amount=$(this).find("td:nth-child(4) input").val();
-			if(!sgst_amount){ sgst_amount=0; }
-			total_sgst=parseFloat(total_sgst)+parseFloat(sgst_amount);
+			
 		});
 		$('input[name="total_cgst"]').val(total_cgst.toFixed(2));
-		$('input[name="total_sgst"]').val(total_sgst.toFixed(2));
 	}
 
+	
+	
+	
 });
 
 </script>
-<?php 
-$Cgst=[];
-foreach($CgstTax as $GstTaxe){
 
-	$Cgst[]=['text' =>$GstTaxe->name, 'value' => $GstTaxe->id, 'percentage'=>$GstTaxe->tax_percentage];
-}
-
-$Sgst=[];
-foreach($SgstTax as $SgstTaxe){
-	$Sgst[]=['text' =>$SgstTaxe->name, 'value' => $SgstTaxe->id, 'percentage'=>$SgstTaxe->tax_percentage];
-}
-?>
 <table class="sample_table" style="display:none">
 	<tbody class="sample_tbody">
 		<tr class="main_tr">	
 			<td class="form-group">
-				<?php echo $this->Form->control('cgst_ledger_id', ['options' =>$Cgst,'label' => false,'class' => 'form-control input-sm gst_call','placeholder'=>'CGST']); ?> 
+				<?php echo $this->Form->control('tax_type_id', ['options' => $taxtypes,'label' => false,'class' => 'form-control input-sm ','placeholder'=>'Enter Item Name']); ?>
 			</td>
 			<td class="form-group">
 				<?php echo $this->Form->control('cgst_amount',['label' => false,'class' => 'form-control input-sm firstupercase cgst_amount addcgst','placeholder'=>'Amount']); ?> 
-			</td>
-			<td class="form-group">
-				<?php echo $this->Form->control('sgst_ledger_id',['options' =>$Sgst,'label' => false,'class' => 'form-control input-sm gst_call','placeholder'=>'SGST']); ?>
-			</td>
-			<td class="form-group">			
-				<?php echo $this->Form->control('sgst_amount',['label' => false,'class' => 'form-control input-sm firstupercase sgst_amount addsgst','placeholder'=>'Amount']); ?>
 			</td>
 			<td>
 				<input type="button" value="+" class="add"/>

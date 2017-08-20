@@ -225,6 +225,50 @@ class PurchaseInvoicesController extends AppController
 			$purchaseInvoice->company_id = $company_id;
             if ($this->PurchaseInvoices->save($purchaseInvoice)) {
 				
+			foreach($purchaseInvoice->purchase_invoice_rows as $purchase_invoice_row)
+			{
+				$taxtypes[] = $this->PurchaseInvoices->TaxTypes->TaxTypeRows->find()
+				->where(['tax_type_id'=>$purchase_invoice_row->tax_type_id])->toArray();
+			}
+			
+			
+			foreach($taxtypes as $taxtype)
+			{
+				foreach($taxtype as $taxtyp)
+				{
+				 $input_gst_ids[] = $this->PurchaseInvoices->Ledgers->find()
+				->where(['name'=>$taxtyp->tax_type_name,'accounting_group_id'=>29])->toArray(); 
+				}
+			}
+			
+			if(!empty($input_gst_ids))
+			{
+				foreach($input_gst_ids as $input_gst_id_data)
+				{
+					foreach($input_gst_id_data as $input_gst_id)
+					{
+						if($input_gst_id->gst_type == 'CGST')
+						{
+							$purchaseInvoice->cgst_ledger_id = $input_gst_id->id;
+						}
+
+						if($gst_id->gst_type == 'SGST')
+						{
+							$purchaseInvoice->sgst_ledger_id = $input_gst_id->id;
+						}
+						
+						if($gst_id->gst_type == 'IGST')
+						{
+							$purchaseInvoice->igst_ledger_id = $input_gst_id->id;
+						}						
+						
+					}
+				}
+			}
+				
+				
+				
+				
 								//Acconting Entry Start
 				if($purchaseInvoice->total !=0)
 				{		
