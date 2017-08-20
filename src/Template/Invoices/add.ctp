@@ -274,7 +274,7 @@ $(document).ready(function() {
 			$(this).find("td:eq(9) input").attr({name:"invoice_rows["+i+"][cgst_amount]", id:"invoice_rows-"+i+"-cgst_amount"}).rules("add","required");
 			$(this).find("td:eq(10) select").attr({name:"invoice_rows["+i+"][sgst_rate]", id:"invoice_rows-"+i+"-sgst_rate"}).rules("add","required");
 			$(this).find("td:eq(11) input").attr({name:"invoice_rows["+i+"][sgst_amount]", id:"invoice_rows-"+i+"-sgst_amount"}).rules("add","required");
-			$(this).find("td:eq(12) select").attr({name:"invoice_rows["+i+"][igst_ledger_id]", id:"invoice_rows-"+i+"-igst_ledger_id"}).rules("add","required");
+			$(this).find("td:eq(12) select").attr({name:"invoice_rows["+i+"][igst_rate]", id:"invoice_rows-"+i+"-igst_rate"}).rules("add","required");
 			
 			$(this).find("td:eq(13) input").attr({name:"invoice_rows["+i+"][igst_amount]", id:"invoice_rows-"+i+"-igst_amount"}).rules("add","required");
 			$(this).find("td:eq(14) input").attr({name:"invoice_rows["+i+"][total]", id:"invoice_rows-"+i+"-total"}).rules("add","required");
@@ -454,7 +454,7 @@ $(document).ready(function() {
 		if(radioValue == 'Cash'){
 			$('#cashhide').addClass('hide');
 			$('#cashshow').removeClass('hide');
-			
+			$("#customer-ledger-id").val("");
 			
 			$('.item').die().live("change",function() { 
 			var rate = $(this).find('option:selected').attr('rate');
@@ -484,10 +484,10 @@ $(document).ready(function() {
 			}			
 			
 			
-			$(this).closest('tr').find('td .rate').val(rate);
-			$(this).closest('tr').find('td .cgst').val(cgst_ledger_id);
-			$(this).closest('tr').find('td .sgst').val(sgst_ledger_id);
-			$(this).closest('tr').find('td .igst').val(igst_ledger_id);
+				$(this).closest('tr').find('td .rate').val(rate);
+				$(this).closest('tr').find('td .cgst_rate').val(cgst_ledger_id);
+				$(this).closest('tr').find('td .sgst_rate').val(sgst_ledger_id);
+				$(this).closest('tr').find('td .igst_rate').val(igst_ledger_id);
 			calculation();
 		});
 				
@@ -495,6 +495,7 @@ $(document).ready(function() {
 		else{ 
 			$('#cashhide').removeClass('hide');
 			$('#cashshow').addClass('hide');
+			$("#customer-name").val("");
 			$('.item').die().live("change",function() {  
 				var rate = $(this).find('option:selected').attr('rate');
 				var cgst_ledger_id = $(this).find('option:selected').attr('cgst_ledger_id');
@@ -528,8 +529,7 @@ $(document).ready(function() {
 				$(this).closest('tr').find('td .sgst_rate').val(sgst_ledger_id);
 				$(this).closest('tr').find('td .igst_rate').val(igst_ledger_id);
 
-
-				
+			
 				var customer = $(".cstmr").find('option:selected').val();
 				var item = $(this).find('option:selected').val();
 				var obj = $(this);

@@ -59,11 +59,8 @@ class InvoicesController extends AppController
             'contain' => ['CustomerLedgers'=>['Customers'], 'SalesLedgers', 'InvoiceRows'=>['Items','TaxCGST','TaxSGST','TaxIGST']]
         ]);
 		
-
-		
-
 		$companies = $this->Invoices->Companies->find()->where(['id' => $company_id]);
-		//pr($companies->toArray());exit;
+		//pr($invoice->toArray());exit;
         
 		$this->set(compact('invoice','companies'));
 		$this->set('invoice', $invoice);
