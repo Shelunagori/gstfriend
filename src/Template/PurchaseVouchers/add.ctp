@@ -292,7 +292,6 @@ $(document).ready(function() {
 			if(igst_ledger_id == 0)
 			{
 				$(this).closest('tr').find('.igst').hide();
-				
 			}
 			else
 			{
