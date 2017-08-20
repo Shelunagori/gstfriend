@@ -57,12 +57,21 @@ class PurchaseVouchersController extends AppController
 			if($purchase_voucher_row->cgst_ledger_id > 0){
 				$cgst_per[$purchase_voucher_row->id]=$this->PurchaseVouchers->Ledgers->get(@$purchase_voucher_row->cgst_ledger_id);
 			}
+			else{ 
+					$cgst_per[$purchase_voucher_row->id] = 0;
+				}
 			if($purchase_voucher_row->sgst_ledger_id > 0){
 				$sgst_per[$purchase_voucher_row->id]=$this->PurchaseVouchers->Ledgers->get(@$purchase_voucher_row->sgst_ledger_id);
 			}
+			else{ 
+					$sgst_per[$purchase_voucher_row->id] = 0; 
+				}
 			if($purchase_voucher_row->igst_ledger_id > 0){
 				$igst_per[$purchase_voucher_row->id]=$this->PurchaseVouchers->Ledgers->get(@$purchase_voucher_row->igst_ledger_id);
-			}else{ $igst_per[$purchase_voucher_row->id] = 0; }
+			}
+			else{
+					$igst_per[$purchase_voucher_row->id] = 0;
+				}
 			
 		}
 		// Tax value show in view page end
@@ -96,7 +105,7 @@ class PurchaseVouchersController extends AppController
 			}else{
 				$purchaseVoucher->voucher_no=1;
 			}
-			pr($purchaseVoucher);    exit;
+			//pr($purchaseVoucher);    exit;
 			$purchaseVoucher->company_id=$company_id;
 			//pr($purchaseVoucher);exit;
             if ($this->PurchaseVouchers->save($purchaseVoucher)) {
