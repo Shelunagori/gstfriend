@@ -68,17 +68,6 @@ class PurchaseInvoiceRowsTable extends Table
         $validator
             ->integer('id')
             ->allowEmpty('id', 'create');
-
-        $validator
-            ->decimal('cgst_amount')
-            ->requirePresence('cgst_amount', 'create')
-            ->notEmpty('cgst_amount');
-
-        $validator
-            ->decimal('sgst_amount')
-            ->requirePresence('sgst_amount', 'create')
-            ->notEmpty('sgst_amount');
-
         return $validator;
     }
 
