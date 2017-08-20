@@ -160,10 +160,30 @@ p{
 					<td width="40" style="text-align:right"><?= $this->Number->format($purchaseVoucherRows->amount) ?></td>
 					<td width="44px" style="text-align:right"><?= $this->Number->format($purchaseVoucherRows->discount_amount) ?></td>
 					<td width="48px" style="text-align:right"><?= $this->Number->format($purchaseVoucherRows->taxable_value) ?></td>
-					<td width="35px" style="text-align:right"><?= h($cgst_per[$purchaseVoucherRows->id]['tax_percentage']) ?>%</td>
+					<td width="35px" style="text-align:right">
+					<?php 
+					if($cgst_per[$purchaseVoucherRows->id]['tax_percentage'] != 0)
+					{
+						echo $cgst_per[$purchaseVoucherRows->id]['tax_percentage'];
+					}
+					else{ echo 0; }
+
+					?>					
+					%</td>
 					<td width="43px" style="text-align:right"><?= $this->Number->format($purchaseVoucherRows->cgst_amount) ?></td>
-					<td width="34px" style="text-align:right"><?= h($sgst_per[$purchaseVoucherRows->id]['tax_percentage']) ?>%</td>
+					<td width="34px" style="text-align:right">
+					<?php 
+					if($sgst_per[$purchaseVoucherRows->id]['tax_percentage'] != 0)
+					{
+						echo $sgst_per[$purchaseVoucherRows->id]['tax_percentage'];
+					}
+					else{ echo 0; }
+
+					?>					
+					%</td>
+
 					<td width="39px" style="text-align:right"><?= $this->Number->format($purchaseVoucherRows->sgst_amount) ?></td>
+
 					<td width="34px" style="text-align:right"><?php 
 					if($igst_per[$purchaseVoucherRows->id]['tax_percentage'] != 0)
 					{
