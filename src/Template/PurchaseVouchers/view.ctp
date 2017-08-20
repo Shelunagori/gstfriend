@@ -190,8 +190,8 @@ p{
 						echo $igst_per[$purchaseVoucherRows->id]['tax_percentage'];
 					}
 					else{ echo 0; }
-
 					?>%</td>
+					
 					<td width="39px" style="text-align:right"><?= $this->Number->format($purchaseVoucherRows->igst_amount) ?></td>
 					<td style="border-right: none;text-align:right"width="31px"><?= $this->Number->format($purchaseVoucherRows->total) ?></td>
 					

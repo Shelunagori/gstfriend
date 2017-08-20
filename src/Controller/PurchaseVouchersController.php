@@ -105,7 +105,6 @@ class PurchaseVouchersController extends AppController
 			}else{
 				$purchaseVoucher->voucher_no=1;
 			}
-			//pr($purchaseVoucher);    exit;
 			$purchaseVoucher->company_id=$company_id;
 			//pr($purchaseVoucher);exit;
             if ($this->PurchaseVouchers->save($purchaseVoucher)) {
