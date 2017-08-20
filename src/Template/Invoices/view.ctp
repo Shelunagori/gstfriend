@@ -58,7 +58,8 @@ p{
 				<?php foreach($companies as $company) {?>
 					<span style="font-size:30px;color: #c4151c !important;" style=""><?= $company->name ?></span><br/>
 					<span style="color: #4a4c4c;"><?= $company->address ?></span><br/>
-					<span style="color: #4a4c4c;"><?= $company->district ?>&nbsp,&nbsp<?= $company->state ?></span><br/>
+					<span style="color: #4a4c4c;"><?= $company->district ?>&nbsp;&nbsp;
+					<?= $company->state ?></span><br/>
 					<span style="color: #4a4c4c;"><?= $company->phone_no ?></span><br/>
 					<span style="color: #4a4c4c;">GSTIN: 08BICPD5795A1ZG</span></b>
 				<?php } ?>	

@@ -56,20 +56,19 @@ class PurchaseVouchersTable extends Table
 		$this->belongsTo('CgstLedger', [
 			'className' => 'Ledgers',
 			'foreignKey' => 'cgst_ledger_id',
-			'propertyName' => 'supplier_ledger',
+			'propertyName' => 'cgst_ledger',
 		]);
 		
 		$this->belongsTo('SgstLedger', [
 			'className' => 'Ledgers',
 			'foreignKey' => 'sgst_ledger_id',
-			'propertyName' => 'purchase_ledger',
+			'propertyName' => 'sgst_ledger',
 		]);
-
 
 		$this->belongsTo('IgstLedger', [
 			'className' => 'Ledgers',
 			'foreignKey' => 'igst_ledger_id',
-			'propertyName' => 'purchase_ledger',
+			'propertyName' => 'igst_ledger',
 		]);		
 		
 		$this->belongsTo('Ledgers', [
