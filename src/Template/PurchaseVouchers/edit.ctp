@@ -517,12 +517,6 @@ $(document).ready(function() {
 		$('input[name="total_amount_before_tax"]').val(total_amount_before_tax.toFixed(2));
 	}
 	//Calculation In Row End
-	//ReverseCalculation In Row Start
-	$('.revCalculate').live("keyup","blur",function() {
-		reverseCalculation();
-	});
-	
-	
 	$('input[name="party_name"]').focus();
 	//calculation End
 	

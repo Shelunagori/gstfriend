@@ -447,14 +447,6 @@ $(document).ready(function() {
 		$('input[name="total_amount_before_tax"]').val(total_amount_before_tax.toFixed(2));
 	}
 	
-	$('.revCalculate').live("keyup",function() {
-		calculation();
-	});
-	
-	
-	//change value on change quantity start
-
-	//change value on change quantity end
 	
 	
 });
