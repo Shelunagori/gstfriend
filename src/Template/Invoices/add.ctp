@@ -255,7 +255,7 @@ $(document).ready(function() {
 		var tr=$("#sampleTbl tbody tr").clone();
 		$("#mainTbl tbody#mainTbody").append(tr);
 		$("#mainTbl tbody#mainTbody tr.mainTr:last").find('td:eq(1) input').focus();
-		//rename_rows();
+		rename_rows();
 	}
 	
 	function rename_rows(){
@@ -274,9 +274,9 @@ $(document).ready(function() {
 			$(this).find("td:eq(9) input").attr({name:"invoice_rows["+i+"][cgst_amount]", id:"invoice_rows-"+i+"-cgst_amount"}).rules("add","required");
 			$(this).find("td:eq(10) select").attr({name:"invoice_rows["+i+"][sgst_rate]", id:"invoice_rows-"+i+"-sgst_rate"}).rules("add","required");
 			$(this).find("td:eq(11) input").attr({name:"invoice_rows["+i+"][sgst_amount]", id:"invoice_rows-"+i+"-sgst_amount"}).rules("add","required");
-			$(this).find("td:eq(12) select").attr({name:"invoice_rows["+j+"][igst_ledger_id]", id:"invoice_rows-"+j+"-igst_ledger_id"}).rules("add","required");
+			$(this).find("td:eq(12) select").attr({name:"invoice_rows["+i+"][igst_ledger_id]", id:"invoice_rows-"+i+"-igst_ledger_id"}).rules("add","required");
 			
-			$(this).find("td:eq(13) input").attr({name:"invoice_rows["+j+"][igst_amount]", id:"invoice_rows-"+j+"-igst_amount"}).rules("add","required");
+			$(this).find("td:eq(13) input").attr({name:"invoice_rows["+i+"][igst_amount]", id:"invoice_rows-"+i+"-igst_amount"}).rules("add","required");
 			$(this).find("td:eq(14) input").attr({name:"invoice_rows["+i+"][total]", id:"invoice_rows-"+i+"-total"}).rules("add","required");
 		i++;
 		});
@@ -367,9 +367,9 @@ $(document).ready(function() {
 	}
 	
 	//change value on change quantity start
-	$(".change_qty").on('keyup',function(){
+	$(".change_qty").live('keyup',function(){ 
 		
-		$("#mainTbl tbody#mainTbody tr.mainTr").each(function(){
+		$("#mainTbl tbody#mainTbody tr.mainTr").each(function(){  
 			var rate = $(this).find('option:selected').attr('rate');
 			var discount = parseFloat($(this).find("td:eq(6) input").val());
 			if(!discount){ discount=0; }
@@ -599,14 +599,12 @@ $(document).ready(function() {
 			<td style="text-align:right;" class="form-group ">
 				<?php echo $this->Form->control('sgst_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control gst input-sm']); ?>
 			</td>
-
 			<td style="text-align:right;" class="form-group">
 				<?php echo $this->Form->control('igst_ledger_id',['empty' => "---Select---",'label'=>false,'class'=>'form-control input-sm igst igst_rate','style'=>'width: 80px;border: none;text-align: right;','options'=>$taxs_IGST]); ?>
 			</td>
 			<td style="text-align:right;" class="form-group">
 				<?php echo $this->Form->control('igst_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control igst input-sm']); ?>
 			</td>
-			
 			<td style="text-align:right;border-right: none;">
 				<?php echo $this->Form->control('total',['label'=>false,'placeholder'=>'Total','style'=>'width: 100%;text-align: right;','class'=>'revCalculate','class'=>'form-control rate input-sm']); ?>
 			</td>

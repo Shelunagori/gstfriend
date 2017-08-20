@@ -134,9 +134,12 @@ p{
 					<th rowspan="2" width="80">Taxable Value</th>
 					<th colspan="2">CGST</th>
 					<th colspan="2">SGST</th>
+					<th colspan="2">IGST</th>
 					<th rowspan="2" style="border-right: none;" width="80">Total</th>
 				</tr>
 				<tr style="background-color: #e4e3e3;">
+					<th width="80">Rate</th>
+					<th width="80">Amount</th>
 					<th width="80">Rate</th>
 					<th width="80">Amount</th>
 					<th width="80">Rate</th>
@@ -161,6 +164,8 @@ p{
 					<td width="43px" style="text-align:right"><?= $this->Number->format($purchaseVoucherRows->cgst_amount) ?></td>
 					<td width="34px" style="text-align:right"><?= h($sgst_per[$purchaseVoucherRows->id]['tax_percentage']) ?>%</td>
 					<td width="39px" style="text-align:right"><?= $this->Number->format($purchaseVoucherRows->sgst_amount) ?></td>
+					<td width="34px" style="text-align:right"><?= h($igst_ledger_id[$purchaseVoucherRows->id]['tax_percentage']) ?>%</td>
+					<td width="39px" style="text-align:right"><?= $this->Number->format($purchaseVoucherRows->igst_amount) ?></td>
 					<td style="border-right: none;text-align:right"width="31px"><?= $this->Number->format($purchaseVoucherRows->total) ?></td>
 					
 				</tr>
@@ -198,6 +203,10 @@ p{
 				<tr>
 					<td style="text-align:right;"><b>Total SGST</b></td>
 					<td style="text-align:right;border-right: none;"><?= $this->Number->format($purchaseVoucher->total_sgst) ?></td>
+				</tr>
+				<tr>
+					<td style="text-align:right;"><b>Total IGST</b></td>
+					<td style="text-align:right;border-right: none;"><?= $this->Number->format($purchaseVoucher->total_igst) ?></td>
 				</tr>
 				<tr>
 					<td style="text-align:right;"><b>Total Amount after Tax</b></td>

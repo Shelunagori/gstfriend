@@ -452,6 +452,30 @@ $(document).ready(function() {
 	});
 	
 	
+	//change value on change quantity start
+	$(".change_qty").live('keyup',function(){ 
+		
+		$("#main_table tbody#main_tbody tr.main_tr").each(function(){  
+			var rate = parseFloat($(this).find("td:nth-child(14) input").val());
+		
+		
+			var discount = parseFloat($(this).find("td:nth-child(6) input").val());
+			if(!discount){ discount=0; }
+			var quantity=parseFloat($(this).find("td:nth-child(3) input").val());
+			if(quantity<=0){ alert(); $(this).find("td:nth-child(14) input").val(rate.toFixed(2));}
+			else{
+			var total=rate*quantity;
+			var discount=discount*quantity;
+			
+			$(this).find("td:nth-child(14) input").val(total.toFixed(2));
+			$(this).find("td:nth-child(6) input").val(discount.toFixed(2));
+			}
+		});
+		calculation();
+	});
+	//change value on change quantity end
+	
+	
 });
 </script>					
 

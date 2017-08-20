@@ -172,6 +172,9 @@ $(document).ready(function(){
 		$('input[name="total_cgst"]').val(total_cgst.toFixed(2));
 	}
 
+	
+	
+	
 });
 
 </script>

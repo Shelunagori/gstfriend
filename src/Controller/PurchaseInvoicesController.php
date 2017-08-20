@@ -254,7 +254,7 @@ class PurchaseInvoicesController extends AppController
 		
 		$SgstTax = $this->PurchaseInvoices->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);
 
-		$taxtypes = $this->Items->TaxTypes->find('list');
+		$taxtypes = $this->PurchaseInvoices->TaxTypes->find('list');
 		
         $this->set(compact('purchaseInvoice','SupplierLedger','PurchaseLedger','CgstTax','SgstTax','taxtypes'));
         $this->set('_serialize', ['purchaseInvoice']);

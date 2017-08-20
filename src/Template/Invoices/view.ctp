@@ -144,9 +144,12 @@ p{
 					<th rowspan="2">Taxable Value</th>
 					<th colspan="2">CGST</th>
 					<th colspan="2">SGST</th>
+					<th colspan="2">IGST</th>
 					<th rowspan="2" style="border-right: none;">Total</th>
 				</tr>
 				<tr style="background-color: #e4e3e3 !important;">
+					<th>Rate</th>
+					<th>Amount</th>
 					<th>Rate</th>
 					<th>Amount</th>
 					<th>Rate</th>
@@ -169,6 +172,8 @@ p{
 					<td style="text-align:right;"><?= $invoice_row->cgst_amount ?></td>
 					<td style="text-align:right;"><?= $invoice_row->sgst->tax_percentage ?>%</td>
 					<td style="text-align:right;"><?= $invoice_row->sgst_amount ?></td>
+					<td style="text-align:right;"><?= $invoice_row->igst->tax_percentage ?>%</td>
+					<td style="text-align:right;"><?= $invoice_row->igst_amount ?></td>
 					<td style="text-align:right;border-right: none;"><?= $invoice_row->total ?></td>
 				</tr>
 			<?php } } ?>

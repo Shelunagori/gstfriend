@@ -59,6 +59,7 @@ class PurchaseVouchersController extends AppController
 				$sgst_per[$purchase_voucher_row->id]=$this->PurchaseVouchers->Ledgers->get(@$purchase_voucher_row->sgst_ledger_id);
 			}
 			
+			
 		}
 		// Tax value show in view page end
 		
