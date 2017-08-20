@@ -48,9 +48,11 @@ class PurchaseVouchersController extends AppController
         $purchaseVoucher = $this->PurchaseVouchers->get($id, [
             'contain' => ['SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers'],'Companies', 'AccountingEntries', 'PurchaseVoucherRows'=>['Items']]
         ]);
+		
 		//tax value show in view page start
  		$cgst_per=[];
 		$sgst_per=[];
+		$igst_per=[];
  		foreach($purchaseVoucher->purchase_voucher_rows as $purchase_voucher_row){
 			if($purchase_voucher_row->cgst_ledger_id > 0){
 				$cgst_per[$purchase_voucher_row->id]=$this->PurchaseVouchers->Ledgers->get(@$purchase_voucher_row->cgst_ledger_id);
@@ -58,14 +60,16 @@ class PurchaseVouchersController extends AppController
 			if($purchase_voucher_row->sgst_ledger_id > 0){
 				$sgst_per[$purchase_voucher_row->id]=$this->PurchaseVouchers->Ledgers->get(@$purchase_voucher_row->sgst_ledger_id);
 			}
-			
+			if($purchase_voucher_row->igst_ledger_id > 0){
+				$igst_per[$purchase_voucher_row->id]=$this->PurchaseVouchers->Ledgers->get(@$purchase_voucher_row->igst_ledger_id);
+			}
 			
 		}
 		// Tax value show in view page end
 		
 		$companies = $this->PurchaseVouchers->Companies->find()->where(['id' => $company_id]);
 		
-		$this->set(compact('cgst_per','sgst_per','companies'));
+		$this->set(compact('cgst_per','sgst_per','igst_per','companies'));
         $this->set('purchaseVoucher', $purchaseVoucher);
         $this->set('_serialize', ['purchaseVoucher']);
     }

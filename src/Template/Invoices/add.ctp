@@ -419,6 +419,7 @@ $(document).ready(function() {
 			$(this).find("td:eq(4) input").val(rate.toFixed(2));
 			
 			var discount_amount=(taxable_value*discount_rate)/100;
+			if(!discount_amount){ discount_amount=0; }
 			$(this).find("td:eq(6) input").val(taxable_value.toFixed(2));
 			
 			var cgst_amount=(taxable_value*cgst_rate)/100;

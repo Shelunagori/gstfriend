@@ -164,7 +164,7 @@ p{
 					<td width="43px" style="text-align:right"><?= $this->Number->format($purchaseVoucherRows->cgst_amount) ?></td>
 					<td width="34px" style="text-align:right"><?= h($sgst_per[$purchaseVoucherRows->id]['tax_percentage']) ?>%</td>
 					<td width="39px" style="text-align:right"><?= $this->Number->format($purchaseVoucherRows->sgst_amount) ?></td>
-					<td width="34px" style="text-align:right"><?= h($igst_ledger_id[$purchaseVoucherRows->id]['tax_percentage']) ?>%</td>
+					<td width="34px" style="text-align:right"><?= h($igst_per[$purchaseVoucherRows->id]['tax_percentage']) ?>%</td>
 					<td width="39px" style="text-align:right"><?= $this->Number->format($purchaseVoucherRows->igst_amount) ?></td>
 					<td style="border-right: none;text-align:right"width="31px"><?= $this->Number->format($purchaseVoucherRows->total) ?></td>
 					
