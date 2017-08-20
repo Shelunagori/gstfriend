@@ -330,7 +330,7 @@
 							<tr>
 								<td style="text-align:right"><b>Net Payable : </b></td>
 								<td style="text-align:right"> 
-									<?php echo @$totalamount_invoices - @$totalamount ?>
+									<?php echo @$totalamount_invoices - (@$totalamount + @$totalamount_item) ?>
 								</td>
 							</tr>
 						</table>
