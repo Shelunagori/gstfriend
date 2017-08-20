@@ -62,7 +62,7 @@ class PurchaseVouchersController extends AppController
 			}
 			if($purchase_voucher_row->igst_ledger_id > 0){
 				$igst_per[$purchase_voucher_row->id]=$this->PurchaseVouchers->Ledgers->get(@$purchase_voucher_row->igst_ledger_id);
-			}
+			}else{ $igst_per[$purchase_voucher_row->id] = 0; }
 			
 		}
 		// Tax value show in view page end

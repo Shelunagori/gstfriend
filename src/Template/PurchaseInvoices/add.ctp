@@ -142,9 +142,9 @@ $(document).ready(function(){
 	function rename_rows(){
 		var j=0;
 		$("#main_table tbody#main_tbody tr").each(function(){
-			$(this).find("td:nth-child(1) select").select2().attr({name:"purchase_invoice_rows["+j+"][tax_type_id]", id:"purchase_invoice_rows-"+j+"-tax_type_id"});
+			$(this).find("td:nth-child(1) select").select2().attr({name:"purchase_invoice_others["+j+"][tax_type_id]", id:"purchase_invoice_others-"+j+"-tax_type_id"});
 			
-			$(this).find("td:nth-child(2) input").attr({name:"purchase_invoice_rows["+j+"][tax_amount]", id:"purchase_invoice_rows-"+j+"-tax_amount"});
+			$(this).find("td:nth-child(2) input").attr({name:"purchase_invoice_others["+j+"][tax_amount]", id:"purchase_invoice_others-"+j+"-tax_amount"});
 			j++;
 	   });
 	};

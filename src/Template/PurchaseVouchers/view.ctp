@@ -147,7 +147,7 @@ p{
 				</tr>
 			</thead>
 			<tbody id="mainTbody">
-				<?php   $i=0;
+				<?php   $i=0; //pr($purchaseVoucher->purchase_voucher_rows); exit;
 						foreach ($purchaseVoucher->purchase_voucher_rows as $purchaseVoucherRows):
 						$i++;
 				?>
@@ -164,7 +164,14 @@ p{
 					<td width="43px" style="text-align:right"><?= $this->Number->format($purchaseVoucherRows->cgst_amount) ?></td>
 					<td width="34px" style="text-align:right"><?= h($sgst_per[$purchaseVoucherRows->id]['tax_percentage']) ?>%</td>
 					<td width="39px" style="text-align:right"><?= $this->Number->format($purchaseVoucherRows->sgst_amount) ?></td>
-					<td width="34px" style="text-align:right"><?= h($igst_per[$purchaseVoucherRows->id]['tax_percentage']) ?>%</td>
+					<td width="34px" style="text-align:right"><?php 
+					if($igst_per[$purchaseVoucherRows->id]['tax_percentage'] != 0)
+					{
+						echo $igst_per[$purchaseVoucherRows->id]['tax_percentage'];
+					}
+					else{ echo 0; }
+
+					?>%</td>
 					<td width="39px" style="text-align:right"><?= $this->Number->format($purchaseVoucherRows->igst_amount) ?></td>
 					<td style="border-right: none;text-align:right"width="31px"><?= $this->Number->format($purchaseVoucherRows->total) ?></td>
 					
