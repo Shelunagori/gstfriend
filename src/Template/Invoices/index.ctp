@@ -40,7 +40,7 @@
 								} 
 								else
 								{ 
-									echo $invoice->customer_ledgers['customer']['name'];
+									echo $invoice->customer_name;
 								} ?></td>
 						<td align="right"><?= $this->Number->format($invoice->total_amount_after_tax,[ 'places' => 2]) ?></td>
 						<td class="actions">

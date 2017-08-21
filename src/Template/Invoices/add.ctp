@@ -274,7 +274,7 @@ $(document).ready(function() {
 			$(this).find("td:eq(9) input").attr({name:"invoice_rows["+i+"][cgst_amount]", id:"invoice_rows-"+i+"-cgst_amount"}).rules("add","required");
 			$(this).find("td:eq(10) select").attr({name:"invoice_rows["+i+"][sgst_rate]", id:"invoice_rows-"+i+"-sgst_rate"}).rules("add","required");
 			$(this).find("td:eq(11) input").attr({name:"invoice_rows["+i+"][sgst_amount]", id:"invoice_rows-"+i+"-sgst_amount"}).rules("add","required");
-			$(this).find("td:eq(12) select").attr({name:"invoice_rows["+i+"][igst_rate]", id:"invoice_rows-"+i+"-igst_rate"}).rules("add","required");
+			$(this).find("td:eq(12) select").attr({name:"invoice_rows["+i+"][igst_ledger_id]", id:"invoice_rows-"+i+"-igst_ledger_id"}).rules("add","required");
 			
 			$(this).find("td:eq(13) input").attr({name:"invoice_rows["+i+"][igst_amount]", id:"invoice_rows-"+i+"-igst_amount"}).rules("add","required");
 			$(this).find("td:eq(14) input").attr({name:"invoice_rows["+i+"][total]", id:"invoice_rows-"+i+"-total"}).rules("add","required");
@@ -318,10 +318,10 @@ $(document).ready(function() {
 			var cgst_per=parseFloat(cgst_rate);
 			
 			
-			var igst_rate=parseFloat($(this).find("td:eq(12) option:selected").attr('tax_rate'));
-			if(!igst_rate){ igst_rate=0; }
+			var igst_ledger_id=parseFloat($(this).find("td:eq(12) option:selected").attr('tax_rate'));
+			if(!igst_ledger_id){ igst_ledger_id=0; }
 			
-			var igst_per=parseFloat(igst_rate);
+			var igst_per=parseFloat(igst_ledger_id);
 			
 			
 			
@@ -386,58 +386,7 @@ $(document).ready(function() {
 	//change value on change quantity end
 	
 
-	$('.revCalculate').live("keyup",function() {
-		reverseCalculation();
-	});
 	
-	function reverseCalculation(){
-		var total_amount_before_tax=0;
-		var total_cgst=0;
-		var total_sgst=0;
-		var total_amount_after_tax=0;
-		$("#mainTbl tbody#mainTbody tr.mainTr").each(function(){
-			var total=parseFloat($(this).find("td:eq(12) input").val());
-			if(!total){ total=0; }
-			
-			var cgst_rate=parseFloat($(this).find("td:eq(8) input").val());
-			if(!cgst_rate){ cgst_rate=0; }
-			
-			var sgst_rate=parseFloat($(this).find("td:eq(10) input").val());
-			if(!sgst_rate){ sgst_rate=0; }
-			
-			var to_be_divide=parseFloat(cgst_rate)+parseFloat(sgst_rate)+100;
-			
-			var taxable_value=(total/to_be_divide)*100;
-			
-			$(this).find("td:eq(8) input").val(taxable_value.toFixed(2));
-			$(this).find("td:eq(5) input").val(taxable_value.toFixed(2));
-			
-			var quantity=parseFloat($(this).find("td:eq(3) input").val());
-			if(!quantity){ quantity=0; }
-			
-			var rate=taxable_value/quantity;
-			$(this).find("td:eq(4) input").val(rate.toFixed(2));
-			
-			var discount_amount=(taxable_value*discount_rate)/100;
-			if(!discount_amount){ discount_amount=0; }
-			$(this).find("td:eq(6) input").val(taxable_value.toFixed(2));
-			
-			var cgst_amount=(taxable_value*cgst_rate)/100;
-			$(this).find("td:eq(9) input").val(cgst_amount.toFixed(2));
-			
-			var sgst_amount=(taxable_value*sgst_rate)/100;
-			$(this).find("td:eq(11) input").val(sgst_amount.toFixed(2));
-			
-			total_amount_before_tax=total_amount_before_tax+taxable_value;
-			total_cgst=parseFloat(total_cgst)+parseFloat(cgst_amount);
-			total_sgst=parseFloat(total_sgst)+parseFloat(sgst_amount);
-			total_amount_after_tax=total_amount_after_tax+total;
-		});
-		$('input[name="total_amount_before_tax"]').val(total_amount_before_tax.toFixed(2));
-		$('input[name="total_cgst"]').val(total_cgst.toFixed(2));
-		$('input[name="total_sgst"]').val(total_sgst.toFixed(2));
-		$('input[name="total_amount_after_tax"]').val(total_amount_after_tax.toFixed(2));
-	}
 	
 	//$('input[name="party_name"]').focus();
 

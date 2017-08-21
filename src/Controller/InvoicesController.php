@@ -22,7 +22,6 @@ class InvoicesController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
 		
-		///$invoices = $this->Invoices->find()->contain(['CustomerLedgers']);
 		
         $invoices = $this->paginate($this->Invoices->find()->contain(['CustomerLedgers'])->where(['status' => 0])->order(['Invoices.id'=>'DESC']));
         $this->set(compact('invoices'));
@@ -91,7 +90,7 @@ class InvoicesController extends AppController
 				$invoice->invoice_no=1;
 			} 
 			$invoice->transaction_date = date('Y-m-d',strtotime($invoice->transaction_date));
-			
+			pr();    exit;
 			if ($this->Invoices->save($invoice)) {
 				
 				if($invoice->invoicetype == 'Cash')
@@ -151,6 +150,15 @@ class InvoicesController extends AppController
 					$Accounting_entries->ledger_id = $invoice_row->sgst_rate;
 					$Accounting_entries->debit = 0;
 					$Accounting_entries->credit = $invoice_row->sgst_amount;
+					$Accounting_entries->transaction_date = $invoice->transaction_date;
+					$Accounting_entries->company_id=$company_id;
+					$Accounting_entries->invoice_id = $invoice->id;
+					$this->Invoices->AccountingEntries->save($Accounting_entries);
+					
+					$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $invoice_row->igst_ledger_id;
+					$Accounting_entries->debit = 0;
+					$Accounting_entries->credit = $invoice_row->igst_amount;
 					$Accounting_entries->transaction_date = $invoice->transaction_date;
 					$Accounting_entries->company_id=$company_id;
 					$Accounting_entries->invoice_id = $invoice->id;
