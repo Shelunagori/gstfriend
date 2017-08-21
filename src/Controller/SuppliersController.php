@@ -24,7 +24,7 @@ class SuppliersController extends AppController
         $this->paginate = [
             'contain' => ['Companies']
         ];
-        $suppliers = $this->paginate($this->Suppliers);
+        $suppliers = $this->paginate($this->Suppliers->find()->where(['status' => 0]));
 
         $this->set(compact('suppliers'));
         $this->set('_serialize', ['suppliers']);
@@ -135,14 +135,21 @@ class SuppliersController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $supplier = $this->Suppliers->get($id);
-        if ($this->Suppliers->delete($supplier)) {
-            $this->Flash->success(__('The supplier has been deleted.'));
-        } else {
-            $this->Flash->error(__('The supplier could not be deleted. Please, try again.'));
-        }
-
+		if ($this->request->is(['patch', 'post', 'put']))
+		{
+			$supplier = $this->Suppliers->get($id);
+			$query = $this->Suppliers->query();
+				$query->update()
+					->set(['status' => 1])
+					->where(['id' => $id])
+					->execute();
+			if ($this->Suppliers->save($supplier)) {
+				
+				$this->Flash->success(__('The supplier has been deleted.'));
+			} else {
+				$this->Flash->error(__('The supplier could not be deleted. Please, try again.'));
+			}
+		}
         return $this->redirect(['action' => 'index']);
     }
 }

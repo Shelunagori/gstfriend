@@ -21,7 +21,7 @@ class PurchaseInvoicesController extends AppController
     public function index()
     {
 		$this->viewBuilder()->layout('index_layout');
-        $purchaseInvoices = $this->paginate($this->PurchaseInvoices);
+        $purchaseInvoices = $this->paginate($this->PurchaseInvoices->find()->where(['status' => 0]));
 
         $this->set(compact('purchaseInvoices'));
         $this->set('_serialize', ['purchaseInvoices']);
@@ -436,14 +436,21 @@ class PurchaseInvoicesController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $purchaseInvoice = $this->PurchaseInvoices->get($id);
-        if ($this->PurchaseInvoices->delete($purchaseInvoice)) {
-            $this->Flash->success(__('The purchase invoice has been deleted.'));
-        } else {
-            $this->Flash->error(__('The purchase invoice could not be deleted. Please, try again.'));
-        }
-
+		if ($this->request->is(['patch', 'post', 'put']))
+		{
+			$purchaseInvoice = $this->PurchaseInvoices->get($id);
+			$query = $this->PurchaseInvoices->query();
+				$query->update()
+					->set(['status' => 1])
+					->where(['id' => $id])
+					->execute();
+			if ($this->PurchaseInvoices->save($purchaseInvoice)) {
+				
+				$this->Flash->success(__('The purchaseInvoice has been deleted.'));
+			} else {
+				$this->Flash->error(__('The purchaseInvoice could not be deleted. Please, try again.'));
+			}
+		}
         return $this->redirect(['action' => 'index']);
     }
 }

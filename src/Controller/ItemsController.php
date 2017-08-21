@@ -24,7 +24,7 @@ class ItemsController extends AppController
         $this->paginate = [
             'contain' => ['Companies','CgstLedgers','SgstLedgers','IgstLedgers']
         ];
-        $items = $this->paginate($this->Items);
+        $items = $this->paginate($this->Items->find()->where(['status' => 0]));
         $this->set(compact('items'));
         $this->set('_serialize', ['items']);
 		$this->set('active_menu', 'Items.Index');
@@ -267,15 +267,24 @@ class ItemsController extends AppController
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $item = $this->Items->get($id);
-        if ($this->Items->delete($item)) {
-            $this->Flash->success(__('The item has been deleted.'));
-        } else {
-            $this->Flash->error(__('The item could not be deleted. Please, try again.'));
-        }
-
+	{
+		if ($this->request->is(['patch', 'post', 'put']))
+		{
+			$item = $this->Items->get($id);
+			$query = $this->Items->query();
+				$query->update()
+					->set(['status' => 1])
+					->where(['id' => $id])
+					->execute();
+			if ($this->Items->save($item)) {
+				
+				$this->Flash->success(__('The item has been deleted.'));
+			} else {
+				$this->Flash->error(__('The item could not be deleted. Please, try again.'));
+			}
+		}
         return $this->redirect(['action' => 'index']);
     }
+	
+    
 }

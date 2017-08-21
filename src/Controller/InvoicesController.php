@@ -21,9 +21,10 @@ class InvoicesController extends AppController
     public function index()
     {
 		$this->viewBuilder()->layout('index_layout');
-		$invoic = $this->Invoices->find('all',['contain'=>['CustomerLedgers'=>['Customers'], 'SalesLedgers']])->order(['Invoices.id'=>'DESC']);
-	
-        $invoices = $this->paginate($invoic);
+		
+		///$invoices = $this->Invoices->find()->contain(['CustomerLedgers']);
+		
+        $invoices = $this->paginate($this->Invoices->find()->contain(['CustomerLedgers'])->where(['status' => 0])->order(['Invoices.id'=>'DESC']));
         $this->set(compact('invoices'));
         $this->set('_serialize', ['invoices']);
 		$this->set('active_menu','Invoices.Index');
@@ -386,14 +387,21 @@ class InvoicesController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $invoice = $this->Invoices->get($id);
-        if ($this->Invoices->delete($invoice)) {
-            $this->Flash->success(__('The invoice has been deleted.'));
-        } else {
-            $this->Flash->error(__('The invoice could not be deleted. Please, try again.'));
-        }
-
+		if ($this->request->is(['patch', 'post', 'put']))
+		{
+			$invoice = $this->Invoices->get($id);
+			$query = $this->Invoices->query();
+				$query->update()
+					->set(['status' => 1])
+					->where(['id' => $id])
+					->execute();
+			if ($this->Invoices->save($invoice)) {
+				
+				$this->Flash->success(__('The invoice has been deleted.'));
+			} else {
+				$this->Flash->error(__('The invoice could not be deleted. Please, try again.'));
+			}
+		}
         return $this->redirect(['action' => 'index']);
     }
 }

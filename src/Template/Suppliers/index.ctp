@@ -38,6 +38,7 @@ $this->set('title', 'List');
 						<td><?php if(@$supplier->freezed==0){ echo "Unfreezed";  } else {   echo "Freezed"; } ?></td>
 						<td class="actions">
 						   <?= $this->Html->link(__('Edit'), ['action' => 'edit', $supplier->id]) ?>
+						   <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $supplier->id], ['confirm' => __('Are you sure you want to delete # {0}?', $supplier->id)]) ?>
 						</td>
 					</tr>
 					<?php endforeach; ?>

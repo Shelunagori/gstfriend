@@ -24,7 +24,7 @@ class CustomersController extends AppController
         $this->paginate = [
             'contain' => ['Companies']
         ];
-        $customers = $this->paginate($this->Customers);
+        $customers = $this->paginate($this->Customers->find()->where(['status' => 0]));
 
         $this->set(compact('customers'));
         $this->set('_serialize', ['customers']);
@@ -143,15 +143,22 @@ class CustomersController extends AppController
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $customer = $this->Customers->get($id);
-        if ($this->Customers->delete($customer)) {
-            $this->Flash->success(__('The customer has been deleted.'));
-        } else {
-            $this->Flash->error(__('The customer could not be deleted. Please, try again.'));
-        }
-
+	{
+		if ($this->request->is(['patch', 'post', 'put']))
+		{
+			$customer = $this->Customers->get($id);
+			$query = $this->Customers->query();
+				$query->update()
+					->set(['status' => 1])
+					->where(['id' => $id])
+					->execute();
+			if ($this->Customers->save($customer)) {
+				
+				$this->Flash->success(__('The customer has been deleted.'));
+			} else {
+				$this->Flash->error(__('The customer could not be deleted. Please, try again.'));
+			}
+		}
         return $this->redirect(['action' => 'index']);
     }
 }

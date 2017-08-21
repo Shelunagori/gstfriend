@@ -38,6 +38,7 @@
 						<td class="actions">
 							<?= $this->Html->link(__('View'), ['action' => 'view', $purchaseVoucher->id]) ?>
 							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $purchaseVoucher->id]) ?>
+							<?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $purchaseVoucher->id], ['confirm' => __('Are you sure you want to delete # {0}?', $purchaseVoucher->id)]) ?>
 							
 						</td>
 					</tr>

@@ -33,6 +33,7 @@ $this->set('title', 'List');
 						<td><?= $this->Number->format($purchaseVoucherRow->amount) ?></td>
 						<td class="actions">
 							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $purchaseVoucherRow->id]) ?>
+							<?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $purchaseVoucherRow->id], ['confirm' => __('Are you sure you want to delete # {0}?', $purchaseVoucherRow->id)]) ?>
 						</td>
 					</tr>
 					<?php endforeach; ?>

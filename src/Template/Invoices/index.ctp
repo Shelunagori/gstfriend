@@ -26,18 +26,27 @@
 				</thead>
 				<tbody>
 					<?php 
-					foreach ($invoices as $invoice): ?>
+					foreach ($invoices as $invoice):  ?>
 					<tr>
 						<td><?= h(++$page_no) ?></td>
 						<td>
 							<?php $in_no='#'.str_pad($invoice->invoice_no, 4, '0', STR_PAD_LEFT);  ?>
 							<?= $this->Html->link(__($in_no), ['action' => 'view', $invoice->id],['target'=>'_blank']) ?></td>
 						<td><?= h($invoice->transaction_date) ?></td>
-						<td><?= h($invoice->customer_ledgers['customer']['name']) ?></td>
+						<td><?php 
+								if($invoice->invoicetype!='Cash')
+								{
+									echo $invoice->customer_ledgers->name;
+								} 
+								else
+								{ 
+									echo $invoice->customer_ledgers['customer']['name'];
+								} ?></td>
 						<td align="right"><?= $this->Number->format($invoice->total_amount_after_tax,[ 'places' => 2]) ?></td>
 						<td class="actions">
 							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $invoice->id]) ?>
 							<?= $this->Html->link(__('View'), ['action' => 'view', $invoice->id]) ?>
+							<?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $invoice->id], ['confirm' => __('Are you sure you want to delete # {0}?', $invoice->id)]) ?>
 						</td>
 					</tr>
 					<?php endforeach; ?>

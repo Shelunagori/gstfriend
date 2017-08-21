@@ -29,6 +29,7 @@ $this->set('title', 'List');
 						<td style="text-align:right"><?= h($itemDiscount->price) ?></td>
 						<td class="actions">
 							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $itemDiscount->id]) ?>
+							<?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $itemDiscount->id], ['confirm' => __('Are you sure you want to delete # {0}?', $itemDiscount->id)]) ?>
 						</td>
 					</tr>
 					<?php endforeach; ?>

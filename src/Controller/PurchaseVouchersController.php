@@ -24,7 +24,7 @@ class PurchaseVouchersController extends AppController
         $this->paginate = [
             'contain' => [ 'Companies','SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers']]
         ];
-        $purchaseVouchers = $this->paginate($this->PurchaseVouchers->find()->order(['PurchaseVouchers.id'=>'DESC']));
+        $purchaseVouchers = $this->paginate($this->PurchaseVouchers->find()->where(['status' => 0])->order(['PurchaseVouchers.id'=>'DESC']));
 
 		
 		
@@ -312,14 +312,22 @@ class PurchaseVouchersController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $purchaseVoucher = $this->PurchaseVouchers->get($id);
-        if ($this->PurchaseVouchers->delete($purchaseVoucher)) {
-            $this->Flash->success(__('The purchase voucher has been deleted.'));
-        } else {
-            $this->Flash->error(__('The purchase voucher could not be deleted. Please, try again.'));
-        }
-
+		if ($this->request->is(['patch', 'post', 'put']))
+		{
+			$purchaseVoucher = $this->PurchaseVouchers->get($id);
+			$query = $this->PurchaseVouchers->query();
+				$query->update()
+					->set(['status' => 1])
+					->where(['id' => $id])
+					->execute();
+			
+			if ($this->PurchaseVouchers->save($purchaseVoucher)) {
+				
+				$this->Flash->success(__('The purchase voucher has been deleted.'));
+			} else {
+				$this->Flash->error(__('The purchase voucher could not be deleted. Please, try again.'));
+			}
+		}
         return $this->redirect(['action' => 'index']);
     }
 }
