@@ -45,6 +45,25 @@ class PurchaseVoucherRowsTable extends Table
             'foreignKey' => 'item_id',
             'joinType' => 'LEFT'
         ]);
+
+		$this->belongsTo('CgstLedger', [
+			'className' => 'Ledgers',
+			'foreignKey' => 'cgst_ledger_id',
+			'propertyName' => 'cgst_ledger',
+		]);
+		
+		$this->belongsTo('SgstLedger', [
+			'className' => 'Ledgers',
+			'foreignKey' => 'sgst_ledger_id',
+			'propertyName' => 'sgst_ledger',
+		]);
+
+		$this->belongsTo('IgstLedger', [
+			'className' => 'Ledgers',
+			'foreignKey' => 'igst_ledger_id',
+			'propertyName' => 'igst_ledger',
+		]);		
+		
     }
 
     /**

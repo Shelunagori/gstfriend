@@ -59,7 +59,7 @@ class InvoiceRowsTable extends Table
 			
 		$this->belongsTo('TaxIGST', [
 			'className' => 'Ledgers',
-			'foreignKey' => 'igst_ledger_id',
+			'foreignKey' => 'igst_rate',
 			'propertyName' => 'igst',
 		]);		
 		

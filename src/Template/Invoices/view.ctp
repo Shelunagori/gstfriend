@@ -58,7 +58,8 @@ p{
 				<?php foreach($companies as $company) {?>
 					<span style="font-size:30px;color: #c4151c !important;" style=""><?= $company->name ?></span><br/>
 					<span style="color: #4a4c4c;"><?= $company->address ?></span><br/>
-					<span style="color: #4a4c4c;"><?= $company->district ?>&nbsp,&nbsp<?= $company->state ?></span><br/>
+					<span style="color: #4a4c4c;"><?= $company->district ?>&nbsp;&nbsp;
+					<?= $company->state ?></span><br/>
 					<span style="color: #4a4c4c;"><?= $company->phone_no ?></span><br/>
 					<span style="color: #4a4c4c;">GSTIN: 08BICPD5795A1ZG</span></b>
 				<?php } ?>	
@@ -158,7 +159,7 @@ p{
 			</thead>
 			<tbody>
 			<?php $i=0; if(!empty($invoice->invoice_rows)) {
-			foreach($invoice->invoice_rows as $invoice_row){ ?>
+			foreach($invoice->invoice_rows as $invoice_row){  ?>
 				<tr>
 					<td style="text-align:center;border-left: none;"><?= ++$i ?></td>
 					<td><?= h($invoice_row->item->name) ?></td>
@@ -169,6 +170,7 @@ p{
 					<td style="text-align:right;"><?= $invoice_row->discount_amount ?></td>
 					<td style="text-align:right;"><?= $invoice_row->taxable_value ?></td>
 					<td style="text-align:right;">
+
 					<?php 
 						if($invoice_row->cgst->tax_percentage!= 0)
 						{
@@ -195,6 +197,25 @@ p{
 						}
 						else{ echo 0; }
 					?>%</td>
+
+						<?php if(!empty($invoice_row->cgst)) {
+							echo $invoice_row->cgst->tax_percentage.'%';
+							} else { echo '0%'; }  ?>
+					</td>
+					<td style="text-align:right;"><?= $invoice_row->cgst_amount ?></td>
+					<td style="text-align:right;">
+						<?php if(!empty($invoice_row->sgst)) {
+							echo $invoice_row->sgst->tax_percentage.'%';
+							} else { echo '0%'; }  ?>					
+					</td>
+					<td style="text-align:right;"><?= $invoice_row->sgst_amount ?></td>
+					<td style="text-align:right;">
+					<?php 
+							if(!empty($invoice_row->igst)) {
+							echo $invoice_row->igst->tax_percentage.'%';
+							} else { echo '0%'; }					
+					 ?></td>
+
 					<td style="text-align:right;"><?= $invoice_row->igst_amount ?></td>
 					<td style="text-align:right;border-right: none;"><?= $invoice_row->total ?></td>
 				</tr>
