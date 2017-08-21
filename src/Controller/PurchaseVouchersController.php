@@ -26,10 +26,7 @@ class PurchaseVouchersController extends AppController
         ];
         $purchaseVouchers = $this->paginate($this->PurchaseVouchers->find()->where(['status' => 0])->order(['PurchaseVouchers.id'=>'DESC']));
 
-		
-		
-		
-        $this->set(compact('purchaseVouchers'));
+		$this->set(compact('purchaseVouchers'));
         $this->set('_serialize', ['purchaseVouchers']);
 		$this->set('active_menu', 'PurchaseVouchers.Index');
     }
