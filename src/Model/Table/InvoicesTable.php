@@ -52,6 +52,31 @@ class InvoicesTable extends Table
 			'propertyName' => 'sales_ledgers',
 		]);
 		
+		$this->belongsTo('CgstLedger', [
+			'className' => 'Ledgers',
+			'foreignKey' => 'cgst_rate',
+			'propertyName' => 'cgst_ledger',
+		]);
+		
+		$this->belongsTo('SgstLedger', [
+			'className' => 'Ledgers',
+			'foreignKey' => 'sgst_rate',
+			'propertyName' => 'sgst_ledger',
+		]);
+
+
+		$this->belongsTo('IgstLedger', [
+			'className' => 'Ledgers',
+			'foreignKey' => 'igst_ledger_id',
+			'propertyName' => 'igst_ledger',
+		]);		
+		
+		$this->belongsTo('Ledgers', [
+            'foreignKey' => 'ledger_id',
+            'joinType' => 'INNER'
+        ]);
+		
+		
 		$this->belongsTo('Companies');		
 		
         $this->hasMany('InvoiceRows', [

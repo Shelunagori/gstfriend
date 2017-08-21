@@ -168,11 +168,33 @@ p{
 					<td style="text-align:right;"><?= $invoice_row->amount ?></td>
 					<td style="text-align:right;"><?= $invoice_row->discount_amount ?></td>
 					<td style="text-align:right;"><?= $invoice_row->taxable_value ?></td>
-					<td style="text-align:right;"><?= $invoice_row->cgst->tax_percentage ?>%</td>
+					<td style="text-align:right;">
+					<?php 
+						if($invoice_row->cgst->tax_percentage!= 0)
+						{
+							echo $invoice_row->cgst->tax_percentage;
+						}
+						else{ echo 0; }
+					?>%</td>		
 					<td style="text-align:right;"><?= $invoice_row->cgst_amount ?></td>
-					<td style="text-align:right;"><?= $invoice_row->sgst->tax_percentage ?>%</td>
+					<td style="text-align:right;">
+					<?php 
+						if($invoice_row->sgst->tax_percentage!= 0)
+						{
+							echo $invoice_row->sgst->tax_percentage;
+						}
+						else{ echo 0; }
+						 
+					?>%</td>
 					<td style="text-align:right;"><?= $invoice_row->sgst_amount ?></td>
-					<td style="text-align:right;"><?= $invoice_row->igst->tax_percentage ?>%</td>
+					<td style="text-align:right;">
+					<?php 
+						if($invoice_row->igst->tax_percentage!= 0)
+						{
+							echo $invoice_row->igst->tax_percentage;
+						}
+						else{ echo 0; }
+					?>%</td>
 					<td style="text-align:right;"><?= $invoice_row->igst_amount ?></td>
 					<td style="text-align:right;border-right: none;"><?= $invoice_row->total ?></td>
 				</tr>
@@ -208,6 +230,10 @@ p{
 				<tr>
 					<td style="text-align:right;"><b>Total SGST</b></td>
 					<td style="text-align:right;border-right: none;"><?= $invoice->total_sgst ?></td>
+				</tr>
+				<tr>
+					<td style="text-align:right;"><b>Total IGST</b></td>
+					<td style="text-align:right;border-right: none;"><?= $invoice->total_igst ?></td>
 				</tr>
 				<tr>
 					<td style="text-align:right;"><b>Total Amount after Tax</b></td>
