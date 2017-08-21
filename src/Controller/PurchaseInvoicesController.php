@@ -56,9 +56,37 @@ class PurchaseInvoicesController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
         $purchaseInvoice = $this->PurchaseInvoices->get($id, [
-            'contain' => []
+            'contain' => ['SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers'],'Companies', 'AccountingEntries', 'PurchaseInvoiceRows'=>['Items']]
         ]);
-
+		$cgst_per=[];
+		$sgst_per=[];
+		$igst_per=[];
+ 		foreach($purchaseInvoice->purchase_invoice_rows as $purchase_invoice_row){
+			if($purchase_invoice_row->cgst_ledger_id > 0){
+				$cgst_per[$purchase_invoice_row->id]=$this->PurchaseInvoices->Ledgers->get(@$purchase_invoice_row->cgst_ledger_id);
+			}
+			else{ 
+					$cgst_per[$purchase_invoice_row->id] = 0;
+				}
+			if($purchase_invoice_row->sgst_ledger_id > 0){
+				$sgst_per[$purchase_invoice_row->id]=$this->PurchaseInvoices->Ledgers->get(@$purchase_invoice_row->sgst_ledger_id);
+			}
+			else{ 
+					$sgst_per[$purchase_invoice_row->id] = 0; 
+				}
+			if($purchase_invoice_row->igst_ledger_id > 0){
+				$igst_per[$purchase_invoice_row->id]=$this->PurchaseInvoices->Ledgers->get(@$purchase_invoice_row->igst_ledger_id);
+			}
+			else{
+					$igst_per[$purchase_invoice_row->id] = 0;
+				}
+			
+		}
+		// Tax value show in view page end
+		
+		$companies = $this->PurchaseInvoices->Companies->find()->where(['id' => $company_id]);
+		
+		$this->set(compact('cgst_per','sgst_per','igst_per','companies'));
         $this->set('purchaseInvoice', $purchaseInvoice);
         $this->set('_serialize', ['purchaseInvoice']);
     }

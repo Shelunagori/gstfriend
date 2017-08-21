@@ -60,6 +60,8 @@ class PurchaseInvoiceRowsTable extends Table
 			'propertyName' => 'igst_ledger',
 		]);		
 		
+		$this->belongsTo('Items');
+		
     }
 
     /**

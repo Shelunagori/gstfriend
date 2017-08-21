@@ -78,6 +78,8 @@ class PurchaseInvoicesTable extends Table
         ]);
 		
 		$this->belongsTo('TaxTypes');
+		
+		$this->belongsTo('Companies');
 
         $this->setTable('purchase_invoices');
         $this->setDisplayField('id');
