@@ -134,19 +134,19 @@ class PurchaseInvoicesController extends AppController
 						if($input_gst_id->gst_type == 'CGST')
 						{
 							$cgst_amount = $input_gst_id->tax_amount/2;
-							$purchaseInvoice['purchase_invoice_others']['CGST'] = ['cgst_ledger_id' =>$input_gst_id->id,'cgst_amount'=>$cgst_amount];
+							$purchaseInvoice['purchase_invoice_others'][]['CGST'] = ['cgst_ledger_id' =>$input_gst_id->id,'cgst_amount'=>$cgst_amount];
 						}
 
 						if($input_gst_id->gst_type == 'SGST')
 						{
 							$sgst_amount = $input_gst_id->tax_amount/2;
-							$purchaseInvoice['purchase_invoice_others']['SGST'] = ['sgst_ledger_id' =>$input_gst_id->id,'sgst_amount'=>$sgst_amount];
+							$purchaseInvoice['purchase_invoice_others'][]['SGST'] = ['sgst_ledger_id' =>$input_gst_id->id,'sgst_amount'=>$sgst_amount];
 						}
 						
 						if($input_gst_id->gst_type == 'IGST')
 						{
 							$igst_amount = $input_gst_id->tax_amount;
-							$purchaseInvoice['purchase_invoice_others']['IGST'] = ['igst_ledger_id' =>$input_gst_id->id,'igst_amount'=>$igst_amount];
+							$purchaseInvoice['purchase_invoice_others'][]['IGST'] = ['igst_ledger_id' =>$input_gst_id->id,'igst_amount'=>$igst_amount];
 						}						
 					}
 				}
@@ -155,8 +155,10 @@ class PurchaseInvoicesController extends AppController
 		//pr($purchaseInvoice->purchase_invoice_others); exit;
             if ($this->PurchaseInvoices->save($purchaseInvoice)) {
 			
-			foreach($purchaseInvoice->purchase_invoice_others as $key => $purchase_invoice_other)
+			foreach($purchaseInvoice->purchase_invoice_others as $purchase_invoice_other_data)
 			{ 
+			foreach($purchase_invoice_other_data as $key => $purchase_invoice_other)	
+			{	
 				if($key == 'CGST')
 				{
 					$query_insert = $this->PurchaseInvoices->PurchaseInvoiceRows->query();
@@ -229,7 +231,7 @@ class PurchaseInvoicesController extends AppController
 					]);
 					$query_insert->execute();		
 				}			
-				
+			}	
 			} 
 			
 				if($purchaseInvoice->total !=0)
@@ -303,23 +305,53 @@ class PurchaseInvoicesController extends AppController
 			$purchaseInvoice->transaction_date = date('Y-m-d',strtotime($purchaseInvoice->transaction_date));
 			$purchaseInvoice->company_id = $company_id;
             
-				
-			foreach($purchaseInvoice->purchase_invoice_rows as $purchase_invoice_row)
+			
+			foreach($purchaseInvoice->purchase_invoice_others as $purchase_invoice_row)
 			{
+				
 				$taxtypes[] = $this->PurchaseInvoices->TaxTypes->TaxTypeRows->find()
-				->where(['tax_type_id'=>$purchase_invoice_row->tax_type_id])->toArray();
+				->where(['tax_type_id'=>$purchase_invoice_row['tax_type_id']])->toArray();
+
+				
+				foreach($taxtypes as $taxtype)
+				{   
+					foreach($taxtype as $key => &$taxtyp)
+					{	if($purchase_invoice_row['tax_type_id'] == $taxtyp->tax_type_id)
+						{
+							$taxtyp['tax_amount'] = $purchase_invoice_row['tax_amount'];
+						}
+						
+					}
+				}	
 			}
 			
+			//pr($taxtypes);exit;
 			
 			foreach($taxtypes as $taxtype)
 			{
 				foreach($taxtype as $taxtyp)
 				{
+				
 				 $input_gst_ids[] = $this->PurchaseInvoices->Ledgers->find()
 				->where(['name'=>$taxtyp->tax_type_name,'accounting_group_id'=>29])->toArray(); 
+
+					foreach($input_gst_ids as $input_gst_id_data)
+					{
+						foreach($input_gst_id_data as $key => &$input_gst_id)
+						{
+							 if($taxtyp->tax_type_name == $input_gst_id->name)
+							{
+								$input_gst_id['tax_amount'] = $taxtyp->tax_amount;
+							} 
+						}						
+					}							
+
 				}
 			}
 			
+			//pr($input_gst_ids); exit;
+			unset($purchaseInvoice->purchase_invoice_others);
+			$purchaseInvoice->purchase_invoice_others = array();
 			if(!empty($input_gst_ids))
 			{
 				foreach($input_gst_ids as $input_gst_id_data)
@@ -328,89 +360,144 @@ class PurchaseInvoicesController extends AppController
 					{
 						if($input_gst_id->gst_type == 'CGST')
 						{
-							$purchaseInvoice->cgst_ledger_id = $input_gst_id->id;
+							$cgst_amount = $input_gst_id->tax_amount/2;
+							$purchaseInvoice['purchase_invoice_others'][]['CGST'] = ['cgst_ledger_id' =>$input_gst_id->id,'cgst_amount'=>$cgst_amount];
 						}
 
 						if($input_gst_id->gst_type == 'SGST')
 						{
-							$purchaseInvoice->sgst_ledger_id = $input_gst_id->id;
+							$sgst_amount = $input_gst_id->tax_amount/2;
+							$purchaseInvoice['purchase_invoice_others'][]['SGST'] = ['sgst_ledger_id' =>$input_gst_id->id,'sgst_amount'=>$sgst_amount];
 						}
 						
 						if($input_gst_id->gst_type == 'IGST')
 						{
-							$purchaseInvoice->igst_ledger_id = $input_gst_id->id;
+							$igst_amount = $input_gst_id->tax_amount;
+							$purchaseInvoice['purchase_invoice_others'][]['IGST'] = ['igst_ledger_id' =>$input_gst_id->id,'igst_amount'=>$igst_amount];
 						}						
-						
 					}
 				}
 			}
+				
+		//pr($purchaseInvoice->purchase_invoice_others); exit;
+            if ($this->PurchaseInvoices->save($purchaseInvoice)) {
 			
-			if ($this->PurchaseInvoices->save($purchaseInvoice)) {	
-				
-				
-				//Acconting Entry Start
+			foreach($purchaseInvoice->purchase_invoice_others as $purchase_invoice_other_data)
+			{ 
+			foreach($purchase_invoice_other_data as $key => $purchase_invoice_other)	
+			{	
+				if($key == 'CGST')
+				{
+					$query_insert = $this->PurchaseInvoices->PurchaseInvoiceRows->query();
+					$query_insert->insert(['cgst_ledger_id','cgst_amount','purchase_invoice_id'])
+					->values([
+						'cgst_ledger_id' => $purchase_invoice_other['cgst_ledger_id'],
+						'cgst_amount' => $purchase_invoice_other['cgst_amount'],
+						'purchase_invoice_id' => $purchaseInvoice->id
+					]);
+					$query_insert->execute();
+					
+					
+					$query_insert = $this->PurchaseInvoices->AccountingEntries->query();
+					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_voucher_id','company_id'])
+					->values([
+						'ledger_id'=>$purchase_invoice_other['cgst_ledger_id'],
+						'debit'=>$purchase_invoice_other['cgst_amount'],
+						'credit'=>0,
+						'transaction_date'=>$purchaseInvoice->transaction_date,
+						'purchase_voucher_id'=>$purchaseInvoice->id,
+						'company_id'=>$company_id
+					]);
+					$query_insert->execute();					
+				}
+
+				if($key == 'SGST')
+				{
+					$query_insert = $this->PurchaseInvoices->PurchaseInvoiceRows->query();
+					$query_insert->insert(['sgst_ledger_id','sgst_amount','purchase_invoice_id'])
+					->values([
+						'sgst_ledger_id' => $purchase_invoice_other['sgst_ledger_id'],
+						'sgst_amount' => $purchase_invoice_other['sgst_amount'],
+						'purchase_invoice_id' => $purchaseInvoice->id
+					]);
+					$query_insert->execute();
+					
+					$query_insert = $this->PurchaseInvoices->AccountingEntries->query();
+					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_voucher_id','company_id'])
+					->values([
+						'ledger_id'=>$purchase_invoice_other['sgst_ledger_id'],
+						'debit'=>$purchase_invoice_other['sgst_amount'],
+						'credit'=>0,
+						'transaction_date'=>$purchaseInvoice->transaction_date,
+						'purchase_voucher_id'=>$purchaseInvoice->id,
+						'company_id'=>$company_id
+					]);
+					$query_insert->execute();		
+					
+				}
+				if($key == 'IGST')
+				{
+					$query_insert = $this->PurchaseInvoices->PurchaseInvoiceRows->query();
+					$query_insert->insert(['igst_ledger_id','igst_amount','purchase_invoice_id'])
+					->values([
+						'igst_ledger_id' => $purchase_invoice_other['igst_ledger_id'],
+						'igst_amount' => $purchase_invoice_other['igst_amount'],
+						'purchase_invoice_id' => $purchaseInvoice->id
+					]);
+					$query_insert->execute();
+					
+					$query_insert = $this->PurchaseInvoices->AccountingEntries->query();
+					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_voucher_id','company_id'])
+					->values([
+						'ledger_id'=>$purchase_invoice_other['igst_ledger_id'],
+						'debit'=>$purchase_invoice_other['igst_amount'],
+						'credit'=>0,
+						'transaction_date'=>$purchaseInvoice->transaction_date,
+						'purchase_voucher_id'=>$purchaseInvoice->id,
+						'company_id'=>$company_id
+					]);
+					$query_insert->execute();		
+				}			
+			}	
+			} 
+			
 				if($purchaseInvoice->total !=0)
 				{		
-					$Accounting_entries = $this->PurchaseInvoices->AccountingEntries->newEntity();
-					$Accounting_entries->ledger_id = $purchaseInvoice->supplier_ledger_id;
-					$Accounting_entries->debit = 0;
-					$Accounting_entries->credit = $purchaseInvoice->total;
-					$Accounting_entries->transaction_date = $purchaseInvoice->transaction_date;
-					$Accounting_entries->purchase_voucher_id = $purchaseInvoice->id;
-					$Accounting_entries->company_id=$company_id;
-					$this->PurchaseInvoices->AccountingEntries->save($Accounting_entries);				
+					$query_insert = $this->PurchaseInvoices->AccountingEntries->query();
+					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_voucher_id','company_id'])
+					->values([
+						'ledger_id'=>$purchaseInvoice->supplier_ledger_id,
+						'debit'=>0,
+						'credit'=>$purchaseInvoice->total,
+						'transaction_date'=>$purchaseInvoice->transaction_date,
+						'purchase_voucher_id'=>$purchaseInvoice->id,
+						'company_id'=>$company_id
+					]);
+					$query_insert->execute();							
+					
+					
 				}
 				
 				if($purchaseInvoice->base_amount !=0)
 				{		
-					$Accounting_entries = $this->PurchaseInvoices->AccountingEntries->newEntity();
-					$Accounting_entries->ledger_id = $purchaseInvoice->purchase_ledger_id;
-					$Accounting_entries->debit = $purchaseInvoice->base_amount;
-					$Accounting_entries->credit = 0;
-					$Accounting_entries->transaction_date = $purchaseInvoice->transaction_date;
-					$Accounting_entries->purchase_voucher_id = $purchaseInvoice->id;
-					$Accounting_entries->company_id=$company_id;
-					$this->PurchaseInvoices->AccountingEntries->save($Accounting_entries);				
+					$query_insert = $this->PurchaseInvoices->AccountingEntries->query();
+					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_voucher_id','company_id'])
+					->values([
+						'ledger_id'=>$purchaseInvoice->purchase_ledger_id,
+						'debit'=>$purchaseInvoice->base_amount,
+						'credit'=>0,
+						'transaction_date'=>$purchaseInvoice->transaction_date,
+						'purchase_voucher_id'=>$purchaseInvoice->id,
+						'company_id'=>$company_id
+					]);
+					$query_insert->execute();	
 				}				
-			
 				
-				foreach($purchaseInvoice->purchase_invoice_rows as $purchase_invoice_row)
-				{
-					$Accounting_entries = $this->PurchaseInvoices->AccountingEntries->newEntity();
-					$Accounting_entries->ledger_id = $purchase_invoice_row->cgst_ledger_id;
-					$Accounting_entries->debit = $purchase_invoice_row->cgst_amount;
-					$Accounting_entries->credit = 0;
-					$Accounting_entries->transaction_date = $purchaseInvoice->transaction_date;
-					$Accounting_entries->purchase_voucher_id = $purchaseInvoice->id;
-					$Accounting_entries->company_id=$company_id;
-					$this->PurchaseInvoices->AccountingEntries->save($Accounting_entries);
-
-					$Accounting_entries = $this->PurchaseInvoices->AccountingEntries->newEntity();
-					$Accounting_entries->ledger_id = $purchase_invoice_row->sgst_ledger_id;
-					$Accounting_entries->debit = $purchase_invoice_row->sgst_amount;
-					$Accounting_entries->credit = 0;
-					$Accounting_entries->transaction_date = $purchaseInvoice->transaction_date;
-					$Accounting_entries->purchase_voucher_id = $purchaseInvoice->id;
-					$Accounting_entries->company_id=$company_id;
-					$this->PurchaseInvoices->AccountingEntries->save($Accounting_entries);
-
-					$Accounting_entries = $this->PurchaseInvoices->AccountingEntries->newEntity();
-					$Accounting_entries->ledger_id = $purchase_invoice_row->igst_ledger_id;
-					$Accounting_entries->debit = $purchase_invoice_row->igst_amount;
-					$Accounting_entries->credit = 0;
-					$Accounting_entries->transaction_date = $purchaseInvoice->transaction_date;
-					$Accounting_entries->purchase_voucher_id = $purchaseInvoice->id;
-					$Accounting_entries->company_id=$company_id;
-					$this->PurchaseInvoices->AccountingEntries->save($Accounting_entries);					
-					
-				}
-				
-				
-				//Accounting Entry End	
                 $this->Flash->success(__('The purchase invoice has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
+         
             $this->Flash->error(__('The purchase invoice could not be saved. Please, try again.'));
         }
 	

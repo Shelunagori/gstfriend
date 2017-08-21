@@ -90,7 +90,7 @@ class InvoicesController extends AppController
 				$invoice->invoice_no=1;
 			} 
 			$invoice->transaction_date = date('Y-m-d',strtotime($invoice->transaction_date));
-			pr();    exit;
+			
 			if ($this->Invoices->save($invoice)) {
 				
 				if($invoice->invoicetype == 'Cash')

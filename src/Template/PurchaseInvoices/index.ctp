@@ -28,8 +28,7 @@ $this->set('title', 'List');
 						<th scope="col" >Date</th>
 						<th scope="col" >Invoice No.</th>
 						<th scope="col" >Base Amount</th>
-						<th scope="col" >CGST Amount</th>
-						<th scope="col" >SGST Amount</th>
+						<th scope="col" >Tax Amount</th>
 						<th scope="col" >Total</th>
 						<th scope="col" class="actions" ><?= __('Actions') ?></th>
 					</tr>
@@ -44,7 +43,6 @@ $this->set('title', 'List');
 						<td><?= $this->Number->format($purchaseInvoice->invoice_no) ?></td>
 						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->base_amount) ?></td>
 						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->total_cgst) ?></td>
-						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->total_sgst) ?></td>
 						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->total) ?></td>
 						<td class="actions">
 							

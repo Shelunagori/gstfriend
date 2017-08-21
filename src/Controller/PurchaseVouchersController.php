@@ -21,10 +21,12 @@ class PurchaseVouchersController extends AppController
     public function index()
     {
 		$this->viewBuilder()->layout('index_layout');
-        $this->paginate = [
-            'contain' => [ 'Companies','SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers']]
-        ];
-        $purchaseVouchers = $this->paginate($this->PurchaseVouchers->find()->where(['status' => 0])->order(['PurchaseVouchers.id'=>'DESC']));
+		
+		$purchaseVoucher = $this->PurchaseVouchers->find()
+		->contain(['Companies','SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers']])
+		->where(['PurchaseVouchers.status' => 0])->order(['PurchaseVouchers.id'=>'DESC']);
+     
+        $purchaseVouchers = $this->paginate($purchaseVoucher);
 
 		$this->set(compact('purchaseVouchers'));
         $this->set('_serialize', ['purchaseVouchers']);
