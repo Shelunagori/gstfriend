@@ -82,7 +82,7 @@ $this->set('title', 'Add Invoice');
 							</tbody>
 							<tfoot>
 								<td><b>Total GST</b></td>
-								<td colspan='2'><b><?php echo $this->Form->control('total_cgst',['label'=>false,'type'=>'text','placeholder'=>'0.00','style'=>'text-align: right;','class'=>'gst totalgst','readonly']); ?></b></td>
+								<td colspan='2'><b><?php echo $this->Form->control('total_igst',['label'=>false,'type'=>'text','placeholder'=>'0.00','style'=>'text-align: right;','class'=>'gst totalgst','readonly']); ?></b></td>
 								
 							</tfoot>
 						</table>
@@ -157,15 +157,15 @@ $(document).ready(function(){
 	
 	calculation();
 	function calculation(){ 
-		var total_cgst=0;
+		var total_igst=0;
 		$("#main_table tbody#main_tbody tr.main_tr").each(function(){
 			
 			var cgst_amount=$(this).find("td:nth-child(2) input").val();
 			if(!cgst_amount){ cgst_amount=0; }
-			total_cgst=parseFloat(total_cgst)+parseFloat(cgst_amount);
+			total_igst=parseFloat(total_igst)+parseFloat(cgst_amount);
 			
 		});
-		$('input[name="total_cgst"]').val(total_cgst.toFixed(2));
+		$('input[name="total_igst"]').val(total_igst.toFixed(2));
 	}
 
 	

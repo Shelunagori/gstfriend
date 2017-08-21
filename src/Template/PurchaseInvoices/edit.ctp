@@ -75,7 +75,8 @@ $this->set('title', 'Edit Invoice');
 						<table width="100%" class="tbl" id="main_table">
 							<thead>
 								<tr style="background-color: #e4e3e3;">
-									<th colspan="2">IGST Amount</th>
+									<th>GST Type</th>
+									<th>Item Tax Amount </th>
 									<th>Action</th>
 								</tr>	
 							</thead>
@@ -94,10 +95,11 @@ $this->set('title', 'Edit Invoice');
 								?>
 								<!--Get Gst Value with Percent end--->
 								<?php  
-									 $i=1;
+									 $i=1;   pr($purchaseInvoice->purchase_invoice_rows);    exit;
 									foreach ($purchaseInvoice->purchase_invoice_rows as $purchaseInvoiceRow){
 								?>
 								<tr class="main_tr">
+									
 									<td class="form-group">
 										<?php echo $this->Form->control('tax_type_id', ['options' => $taxtypes,'label' => false,'class' => 'form-control input-sm ','placeholder'=>'Enter Item Name','value'=>$purchaseInvoiceRow->sgst_ledger_id]); ?>
 									</td>
