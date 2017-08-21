@@ -197,25 +197,6 @@ p{
 						}
 						else{ echo 0; }
 					?>%</td>
-
-						<?php if(!empty($invoice_row->cgst)) {
-							echo $invoice_row->cgst->tax_percentage.'%';
-							} else { echo '0%'; }  ?>
-					</td>
-					<td style="text-align:right;"><?= $invoice_row->cgst_amount ?></td>
-					<td style="text-align:right;">
-						<?php if(!empty($invoice_row->sgst)) {
-							echo $invoice_row->sgst->tax_percentage.'%';
-							} else { echo '0%'; }  ?>					
-					</td>
-					<td style="text-align:right;"><?= $invoice_row->sgst_amount ?></td>
-					<td style="text-align:right;">
-					<?php 
-							if(!empty($invoice_row->igst)) {
-							echo $invoice_row->igst->tax_percentage.'%';
-							} else { echo '0%'; }					
-					 ?></td>
-
 					<td style="text-align:right;"><?= $invoice_row->igst_amount ?></td>
 					<td style="text-align:right;border-right: none;"><?= $invoice_row->total ?></td>
 				</tr>
