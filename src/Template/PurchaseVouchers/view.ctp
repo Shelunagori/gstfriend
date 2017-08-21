@@ -215,7 +215,7 @@ p{
 		<table width="100%" class="tbl total">
 			<tbody>
 				<tr>
-					<td style="text-align:left;border-left: none;border-top: none;" rowspan="4" width="70%" valign="top">
+					<td style="text-align:left;border-left: none;border-top: none;" rowspan="5" width="70%" valign="top">
 						<p><b>Amount in words : </b>
 						<?= h(ucwords($this->NumberWords->convert_number_to_words($rupees))) ?> Rupees<?= h($paisa_text) ?>
 						</p>
