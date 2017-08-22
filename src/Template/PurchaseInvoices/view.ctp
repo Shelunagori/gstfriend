@@ -1,49 +1,5 @@
 <?php
-/**
-  * @var \App\View\AppView $this
-  * @var \App\Model\Entity\PurchaseInvoice $purchaseInvoice
-  */
-?>
-
-<div class="purchaseInvoices view large-9 medium-8 columns content">
-    <h3><?= h($purchaseInvoice->id) ?></h3>
-    <table class="vertical-table">
-        <tr>
-            <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($purchaseInvoice->id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Invoice No') ?></th>
-            <td><?= $this->Number->format($purchaseInvoice->invoice_no) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Base Amount') ?></th>
-            <td><?= $this->Number->format($purchaseInvoice->base_amount) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Cgst') ?></th>
-            <td><?= $this->Number->format($purchaseInvoice->cgst) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Sgst') ?></th>
-            <td><?= $this->Number->format($purchaseInvoice->sgst) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Total') ?></th>
-            <td><?= $this->Number->format($purchaseInvoice->total) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Date') ?></th>
-            <td><?= h($purchaseInvoice->date) ?></td>
-        </tr>
-    </table>
-</div>
-<?php
-/**
-  * @var \App\View\AppView $this
-  * @var \App\Model\Entity\PurchaseVoucher $purchaseVoucher
-  */
-  $this->set('title', 'View');
+	$this->set('title', 'View');
 ?>
 <style>
 .maindiv{
@@ -100,7 +56,9 @@ p{
 			<td width="30%" style="padding:5px;"><?php echo $this->Html->image('/img/viewlogo.png', ['height' => '100px']); ?></td>
 			<td>
 				<div align="center" style="color: #c4151c;"><b>
-					<?php foreach($companies as $company) {?>
+					<?php 
+						foreach($companies as $company) 
+					{?>
 					<span style="font-size:30px;color: #c4151c !important;" style=""><?= $company->name ?></span><br/>
 					<span style="color: #4a4c4c;"><?= $company->address ?></span><br/>
 					<span style="color: #4a4c4c;"><?= $company->district ?>&nbsp,&nbsp<?= $company->state ?></span><br/>
@@ -120,11 +78,11 @@ p{
 					<table>
 						<tr>
 							<td width="70%"><b>Voucher No.</b></td>
-							<td><?= $this->Number->format($purchaseInvoice->voucher_no) ?></td>
+							<td><?= $this->Number->format($purchaseInvoice->id) ?></td>
 						</tr>
 						<tr>
 							<td width="50%"><b>Reference No.</b></td>
-							<td><?= h($purchaseInvoice->reference_no) ?></td>
+							<td><?= h($purchaseInvoice->invoice_no) ?></td>
 						</tr>
 						<tr>
 							<td width="50%"><b>Transaction Date</b></td>
@@ -165,30 +123,28 @@ p{
 			<thead>
 				<tr style="background-color: #e4e3e3;">
 					<th rowspan="2" style="border-left: none;">Sr. No.</th>
-					<th rowspan="2" width="80">Base Amount</th>
 					<th colspan="2">CGST</th>
 					<th colspan="2">SGST</th>
-					<th colspan="2">IGST</th>
-					<th rowspan="2" style="border-right: none;" width="80">Total</th>
+					<th colspan="2" style="border-right: none;">IGST</th>
 				</tr>
 				<tr style="background-color: #e4e3e3;">
-					<th width="80">Rate</th>
-					<th width="80">Amount</th>
-					<th width="80">Rate</th>
-					<th width="80">Amount</th>
-					<th width="80">Rate</th>
-					<th width="80">Amount</th>
+					<th >Rate</th>
+					<th >Amount</th>
+					<th >Rate</th>
+					<th >Amount</th>
+					<th >Rate</th>
+					<th >Amount</th>
 				</tr>
 			</thead>
 			<tbody id="mainTbody">
 				<?php   $i=0; //pr($purchaseVoucher->purchase_voucher_rows); exit;
+						$totalcgst=0;     $totalsgst=0;	   	$totaligst=0;
 						foreach ($purchaseInvoice->purchase_invoice_rows as $purchaseInvoiceRows):
 						$i++;
 				?>
 				<tr>
-					<td width="15px"style="border-left: none;"><?= $this->Number->format($i) ?></td>
-					<td width="40" style="text-align:right"><?= $this->Number->format($purchaseInvoiceRows->base_amount) ?></td>
-					<td width="35px" style="text-align:right">
+					<td width="20px" style="border-left: none;"><?= $this->Number->format($i) ?></td>
+					<td  style="text-align:right">
 					<?php 
 					if($cgst_per[$purchaseInvoiceRows->id]['tax_percentage'] != 0)
 					{
@@ -198,8 +154,8 @@ p{
 
 					?>					
 					</td>
-					<td width="43px" style="text-align:right"><?= $this->Number->format($purchaseInvoiceRows->cgst_amount) ?></td>
-					<td width="34px" style="text-align:right">
+					<td  style="text-align:right"><?= $this->Number->format($purchaseInvoiceRows->cgst_amount) ?></td>
+					<td  style="text-align:right">
 					<?php 
 					if($sgst_per[$purchaseInvoiceRows->id]['tax_percentage'] != 0)
 					{
@@ -210,9 +166,9 @@ p{
 					?>					
 					</td>
 
-					<td width="39px" style="text-align:right"><?= $this->Number->format($purchaseInvoiceRows->sgst_amount) ?></td>
+					<td  style="text-align:right"><?= $this->Number->format($purchaseInvoiceRows->sgst_amount) ?></td>
 
-					<td width="34px" style="text-align:right"><?php 
+					<td  style="text-align:right"><?php 
 					if($igst_per[$purchaseInvoiceRows->id]['tax_percentage'] != 0)
 					{
 						echo $igst_per[$purchaseInvoiceRows->id]['tax_percentage'].'%';
@@ -220,11 +176,16 @@ p{
 					else{ echo '0%'; }
 					?></td>
 					
-					<td width="39px" style="text-align:right"><?= $this->Number->format($purchaseInvoiceRows->igst_amount) ?></td>
-					<td style="border-right: none;text-align:right"width="31px"><?= $this->Number->format($purchaseInvoiceRows->total) ?></td>
+					<td  style="text-align:right;border-right: none;"><?= $this->Number->format($purchaseInvoiceRows->igst_amount) ?></td>
+					
 					
 				</tr>
-				<?php endforeach; ?>
+				<?php 
+						$totalcgst=$totalcgst+$purchaseInvoiceRows->cgst_amount;
+						$totalsgst=$totalsgst+$purchaseInvoiceRows->sgst_amount;
+						$totaligst=$totaligst+$purchaseInvoiceRows->igst_amount;
+						//pr($totalcgst);   exit;
+				endforeach; ?>
 			</tbody>
 		</table>
 		<!--Convert Rupees ito Word- Start-->
@@ -248,12 +209,20 @@ p{
 						<?php /* h(ucwords($this->NumberWords->convert_number_to_words($rupees))) ?> Rupees<?= h($paisa_text)  */?>
 						</p>
 					</td>
-					<td style="text-align:right;border-top: none;"><b>Total Amount before Tax</b></td>
+					<td style="text-align:right;border-top: none;"><b>Base Amount before Tax</b></td>
 					<td style="text-align:right;border-right: none;border-top: none;" width="80"><?= $this->Number->format($purchaseInvoice->base_amount) ?></td>
 				</tr>
 				<tr>
-					<td style="text-align:right;"><b>Total Tax</b></td>
-					<td style="text-align:right;border-right: none;"><?= $this->Number->format($purchaseInvoice->total_cgst) ?></td>
+					<td style="text-align:right;"><b>Total CGST</b></td>
+					<td style="text-align:right;border-right: none;"><?= $this->Number->format($totalcgst) ?></td>
+				</tr>
+				<tr>
+					<td style="text-align:right;"><b>Total SGST</b></td>
+					<td style="text-align:right;border-right: none;"><?= $this->Number->format($totalsgst) ?></td>
+				</tr>
+				<tr>
+					<td style="text-align:right;"><b>Total IGST</b></td>
+					<td style="text-align:right;border-right: none;"><?= $this->Number->format($totaligst) ?></td>
 				</tr>
 				<tr>
 					<td style="text-align:right;"><b>Total Amount after Tax</b></td>

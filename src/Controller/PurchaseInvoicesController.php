@@ -55,6 +55,7 @@ class PurchaseInvoicesController extends AppController
     public function view($id = null)
     {
 		$this->viewBuilder()->layout('index_layout');
+		$company_id=$this->Auth->User('company_id');
         $purchaseInvoice = $this->PurchaseInvoices->get($id, [
             'contain' => ['SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers'],'Companies',  'PurchaseInvoiceRows']
         ]);
