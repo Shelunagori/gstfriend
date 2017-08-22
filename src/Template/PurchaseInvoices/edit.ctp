@@ -81,30 +81,21 @@ $this->set('title', 'Edit Invoice');
 								</tr>	
 							</thead>
 							<tbody id="main_tbody">
-								<!--Get Gst Value with Percent start--->
-								<?php 
-									$Cgst=[];
-									foreach($CgstTax as $GstTaxe){
-										$Cgst[]=['text' =>$GstTaxe->name, 'value' => $GstTaxe->id, 'percentage'=>$GstTaxe->tax_percentage];
-									}
-
-									$Sgst=[];
-									foreach($SgstTax as $SgstTaxe){
-										$Sgst[]=['text' =>$SgstTaxe->name, 'value' => $SgstTaxe->id, 'percentage'=>$SgstTaxe->tax_percentage];
-									}
-								?>
-								<!--Get Gst Value with Percent end--->
+								
 								<?php  
-									 $i=1;   //pr($purchaseInvoice->purchase_invoice_rows);    exit;
-									foreach ($purchaseInvoice->purchase_invoice_rows as $purchaseInvoiceRow){
+									 $i=1;   
+									foreach ($purchaseInvoice as $purchaseInvoic){
+										//foreach ($totaltaxe as $totalta){
+										//pr($totalta);    exit;
 								?>
 								<tr class="main_tr">
 									
 									<td class="form-group">
-										<?php echo $this->Form->control('tax_type_id', ['options' => $taxtypes,'label' => false,'class' => 'form-control input-sm ','placeholder'=>'Enter Item Name','value'=>$purchaseInvoiceRow->sgst_ledger_id]); ?>
+										
+										<?php echo $this->Form->control('tax_type_id', ['options' => $taxtypes,'label' => false,'class' => 'form-control input-sm ','placeholder'=>'Enter Item Name','value'=>$purchaseInvoic->gst_type]); ?>
 									</td>
 									<td class="form-group">
-										<?php echo $this->Form->control('cgst_amount',['label' => false,'class' => 'form-control input-sm firstupercase cgst_amount addcgst','placeholder'=>'Amount','value'=>$purchaseInvoiceRow->cgst_amount]); ?> 
+										<?php echo $this->Form->control('cgst_amount',['label' => false,'class' => 'form-control input-sm firstupercase cgst_amount addcgst','placeholder'=>'Amount','value'=>$purchaseInvoic->cgst_amount]); ?> 
 									</td>
 									<td>
 										<input type="button" value="+" class="add"/>
@@ -112,7 +103,8 @@ $this->set('title', 'Edit Invoice');
 									</td>
 								</tr>	
 								<?php
-								}
+										
+									}
 								?>
 							</tbody>
 							<tfoot >
