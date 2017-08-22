@@ -36,10 +36,7 @@ $this->set('title', 'Add Invoice');
 							<div class="row">		
 								<?php echo $this->Form->input('transaction_date', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y",strtotime('today'))]); ?>
 							</div>
-							<div class='hide'>
-								<label width="30%" ><b>Purchase Ledger </b></label>
-								<?php echo $this->Form->control('purchase_ledger_id',['options'=>$PurchaseLedger,'label' => false,'class' => 'form-control input-sm']); ?> 
-							</div>
+							
 						</div>
 						<div class="form-group col-md-1">
 						</div>

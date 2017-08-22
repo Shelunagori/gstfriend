@@ -56,7 +56,7 @@ class PurchaseInvoicesController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
         $purchaseInvoice = $this->PurchaseInvoices->get($id, [
-            'contain' => ['SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers'],'Companies', 'AccountingEntries', 'PurchaseInvoiceRows'=>['Items']]
+            'contain' => ['SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers'],'Companies',  'PurchaseInvoiceRows']
         ]);
 		$cgst_per=[];
 		$sgst_per=[];
