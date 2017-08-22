@@ -329,6 +329,187 @@ class PurchaseInvoicesController extends AppController
         $purchaseInvoice = $this->PurchaseInvoices->get($id, [
             'contain' => ['PurchaseInvoiceRows']
         ]);
+		
+		//pr($purchaseInvoice->toArray()); exit;
+			foreach($purchaseInvoice->purchase_invoice_rows as $purchaseInvoic)
+			{
+				
+				$cgsttaxtypes[] = $this->PurchaseInvoices->Ledgers->find()
+				->where(['id'=>$purchaseInvoic['cgst_ledger_id'],'accounting_group_id'=>29])->toArray();
+				$sgsttaxtypes[] = $this->PurchaseInvoices->Ledgers->find()
+				->where(['id'=>$purchaseInvoic['sgst_ledger_id'],'accounting_group_id'=>29])->toArray();
+				$igsttaxtypes[] = $this->PurchaseInvoices->Ledgers->find()
+				->where(['id'=>$purchaseInvoic['igst_ledger_id'],'accounting_group_id'=>29])->toArray();
+
+				
+				foreach($cgsttaxtypes as $cgsttaxtype)
+				{   
+					foreach($cgsttaxtype as $key => &$cgsttaxtyp)
+					{	if($purchaseInvoic['cgst_ledger_id'] == $cgsttaxtyp->id)
+						{
+							$cgsttaxtyp['cgsttax_amount'] = $purchaseInvoic['cgst_amount'];
+						}
+						
+					}
+				}	
+				foreach($sgsttaxtypes as $sgsttaxtype)
+				{   
+					foreach($sgsttaxtype as $key => &$sgsttaxtyp)
+					{	if($purchaseInvoic['sgst_ledger_id'] == $sgsttaxtyp->id)
+						{
+							$sgsttaxtyp['sgsttax_amount'] = $purchaseInvoic['sgst_amount'];
+						}
+						
+					}
+				}
+				foreach($igsttaxtypes as $igsttaxtype)
+				{   
+					foreach($igsttaxtype as $key => &$igsttaxtyp)
+					{	if($purchaseInvoic['igst_ledger_id'] == $igsttaxtyp->id)
+						{
+							$igsttaxtyp['igsttax_amount'] = $purchaseInvoic['igst_amount'];
+						}
+						
+					}
+				}	
+			}
+			//pr($igsttaxtypes); exit;
+		
+			foreach($cgsttaxtypes as $cgsttaxtype)
+			{
+				foreach($cgsttaxtype as $cgsttaxtyp)
+				{
+				
+				 $cgstinput_gst_ids[] = $this->PurchaseInvoices->TaxTypes->TaxTypeRows->find()
+				->where(['tax_type_name'=>$cgsttaxtyp->name])->toArray(); 
+
+					foreach($cgstinput_gst_ids as $cgstinput_gst_ids_data)
+					{
+						foreach($cgstinput_gst_ids_data as $key => &$cgstinput_gst_id)
+						{
+							 if($cgsttaxtyp->name == $cgstinput_gst_id->tax_type_name)
+							{
+								$cgstinput_gst_id['cgsttax_amount'] = $cgsttaxtyp->cgsttax_amount;
+							} 
+						}						
+					}							
+
+				}
+			}
+			foreach($sgsttaxtypes as $sgsttaxtype)
+			{
+				foreach($sgsttaxtype as $sgsttaxtyp)
+				{
+				
+				 $sgstinput_gst_ids[] = $this->PurchaseInvoices->TaxTypes->TaxTypeRows->find()
+				->where(['tax_type_name'=>$sgsttaxtyp->name])->toArray(); 
+
+					foreach($sgstinput_gst_ids as $sgstinput_gst_ids_data)
+					{
+						foreach($sgstinput_gst_ids_data as $key => &$sgstinput_gst_id)
+						{
+							 if($sgsttaxtyp->name == $sgstinput_gst_id->tax_type_name)
+							{
+								$sgstinput_gst_id['sgsttax_amount'] = $sgsttaxtyp->sgsttax_amount;
+							} 
+						}						
+					}							
+
+				}
+			}
+			foreach($igsttaxtypes as $igsttaxtype)
+			{
+				foreach($igsttaxtype as $igsttaxtyp)
+				{
+				
+				 $igstinput_gst_ids[] = $this->PurchaseInvoices->TaxTypes->TaxTypeRows->find()
+				->where(['tax_type_name'=>$igsttaxtyp->name])->toArray(); 
+
+					foreach($igstinput_gst_ids as $igstinput_gst_ids_data)
+					{
+						foreach($igstinput_gst_ids_data as $key => &$igstinput_gst_id)
+						{
+							 if($igsttaxtyp->name == $igstinput_gst_id->tax_type_name)
+							{
+								$igstinput_gst_id['igsttax_amount'] = $igsttaxtyp->igsttax_amount;
+							} 
+						}						
+					}							
+
+				}
+			}
+		//pr($igstinput_gst_ids);    exit;
+		unset($purchaseInvoice->purchase_invoice_rows);
+			$purchaseInvoice->purchase_invoice_rows = array();
+			if(!empty($igstinput_gst_ids) || !empty($sgstinput_gst_ids) || !empty($cgstinput_gst_ids))
+			{
+				foreach($igstinput_gst_ids as $igstinput_gst_ids_data)
+				{  
+					  
+					foreach($igstinput_gst_ids_data as $igstinput_gst_id_data)
+					{
+						 
+						$igstinput_gst[] = $this->PurchaseInvoices->TaxTypes->find()
+						->where(['id'=>$igstinput_gst_id_data['tax_type_id']])->toArray();
+					}
+				} 	
+				if($igstinput_gst_id_data->tax_type_id == 'id')
+					{
+						
+						$purchaseInvoice['purchase_invoice_rows'][]['id'] = ['id' =>$igstinput_gst_id_data->tax_type_id,'igst_amount'=>$igstinput_gst_id_data->igsttax_amount];
+					}
+				
+				
+				
+				foreach($sgstinput_gst_ids as $sgstinput_gst_ids_data)
+				{  
+					  
+					foreach($sgstinput_gst_ids_data as $sgstinput_gst_id_data)
+					{
+						 
+						$sgstinput_gst[] = $this->PurchaseInvoices->TaxTypes->find()
+						->where(['id'=>$sgstinput_gst_id_data['tax_type_id']])->toArray();
+					}
+				} 	
+				if($sgstinput_gst_id_data->tax_type_id == 'id')
+					{
+						
+						$purchaseInvoice['purchase_invoice_rows'][]['id'] = ['id' =>$sgstinput_gst_id_data->tax_type_id,'sgst_amount'=>$sgstinput_gst_id_data->sgsttax_amount];
+					}
+					
+					
+				
+				foreach($cgstinput_gst_ids as $cgstinput_gst_ids_data)
+				{  
+					  
+					foreach($cgstinput_gst_ids_data as $cgstinput_gst_id_data)
+					{
+						 
+						$cgstinput_gst[] = $this->PurchaseInvoices->TaxTypes->find()
+						->where(['id'=>$cgstinput_gst_id_data['tax_type_id']])->toArray();
+					}
+				} 	
+				if($cgstinput_gst_id_data->tax_type_id == 'id')
+					{
+						
+						
+						$purchaseInvoice['purchase_invoice_rows'][]['id'] = ['id' =>$cgstinput_gst_id_data->tax_type_id,'cgst_amount'=>$cgstinput_gst_id_data->cgsttax_amount];
+					}
+			}
+		
+		
+		pr($purchaseInvoice->purchase_invoice_rows);    exit;
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
         if ($this->request->is(['patch', 'post', 'put'])) {
             $purchaseInvoice = $this->PurchaseInvoices->patchEntity($purchaseInvoice, $this->request->getData());
 			$purchaseInvoice->transaction_date = date('Y-m-d',strtotime($purchaseInvoice->transaction_date));
@@ -539,7 +720,7 @@ class PurchaseInvoicesController extends AppController
 
 		$taxtypes = $this->PurchaseInvoices->TaxTypes->find('list');
 		
-        $this->set(compact('purchaseInvoice','SupplierLedger','PurchaseLedger','CgstTax','SgstTax','taxtypes'));
+        $this->set(compact('purchaseInvoice','SupplierLedger','PurchaseLedger','CgstTax','SgstTax','taxtypes','cgstinput_gst','sgstinput_gst','igstinput_gst'));
         $this->set('_serialize', ['purchaseInvoice']);
     }
 

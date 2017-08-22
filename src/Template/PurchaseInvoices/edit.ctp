@@ -95,7 +95,7 @@ $this->set('title', 'Edit Invoice');
 								?>
 								<!--Get Gst Value with Percent end--->
 								<?php  
-									 $i=1;   pr($purchaseInvoice->purchase_invoice_rows);    exit;
+									 $i=1;   //pr($purchaseInvoice->purchase_invoice_rows);    exit;
 									foreach ($purchaseInvoice->purchase_invoice_rows as $purchaseInvoiceRow){
 								?>
 								<tr class="main_tr">
