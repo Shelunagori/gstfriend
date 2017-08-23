@@ -158,15 +158,15 @@ $(document).ready(function(){
 	
 	calculation();
 	function calculation(){ 
-		var total_igst=0;
+		var total_cgst=0;
 		$("#main_table tbody#main_tbody tr.main_tr").each(function(){
 			
 			var cgst_amount=$(this).find("td:nth-child(2) input").val();
 			if(!cgst_amount){ cgst_amount=0; }
-			total_igst=parseFloat(total_igst)+parseFloat(cgst_amount);
+			total_cgst=parseFloat(total_cgst)+parseFloat(cgst_amount);
 			
 		});
-		$('input[name="total_igst"]').val(total_igst.toFixed(2));
+		$('input[name="total_cgst"]').val(total_cgst.toFixed(2));
 	}
 
 	

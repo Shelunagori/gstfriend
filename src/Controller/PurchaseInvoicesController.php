@@ -163,19 +163,19 @@ class PurchaseInvoicesController extends AppController
 						if($input_gst_id->gst_type == 'CGST')
 						{
 							$cgst_amount = $input_gst_id->tax_amount/2;
-							$purchaseInvoice['purchase_invoice_others']['CGST'] = ['cgst_ledger_id' =>$input_gst_id->id,'cgst_amount'=>$cgst_amount];
+							$purchaseInvoice['purchase_invoice_others'][]['CGST'] = ['cgst_ledger_id' =>$input_gst_id->id,'cgst_amount'=>$cgst_amount];
 						}
 
 						if($input_gst_id->gst_type == 'SGST')
 						{
 							$sgst_amount = $input_gst_id->tax_amount/2;
-							$purchaseInvoice['purchase_invoice_others']['SGST'] = ['sgst_ledger_id' =>$input_gst_id->id,'sgst_amount'=>$sgst_amount];
+							$purchaseInvoice['purchase_invoice_others'][]['SGST'] = ['sgst_ledger_id' =>$input_gst_id->id,'sgst_amount'=>$sgst_amount];
 						}
 						
 						if($input_gst_id->gst_type == 'IGST')
 						{
 							$igst_amount = $input_gst_id->tax_amount;
-							$purchaseInvoice['purchase_invoice_others']['IGST'] = ['igst_ledger_id' =>$input_gst_id->id,'igst_amount'=>$igst_amount];
+							$purchaseInvoice['purchase_invoice_others'][]['IGST'] = ['igst_ledger_id' =>$input_gst_id->id,'igst_amount'=>$igst_amount];
 						}						
 					}
 				}
@@ -184,8 +184,10 @@ class PurchaseInvoicesController extends AppController
 		//pr($purchaseInvoice->purchase_invoice_others); exit;
             if ($this->PurchaseInvoices->save($purchaseInvoice)) {
 			
-			foreach($purchaseInvoice->purchase_invoice_others as $key => $purchase_invoice_other)
+			foreach($purchaseInvoice->purchase_invoice_others as $purchase_invoice_other_data)
 			{ 
+			foreach($purchase_invoice_other_data as $key => $purchase_invoice_other)	
+			{	
 				if($key == 'CGST')
 				{
 					$query_insert = $this->PurchaseInvoices->PurchaseInvoiceRows->query();
@@ -258,7 +260,7 @@ class PurchaseInvoicesController extends AppController
 					]);
 					$query_insert->execute();		
 				}			
-				
+			}	
 			} 
 			
 				if($purchaseInvoice->total !=0)
@@ -312,6 +314,7 @@ class PurchaseInvoicesController extends AppController
         $this->set('_serialize', ['purchaseInvoice']);
 		$this->set('active_menu', 'PurchaseInvoices.Add');
     }
+
 
     /**
      * Edit method
