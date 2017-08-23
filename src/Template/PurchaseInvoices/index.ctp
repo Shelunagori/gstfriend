@@ -46,6 +46,7 @@ $this->set('title', 'List');
 						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->total) ?></td>
 						<td class="actions">
 							<?= $this->Html->link(__('View'), ['action' => 'view', $purchaseInvoice->id]) ?>
+							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $purchaseInvoice->id]) ?>
 							<?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $purchaseInvoice->id], ['confirm' => __('Are you sure you want to delete # {0}?', $purchaseInvoice->id)]) ?>
 						</td>
 					</tr>

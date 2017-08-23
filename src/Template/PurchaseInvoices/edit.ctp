@@ -83,29 +83,31 @@ $this->set('title', 'Edit Invoice');
 							<tbody id="main_tbody">
 								
 								<?php  
-									 $i=1;   
-									foreach ($purchaseInvoice as $purchaseInvoic){
-										//foreach ($totaltaxe as $totalta){
-										//pr($totalta);    exit;
+									foreach ($totaltaxtypes as $purchaseInvoic){
+									foreach ($purchaseInvoic as $purchaseInvoi){
 								?>
+								
 								<tr class="main_tr">
 									
 									<td class="form-group">
 										
-										<?php echo $this->Form->control('tax_type_id', ['options' => $taxtypes,'label' => false,'class' => 'form-control input-sm ','placeholder'=>'Enter Item Name','value'=>$purchaseInvoic->gst_type]); ?>
+										<?php echo $this->Form->control('tax_type_id', ['options' => $taxtypes,'label' => false,'class' => 'form-control input-sm ','placeholder'=>'Enter Item Name','value'=>$purchaseInvoi->id]);  ?>
 									</td>
 									<td class="form-group">
-										<?php echo $this->Form->control('cgst_amount',['label' => false,'class' => 'form-control input-sm firstupercase cgst_amount addcgst','placeholder'=>'Amount','value'=>$purchaseInvoic->cgst_amount]); ?> 
+										<?php echo $this->Form->control('cgst_amount',['label' => false,'class' => 'form-control input-sm firstupercase cgst_amount addcgst','placeholder'=>'Amount','value'=>$totalvalue[$purchaseInvoi->id]]); ?> 
 									</td>
 									<td>
 										<input type="button" value="+" class="add"/>
 										<input type="button" value="X" class="deleterow" />
 									</td>
-								</tr>	
+								</tr>
+									
 								<?php
-										
-									}
+										} 
+									} 
+									
 								?>
+								
 							</tbody>
 							<tfoot >
 								<td ><b>Total GST</b></td>

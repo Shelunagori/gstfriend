@@ -83,7 +83,7 @@ $this->set('title', 'Add Invoice');
 							</tbody>
 							<tfoot>
 								<td><b>Total GST</b></td>
-								<td colspan='2'><b><?php echo $this->Form->control('total_igst',['label'=>false,'type'=>'text','placeholder'=>'0.00','style'=>'text-align: right;','class'=>'gst totalgst','readonly']); ?></b></td>
+								<td colspan='2'><b><?php echo $this->Form->control('total_cgst',['label'=>false,'type'=>'text','placeholder'=>'0.00','style'=>'text-align: right;','class'=>'gst totalgst','readonly']); ?></b></td>
 								
 							</tfoot>
 						</table>
