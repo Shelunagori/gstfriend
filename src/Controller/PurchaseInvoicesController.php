@@ -451,22 +451,22 @@ class PurchaseInvoicesController extends AppController
 		//pr($purchaseInvoicetotal);    exit;
 		
 		
-			
+			$totalvalue=[];
 			foreach($purchaseInvoicetotal as $purchaseInvoictotal)
 			{
 				
 				
 				foreach($purchaseInvoictotal as $purchaseInvoictota)
 				{
-				pr($purchaseInvoictota);  exit;
+				//pr($purchaseInvoictota);  exit;
 				 $totaltaxtypes[] = $this->PurchaseInvoices->TaxTypes->find()
-				->where(['id'=>$purchaseInvoictota[0]->tax_type_id])->toArray();
+				->where(['id'=>$purchaseInvoictota['tax_type_id']])->toArray();
 				
 					foreach($totaltaxtypes as $totaltaxtypes_data)
 					{
 						foreach($totaltaxtypes_data as $totaltaxtypes_datas)
 						{	
-							 if($purchaseInvoictota[0]->tax_type_id == $totaltaxtypes_datas->id)
+							 if($purchaseInvoictota->tax_type_id == $totaltaxtypes_datas->id)
 							{
 								if(!empty($purchaseInvoictota->cgsttax_amount)){
 									$totalvalue[$totaltaxtypes_datas->id] = $purchaseInvoictota->cgsttax_amount *2;  
@@ -475,7 +475,7 @@ class PurchaseInvoicesController extends AppController
 								if(!empty( $purchaseInvoictota->igsttax_amount)){
 									$totalvalue[$totaltaxtypes_datas->id] = $purchaseInvoictota->igsttax_amount ;  
 								}
-								pr($purchaseInvoictota->igsttax_amount);
+								pr($totalvalue);   exit;
 								
 							} 
 						}			
