@@ -151,7 +151,8 @@
 					</thead>
 					<tbody>
 					<?php $i=0; $baseamount = 0; $igstamount=0; $cgstamount=0;  $sgstamount=0;  $totalamount=0; 
-							foreach($accountingEntries['PurchaseInvoices'] as $PurchaseInvoice): 
+							foreach($accountingEntries['PurchaseInvoices'] as $PurchaseInvoice):
+								
 							$i++;
 						?>
 						<tr>
@@ -159,38 +160,61 @@
 							<td><?= h($PurchaseInvoice->transaction_date) ?></td>
 							<td><?php echo $PurchaseInvoice->invoice_no; ?></td>
 							<td style="text-align:right"><?php echo $PurchaseInvoice->base_amount; ?></td>
-
-							<?php foreach($PurchaseInvoice->purchase_invoice_rows as $purchase_invoice_row)
-								{
-									if(!empty($purchase_invoice_row->cgst_ledger)) { ?>
-								<td style="text-align:right">
-									<?php echo $purchase_invoice_row->cgst_ledger->name; ?>
-								</td>
-								<td style="text-align:right"><?php echo $purchase_invoice_row->cgst_amount; ?></td>								
-							<?php $cgstamount = $cgstamount + $purchase_invoice_row->cgst_amount;
-								}  ?>
-
-							<?php if(!empty($purchase_invoice_row->sgst_ledger)) 
-							{ ?>
-								<td style="text-align:right">
-									<?php echo $purchase_invoice_row->sgst_ledger->name; ?>
-								</td>
-								<td style="text-align:right"><?php echo $purchase_invoice_row->sgst_amount; ?></td>								
-							<?php $sgstamount = $sgstamount + $purchase_invoice_row->sgst_amount;
-							}  ?>
-
-
-							<?php if(!empty($purchase_invoice_row->igst_ledger))
-							{ ?>
-								<td style="text-align:right">
-									<?php echo $purchase_invoice_row->igst_ledger->name; ?>
-								</td>
-								<td style="text-align:right"><?php echo $purchase_invoice_row->igst_amount; ?></td>								
-							<?php $igstamount = $igstamount + $purchase_invoice_row->igst_amount; } } ?>
-														
+							
+							<td colspan="6" style="text-align:right">
+								<table class="table table-bordered table-hover">
+									<?php 	foreach($PurchaseInvoice->purchase_invoice_rows as $purchase_invoice_row):?>
+									<tr>
+										<td style="width:80px">
+										<?php
+											if(!empty($purchase_invoice_row->cgst_ledger)) 
+											{
+												echo $purchase_invoice_row->cgst_ledger->name; 
+											}else
+											{ 
+												echo '0';
+											}?>
+										</td>
+										<td style="text-align:right;width:80px"><?php echo $purchase_invoice_row->cgst_amount;?>
+										</td>
+										<td style="width:80px">
+										<?php if(!empty($purchase_invoice_row->sgst_ledger)) 
+											{
+												echo $purchase_invoice_row->sgst_ledger->name; 
+											}else
+											{ 
+												echo '0';
+											} ?>
+										</td>
+										<td style="text-align:right;width:70px"><?php echo $purchase_invoice_row->sgst_amount;?>
+										</td>
+										<td style="width:80px">
+										<?php 
+											if(!empty($purchase_invoice_row->igst_ledger)) 
+											{
+												echo $purchase_invoice_row->igst_ledger->name; 
+											}else
+											{ 
+												echo '0';
+											}
+											?>
+										</td>
+										<td style="text-align:right;width:70px"><?php echo $purchase_invoice_row->igst_amount;?>
+										</td>
+									</tr>
+									<?php  endforeach;?>
+								</table>		
+							</td>
+						<?php 
+							$cgstamount = $cgstamount + $purchase_invoice_row->cgst_amount; 
+							$sgstamount = $sgstamount + $purchase_invoice_row->sgst_amount; 
+							$igstamount = $igstamount + $purchase_invoice_row->igst_amount;
+							
+						?>
 							<td style="text-align:right"><?php echo $PurchaseInvoice->total; ?></td>
 						</tr>
 						<?php 
+							  
 							$baseamount = $baseamount + $PurchaseInvoice->base_amount;
 							$totalamount = $totalamount + $PurchaseInvoice->total;
 							endforeach;
