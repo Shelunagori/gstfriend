@@ -21,10 +21,11 @@ class SuppliersController extends AppController
     public function index()
     {
 		$this->viewBuilder()->layout('index_layout');
+		$company_id=$this->Auth->User('company_id');
         $this->paginate = [
             'contain' => ['Companies']
         ];
-        $suppliers = $this->paginate($this->Suppliers->find()->where(['status' => 0]));
+        $suppliers = $this->paginate($this->Suppliers->find()->where(['status' => 0,'company_id'=>$company_id]));
 
         $this->set(compact('suppliers'));
         $this->set('_serialize', ['suppliers']);
@@ -40,6 +41,7 @@ class SuppliersController extends AppController
      */
     public function view($id = null)
     {
+		$company_id=$this->Auth->User('company_id');
         $supplier = $this->Suppliers->get($id, [
             'contain' => ['Companies', 'Ledgers']
         ]);
@@ -78,7 +80,7 @@ class SuppliersController extends AppController
             }
             $this->Flash->error(__('The supplier could not be saved. Please, try again.'));
         }
-        $companies = $this->Suppliers->Companies->find('list', ['limit' => 200]);
+        $companies = $this->Suppliers->Companies->find()->where(['id' => $company_id]);
         $this->set(compact('supplier', 'companies'));
         $this->set('_serialize', ['supplier']);
 		$this->set('active_menu', 'Suppliers.Add');
@@ -111,7 +113,7 @@ class SuppliersController extends AppController
 						'company_id'=>$company_id
 						/*ledger table Entry end*/	
 					 ])
-				->where(['supplier_id' => $id])
+				->where(['supplier_id' => $id,'company_id'=>$company_id])
 				->execute();
 			
             if ($this->Suppliers->save($supplier)) {
@@ -121,7 +123,7 @@ class SuppliersController extends AppController
             }
             $this->Flash->error(__('The supplier could not be saved. Please, try again.'));
         }
-        $companies = $this->Suppliers->Companies->find('list', ['limit' => 200]);
+        $companies = $this->Suppliers->Companies->find()->where(['id' => $company_id]);
         $this->set(compact('supplier', 'companies'));
         $this->set('_serialize', ['supplier']);
     }
@@ -135,13 +137,14 @@ class SuppliersController extends AppController
      */
     public function delete($id = null)
     {
+		$company_id=$this->Auth->User('company_id');
 		if ($this->request->is(['patch', 'post', 'put']))
 		{
 			$supplier = $this->Suppliers->get($id);
 			$query = $this->Suppliers->query();
 				$query->update()
 					->set(['status' => 1])
-					->where(['id' => $id])
+					->where(['id' => $id,'company_id'=>$company_id])
 					->execute();
 			if ($this->Suppliers->save($supplier)) {
 				

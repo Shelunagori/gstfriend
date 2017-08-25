@@ -20,11 +20,12 @@ class CustomersController extends AppController
      */
     public function index()
     {
+		$company_id=$this->Auth->User('company_id');
 		$this->viewBuilder()->layout('index_layout');
         $this->paginate = [
             'contain' => ['Companies']
         ];
-        $customers = $this->paginate($this->Customers->find()->where(['status' => 0]));
+        $customers = $this->paginate($this->Customers->find()->where(['status' => 0,'company_id'=>$company_id]));
 
         $this->set(compact('customers'));
         $this->set('_serialize', ['customers']);
@@ -40,6 +41,7 @@ class CustomersController extends AppController
      */
     public function view($id = null)
     {
+		$company_id=$this->Auth->User('company_id');
         $customer = $this->Customers->get($id, [
             'contain' => ['Companies', 'Ledgers']
         ]);
@@ -81,7 +83,7 @@ class CustomersController extends AppController
             } 
             $this->Flash->error(__('The customer could not be saved. Please, try again.'));
         }
-        $companies = $this->Customers->Companies->find('list');
+        $companies = $this->Customers->Companies->find('list')->where(['company_id'=>$company_id]);
         $this->set(compact('customer', 'companies'));
         $this->set('_serialize', ['customer']);
 		$this->set('active_menu', 'Customers.Add');
@@ -115,7 +117,7 @@ class CustomersController extends AppController
 						'company_id'=>$company_id
 						/*ledger table Entry end*/	
 					 ])
-				->where(['customer_id' => $id])
+				->where(['customer_id' => $id,'company_id'=>$company_id])
 				->execute();	
 				
 			
@@ -144,13 +146,14 @@ class CustomersController extends AppController
      */
     public function delete($id = null)
 	{
+		$company_id=$this->Auth->User('company_id');
 		if ($this->request->is(['patch', 'post', 'put']))
 		{
 			$customer = $this->Customers->get($id);
 			$query = $this->Customers->query();
 				$query->update()
 					->set(['status' => 1])
-					->where(['id' => $id])
+					->where(['id' => $id,'company_id'=>$company_id])
 					->execute();
 			if ($this->Customers->save($customer)) {
 				

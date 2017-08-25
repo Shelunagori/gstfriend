@@ -21,9 +21,9 @@ class InvoicesController extends AppController
     public function index()
     {
 		$this->viewBuilder()->layout('index_layout');
+		$company_id=$this->Auth->User('company_id');
 		
-		
-        $invoices = $this->paginate($this->Invoices->find()->contain(['CustomerLedgers'])->where(['status' => 0])->order(['Invoices.id'=>'DESC']));
+        $invoices = $this->paginate($this->Invoices->find()->where(['Invoices.company_id'=>$company_id,'status' => 0])->order(['Invoices.id'=>'DESC'])->contain(['CustomerLedgers']));
         $this->set(compact('invoices'));
         $this->set('_serialize', ['invoices']);
 		$this->set('active_menu','Invoices.Index');
@@ -31,11 +31,12 @@ class InvoicesController extends AppController
 	
 	function datewiseinvoicereport($datefrom,$dateto)
 	{
+		$company_id=$this->Auth->User('company_id');
 		$StartDate = date('Y-m-d',strtotime($datefrom));
 		$EndDate = date('Y-m-d', strtotime($dateto));
 
 		$reportdatas = $this->Invoices->find()
-		->where(['Invoices.transaction_date BETWEEN :start AND :end' ])
+		->where(['Invoices.transaction_date BETWEEN :start AND :end','company_id'=>$company_id])
 		->bind(':start', $StartDate, 'date')
 		->bind(':end',   $EndDate, 'date')
 		->order(['Invoices.id'=>'DESC']);
@@ -51,7 +52,7 @@ class InvoicesController extends AppController
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
-    {
+    {	
 		$company_id=$this->Auth->User('company_id');
 		$this->viewBuilder()->layout('index_layout');
 		
@@ -83,14 +84,14 @@ class InvoicesController extends AppController
         if ($this->request->is('post')) {
             $invoice = $this->Invoices->patchEntity($invoice, $this->request->getData());
 			//Invoice Number Increment
-			$last_invoice=$this->Invoices->find()->select(['invoice_no'])->order(['invoice_no' => 'DESC'])->first();
+			$last_invoice=$this->Invoices->find()->select(['invoice_no'])->where(['company_id'=>$company_id])->order(['invoice_no' => 'DESC'])->first();
 			if($last_invoice){
 				$invoice->invoice_no=$last_invoice->invoice_no+1;
 			}else{
 				$invoice->invoice_no=1;
 			} 
 			$invoice->transaction_date = date('Y-m-d',strtotime($invoice->transaction_date));
-			
+			$invoice->company_id=$company_id;
 			if ($this->Invoices->save($invoice)) {
 				
 				if($invoice->invoicetype == 'Cash')
@@ -173,19 +174,19 @@ class InvoicesController extends AppController
             }
             $this->Flash->error(__('The invoice could not be saved. Please, try again.'));
         }
-        $customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22,'freeze'=>0]);
-        $salesLedgers = $this->Invoices->SalesLedgers->find('list')->where(['accounting_group_id'=>14,'freeze'=>0]);
-        $items_datas = $this->Invoices->InvoiceRows->Items->find()->where(['freezed'=>0]);
-        $customer_discounts = $this->Invoices->InvoiceRows->Items->find();
+        $customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22,'freeze'=>0,'company_id'=>$company_id]);
+        $salesLedgers = $this->Invoices->SalesLedgers->find('list')->where(['accounting_group_id'=>14,'freeze'=>0,'company_id'=>$company_id]);
+        $items_datas = $this->Invoices->InvoiceRows->Items->find()->where(['freezed'=>0,'company_id'=>$company_id]);
+        $customer_discounts = $this->Invoices->InvoiceRows->Items->find()->where(['company_id'=>$company_id]);
 	
-		$tax_CGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'CGST']);
+		$tax_CGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'CGST','company_id'=>$company_id]);
 		
 		foreach($tax_CGSTS as $tax_CGST)
 		{
 			$taxs_CGST[]=['value'=>$tax_CGST->id,'text'=>$tax_CGST->name,'tax_rate'=>$tax_CGST->tax_percentage];
 		}		
 		
-		$tax_SGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'SGST']);
+		$tax_SGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'SGST','company_id'=>$company_id]);
 		
 		foreach($tax_SGSTS as $tax_SGST)
 		{
@@ -198,14 +199,14 @@ class InvoicesController extends AppController
 		}
 
 
-		$last_invoice=$this->Invoices->find()->select(['invoice_no'])->order(['invoice_no' => 'DESC'])->first();
+		$last_invoice=$this->Invoices->find()->where(['company_id'=>$company_id])->select(['invoice_no'])->order(['invoice_no' => 'DESC'])->first();
 		if($last_invoice){
 				$invoice_no=$last_invoice->invoice_no+1;
 		}else{
 				$invoice_no=1;
 		} 
 
-		$tax_IGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'IGST']);
+		$tax_IGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'IGST','company_id'=>$company_id]);
 		
 		foreach($tax_IGSTS as $tax_IGST)
 		{
@@ -219,8 +220,8 @@ class InvoicesController extends AppController
 	
 	
 	function CustomerDiscount($customer_id,$item_id){
-		
-		$CustomerDiscounts = $this->Invoices->InvoiceRows->Items->ItemDiscounts->find()->where(['ItemDiscounts.customer_ledger_id'=>$customer_id,'ItemDiscounts.item_id'=>$item_id]);
+		$company_id=$this->Auth->User('company_id');
+		$CustomerDiscounts = $this->Invoices->InvoiceRows->Items->ItemDiscounts->find()->where(['ItemDiscounts.customer_ledger_id'=>$customer_id,'ItemDiscounts.item_id'=>$item_id,'company_id'=>$company_id]);
 		$CustomerDiscount = 0;
 		if(!empty($CustomerDiscounts))
 		{	
@@ -248,16 +249,18 @@ class InvoicesController extends AppController
     public function edit($id = null)
     {
 		$this->viewBuilder()->layout('index_layout');
+		$company_id=$this->Auth->User('company_id');
         $invoice = $this->Invoices->get($id, [
             'contain' => ['InvoiceRows']
         ]);
-		$company_id=$this->Auth->User('company_id');
+		
+		
 		
 		
         if ($this->request->is(['patch', 'post', 'put'])) {
             $invoice = $this->Invoices->patchEntity($invoice, $this->request->getData());
           
-			$last_invoice=$this->Invoices->find()->select(['invoice_no'])->order(['invoice_no' => 'DESC'])->first();
+			$last_invoice=$this->Invoices->find()->where(['company_id'=>$company_id])->select(['invoice_no'])->order(['invoice_no' => 'DESC'])->first();
 				if($last_invoice){
 					$invoice->invoice_no=$last_invoice->invoice_no+1;
 				}else{
@@ -339,25 +342,25 @@ class InvoicesController extends AppController
             $this->Flash->error(__('The invoice could not be saved. Please, try again.'));
         }
 
-        $customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22,'freeze'=>0]);
-        $salesLedgers = $this->Invoices->SalesLedgers->find('list')->where(['accounting_group_id'=>14,'freeze'=>0]);
-        $items_datas = $this->Invoices->InvoiceRows->Items->find()->where(['freezed'=>0]);
+        $customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22,'freeze'=>0,'company_id'=>$company_id]);
+        $salesLedgers = $this->Invoices->SalesLedgers->find('list')->where(['accounting_group_id'=>14,'freeze'=>0,'company_id'=>$company_id]);
+        $items_datas = $this->Invoices->InvoiceRows->Items->find()->where(['freezed'=>0,'company_id'=>$company_id]);
 		
 		foreach($items_datas as $items_data)
 		{
 			$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->price,'cgst_ledger_id'=>$items_data->cgst_ledger_id,'sgst_ledger_id'=>$items_data->sgst_ledger_id,'igst_ledger_id'=>$items_data->igst_ledger_id];
 		}
 			
-        $customer_discounts = $this->Invoices->InvoiceRows->Items->find();
+        $customer_discounts = $this->Invoices->InvoiceRows->Items->find()->where(['company_id'=>$company_id]);
 	
-		$tax_CGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'CGST']);
+		$tax_CGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'CGST','company_id'=>$company_id]);
 		
 		foreach($tax_CGSTS as $tax_CGST)
 		{
 			$taxs_CGST[]=['value'=>$tax_CGST->id,'text'=>$tax_CGST->name,'tax_rate'=>$tax_CGST->tax_percentage];
 		}		
 		
-		$tax_SGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'SGST']);
+		$tax_SGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'SGST','company_id'=>$company_id]);
 		
 		foreach($tax_SGSTS as $tax_SGST)
 		{
@@ -367,14 +370,14 @@ class InvoicesController extends AppController
 		
 
 
-		$last_invoice=$this->Invoices->find()->select(['invoice_no'])->order(['invoice_no' => 'DESC'])->first();
+		$last_invoice=$this->Invoices->find()->where(['company_id'=>$company_id])->select(['invoice_no'])->order(['invoice_no' => 'DESC'])->first();
 		if($last_invoice){
 				$invoice_no=$last_invoice->invoice_no+1;
 		}else{
 				$invoice_no=1;
 		} 
 
-		$tax_IGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'IGST']);
+		$tax_IGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'IGST','company_id'=>$company_id]);
 		
 		foreach($tax_IGSTS as $tax_IGST)
 		{
@@ -395,13 +398,14 @@ class InvoicesController extends AppController
      */
     public function delete($id = null)
     {
+		$company_id=$this->Auth->User('company_id');
 		if ($this->request->is(['patch', 'post', 'put']))
 		{
 			$invoice = $this->Invoices->get($id);
 			$query = $this->Invoices->query();
 				$query->update()
 					->set(['status' => 1])
-					->where(['id' => $id])
+					->where(['id' => $id,'company_id'=>$company_id])
 					->execute();
 			if ($this->Invoices->save($invoice)) {
 				

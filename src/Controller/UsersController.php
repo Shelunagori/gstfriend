@@ -16,7 +16,7 @@ class UsersController extends AppController
 	public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow([ 'logout', 'add']);
+        $this->Auth->allow([ 'logout', 'add', 'sendotpmobile']);
     }
 
 	public function logout()
@@ -30,16 +30,23 @@ class UsersController extends AppController
         if ($this->request->is('post')) 
 		{
             $user = $this->Auth->identify();
+			
             if ($user) 
 			{
                 $this->Auth->setUser($user);
 				return $this->redirect(['controller'=>'Users','action' => 'Dashboard']);
             }
+			//pr($user); exit;
             $this->Flash->error(__('Invalid Username or Password'));
         }
 		$user = $this->Users->newEntity();
         $this->set(compact('user'));
     }
+	
+	
+	
+	
+	
     /**
      * Index method
      *
@@ -53,7 +60,46 @@ class UsersController extends AppController
         $this->set('_serialize', ['users']);
     }
 
+	
+	
+	function sendotpmobile($smssend)
+    {
+		$datas = $this->Users->find()
+		->where(['mobile_no'=>$smssend]);
+		
+		if($datas)
+		{  
+			$chars = "0123456789";//ABCDEFGHIJKLMNOPQRSTUVWXYZ
+			$string = '';
+			for ($i = 0; $i < 6; $i++) {
+			 $string .= $chars[rand(0, strlen($chars) - 1)];
+			}
+			$query = $this->Users->query();
+				$query->update()
+					->set(['otp'=>$string])
+					->where(['mobile_no' => $smssend])
+					->execute();
+			
+		}	
+	}
+	
+	
+	
     /**
+	
+	//$sms=str_replace('', '+', 'Your One Time Password Set successfully.');
+			
+			//$working_key='A7a76ea72525fc05bbe9963267b48dd96';
+			//$sms_sender='JAINTE';
+			//$sms=str_replace(' ' , '+', $sms);
+			//file_get_contents('http://alerts.sinfini.com/api/web2sms.php?workingkey='.$working_key.'&sender='.$sms_sender.'&to='.$smssend.'&message='.$sms.''.$string);
+	
+	
+	
+	
+	
+	
+	
      * View method
      *
      * @param string|null $id User id.
@@ -79,12 +125,13 @@ class UsersController extends AppController
     {
 		$this->viewBuilder()->layout('login');
         $user = $this->Users->newEntity();
+		
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'add']);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
@@ -101,9 +148,11 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
+		$this->viewBuilder()->layout('index_layout');
         $user = $this->Users->get($id, [
             'contain' => []
         ]);
+		
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {

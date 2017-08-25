@@ -21,6 +21,7 @@ class AccountingGroupsController extends AppController
     public function index()
     {
 		$this->viewBuilder()->layout('index_layout');
+		$company_id=$this->Auth->User('company_id');
         $this->paginate = [
             'contain' => ['Companies', 'NatureOfGroups', 'ParentAccountingGroups']
         ];
@@ -40,6 +41,7 @@ class AccountingGroupsController extends AppController
      */
     public function view($id = null)
     {
+		$company_id=$this->Auth->User('company_id');
         $accountingGroup = $this->AccountingGroups->get($id, [
             'contain' => ['Companies', 'NatureOfGroups', 'ParentAccountingGroups', 'ChildAccountingGroups', 'Ledgers']
         ]);
@@ -85,6 +87,7 @@ class AccountingGroupsController extends AppController
     public function edit($id = null)
     {
 		$this->viewBuilder()->layout('index_layout');
+		$company_id=$this->Auth->User('company_id');
         $accountingGroup = $this->AccountingGroups->get($id, [
             'contain' => []
         ]);
@@ -97,7 +100,7 @@ class AccountingGroupsController extends AppController
             }
             $this->Flash->error(__('The accounting group could not be saved. Please, try again.'));
         }
-        $companies = $this->AccountingGroups->Companies->find('list');
+        $companies = $this->AccountingGroups->Companies->find()->where(['id'=>$company_id]);
         $natureOfGroups = $this->AccountingGroups->NatureOfGroups->find('list');
         $parentAccountingGroups = $this->AccountingGroups->ParentAccountingGroups->find('list');
         $this->set(compact('accountingGroup', 'companies', 'natureOfGroups', 'parentAccountingGroups'));
@@ -113,14 +116,21 @@ class AccountingGroupsController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $accountingGroup = $this->AccountingGroups->get($id);
-        if ($this->AccountingGroups->delete($accountingGroup)) {
-            $this->Flash->success(__('The accounting group has been deleted.'));
-        } else {
-            $this->Flash->error(__('The accounting group could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
-    }
+		$company_id=$this->Auth->User('company_id');
+		if ($this->request->is(['patch', 'post', 'put']))
+		{
+			$accountingGroup = $this->AccountingGroups->get($id);
+			$query = $this->AccountingGroups->query();
+				$query->update()
+					->set(['status' => 1])
+					->where(['id' => $id,'company_id'=>$company_id])
+					->execute();
+			if ($this->AccountingGroups->save($accountingGroup)) {
+				
+				$this->Flash->success(__('The accounting group has been deleted.'));
+			} else {
+				$this->Flash->error(__('The accounting group could not be deleted. Please, try again.'));
+			}
+		}
+    }   
 }

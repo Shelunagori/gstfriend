@@ -21,10 +21,11 @@ class ItemsController extends AppController
     public function index()
     {
 		$this->viewBuilder()->layout('index_layout');
+		$company_id=$this->Auth->User('company_id');
         $this->paginate = [
             'contain' => ['Companies','CgstLedgers','SgstLedgers','IgstLedgers']
         ];
-        $items = $this->paginate($this->Items->find()->where(['status' => 0]));
+        $items = $this->paginate($this->Items->find()->where(['Items.company_id'=>$company_id,'status' => 0]));
         $this->set(compact('items'));
         $this->set('_serialize', ['items']);
 		$this->set('active_menu', 'Items.Index');
@@ -40,6 +41,7 @@ class ItemsController extends AppController
     public function view($id = null)
     {
 		$this->viewBuilder()->layout('index_layout');
+		$company_id=$this->Auth->User('company_id');
         $item = $this->Items->get($id, [
             'contain' => ['Companies','CgstLedgers','SgstLedgers']
         ]);
@@ -78,10 +80,10 @@ class ItemsController extends AppController
 				foreach($taxtypes as $taxtype)
 				{
 					$gst_ids[] = $this->Items->Ledgers->find()
-					->where(['name'=>$taxtype->tax_type_name,'accounting_group_id'=>30])->toArray();
+					->where(['name'=>$taxtype->tax_type_name,'accounting_group_id'=>30,'company_id'=>$company_id])->toArray();
 
 					$input_gst_ids[] = $this->Items->Ledgers->find()
-					->where(['name'=>$taxtype->tax_type_name,'accounting_group_id'=>29])->toArray();
+					->where(['name'=>$taxtype->tax_type_name,'accounting_group_id'=>29,'company_id'=>$company_id])->toArray();
 					
 				}
 			}
@@ -187,9 +189,9 @@ class ItemsController extends AppController
 				foreach($taxtypes as $taxtype)
 				{
 					$gst_ids[] = $this->Items->Ledgers->find()
-					->where(['name'=>$taxtype->tax_type_name,'accounting_group_id'=>30])->toArray();	
+					->where(['name'=>$taxtype->tax_type_name,'accounting_group_id'=>30,'company_id'=>$company_id])->toArray();	
 					$input_gst_ids[] = $this->Items->Ledgers->find()
-					->where(['name'=>$taxtype->tax_type_name,'accounting_group_id'=>29])->toArray();
+					->where(['name'=>$taxtype->tax_type_name,'accounting_group_id'=>29,'company_id'=>$company_id])->toArray();
 				}
 			}
 			
@@ -268,13 +270,14 @@ class ItemsController extends AppController
      */
     public function delete($id = null)
 	{
+		$company_id=$this->Auth->User('company_id');
 		if ($this->request->is(['patch', 'post', 'put']))
 		{
 			$item = $this->Items->get($id);
 			$query = $this->Items->query();
 				$query->update()
 					->set(['status' => 1])
-					->where(['id' => $id])
+					->where(['id' => $id,'company_id'=>$company_id])
 					->execute();
 			if ($this->Items->save($item)) {
 				

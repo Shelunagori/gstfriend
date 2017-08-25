@@ -101,7 +101,8 @@ p{
 				</tr>
 			</thead>
 			<tbody id="mainTbody">
-				<?php foreach($invoice->invoice_rows as $invoice_row){ ?>
+				<?php foreach($invoice->invoice_rows as $invoice_row){ 
+				?>
 				<tr class="mainTr">
 					<td style="text-align:center;border-left: none;">
 						<span class="sr"></span>
@@ -129,7 +130,7 @@ p{
 						<?php echo $this->Form->control('taxable_value',['label'=>false,'placeholder'=>'Taxable Value','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm','value'=>$invoice_row->taxable_value]); ?>
 					</td>
 					<td style="text-align:right;">
-						<?php echo $this->Form->control('total_cgst',['label'=>false,'autofocus','class'=>'form-control input-sm cgst cgst_rate gst','style'=>'width: 80px;border: none;text-align: right;','options'=>$taxs_CGST,'value'=>$invoice_row->cgst_rate]); ?>
+						<?php echo $this->Form->control('cgst_rate',['label'=>false,'autofocus','class'=>'form-control input-sm cgst cgst_rate gst','style'=>'width: 80px;border: none;text-align: right;','options'=>$taxs_CGST,'value'=>$invoice_row->cgst_rate]); ?>
 					</td>
 					<td style="text-align:right;">
 						<?php echo $this->Form->control('cgst_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm gst','value'=>$invoice_row->cgst_amount]); ?>
@@ -141,7 +142,7 @@ p{
 						<?php echo $this->Form->control('sgst_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm gst','value'=>$invoice_row->sgst_amount]); ?>
 					</td>
 					<td style="text-align:right;" class="form-group">
-						<?php echo $this->Form->control('igst_rate',['label'=>false,'class'=>'form-control input-sm igst igst_rate','style'=>'width: 80px;border: none;text-align: right;','options'=>$taxs_IGST,'value'=>$invoice_row->igst_rate]); ?>
+						<?php echo $this->Form->control('igst_rate',['label'=>false,'class'=>'form-control input-sm igst igst_rate','style'=>'width: 80px;border: none;text-align: right;','options'=>$taxs_IGST,'value'=>$invoice_row->igst_ledger_id]); ?>
 					</td>
 					<td style="text-align:right;" class="form-group">
 						<?php echo $this->Form->control('igst_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control igst input-sm','value'=>$invoice_row->igst_amount]); ?>
@@ -237,7 +238,7 @@ $(document).ready(function() {
 			$(this).find("td:eq(9) input").attr({name:"invoice_rows["+i+"][cgst_amount]", id:"invoice_rows-"+i+"-cgst_amount"});
 			$(this).find("td:eq(10) select").attr({name:"invoice_rows["+i+"][sgst_rate]", id:"invoice_rows-"+i+"-sgst_rate"});
 			$(this).find("td:eq(11) input").attr({name:"invoice_rows["+i+"][sgst_amount]", id:"invoice_rows-"+i+"-sgst_amount"});
-			$(this).find("td:eq(12) select").attr({name:"invoice_rows["+i+"][igst_rate]", id:"invoice_rows-"+i+"-igst_rate"});
+			$(this).find("td:eq(12) select").attr({name:"invoice_rows["+i+"][igst_ledger_id]", id:"invoice_rows-"+i+"-igst_ledger_id"});
 			$(this).find("td:eq(13) input").attr({name:"invoice_rows["+i+"][igst_amount]", id:"invoice_rows-"+i+"-igst_amount"});
 			$(this).find("td:eq(14) input").attr({name:"invoice_rows["+i+"][total]", id:"invoice_rows-"+i+"-total"});
 		i++;

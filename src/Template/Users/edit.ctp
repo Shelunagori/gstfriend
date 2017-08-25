@@ -1,30 +1,45 @@
 <?php
-/**
-  * @var \App\View\AppView $this
-  */
+$this->set('title', 'Edit');
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $user->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Users'), ['action' => 'index']) ?></li>
-    </ul>
-</nav>
-<div class="users form large-9 medium-8 columns content">
-    <?= $this->Form->create($user) ?>
-    <fieldset>
-        <legend><?= __('Edit User') ?></legend>
-        <?php
-            echo $this->Form->control('name');
-            echo $this->Form->control('email');
-            echo $this->Form->control('password');
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
-</div>
+<div class="portlet light bordered  col-md-6" >
+	<div class="portlet-body-form"  >
+		<div class="portlet-title">
+			<div class="caption" >
+				<legend><?= __('Edit user') ?></legend>
+			</div>
+		</div>
+		<?= $this->Form->create($user) ?>
+		<fieldset>
+			<div class="form-body" >
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="control-label">Name <span class="required" aria-required="true">*</span></label>
+							<?php echo $this->Form->control('name' , ['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Name']); ?>
+						</div>
+						<div class="form-group">
+							<label class="control-label">Username</label>
+							<?php echo $this->Form->control('username',['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter HSN No.']); ?> 
+						</div>
+						<div class="form-group">
+							<label class="control-label">Password</label>
+							<?php echo $this->Form->control('password',['label' => false,'type'=>'text','class' => 'form-control input-sm firstupercase','placeholder'=>'Enter password']); ?> 
+						</div>
+						<div class="form-group">
+							<label class="control-label">Email Id</label>
+							<?php echo $this->Form->control('email',['label' => false,'type'=>'text','class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Email']); ?> 
+						</div>
+						<div class="form-group">
+							<label class="control-label">Phone No.</label>
+							<?php echo $this->Form->control('mobile_no',['label' => false,'type'=>'text','class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Mobile No.']); ?> 
+						</div>
+					</div>
+				</div> 
+			</div>
+		</fieldset>
+		<div>
+			<button type="submit" class="btn btn-primary">Submit
+		</div>
+		<?= $this->Form->end() ?>
+	</div>
+</div>    

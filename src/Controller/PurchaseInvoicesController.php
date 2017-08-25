@@ -21,7 +21,8 @@ class PurchaseInvoicesController extends AppController
     public function index()
     {
 		$this->viewBuilder()->layout('index_layout');
-        $purchaseInvoices = $this->paginate($this->PurchaseInvoices->find()->where(['status' => 0]));
+		$company_id=$this->Auth->User('company_id');
+        $purchaseInvoices = $this->paginate($this->PurchaseInvoices->find()->where(['status' => 0,'company_id'=>$company_id]));
 
         $this->set(compact('purchaseInvoices'));
         $this->set('_serialize', ['purchaseInvoices']);
@@ -31,11 +32,12 @@ class PurchaseInvoicesController extends AppController
 	//Report Generate Function Start
 	function datewisereport($datefrom,$dateto)
 	{
+		$company_id=$this->Auth->User('company_id');
 		$StartDate = date('Y-m-d',strtotime($datefrom));
 		$EndDate = date('Y-m-d', strtotime($dateto));
 
 		$reportdatas = $this->PurchaseInvoices->find()
-		->where(['PurchaseInvoices.transaction_date BETWEEN :start AND :end' ])
+		->where(['PurchaseInvoices.transaction_date BETWEEN :start AND :end','company_id'=>$company_id])
 		->bind(':start', $StartDate, 'date')
 		->bind(':end',   $EndDate, 'date')
 		->order(['PurchaseInvoices.id'=>'DESC']);
@@ -135,7 +137,7 @@ class PurchaseInvoicesController extends AppController
 				{
 				
 				 $input_gst_ids[] = $this->PurchaseInvoices->Ledgers->find()
-				->where(['name'=>$taxtyp->tax_type_name,'accounting_group_id'=>29])->toArray(); 
+				->where(['name'=>$taxtyp->tax_type_name,'accounting_group_id'=>29,'company_id'=>$company_id])->toArray(); 
 
 					foreach($input_gst_ids as $input_gst_id_data)
 					{
@@ -301,12 +303,12 @@ class PurchaseInvoicesController extends AppController
             }
             $this->Flash->error(__('The purchase invoice could not be saved. Please, try again.'));
         }
-		$SupplierLedger = $this->PurchaseInvoices->SupplierLedger->find('list')->where(['accounting_group_id'=>25,'freeze'=>0]);
-        $PurchaseLedger = $this->PurchaseInvoices->PurchaseLedger->find('list')->where(['accounting_group_id'=>13,'freeze'=>0]);
+		$SupplierLedger = $this->PurchaseInvoices->SupplierLedger->find('list')->where(['accounting_group_id'=>25,'freeze'=>0,'company_id'=>$company_id]);
+        $PurchaseLedger = $this->PurchaseInvoices->PurchaseLedger->find('list')->where(['accounting_group_id'=>13,'freeze'=>0,'company_id'=>$company_id]);
 		
-		$CgstTax = $this->PurchaseInvoices->CgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'CGST']);
+		$CgstTax = $this->PurchaseInvoices->CgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'CGST','company_id'=>$company_id]);
 		
-		$SgstTax = $this->PurchaseInvoices->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);
+		$SgstTax = $this->PurchaseInvoices->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST','company_id'=>$company_id]);
 		
 		$taxtypes = $this->PurchaseInvoices->TaxTypes->find('list');
 		
@@ -332,15 +334,18 @@ class PurchaseInvoicesController extends AppController
         ]);
 		//pr($purchaseInvoice);exit;
 		//fetch data from database start	
+			$cgsttaxtypes=[];
+			$sgsttaxtypes=[];
+			$igsttaxtypes=[];
 			foreach($purchaseInvoice->purchase_invoice_rows as $purchaseInvoic)
 			{
 				
 				$cgsttaxtypes[] = $this->PurchaseInvoices->Ledgers->find()
-				->where(['id'=>$purchaseInvoic['cgst_ledger_id'],'accounting_group_id'=>29])->toArray();
+				->where(['id'=>$purchaseInvoic['cgst_ledger_id'],'accounting_group_id'=>29,'company_id'=>$company_id])->toArray();
 				$sgsttaxtypes[] = $this->PurchaseInvoices->Ledgers->find()
-				->where(['id'=>$purchaseInvoic['sgst_ledger_id'],'accounting_group_id'=>29])->toArray();
+				->where(['id'=>$purchaseInvoic['sgst_ledger_id'],'accounting_group_id'=>29,'company_id'=>$company_id])->toArray();
 				$igsttaxtypes[] = $this->PurchaseInvoices->Ledgers->find()
-				->where(['id'=>$purchaseInvoic['igst_ledger_id'],'accounting_group_id'=>29])->toArray();
+				->where(['id'=>$purchaseInvoic['igst_ledger_id'],'accounting_group_id'=>29,'company_id'=>$company_id])->toArray();
 				
 				
 				foreach($cgsttaxtypes as $cgsttaxtype)
@@ -531,7 +536,7 @@ class PurchaseInvoicesController extends AppController
 				{
 				
 				 $input_gst_ids[] = $this->PurchaseInvoices->Ledgers->find()
-				->where(['name'=>$taxtyp->tax_type_name,'accounting_group_id'=>29])->toArray(); 
+				->where(['name'=>$taxtyp->tax_type_name,'accounting_group_id'=>29,'company_id'=>$company_id])->toArray(); 
 
 					foreach($input_gst_ids as $input_gst_id_data)
 					{
@@ -576,16 +581,22 @@ class PurchaseInvoicesController extends AppController
 					}
 				}
 			}
+			
+			
 				
 		//pr($purchaseInvoice->purchase_invoice_others); exit;
             if ($this->PurchaseInvoices->save($purchaseInvoice)) {
+				$query = $this->PurchaseInvoices->PurchaseInvoiceRows->query();
+				$query->delete()->where(['purchase_invoice_id'=> $id])->execute();
 			
 			foreach($purchaseInvoice->purchase_invoice_others as $purchase_invoice_other_data)
 			{ 
 			foreach($purchase_invoice_other_data as $key => $purchase_invoice_other)	
 			{	
+			
 				if($key == 'CGST')
-				{
+				{	
+					
 					$query_insert = $this->PurchaseInvoices->PurchaseInvoiceRows->query();
 					$query_insert->insert(['cgst_ledger_id','cgst_amount','purchase_invoice_id'])
 					->values([
@@ -657,7 +668,8 @@ class PurchaseInvoicesController extends AppController
 					$query_insert->execute();		
 				}			
 			}	
-			} 
+			}
+		
 			
 				if($purchaseInvoice->total !=0)
 				{		
@@ -698,12 +710,12 @@ class PurchaseInvoicesController extends AppController
             $this->Flash->error(__('The purchase invoice could not be saved. Please, try again.'));
         }
 	
-		$SupplierLedger = $this->PurchaseInvoices->SupplierLedger->find('list')->where(['accounting_group_id'=>25,'freeze'=>0]);
-        $PurchaseLedger = $this->PurchaseInvoices->PurchaseLedger->find('list')->where(['accounting_group_id'=>13,'freeze'=>0]);
+		$SupplierLedger = $this->PurchaseInvoices->SupplierLedger->find('list')->where(['accounting_group_id'=>25,'freeze'=>0,'company_id'=>$company_id]);
+        $PurchaseLedger = $this->PurchaseInvoices->PurchaseLedger->find('list')->where(['accounting_group_id'=>13,'freeze'=>0,'company_id'=>$company_id]);
 		
-		$CgstTax = $this->PurchaseInvoices->CgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'CGST']);
+		$CgstTax = $this->PurchaseInvoices->CgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'CGST','company_id'=>$company_id]);
 		
-		$SgstTax = $this->PurchaseInvoices->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST']);
+		$SgstTax = $this->PurchaseInvoices->SgstLedger->find()->where(['accounting_group_id'=>29,'gst_type'=>'SGST','company_id'=>$company_id]);
 
 		$taxtypes = $this->PurchaseInvoices->TaxTypes->find('list');
 		
@@ -720,13 +732,14 @@ class PurchaseInvoicesController extends AppController
      */
     public function delete($id = null)
     {
+		$company_id=$this->Auth->User('company_id');
 		if ($this->request->is(['patch', 'post', 'put']))
 		{
 			$purchaseInvoice = $this->PurchaseInvoices->get($id);
 			$query = $this->PurchaseInvoices->query();
 				$query->update()
 					->set(['status' => 1])
-					->where(['id' => $id])
+					->where(['id' => $id,'company_id'=>$company_id])
 					->execute();
 			if ($this->PurchaseInvoices->save($purchaseInvoice)) {
 				

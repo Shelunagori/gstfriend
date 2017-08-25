@@ -55,10 +55,6 @@ $(document).ready(function() {
 		});
     });
 	
-	$(".showdate").click(function(){
-		$('#cashhide').addClass('hide');
-		$('#reportshow').removeClass('hide');
-    });
 
 });
 </script>
