@@ -16,7 +16,7 @@ class UsersController extends AppController
 	public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow([ 'logout', 'add', 'sendotpmobile']);
+        $this->Auth->allow([ 'logout', 'add', 'sendotpmobile','varifymobile','changepass']);
     }
 
 	public function logout()
@@ -64,10 +64,11 @@ class UsersController extends AppController
 	
 	function sendotpmobile($smssend)
     {
+		$this->viewBuilder()->layout('');
 		$datas = $this->Users->find()
 		->where(['mobile_no'=>$smssend]);
 		
-		if($datas)
+		if(!empty($datas->toArray()))
 		{  
 			$chars = "0123456789";//ABCDEFGHIJKLMNOPQRSTUVWXYZ
 			$string = '';
@@ -75,14 +76,58 @@ class UsersController extends AppController
 			 $string .= $chars[rand(0, strlen($chars) - 1)];
 			}
 			$query = $this->Users->query();
-				$query->update()
+			$query->update()
 					->set(['otp'=>$string])
 					->where(['mobile_no' => $smssend])
 					->execute();
 			
+			echo '1';
+			
+		}else
+		{
+				echo '0';
 		}	
 	}
 	
+	
+	
+	function varifymobile($mobilematch,$otpvarify)
+    {		
+		$this->viewBuilder()->layout('');
+		$datas = $this->Users->find()
+		->where(['mobile_no'=>$mobilematch,'otp'=>$otpvarify]);
+		
+		if(!empty($datas->toArray()))
+		{  
+			echo '1';
+		}else
+		{
+				echo '0';
+		}	
+	}
+	
+	
+	
+	
+	function changepass($password,$mobilein)
+    {		
+		$this->viewBuilder()->layout('');
+		
+		if($mobilein!='')
+		{
+				
+			$query = $this->Users->query();
+			$query->update()
+				->set(['password'=>$password])
+				->where(['mobile_no' =>$mobilein])
+				->execute();
+			echo '1';
+		}else
+		{
+				echo '0';
+		}	
+		exit;
+	}
 	
 	
     /**
@@ -123,11 +168,13 @@ class UsersController extends AppController
      */
     public function add()
     {
-		$this->viewBuilder()->layout('login');
+		$this->viewBuilder()->layout('index_layout');
+		$company_id=$this->Auth->User('company_id');
         $user = $this->Users->newEntity();
 		
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
+			$user->company_id=$company_id;
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
@@ -149,16 +196,18 @@ class UsersController extends AppController
     public function edit($id = null)
     {
 		$this->viewBuilder()->layout('index_layout');
+		$company_id=$this->Auth->User('company_id');
         $user = $this->Users->get($id, [
             'contain' => []
         ]);
 		
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
+			$user->company_id=$company_id;
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'edit']);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
