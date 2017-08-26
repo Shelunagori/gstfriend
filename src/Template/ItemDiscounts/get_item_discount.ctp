@@ -14,7 +14,8 @@
 			?>
 			<tr >
 				<td><?= $this->Number->format($i++) ?>
-					<?php echo $this->Form->control('item_discounts.'.$j.'.item_id', ['label' => false,'type'=>'hidden','class' => 'form-control input-sm item_hidden','placeholder'=>'Enter Item']); ?> 
+					<?php echo $this->Form->control('item_discounts.'.$j.'.item_id', ['label' => false,'type'=>'hidden','class' => 'form-control input-sm item_hidden','placeholder'=>'Enter Item']); ?>
+					<?php echo $this->Form->control('item_discounts.'.$j.'.company_id', ['label' => false,'type'=>'hidden','class' => 'form-control input-sm ','value'=>$company_id]); ?>	
 				</td>
 				<td>
 					<?php echo $customerLedger->name; ?>

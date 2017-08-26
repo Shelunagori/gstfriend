@@ -21,10 +21,7 @@ $this->set('title', 'Edit');
 							<label class="control-label">Username</label>
 							<?php echo $this->Form->control('username',['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter HSN No.']); ?> 
 						</div>
-						<div class="form-group">
-							<label class="control-label">Password</label>
-							<?php echo $this->Form->control('password',['label' => false,'type'=>'text','class' => 'form-control input-sm firstupercase','placeholder'=>'Enter password']); ?> 
-						</div>
+						
 						<div class="form-group">
 							<label class="control-label">Email Id</label>
 							<?php echo $this->Form->control('email',['label' => false,'type'=>'text','class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Email']); ?> 

@@ -21,6 +21,7 @@ class AccountingEntriesController extends AppController
     public function index()
     {
 		$this->viewBuilder()->layout('index_layout');
+		$company_id=$this->Auth->User('company_id');
 		$accountingEntries = $this->AccountingEntries->newEntity();
         if ($this->request->is('post')) {
 
@@ -29,14 +30,14 @@ class AccountingEntriesController extends AppController
 			
 		$accountingEntries['PurchaseInvoices'] = $this->AccountingEntries->PurchaseInvoices->find()
 		->contain(['PurchaseInvoiceRows'=>['CgstLedger','SgstLedger','IgstLedger']])
-		->where(['PurchaseInvoices.transaction_date BETWEEN :start AND :end' ])
+		->where(['PurchaseInvoices.transaction_date BETWEEN :start AND :end','company_id'=>$company_id ])
 		->bind(':start', $StartDate, 'date')
 		->bind(':end',   $EndDate, 'date')
 		->order(['PurchaseInvoices.id'=>'DESC']);
 
 		$accountingEntries['PurchaseVouchers'] = $this->AccountingEntries->PurchaseVouchers->find()
 		->contain(['PurchaseVoucherRows'=>['CgstLedger','SgstLedger','IgstLedger']])
-		->where(['PurchaseVouchers.transaction_date BETWEEN :start AND :end' ])
+		->where(['PurchaseVouchers.transaction_date BETWEEN :start AND :end' ,'company_id'=>$company_id])
 		->bind(':start', $StartDate, 'date')
 		->bind(':end',   $EndDate, 'date')
 		->order(['PurchaseVouchers.id'=>'DESC']);		
@@ -44,7 +45,7 @@ class AccountingEntriesController extends AppController
 		
 		$accountingEntries['Invoices'] = $this->AccountingEntries->Invoices->find()
 		->contain(['InvoiceRows'=>['TaxCGST','TaxSGST','TaxIGST']])
-		->where(['Invoices.transaction_date BETWEEN :start AND :end' ])
+		->where(['Invoices.transaction_date BETWEEN :start AND :end','company_id'=>$company_id ])
 		->bind(':start', $StartDate, 'date')
 		->bind(':end',   $EndDate, 'date')
 		->order(['Invoices.id'=>'DESC']);

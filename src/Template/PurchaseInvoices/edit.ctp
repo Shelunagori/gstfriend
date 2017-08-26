@@ -152,7 +152,7 @@ $(document).ready(function(){
 		$('.baseamount').val(amount);
 	}
 	
-	add_row();
+
 	function add_row(){
 		var table=$(".sample_table tbody.sample_tbody tr.main_tr").clone();
 		$("#main_table tbody#main_tbody ").append(table);

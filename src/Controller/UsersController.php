@@ -16,7 +16,7 @@ class UsersController extends AppController
 	public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow([ 'logout', 'add', 'sendotpmobile','varifymobile','changepass']);
+        $this->Auth->allow([ 'logout', 'add','edit' ,'sendotpmobile','varifymobile','changepass']);
     }
 
 	public function logout()
@@ -54,7 +54,9 @@ class UsersController extends AppController
      */
     public function index()
     {
-        $users = $this->paginate($this->Users);
+		$this->viewBuilder()->layout('index_layout');
+		$company_id=$this->Auth->User('company_id');
+        $users = $this->paginate($this->Users->find()->where(['company_id'=>$company_id,'status' => 0]));
 		
         $this->set(compact('users'));
         $this->set('_serialize', ['users']);
@@ -80,6 +82,12 @@ class UsersController extends AppController
 					->set(['otp'=>$string])
 					->where(['mobile_no' => $smssend])
 					->execute();
+			//$sms=str_replace('', '+', 'Your One Time Password Set successfully.');
+			
+			//$working_key='A7a76ea72525fc05bbe9963267b48dd96';
+			//$sms_sender='JAINTE';
+			//$sms=str_replace(' ' , '+', $sms);
+			//file_get_contents('http://alerts.sinfini.com/api/web2sms.php?workingkey='.$working_key.'&sender='.$sms_sender.'&to='.$smssend.'&message='.$sms.''.$string);		
 			
 			echo '1';
 			
@@ -132,12 +140,7 @@ class UsersController extends AppController
 	
     /**
 	
-	//$sms=str_replace('', '+', 'Your One Time Password Set successfully.');
-			
-			//$working_key='A7a76ea72525fc05bbe9963267b48dd96';
-			//$sms_sender='JAINTE';
-			//$sms=str_replace(' ' , '+', $sms);
-			//file_get_contents('http://alerts.sinfini.com/api/web2sms.php?workingkey='.$working_key.'&sender='.$sms_sender.'&to='.$smssend.'&message='.$sms.''.$string);
+	
 	
 	
 	
@@ -175,6 +178,8 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
 			$user->company_id=$company_id;
+			
+			
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
@@ -202,12 +207,14 @@ class UsersController extends AppController
         ]);
 		
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
+			$user = $this->Users->patchEntity($user, $this->request->getData());
+			
 			$user->company_id=$company_id;
+			
+			
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
-
-                return $this->redirect(['action' => 'edit']);
+                 return $this->redirect(['action' => 'dashboard']);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
@@ -224,15 +231,31 @@ class UsersController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $user = $this->Users->get($id);
-        if ($this->Users->delete($user)) {
-            $this->Flash->success(__('The user has been deleted.'));
-        } else {
-            $this->Flash->error(__('The user could not be deleted. Please, try again.'));
-        }
-
+        $company_id=$this->Auth->User('company_id');
+		if ($this->request->is(['patch', 'post', 'put']))
+		{
+			$user = $this->Users->get($id);
+			$query = $this->Users->query();
+				$query->update()
+					->set(['status' => 1])
+					->where(['id' => $id,'company_id'=>$company_id])
+					->execute();
+			if ($this->Users->save($user)) {
+				
+				$this->Flash->success(__('The user has been deleted.'));
+			} else {
+				$this->Flash->error(__('The user could not be deleted. Please, try again.'));
+			}
+		}
         return $this->redirect(['action' => 'index']);
+		
+		
+		
+		
+		
+		
+		
+		
     }
 	
 	public function dashboard()

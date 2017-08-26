@@ -40,7 +40,7 @@ class InvoicesController extends AppController
 		->bind(':start', $StartDate, 'date')
 		->bind(':end',   $EndDate, 'date')
 		->order(['Invoices.id'=>'DESC']);
-		
+	
 		$this->set(compact('reportdatas'));
 	}
 	
@@ -83,6 +83,7 @@ class InvoicesController extends AppController
 		$company_id=$this->Auth->User('company_id');
         if ($this->request->is('post')) {
             $invoice = $this->Invoices->patchEntity($invoice, $this->request->getData());
+			
 			//Invoice Number Increment
 			$last_invoice=$this->Invoices->find()->select(['invoice_no'])->where(['company_id'=>$company_id])->order(['invoice_no' => 'DESC'])->first();
 			if($last_invoice){

@@ -16,6 +16,8 @@ $this->set('title', 'Add');
 					<div class="form-group col-md-4">
 						<label class="control-label">Select Item</label>
 						<?php echo $this->Form->control('item_ids', ['empty' => "---Select---",'options' => $items,'label' => false,'class' => 'form-control input-sm select2me select_item item','placeholder'=>'Enter Item']); ?> 
+						
+						
 					</div >
 				</div>
 				<div class="row main_div">

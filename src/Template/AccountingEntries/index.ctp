@@ -236,7 +236,7 @@
 			</div>
 
 			<div class='col-md-12'>
-			<?php if(!empty($accountingEntries['PurchaseInvoices']->toArray()))
+			<?php if(!empty($accountingEntries['PurchaseVouchers']->toArray()))
 			{  ?>
 				<center><h3>INPUT GST (Item wise) </h3> </center> <hr>
 				<table class="table table-bordered table-hover">

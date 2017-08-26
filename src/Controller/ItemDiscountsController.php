@@ -60,15 +60,24 @@ class ItemDiscountsController extends AppController
 		$this->viewBuilder()->layout('index_layout');
 		$company_id=$this->Auth->User('company_id');
         $itemDiscount = $this->ItemDiscounts->newEntity();
+		
         if ($this->request->is('post')) {
+			
 			$data=$this->request->data['item_discounts'];
+			
+			
 			$item_ids=$this->request->data['item_ids'];
-				
+			
+			//pr($data); exit;	
 			$itemDiscount = $this->ItemDiscounts->newEntities($data);
-			//pr($itemDiscount); exit;
+			
+			
+			
 			//Replace Data In Table Start
 			$query = $this->ItemDiscounts->query();
 			$query->delete()->where(['item_id'=> $item_ids])->execute();
+			
+			
 			//Replace Data In Table End
             if ($this->ItemDiscounts->saveMany($itemDiscount)) 
 			{
@@ -87,7 +96,7 @@ class ItemDiscountsController extends AppController
 			}
 
 		
-        $this->set(compact('itemDiscount', 'customerLedgers', 'items'));
+        $this->set(compact('itemDiscount', 'customerLedgers', 'items','company_id'));
         $this->set('_serialize', ['itemDiscount']);
 		$this->set('active_menu', 'ItemDiscounts.Add');
     }
@@ -100,7 +109,8 @@ class ItemDiscountsController extends AppController
 		foreach($itemDiscounts as $itemDiscount){
 			$discount[$itemDiscount->customer_ledger_id]=$itemDiscount->discount;
 		}
-		$this->set(compact('customerLedgers','discount'));
+		
+		$this->set(compact('customerLedgers','discount','company_id'));
 	}
 
     /**
