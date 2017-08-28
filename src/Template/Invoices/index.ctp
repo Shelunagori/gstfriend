@@ -13,7 +13,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="form-group col-md-8   filter_div">
+		<div class="form-group col-md-8   ">
 			<div class="radio-list col-md-3">
 				<label class="radio-inline">
 				<div class="radio" id="uniform-optionsRadios26"><span class="checked"><input type="radio" name="invoicetype" id="invoicetype" value="Credit" checked></span></div> Credit </label>
@@ -59,7 +59,7 @@
 						<th scope="col" class="actions"><?= __('Actions') ?></th>
 					</tr>
 				</thead>
-				<tbody class="main_tbody">
+				<tbody class="main_tbody filter_div">
 					<?php 
 					foreach ($invoices as $invoice):  ?>
 					<tr class="main_tr">
@@ -180,7 +180,7 @@ $(document).ready(function() {
 
 	//Start Filter Date wise and customer wise
 	$(".filtergo").on('click',function() {
-		//$('.filter_div').html('<i class="fa fa-refresh fa-spin fa-1x fa-fw"></i><b> Loading... </b>');
+		$('.filter_div').html('<i class="fa fa-refresh fa-spin fa-1x fa-fw"></i><b> Loading... </b>');
 		var startfilterdate = $('.filter_date_from').val();
 		var endfilterdate = $('.filter_date_to').val();	
 		var customername = $('.filter_customer').val();	
@@ -200,12 +200,12 @@ $(document).ready(function() {
 				var obj=$(this);
 				var url="<?php echo $this->Url->build(['controller'=>'Invoices','action'=>'filterreportcustomer']);?>";
 				url=url+'/'+startdatefrom+'/'+startdateto+'/'+customername+'/'+radioValue,
-				alert(url);
+				
 				$.ajax({ 
 					url: url,
 					type: 'GET',
 				}).done(function(response) 
-				{	alert(response);
+				{	
 					$('.main_table tbody.main_tbody tr').addClass('hide');
 					$('.paginator').addClass('hide');
 					$(".main_table tbody.main_tbody").html(response);

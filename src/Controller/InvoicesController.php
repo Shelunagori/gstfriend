@@ -38,7 +38,7 @@ class InvoicesController extends AppController
 		$EndDate = date('Y-m-d', strtotime($dateto));
 
 		$reportdatas = $this->Invoices->find()
-		->where(['Invoices.transaction_date BETWEEN :start AND :end','company_id'=>$company_id])
+		->where(['Invoices.transaction_date BETWEEN :start AND :end','company_id'=>$company_id,'status' => 0])
 		->bind(':start', $StartDate, 'date')
 		->bind(':end',   $EndDate, 'date')
 		->order(['Invoices.id'=>'DESC']);
@@ -56,7 +56,7 @@ class InvoicesController extends AppController
 		$EndfilterDate = date('Y-m-d', strtotime($startdateto));
 		
 			$filterdatas = $this->Invoices->find()
-			->where(['Invoices.transaction_date BETWEEN :start AND :end','customer_name'=>$customername,'company_id'=>$company_id,'invoicetype'=>$radioValue])
+			->where(['Invoices.transaction_date BETWEEN :start AND :end','customer_name'=>$customername,'company_id'=>$company_id,'invoicetype'=>$radioValue,'status' => 0])
 			->bind(':start', $StartfilterDate, 'date')
 			->bind(':end',   $EndfilterDate, 'date')
 			->order(['Invoices.id'=>'DESC']);
@@ -76,7 +76,7 @@ class InvoicesController extends AppController
 		
 			$filterdatas = $this->Invoices->find()
 			->where(['Invoices.customer_ledger_id'=>$cstmrUser,'Invoices.company_id'=>$company_id,'Invoices.invoicetype'=>$radioValue])
-			->where(['Invoices.transaction_date BETWEEN :start AND :end'])
+			->where(['Invoices.transaction_date BETWEEN :start AND :end','status' => 0])
 			->bind(':start', $StartfilterDate, 'date')
 			->bind(':end',   $EndfilterDate, 'date')
 			->contain(['CustomerLedgers'=>['Customers']])

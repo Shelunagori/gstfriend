@@ -27,12 +27,37 @@ class PurchaseVouchersController extends AppController
 		->where(['PurchaseVouchers.status' => 0,'PurchaseVouchers.company_id'=>$company_id])->order(['PurchaseVouchers.id'=>'DESC']);
      
         $purchaseVouchers = $this->paginate($purchaseVoucher);
-
-		$this->set(compact('purchaseVouchers'));
+		$SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find('list')->where(['accounting_group_id'=>25,'freeze'=>0,'company_id'=>$company_id]);
+		$this->set(compact('purchaseVouchers','SupplierLedger'));
         $this->set('_serialize', ['purchaseVouchers']);
 		$this->set('active_menu', 'PurchaseVouchers.Index');
     }
 
+	
+	
+	
+	function filterreportsupplier($startdatefrom,$startdateto,$supplierfilter)
+	{   
+		$company_id=$this->Auth->User('company_id');
+		$StartfilterDate = date('Y-m-d',strtotime($startdatefrom));
+		$EndfilterDate = date('Y-m-d', strtotime($startdateto));
+		
+			$filterdatas = $this->PurchaseVouchers->find()
+			->where(['PurchaseVouchers.transaction_date BETWEEN :start AND :end','supplier_ledger_id'=>$supplierfilter,'PurchaseVouchers.company_id'=>$company_id,'PurchaseVouchers.status' => 0])
+			->bind(':start', $StartfilterDate, 'date')
+			->bind(':end',   $EndfilterDate, 'date')
+			->contain(['SupplierLedger'=>['Suppliers']])
+			->order(['PurchaseVouchers.id'=>'DESC']);
+			
+		$SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find()->where(['accounting_group_id'=>25,'freeze'=>0,'company_id'=>$company_id]);
+		
+		$this->set(compact('filterdatas','SupplierLedger'));
+		
+	}
+	
+	
+	
+	
     /**
      * View method
      *
