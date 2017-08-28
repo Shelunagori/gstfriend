@@ -24,7 +24,9 @@ class InvoicesController extends AppController
 		$company_id=$this->Auth->User('company_id');
 		
         $invoices = $this->paginate($this->Invoices->find()->where(['Invoices.company_id'=>$company_id,'status' => 0])->order(['Invoices.id'=>'DESC'])->contain(['CustomerLedgers']));
-        $this->set(compact('invoices'));
+		$customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22,'freeze'=>0,'company_id'=>$company_id]);
+		
+        $this->set(compact('invoices','customerLedgers'));
         $this->set('_serialize', ['invoices']);
 		$this->set('active_menu','Invoices.Index');
     }
@@ -42,6 +44,47 @@ class InvoicesController extends AppController
 		->order(['Invoices.id'=>'DESC']);
 	
 		$this->set(compact('reportdatas'));
+	}
+	
+	
+	
+	
+	function filterreportcustomer($startdatefrom,$startdateto,$customername,$radioValue)
+	{    
+		$company_id=$this->Auth->User('company_id');
+		$StartfilterDate = date('Y-m-d',strtotime($startdatefrom));
+		$EndfilterDate = date('Y-m-d', strtotime($startdateto));
+		
+			$filterdatas = $this->Invoices->find()
+			->where(['Invoices.transaction_date BETWEEN :start AND :end','customer_name'=>$customername,'company_id'=>$company_id,'invoicetype'=>$radioValue])
+			->bind(':start', $StartfilterDate, 'date')
+			->bind(':end',   $EndfilterDate, 'date')
+			->order(['Invoices.id'=>'DESC']);
+		
+		$this->set(compact('filterdatas'));
+		
+	}
+	
+	
+	
+	function filterreportcreditcustomer($startdatefrom,$startdateto,$radioValue,$cstmrUser)
+	{  
+		$company_id=$this->Auth->User('company_id');
+	
+		$StartfilterDate = date('Y-m-d',strtotime($startdatefrom));
+		$EndfilterDate = date('Y-m-d', strtotime($startdateto));
+		
+			$filterdatas = $this->Invoices->find()
+			->where(['Invoices.customer_ledger_id'=>$cstmrUser,'Invoices.company_id'=>$company_id,'Invoices.invoicetype'=>$radioValue])
+			->where(['Invoices.transaction_date BETWEEN :start AND :end'])
+			->bind(':start', $StartfilterDate, 'date')
+			->bind(':end',   $EndfilterDate, 'date')
+			->contain(['CustomerLedgers'=>['Customers']])
+			->order(['Invoices.id'=>'DESC']);
+		$customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22,'freeze'=>0,'company_id'=>$company_id]);
+		
+		$this->set(compact('filterdatas','customerLedgers'));
+		
 	}
 	
     /**

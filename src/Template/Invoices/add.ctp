@@ -67,7 +67,7 @@ p{
 						<tr id='cashhide'>
 							<td style='width: 21%;'><b>Bill to Party Name</b></td>
 							<td>&nbsp;:&nbsp;</td>
-							<td class="form-group"><?php echo $this->Form->control('customer_ledger_id',['empty' => "---Select---",'label'=>false,'class'=>'form-control input-sm cstmr']); ?></td>
+							<td class="form-group"><?php echo $this->Form->control('customer_ledger_id',['empty' => "---Select---",'option'=>$customerLedgers,'label'=>false,'class'=>'form-control input-sm cstmr']); ?></td>
 						</tr>
 						<tr id='cashshow' class="hide">
 							<td style='width: 21%;'><b>Bill to Party Name</b></td>

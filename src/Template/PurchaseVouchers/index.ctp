@@ -10,6 +10,7 @@
 		</div>
 	</div>
 	<div class="portlet-body">
+		
 		<div class="table-scrollable">
 		<?php $page_no=$this->Paginator->current('purchaseVouchers'); $page_no=($page_no-1)*20; ?>
 			<table id="example1" class="table table-bordered table-striped">
@@ -19,6 +20,11 @@
 						<th scope="col">Voucher No</th>
 						<th scope="col">Date</th>
 						<th scope="col">Supplier</th>
+						<th scope="col">Base Amount</th>
+						<th scope="col">CGST Amount</th>
+						<th scope="col">SGST Amount</th>
+						<th scope="col">IGST Amount</th>
+						<th scope="col">Total Amount</th>
 						<th scope="col" class="actions"><?= __('Actions') ?></th>
 					</tr>
 				</thead>
@@ -35,6 +41,11 @@
 						<?= $this->Html->link(__($in_no), ['action' => 'view', $purchaseVoucher->id],['target'=>'_blank']) ?></td>
 						<td><?= h($purchaseVoucher->transaction_date) ?></td>
 						<td><?= h($purchaseVoucher->supplier_ledger->supplier->name) ?></td>
+						<td><?= h($purchaseVoucher->total_amount_before_tax) ?></td>
+						<td><?= h($purchaseVoucher->total_cgst) ?></td>
+						<td><?= h($purchaseVoucher->total_sgst) ?></td>
+						<td><?= h($purchaseVoucher->total_igst) ?></td>
+						<td><?= h($purchaseVoucher->total_amount_after_tax) ?></td>
 						<td class="actions">
 							<?= $this->Html->link(__('View'), ['action' => 'view', $purchaseVoucher->id]) ?>
 							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $purchaseVoucher->id]) ?>

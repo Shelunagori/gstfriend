@@ -175,7 +175,11 @@
 												echo '0';
 											}?>
 										</td>
-										<td style="text-align:right;width:80px"><?php echo $purchase_invoice_row->cgst_amount;?>
+										<td style="text-align:right;width:80px">
+										<?php 
+											echo $purchase_invoice_row->cgst_amount;
+											$cgstamount = $cgstamount + $purchase_invoice_row->cgst_amount; 
+										?>
 										</td>
 										<td style="width:80px">
 										<?php if(!empty($purchase_invoice_row->sgst_ledger)) 
@@ -186,7 +190,11 @@
 												echo '0';
 											} ?>
 										</td>
-										<td style="text-align:right;width:70px"><?php echo $purchase_invoice_row->sgst_amount;?>
+										<td style="text-align:right;width:70px">
+										<?php 
+											echo $purchase_invoice_row->sgst_amount;
+											$sgstamount = $sgstamount + $purchase_invoice_row->sgst_amount;
+										?>
 										</td>
 										<td style="width:80px">
 										<?php 
@@ -206,10 +214,7 @@
 								</table>		
 							</td>
 						<?php 
-							$cgstamount = $cgstamount + $purchase_invoice_row->cgst_amount; 
-							$sgstamount = $sgstamount + $purchase_invoice_row->sgst_amount; 
 							$igstamount = $igstamount + $purchase_invoice_row->igst_amount;
-							
 						?>
 							<td style="text-align:right"><?php echo $PurchaseInvoice->total; ?></td>
 						</tr>
