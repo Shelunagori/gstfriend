@@ -85,7 +85,7 @@ p{
 				<tr style="background-color: #e4e3e3;">
 					<th rowspan="2" style="border-left: none;">Sr. No.</th>
 					<th rowspan="2" width="350">Item Description</th>
-					<th rowspan="2" width="80" class="hide">HSN code</th>
+					<th rowspan="2" width="80" >HSN code</th>
 					<th rowspan="2" width="100">Qty</th>
 					<th rowspan="2" width="100">Rate</th>
 					<th rowspan="2" width="80">Amount</th>
@@ -263,7 +263,7 @@ $(document).ready(function() {
 		$("#mainTbl tbody#mainTbody tr.mainTr").each(function(){
 			$(this).find("td:eq(0) span.sr").html(++i); i--;
 			$(this).find("td:nth-child(2) select").select2().attr({name:"invoice_rows["+i+"][item_id]", id:"invoice_rows-"+i+"-item_id"}).rules("add","required");
-			$(this).find("td:eq(2) input").attr({name:"invoice_rows["+i+"][hsn_code]", id:"invoice_rows-"+i+"-hsn_code"}).rules("add","required");
+			$(this).find("td:eq(2) input").attr({name:"invoice_rows["+i+"][hsncode]", id:"invoice_rows-"+i+"-hsncode"}).rules("add","required");
 			$(this).find("td:eq(3) input").attr({name:"invoice_rows["+i+"][quantity]", id:"invoice_rows-"+i+"-quantity"}).rules("add","required");
 			$(this).find("td:eq(4) input").attr({name:"invoice_rows["+i+"][rate]", id:"invoice_rows-"+i+"-rate"}).rules("add","required");
 			$(this).find("td:eq(5) input").attr({name:"invoice_rows["+i+"][amount]", id:"invoice_rows-"+i+"-amount"}).rules("add","required");
@@ -406,6 +406,7 @@ $(document).ready(function() {
 			$("#customer-ledger-id").val("");
 			
 			$('.item').die().live("change",function() { 
+			var hsncode = $(this).find('option:selected').attr('hsncode');
 			var rate = $(this).find('option:selected').attr('rate');
 			var cgst_ledger_id = $(this).find('option:selected').attr('cgst_ledger_id');
 			var sgst_ledger_id = $(this).find('option:selected').attr('sgst_ledger_id');
@@ -433,6 +434,7 @@ $(document).ready(function() {
 			}			
 			
 			
+				$(this).closest('tr').find('td .hsncode').val(hsncode);
 				$(this).closest('tr').find('td .rate').val(rate);
 				$(this).closest('tr').find('td .cgst_rate').val(cgst_ledger_id);
 				$(this).closest('tr').find('td .sgst_rate').val(sgst_ledger_id);
@@ -446,6 +448,8 @@ $(document).ready(function() {
 			$('#cashshow').addClass('hide');
 			$("#customer-name").val("");
 			$('.item').die().live("change",function() {  
+				
+				var hsncode = $(this).find('option:selected').attr('hsncode');
 				var rate = $(this).find('option:selected').attr('rate');
 				var cgst_ledger_id = $(this).find('option:selected').attr('cgst_ledger_id');
 				var sgst_ledger_id = $(this).find('option:selected').attr('sgst_ledger_id');
@@ -473,6 +477,7 @@ $(document).ready(function() {
 				}
 
 
+				$(this).closest('tr').find('td .hsncode').val(hsncode);
 				$(this).closest('tr').find('td .rate').val(rate);
 				$(this).closest('tr').find('td .cgst_rate').val(cgst_ledger_id);
 				$(this).closest('tr').find('td .sgst_rate').val(sgst_ledger_id);
@@ -496,6 +501,7 @@ $(document).ready(function() {
 				}
 				else{
 					alert('Please Select Customer');
+					obj.closest('tr').find('td .hsncode').val('');
 					obj.closest('tr').find('td .rate').val('');
 					obj.closest('tr').find('td .total_cgst').val('');
 					obj.closest('tr').find('td .sgst_rate').val('');					
@@ -519,8 +525,8 @@ $(document).ready(function() {
 			<td class="form-group">
 				<?php echo $this->Form->control('item_id',['empty'=>"----select----",'options'=>$items,'label'=>false,'style'=>'width: 100%;resize: none;','class'=>'form-control input-sm item ']); ?>
 			</td>
-			<td class="hide form-group">
-				<?php echo $this->Form->control('hsn_code',['label'=>false,'placeholder'=>'HSN code','style'=>'width: 100%;','class'=>'form-control input-sm ']); ?>
+			<td class="form-group">
+				<?php echo $this->Form->control('hsncode',['label'=>false,'placeholder'=>'HSN code','style'=>'width: 100%;','class'=>'form-control input-sm hsncode','id'=>'hsncode']); ?>
 			</td>
 			<td style="text-align:center;" class="form-group">
 				<?php echo $this->Form->control('quantity',['label'=>false,'placeholder'=>'Qty','style'=>'width: 100%;text-align: center;','class'=>'form-control input-sm change_qty','value'=>1]); ?>

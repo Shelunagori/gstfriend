@@ -239,10 +239,10 @@ class InvoicesController extends AppController
 		
 		foreach($items_datas as $items_data)
 		{
-			$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->price,'cgst_ledger_id'=>$items_data->cgst_ledger_id,'sgst_ledger_id'=>$items_data->sgst_ledger_id,'igst_ledger_id'=>$items_data->igst_ledger_id];
+			$items[]=['value'=>$items_data->id,'hsncode'=>$items_data->hsn_code,'text'=>$items_data->name,'rate'=>$items_data->price,'cgst_ledger_id'=>$items_data->cgst_ledger_id,'sgst_ledger_id'=>$items_data->sgst_ledger_id,'igst_ledger_id'=>$items_data->igst_ledger_id];
 		}
 
-
+		
 		$last_invoice=$this->Invoices->find()->where(['company_id'=>$company_id])->select(['invoice_no'])->order(['invoice_no' => 'DESC'])->first();
 		if($last_invoice){
 				$invoice_no=$last_invoice->invoice_no+1;
