@@ -70,6 +70,7 @@ class PurchaseInvoicesTable extends Table
 		
 		$this->hasMany('AccountingEntries', [
 			'foreignKey' => 'purchase_invoice_id'
+			
         ]);
 		
 		$this->hasMany('PurchaseInvoiceRows', [

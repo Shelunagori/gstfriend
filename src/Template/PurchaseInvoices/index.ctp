@@ -18,31 +18,58 @@ $this->set('title', 'List');
 			
 		</div>
 	</div>
+	<div class="row filterhide">
+		<div class="form-group col-md-8 ">
+			<div class="form-group col-md-3">
+				<label class="control-label">Supplier Name</label>
+				<?php echo $this->Form->control('supplier_ledger_id',['empty'=>"---select---",'options'=>$SupplierLedger,'label' => false,'class' => 'form-control input-sm select2me supplierfilter','id'=>'supplierfilter']);?>
+			</div>
+			<div class="form-group col-md-2">
+				<label class="control-label">Date From</label>
+				<?php echo $this->Form->input('from', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker filter_date_from' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y")]); ?>
+			</div>
+			<div class="form-group col-md-2">
+				<label class="control-label">Date To</label>
+				<?php echo $this->Form->input('to', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker filter_date_to' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y")]); ?>
+			</div>
+			<div class="form-group col-md-1">
+				<label class="control-label"></label>
+				<button class="filtergo btn btn-success" name="go">Go
+			</div>		
+		</div >
+		<div align='right' ><button class="btn btn-success  showdata" ><b>Purchase Report</b>&nbsp; &nbsp;</div>
+	</div>
 	<div class="portlet-body-form"  >
 		<div class="form-body">
-			<div align='right' ><button class="btn btn-success  showdata" ><b>Purchase Report</b>&nbsp; &nbsp;</div><br>
-			<table id="example1" class="table table-bordered table-striped hidetable">
+			
+			<table id="example1" class="table table-bordered table-striped hidetable main_table">
 				<thead style="text-align:center;">
 					<tr >
 						<th scope="col" >Sr. No.</th>
 						<th scope="col" >Date</th>
+						<th scope="col" >Supplier</th>
 						<th scope="col" >Invoice No.</th>
 						<th scope="col" >Base Amount</th>
-						<th scope="col" >Tax Amount</th>
+						<th scope="col" >CGST Amount</th>
+						<th scope="col" >SGST Amount</th>
+						<th scope="col" >IGST Amount</th>
 						<th scope="col" >Total</th>
 						<th scope="col" class="actions" ><?= __('Actions') ?></th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody class="main_tbody">
 					<?php 	$i=0; foreach ($purchaseInvoices as $purchaseInvoice): 
 							$i++;
 					?>
-					<tr>
+					<tr class="main_tr">
 						<td><?= $this->Number->format($i) ?></td>
 						<td><?= h($purchaseInvoice->transaction_date) ?></td>
+						<td><?= h($purchaseInvoice->supplier_ledger->supplier->name) ?></td>
 						<td><?= $this->Number->format($purchaseInvoice->invoice_no) ?></td>
 						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->base_amount) ?></td>
 						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->total_cgst) ?></td>
+						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->total_sgst) ?></td>
+						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->total_igst) ?></td>
 						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->total) ?></td>
 						<td class="actions">
 							<?= $this->Html->link(__('View'), ['action' => 'view', $purchaseInvoice->id]) ?>
@@ -126,8 +153,49 @@ $(document).ready(function() {
 	$(".showdata").click(function(){ 
 		$('.hidetable').addClass('hide');
 		$('.paginator').addClass('hide');
+		$('.filterhide').addClass('hide');
 		$('.reportshow').removeClass('hide');
     });
+	
+	
+	
+	//Start Filter Date wise and customer wise
+	$(".filtergo").on('click',function() {
+		$('.filter_div').html('<i class="fa fa-refresh fa-spin fa-1x fa-fw"></i><b> Loading... </b>');
+		var startfilterdate = $('.filter_date_from').val();
+		var endfilterdate = $('.filter_date_to').val();	
+		var supplierfilter = document.getElementById('supplierfilter');	
+		var supplierfilter = supplierfilter.options[supplierfilter.selectedIndex].value;	
+       
+		if(startfilterdate <= endfilterdate )
+		{	
+			  
+				var startdatefrom = $('.filter_date_from').val();
+				var startdateto = $('.filter_date_to').val();
+				var supplierfilter = document.getElementById('supplierfilter');	
+				var supplierfilter = supplierfilter.options[supplierfilter.selectedIndex].value;	
+				
+				var obj=$(this);
+				var url="<?php echo $this->Url->build(['controller'=>'PurchaseInvoices','action'=>'filterreportsupplier']);?>";
+				url=url+'/'+startdatefrom+'/'+startdateto+'/'+supplierfilter,
+				
+				$.ajax({ 
+					url: url,
+					type: 'GET',
+				}).done(function(response) 
+				{	
+					$('.main_table tbody.main_tbody tr').addClass('hide');
+					$('.paginator').addClass('hide');
+					$(".main_table tbody.main_tbody").html(response);
+				});
+			
+		}else
+		{
+			alert('Please Select Valid Date');
+			$('.firstdate').val('');
+		}
+	});
+	//End Filter Date wise and customer wise
 
 });
 </script>

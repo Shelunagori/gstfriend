@@ -26,7 +26,7 @@
 					
 				</div>
 				<div class="desc">
-					Purchase Report
+					Purchase Invoice Report
 				</div>
 			</div>
 				<?php echo $this->Html->link('View More<i class="m-icon-swapright m-icon-white"></i>',array('controller'=>'PurchaseInvoices','action'=>'index'),['escape'=>false,'class'=>'more']); ?>
@@ -47,6 +47,22 @@
 			</div>
 			
 				<?php echo $this->Html->link('View More<i class=""m-icon-swapright m-icon-white"></i>',array('controller'=>'Invoices','action'=>'index'),['escape'=>false,'class'=>'more']); ?>			
+		</div>
+	</div>
+	<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+		<div class="dashboard-stat green-haze">
+			<div class="visual">
+				<i class="fa fa-comments"></i>
+			</div>
+			<div class="details">
+				<div class="number">
+					
+				</div>
+				<div class="desc">
+					Purchase Voucher Report
+				</div>
+			</div>
+				<?php echo $this->Html->link('View More<i class="m-icon-swapright m-icon-white"></i>',array('controller'=>'PurchaseVouchers','action'=>'index'),['escape'=>false,'class'=>'more']); ?>
 		</div>
 	</div>
 	

@@ -22,9 +22,13 @@ class PurchaseInvoicesController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
 		$company_id=$this->Auth->User('company_id');
-        $purchaseInvoices = $this->paginate($this->PurchaseInvoices->find()->where(['status' => 0,'company_id'=>$company_id]));
-
-        $this->set(compact('purchaseInvoices'));
+		$purchaseInvoices = $this->PurchaseInvoices->find()
+		->contain(['Companies','SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers']])
+		->where(['PurchaseInvoices.status' => 0,'PurchaseInvoices.company_id'=>$company_id])->order(['PurchaseInvoices.id'=>'DESC']);
+		$purchaseInvoices = $this->paginate($purchaseInvoices);
+       
+		$SupplierLedger = $this->PurchaseInvoices->SupplierLedger->find('list')->where(['accounting_group_id'=>25,'freeze'=>0,'company_id'=>$company_id]);
+        $this->set(compact('purchaseInvoices','SupplierLedger'));
         $this->set('_serialize', ['purchaseInvoices']);
 		$this->set('active_menu', 'PurchaseInvoices.Index');
     }
@@ -43,6 +47,29 @@ class PurchaseInvoicesController extends AppController
 		->order(['PurchaseInvoices.id'=>'DESC']);
 		
 		$this->set(compact('reportdatas'));
+	}
+	
+	
+	
+	
+	function filterreportsupplier($startdatefrom,$startdateto,$supplierfilter)
+	{   
+		$company_id=$this->Auth->User('company_id');
+		$StartfilterDate = date('Y-m-d',strtotime($startdatefrom));
+		$EndfilterDate = date('Y-m-d', strtotime($startdateto));
+		
+			$filterdatas = $this->PurchaseInvoices->find()
+			->where(['PurchaseInvoices.transaction_date BETWEEN :start AND :end','supplier_ledger_id'=>$supplierfilter,'PurchaseInvoices.company_id'=>$company_id,'PurchaseInvoices.status' => 0])
+			->bind(':start', $StartfilterDate, 'date')
+			->bind(':end',   $EndfilterDate, 'date')
+			->contain(['SupplierLedger'=>['Suppliers']])
+			->order(['PurchaseInvoices.id'=>'DESC']);
+		
+		
+		$SupplierLedger = $this->PurchaseInvoices->SupplierLedger->find()->where(['accounting_group_id'=>25,'freeze'=>0,'company_id'=>$company_id]);
+		
+		$this->set(compact('filterdatas','SupplierLedger'));
+		
 	}
 	
 	//Report Generate Function End
@@ -238,170 +265,51 @@ class PurchaseInvoicesController extends AppController
 			$purchaseInvoice->transaction_date = date('Y-m-d',strtotime($purchaseInvoice->transaction_date));
 			$purchaseInvoice->company_id = $company_id;
 			//pr($purchaseInvoice->purchase_invoice_rows);  exit;
+			 if ($this->PurchaseInvoices->save($purchaseInvoice)) {
+				 
+				// $query = $this->PurchaseInvoices->AccountingEntries->query();
+				//$query->delete()->where(['purchase_invoice_id'=> $id])->execute();
 			
-			foreach($purchaseInvoice->purchase_invoice_rows as $purchase_invoice_row)
-			//pr($purchase_invoice_row);    exit;
-			{
-			
-				$taxtypes[] = $this->PurchaseInvoices->TaxTypes->TaxTypeRows->find()
-				->where(['tax_type_id'=>$purchase_invoice_row['tax_type_id']])->toArray();
-
-				
-				foreach($taxtypes as $taxtype)
-				{   
-					foreach($taxtype as $key => &$taxtyp)
-					{	if($purchase_invoice_row['tax_type_id'] == $taxtyp->tax_type_id)
-						{
-							$taxtyp['tax_amount'] = $purchase_invoice_row['tax_amount'];
-						}
-						
-					}
-				}	
-			}
-			
-			//pr($taxtypes);    exit;
-			
-			foreach($taxtypes as $taxtype)
-			{
-				foreach($taxtype as $taxtyp)
+					foreach($purchaseInvoice->purchase_invoice_rows as $purchase_invoice_row)
 				{
-				
-				 $input_gst_ids[] = $this->PurchaseInvoices->Ledgers->find()
-				->where(['name'=>$taxtyp->tax_type_name,'accounting_group_id'=>29,'company_id'=>$company_id])->toArray(); 
-
-					foreach($input_gst_ids as $input_gst_id_data)
-					{
-						foreach($input_gst_id_data as $key => &$input_gst_id)
-						{
-							 if($taxtyp->tax_type_name == $input_gst_id->name)
-							{
-								$input_gst_id['tax_amount'] = $taxtyp->tax_amount;
-							} 
-						}						
-					}							
-
-				}
-			}
-			
-			//pr($input_gst_ids); exit;
-			unset($purchaseInvoice->purchase_invoice_others);
-			$purchaseInvoice->purchase_invoice_others = array();
-			if(!empty($input_gst_ids))
-			{
-				foreach($input_gst_ids as $input_gst_id_data)
-				{
-					foreach($input_gst_id_data as $input_gst_id)
-					{
-						if($input_gst_id->gst_type == 'CGST')
-						{
-							$cgst_amount = $input_gst_id->tax_amount/2;
-							$purchaseInvoice['purchase_invoice_others'][]['CGST'] = ['cgst_ledger_id' =>$input_gst_id->id,'cgst_amount'=>$cgst_amount];
-						}
-
-						if($input_gst_id->gst_type == 'SGST')
-						{
-							$sgst_amount = $input_gst_id->tax_amount/2;
-							$purchaseInvoice['purchase_invoice_others'][]['SGST'] = ['sgst_ledger_id' =>$input_gst_id->id,'sgst_amount'=>$sgst_amount];
-						}
-						
-						if($input_gst_id->gst_type == 'IGST')
-						{
-							$igst_amount = $input_gst_id->tax_amount;
-							$purchaseInvoice['purchase_invoice_others'][]['IGST'] = ['igst_ledger_id' =>$input_gst_id->id,'igst_amount'=>$igst_amount];
-						}						
-					}
-				}
-			}
-			
-			
-				
-		//pr($purchaseInvoice->purchase_invoice_others); exit;
-            if ($this->PurchaseInvoices->save($purchaseInvoice)) {
-				$query = $this->PurchaseInvoices->PurchaseInvoiceRows->query();
-				$query->delete()->where(['purchase_invoice_id'=> $id])->execute();
-			
-			foreach($purchaseInvoice->purchase_invoice_others as $purchase_invoice_other_data)
-			{ 
-			foreach($purchase_invoice_other_data as $key => $purchase_invoice_other)	
-			{	
-			
-				if($key == 'CGST')
-				{	
-					
-					$query_insert = $this->PurchaseInvoices->PurchaseInvoiceRows->query();
-					$query_insert->insert(['cgst_ledger_id','cgst_amount','purchase_invoice_id'])
-					->values([
-						'cgst_ledger_id' => $purchase_invoice_other['cgst_ledger_id'],
-						'cgst_amount' => $purchase_invoice_other['cgst_amount'],
-						'purchase_invoice_id' => $purchaseInvoice->id
-					]);
-					$query_insert->execute();
-					
-					
 					$query_insert = $this->PurchaseInvoices->AccountingEntries->query();
 					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_voucher_id','company_id'])
 					->values([
-						'ledger_id'=>$purchase_invoice_other['cgst_ledger_id'],
-						'debit'=>$purchase_invoice_other['cgst_amount'],
+						'ledger_id'=>$purchase_invoice_row['cgst_ledger_id'],
+						'debit'=>$purchase_invoice_row['cgst_amount'],
 						'credit'=>0,
 						'transaction_date'=>$purchaseInvoice->transaction_date,
 						'purchase_voucher_id'=>$purchaseInvoice->id,
 						'company_id'=>$company_id
 					]);
-					$query_insert->execute();					
-				}
+					$query_insert->execute();	
 
-				if($key == 'SGST')
-				{
-					$query_insert = $this->PurchaseInvoices->PurchaseInvoiceRows->query();
-					$query_insert->insert(['sgst_ledger_id','sgst_amount','purchase_invoice_id'])
-					->values([
-						'sgst_ledger_id' => $purchase_invoice_other['sgst_ledger_id'],
-						'sgst_amount' => $purchase_invoice_other['sgst_amount'],
-						'purchase_invoice_id' => $purchaseInvoice->id
-					]);
-					$query_insert->execute();
-					
 					$query_insert = $this->PurchaseInvoices->AccountingEntries->query();
 					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_voucher_id','company_id'])
 					->values([
-						'ledger_id'=>$purchase_invoice_other['sgst_ledger_id'],
-						'debit'=>$purchase_invoice_other['sgst_amount'],
+						'ledger_id'=>$purchase_invoice_row['sgst_ledger_id'],
+						'debit'=>$purchase_invoice_row['sgst_amount'],
 						'credit'=>0,
 						'transaction_date'=>$purchaseInvoice->transaction_date,
 						'purchase_voucher_id'=>$purchaseInvoice->id,
 						'company_id'=>$company_id
 					]);
 					$query_insert->execute();		
-					
-				}
-				if($key == 'IGST')
-				{
-					$query_insert = $this->PurchaseInvoices->PurchaseInvoiceRows->query();
-					$query_insert->insert(['igst_ledger_id','igst_amount','purchase_invoice_id'])
-					->values([
-						'igst_ledger_id' => $purchase_invoice_other['igst_ledger_id'],
-						'igst_amount' => $purchase_invoice_other['igst_amount'],
-						'purchase_invoice_id' => $purchaseInvoice->id
-					]);
-					$query_insert->execute();
-					
+						
+				
 					$query_insert = $this->PurchaseInvoices->AccountingEntries->query();
 					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_voucher_id','company_id'])
 					->values([
-						'ledger_id'=>$purchase_invoice_other['igst_ledger_id'],
-						'debit'=>$purchase_invoice_other['igst_amount'],
+						'ledger_id'=>$purchase_invoice_row['igst_ledger_id'],
+						'debit'=>$purchase_invoice_row['igst_amount'],
 						'credit'=>0,
 						'transaction_date'=>$purchaseInvoice->transaction_date,
 						'purchase_voucher_id'=>$purchaseInvoice->id,
 						'company_id'=>$company_id
 					]);
-					$query_insert->execute();		
-				}			
-			}	
-			}
-		
-			
+					$query_insert->execute();
+				}
+				
 				if($purchaseInvoice->total !=0)
 				{		
 					$query_insert = $this->PurchaseInvoices->AccountingEntries->query();
@@ -433,6 +341,9 @@ class PurchaseInvoicesController extends AppController
 					]);
 					$query_insert->execute();	
 				}				
+				
+				
+			
 				
                 $this->Flash->success(__('The purchase invoice has been saved.'));
 

@@ -20,19 +20,19 @@
 		<tr>
 			<td><?php echo $i; ?></td>
 			<td><?= h($reportdata->transaction_date) ?></td>
-			<td><?php echo $reportdata->invoice_no; ?></td>
-			<td style="text-align:right"><?php echo $reportdata->base_amount; ?></td>
+			<td><?php echo $reportdata->voucher_no; ?></td>
+			<td style="text-align:right"><?php echo $reportdata->total_amount_before_tax; ?></td>
 			<td style="text-align:right"><?php echo $reportdata->total_cgst; ?></td>
 			<td style="text-align:right"><?php echo $reportdata->total_sgst; ?></td>
 			<td style="text-align:right"><?php echo $reportdata->total_igst; ?></td>
-			<td style="text-align:right"><?php echo $reportdata->total; ?></td>
+			<td style="text-align:right"><?php echo $reportdata->total_amount_after_tax; ?></td>
 		</tr>
 		<?php 	
-			$baseamount = $baseamount + $reportdata->base_amount;
+			$baseamount = $baseamount + $reportdata->total_amount_before_tax;
 			$cgstamount = $cgstamount + $reportdata->total_cgst;
 			$sgstamount = $sgstamount + $reportdata->total_sgst;
 			$igstamount = $igstamount + $reportdata->total_igst;
-			$totalamount = $totalamount + $reportdata->total;
+			$totalamount = $totalamount + $reportdata->total_amount_after_tax;
 			endforeach;  
 		?>
 	</tbody>

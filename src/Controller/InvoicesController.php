@@ -76,7 +76,7 @@ class InvoicesController extends AppController
 		
 			$filterdatas = $this->Invoices->find()
 			->where(['Invoices.customer_ledger_id'=>$cstmrUser,'Invoices.company_id'=>$company_id,'Invoices.invoicetype'=>$radioValue])
-			->where(['Invoices.transaction_date BETWEEN :start AND :end','status' => 0])
+			->where(['Invoices.transaction_date BETWEEN :start AND :end','Invoices.status' => 0])
 			->bind(':start', $StartfilterDate, 'date')
 			->bind(':end',   $EndfilterDate, 'date')
 			->contain(['CustomerLedgers'=>['Customers']])

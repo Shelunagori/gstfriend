@@ -12,7 +12,7 @@
 			
 		</div>
 	</div>
-	<div class="row">
+	<div class="row filterhide">
 		<div class="form-group col-md-8 ">
 			<div class="form-group col-md-3">
 				<label class="control-label">Supplier Name</label>
@@ -31,11 +31,12 @@
 				<button class="filtergo btn btn-success" name="go">Go
 			</div>		
 		</div >
+		<div align='right' ><button class="btn btn-success  showdata" ><b>Purchase Voucher Report</b>&nbsp; &nbsp;</div>
 	</div>
 	<div class="portlet-body">
-		<div class="table-scrollable">
+		<div class="form-body">
 		<?php $page_no=$this->Paginator->current('purchaseVouchers'); $page_no=($page_no-1)*20; ?>
-			<table id="example1" class="table table-bordered table-striped main_table">
+			<table id="example1" class="table table-bordered table-striped  hidetable main_table">
 				<thead>
 					<tr>
 						<th scope="col">Sr.</th>
@@ -78,6 +79,29 @@
 					<?php endforeach; ?>
 				</tbody>
 			</table>
+			<div class="form-body hide reportshow" >
+				<div class="row">
+					<div class="form-group col-md-9">
+						<div class="form-group col-md-4">
+							<label class="control-label">Date From</label>
+							<?php echo $this->Form->input('from', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker datefrom firstdate' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y")]); ?>
+						</div>
+						<div class="form-group col-md-4">
+							<label class="control-label">Date To</label>
+							<?php echo $this->Form->input('to', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker dateto lastdate' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y")]); ?>
+						</div>
+						<div class="form-group col-md-1">
+							<label class="control-label"></label>
+							<button class="go btn btn-success" name="go">Go
+						</div>		
+					</div >
+				</div>
+				<div class="row main_div">
+					<div class="form-group col-md-12" id='main_table_div'> 
+					
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="paginator">
 			<ul class="pagination">
@@ -95,6 +119,38 @@
 
 <script>
 $(document).ready(function() { 
+
+		$(".go").on('click',function() { 
+		$('#main_table_div').html('<i class="fa fa-refresh fa-spin fa-1x fa-fw"></i><b> Loading... </b>');
+		var startdate = $('.firstdate').val();
+		var enddate = $('.lastdate').val();	
+		if(startdate <= enddate)
+		{
+			var datefrom = $('.datefrom').val();
+			
+			var dateto = $('.dateto').val();
+			var obj=$(this);
+			var url="<?php echo $this->Url->build(['controller'=>'PurchaseVouchers','action'=>'datewisereport']);?>";
+			url=url+'/'+datefrom+'/'+dateto,
+			
+			$.ajax({ 
+				url: url,
+				type: 'GET',
+			}).done(function(response) {
+				$("#main_table_div").html(response);
+			});
+		}else
+		{
+			alert('Please Select Valid Date');
+			$('.firstdate').val('');
+		}	
+    });
+	
+
+
+
+
+
 	//Start Filter Date wise and customer wise
 	$(".filtergo").on('click',function() {
 		$('.filter_div').html('<i class="fa fa-refresh fa-spin fa-1x fa-fw"></i><b> Loading... </b>');
@@ -114,12 +170,12 @@ $(document).ready(function() {
 				var obj=$(this);
 				var url="<?php echo $this->Url->build(['controller'=>'PurchaseVouchers','action'=>'filterreportsupplier']);?>";
 				url=url+'/'+startdatefrom+'/'+startdateto+'/'+supplierfilter,
-				alert(url);
+				
 				$.ajax({ 
 					url: url,
 					type: 'GET',
 				}).done(function(response) 
-				{	alert(response);
+				{	
 					$('.main_table tbody.main_tbody tr').addClass('hide');
 					$('.paginator').addClass('hide');
 					$(".main_table tbody.main_tbody").html(response);
@@ -133,6 +189,14 @@ $(document).ready(function() {
 	});
 	//End Filter Date wise and customer wise
 
+	
+	
+	$(".showdata").click(function(){ 
+		$('.hidetable').addClass('hide');
+		$('.paginator').addClass('hide');
+		$('.filterhide').addClass('hide');
+		$('.reportshow').removeClass('hide');
+    });
 	
 	
 

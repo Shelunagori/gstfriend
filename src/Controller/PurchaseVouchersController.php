@@ -34,6 +34,24 @@ class PurchaseVouchersController extends AppController
     }
 
 	
+	function datewisereport($datefrom,$dateto)
+	{
+		$company_id=$this->Auth->User('company_id');
+		$StartDate = date('Y-m-d',strtotime($datefrom));
+		$EndDate = date('Y-m-d', strtotime($dateto));
+
+		$reportdatas = $this->PurchaseVouchers->find()
+		->where(['PurchaseVouchers.transaction_date BETWEEN :start AND :end','company_id'=>$company_id])
+		->bind(':start', $StartDate, 'date')
+		->bind(':end',   $EndDate, 'date')
+		->order(['PurchaseVouchers.id'=>'DESC']);
+		
+		$this->set(compact('reportdatas'));
+	}
+	
+	
+	
+	
 	
 	
 	function filterreportsupplier($startdatefrom,$startdateto,$supplierfilter)

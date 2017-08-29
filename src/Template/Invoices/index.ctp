@@ -12,7 +12,7 @@
 			
 		</div>
 	</div>
-	<div class="row">
+	<div class="row filterhide">
 		<div class="form-group col-md-8   ">
 			<div class="radio-list col-md-3">
 				<label class="radio-inline">
@@ -243,6 +243,7 @@ $(document).ready(function() {
 	$(".showdata").click(function(){ 
 		$('.hidetable').addClass('hide');
 		$('.paginator').addClass('hide');
+		$('.filterhide').addClass('hide');
 		$('.reportshow').removeClass('hide');
     });
 	

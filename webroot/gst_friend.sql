@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 26, 2017 at 08:42 AM
+-- Generation Time: Aug 29, 2017 at 08:03 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -31,13 +31,138 @@ SET time_zone = "+00:00";
 CREATE TABLE `accounting_entries` (
   `id` int(11) NOT NULL,
   `ledger_id` int(10) NOT NULL,
-  `debit` decimal(12,2) NOT NULL,
-  `credit` decimal(15,2) NOT NULL,
+  `debit` decimal(12,2) DEFAULT NULL,
+  `credit` decimal(15,2) DEFAULT NULL,
   `transaction_date` date NOT NULL,
   `purchase_voucher_id` int(10) NOT NULL,
   `company_id` int(10) NOT NULL,
   `invoice_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `accounting_entries`
+--
+
+INSERT INTO `accounting_entries` (`id`, `ledger_id`, `debit`, `credit`, `transaction_date`, `purchase_voucher_id`, `company_id`, `invoice_id`) VALUES
+(1, 55, '4000.00', '0.00', '2017-08-26', 0, 1, 1),
+(2, 18, '0.00', '3389.83', '2017-08-26', 0, 1, 1),
+(3, 26, '0.00', '305.08', '2017-08-26', 0, 1, 1),
+(4, 22, '0.00', '305.08', '2017-08-26', 0, 1, 1),
+(5, 55, '6000.00', '0.00', '2017-08-26', 0, 1, 1),
+(6, 18, '0.00', '5084.75', '2017-08-26', 0, 1, 1),
+(7, 26, '0.00', '305.08', '2017-08-26', 0, 1, 1),
+(8, 22, '0.00', '305.08', '2017-08-26', 0, 1, 1),
+(9, 26, '0.00', '152.54', '2017-08-26', 0, 1, 1),
+(10, 22, '0.00', '152.54', '2017-08-26', 0, 1, 1),
+(11, 53, '2000.00', '0.00', '2017-08-26', 0, 1, 2),
+(12, 18, '0.00', '1694.92', '2017-08-26', 0, 1, 2),
+(13, 26, '0.00', '152.54', '2017-08-26', 0, 1, 2),
+(14, 22, '0.00', '152.54', '2017-08-26', 0, 1, 2),
+(15, 53, '400.00', '0.00', '2017-08-26', 0, 1, 3),
+(16, 18, '0.00', '338.98', '2017-08-26', 0, 1, 3),
+(17, 26, '0.00', '30.51', '2017-08-26', 0, 1, 3),
+(18, 22, '0.00', '30.51', '2017-08-26', 0, 1, 3),
+(19, 53, '2400.00', '0.00', '2017-08-26', 0, 1, 2),
+(20, 18, '0.00', '2007.42', '2017-08-26', 0, 1, 2),
+(21, 26, '0.00', '152.54', '2017-08-26', 0, 1, 2),
+(22, 22, '0.00', '152.54', '2017-08-26', 0, 1, 2),
+(23, 27, '0.00', '43.75', '2017-08-26', 0, 1, 2),
+(24, 28, '0.00', '43.75', '2017-08-26', 0, 1, 2),
+(31, 54, '0.00', '7300.00', '2017-08-26', 1, 1, 0),
+(32, 3, '6186.44', '0.00', '2017-08-26', 1, 1, 0),
+(33, 7, '152.54', '0.00', '2017-08-26', 1, 1, 0),
+(34, 13, '152.54', '0.00', '2017-08-26', 1, 1, 0),
+(35, 39, '0.00', '0.00', '2017-08-26', 1, 1, 0),
+(36, 7, '381.36', '0.00', '2017-08-26', 1, 1, 0),
+(37, 13, '381.36', '0.00', '2017-08-26', 1, 1, 0),
+(38, 39, '0.00', '0.00', '2017-08-26', 1, 1, 0),
+(39, 7, '22.88', '0.00', '2017-08-26', 1, 1, 0),
+(40, 13, '22.88', '0.00', '2017-08-26', 1, 1, 0),
+(41, 6, '500.00', '0.00', '2017-08-26', 1, 1, 0),
+(42, 12, '500.00', '0.00', '2017-08-26', 1, 1, 0),
+(43, 40, '200.00', '0.00', '2017-08-26', 1, 1, 0),
+(44, 54, '0.00', '1500.00', '2017-08-26', 1, 1, 0),
+(45, 3, '300.00', '0.00', '2017-08-26', 1, 1, 0),
+(46, 40, '200.00', '0.00', '2017-08-26', 1, 1, 0),
+(47, 6, '500.00', '0.00', '2017-08-26', 1, 1, 0),
+(48, 12, '500.00', '0.00', '2017-08-26', 1, 1, 0),
+(49, 40, '200.00', '0.00', '2017-08-26', 1, 1, 0),
+(50, 6, '500.00', '0.00', '2017-08-26', 1, 1, 0),
+(51, 12, '500.00', '0.00', '2017-08-26', 1, 1, 0),
+(52, 54, '0.00', '1500.00', '2017-08-26', 1, 1, 0),
+(53, 3, '300.00', '0.00', '2017-08-26', 1, 1, 0),
+(54, 5, '500.00', '0.00', '2017-08-26', 1, 1, 0),
+(55, 10, '500.00', '0.00', '2017-08-26', 1, 1, 0),
+(56, 41, '200.00', '0.00', '2017-08-26', 1, 1, 0),
+(57, 54, '0.00', '2000.00', '2017-08-26', 1, 1, 0),
+(58, 3, '800.00', '0.00', '2017-08-26', 1, 1, 0),
+(59, 54, '0.00', '15000.00', '2017-08-28', 3, 1, 0),
+(60, 3, '13700.00', '0.00', '2017-08-28', 3, 1, 0),
+(61, 6, '20.00', '0.00', '2017-08-28', 18, 1, 0),
+(62, 6, '20.00', '0.00', '2017-08-28', 19, 1, 0),
+(63, 9, NULL, '0.00', '2017-08-28', 19, 1, 0),
+(64, 40, '10.00', '0.00', '2017-08-28', 19, 1, 0),
+(65, 54, '0.00', '100.00', '2017-08-28', 19, 1, 0),
+(66, 3, '70.00', '0.00', '2017-08-28', 19, 1, 0),
+(67, 5, '100.00', '0.00', '2017-08-28', 1, 1, 0),
+(68, 10, '100.00', '0.00', '2017-08-28', 1, 1, 0),
+(69, 41, '200.00', '0.00', '2017-08-28', 1, 1, 0),
+(70, 6, '200.00', '0.00', '2017-08-28', 1, 1, 0),
+(71, 12, '200.00', '0.00', '2017-08-28', 1, 1, 0),
+(72, 43, '300.00', '0.00', '2017-08-28', 1, 1, 0),
+(73, 54, '0.00', '1500.00', '2017-08-28', 1, 1, 0),
+(74, 3, '400.00', '0.00', '2017-08-28', 1, 1, 0),
+(75, 54, '0.00', '1500.00', '2017-08-28', 1, 1, 0),
+(76, 54, '0.00', '1500.00', '2017-08-28', 1, 1, 0),
+(77, 3, '1380.00', '0.00', '2017-08-28', 1, 1, 0),
+(78, 6, '200.00', '0.00', '2017-08-28', 2, 1, 0),
+(79, 12, '200.00', '0.00', '2017-08-28', 2, 1, 0),
+(80, 41, '150.00', '0.00', '2017-08-28', 2, 1, 0),
+(81, 5, '20.00', '0.00', '2017-08-28', 2, 1, 0),
+(82, 10, '20.00', '0.00', '2017-08-28', 2, 1, 0),
+(83, 39, NULL, '0.00', '2017-08-28', 2, 1, 0),
+(84, 54, '0.00', '1000.00', '2017-08-28', 2, 1, 0),
+(85, 3, '410.00', '0.00', '2017-08-28', 2, 1, 0),
+(86, 6, '200.00', '0.00', '2017-08-28', 2, 1, 0),
+(87, 12, '200.00', '0.00', '2017-08-28', 2, 1, 0),
+(88, 41, '150.00', '0.00', '2017-08-28', 2, 1, 0),
+(89, 5, '20.00', '0.00', '2017-08-28', 2, 1, 0),
+(90, 10, '20.00', '0.00', '2017-08-28', 2, 1, 0),
+(91, 39, NULL, '0.00', '2017-08-28', 2, 1, 0),
+(92, 8, '10.00', '0.00', '2017-08-28', 2, 1, 0),
+(93, 9, NULL, '0.00', '2017-08-28', 2, 1, 0),
+(94, 43, '100.00', '0.00', '2017-08-28', 2, 1, 0),
+(95, 54, '0.00', '1000.00', '2017-08-28', 2, 1, 0),
+(96, 3, '300.00', '0.00', '2017-08-28', 2, 1, 0),
+(97, 6, '120.00', '0.00', '2017-08-29', 3, 1, 0),
+(98, 12, '120.00', '0.00', '2017-08-29', 3, 1, 0),
+(99, 42, '200.00', '0.00', '2017-08-29', 3, 1, 0),
+(100, 7, '50.00', '0.00', '2017-08-29', 3, 1, 0),
+(101, 13, '50.00', '0.00', '2017-08-29', 3, 1, 0),
+(102, 39, NULL, '0.00', '2017-08-29', 3, 1, 0),
+(103, 54, '0.00', '1000.00', '2017-08-29', 3, 1, 0),
+(104, 3, '460.00', '0.00', '2017-08-29', 3, 1, 0),
+(105, 6, '120.00', '0.00', '2017-08-29', 3, 1, 0),
+(106, 12, '120.00', '0.00', '2017-08-29', 3, 1, 0),
+(107, 42, '200.00', '0.00', '2017-08-29', 3, 1, 0),
+(108, 7, '50.00', '0.00', '2017-08-29', 3, 1, 0),
+(109, 13, '50.00', '0.00', '2017-08-29', 3, 1, 0),
+(110, 43, '300.00', '0.00', '2017-08-29', 3, 1, 0),
+(111, 4, NULL, '0.00', '2017-08-29', 3, 1, 0),
+(112, 9, NULL, '0.00', '2017-08-29', 3, 1, 0),
+(113, 42, '150.00', '0.00', '2017-08-29', 3, 1, 0),
+(114, 54, '0.00', '1500.00', '2017-08-29', 3, 1, 0),
+(115, 3, '510.00', '0.00', '2017-08-29', 3, 1, 0),
+(116, 53, '800.00', '0.00', '2017-08-26', 0, 1, 3),
+(117, 18, '0.00', '677.97', '2017-08-26', 0, 1, 3),
+(118, 26, '0.00', '30.51', '2017-08-26', 0, 1, 3),
+(119, 22, '0.00', '30.51', '2017-08-26', 0, 1, 3),
+(120, 26, '0.00', '30.51', '2017-08-26', 0, 1, 3),
+(121, 22, '0.00', '30.51', '2017-08-26', 0, 1, 3),
+(122, 29, '400.00', '0.00', '2017-08-28', 0, 1, 4),
+(123, 18, '0.00', '338.98', '2017-08-28', 0, 1, 4),
+(124, 26, '0.00', '30.51', '2017-08-28', 0, 1, 4),
+(125, 22, '0.00', '30.51', '2017-08-28', 0, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -137,6 +262,14 @@ CREATE TABLE `customers` (
   `status` int(5) NOT NULL COMMENT '0==not delete, 1==delete'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `customers`
+--
+
+INSERT INTO `customers` (`id`, `name`, `mobile`, `email`, `address`, `state`, `freezed`, `company_id`, `gstno`, `status`) VALUES
+(1, 'customer1', '123456', 'customer1@gmail.com', 'xyzbjkm', 'rajasthan', 0, 1, '1234', 0),
+(2, 'customer2', '6164416514', '', '', '', 0, 1, '', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -159,6 +292,16 @@ CREATE TABLE `invoices` (
   `status` int(5) NOT NULL COMMENT '0==not delete, 1==delete',
   `company_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `invoices`
+--
+
+INSERT INTO `invoices` (`id`, `invoice_no`, `transaction_date`, `customer_ledger_id`, `customer_name`, `sales_ledger_id`, `total_amount_before_tax`, `total_cgst`, `total_sgst`, `total_igst`, `total_amount_after_tax`, `invoicetype`, `status`, `company_id`) VALUES
+(1, 2, '2017-08-26', 55, '', 18, '5084.75', '457.63', '457.63', '0.00', '6000.00', 'Credit', 0, 1),
+(2, 5, '2017-08-26', 53, '', 18, '2007.42', '196.29', '196.29', '0.00', '2400.00', 'Credit', 0, 1),
+(3, 6, '2017-08-26', 53, '', 18, '677.97', '61.02', '61.02', '0.00', '800.00', 'Credit', 0, 1),
+(4, 7, '2017-08-28', 0, 'anil', 18, '338.98', '30.51', '30.51', '0.00', '400.00', 'Cash', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -184,6 +327,19 @@ CREATE TABLE `invoice_rows` (
   `igst_amount` decimal(15,2) NOT NULL,
   `total` decimal(15,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `invoice_rows`
+--
+
+INSERT INTO `invoice_rows` (`id`, `invoice_id`, `item_id`, `quantity`, `rate`, `amount`, `discount_rate`, `discount_amount`, `taxable_value`, `cgst_rate`, `cgst_amount`, `sgst_rate`, `sgst_amount`, `igst_ledger_id`, `igst_amount`, `total`) VALUES
+(2, 1, 2, '10.00', '20338.98', '203389.83', NULL, '200000.00', '3389.83', 26, '305.08', 22, '305.08', 44, '0.00', '4000.00'),
+(3, 1, 10, '5.00', '338.98', '1694.92', NULL, '0.00', '1694.92', 26, '152.54', 22, '152.54', 0, '0.00', '2000.00'),
+(6, 2, 3, '5.00', '338.98', '1694.92', NULL, '0.00', '1694.92', 26, '152.54', 22, '152.54', 44, '0.00', '2000.00'),
+(7, 2, 9, '1.00', '312.50', '312.50', NULL, '0.00', '312.50', 27, '43.75', 28, '43.75', 0, '0.00', '400.00'),
+(8, 3, 2, '1.00', '338.98', '338.98', NULL, '0.00', '338.98', 26, '30.51', 22, '30.51', 44, '0.00', '400.00'),
+(9, 3, 6, '1.00', '338.98', '338.98', NULL, NULL, '338.98', 26, '30.51', 22, '30.51', 0, '0.00', '400.00'),
+(10, 4, 4, '1.00', '338.98', '338.98', NULL, NULL, '338.98', 26, '30.51', 22, '30.51', 0, '0.00', '400.00');
 
 -- --------------------------------------------------------
 
@@ -231,7 +387,8 @@ INSERT INTO `items` (`id`, `name`, `hsn_code`, `freezed`, `company_id`, `price`,
 (16, 'Security Cylinder', '', 0, 1, '400.00', 23, 19, 0, 2, 4, 9, 0, 0),
 (17, 'Security P.R.', '', 0, 1, '400.00', 23, 19, 0, 2, 4, 9, 0, 0),
 (18, 'Refill 19 kg', '27111900', 0, 1, '400.00', 26, 22, 0, 8, 7, 13, 0, 0),
-(19, 'Refill 5 kg', '27111900', 0, 1, '400.00', 26, 22, 0, 8, 7, 13, 0, 0);
+(19, 'Refill 5 kg', '27111900', 0, 1, '400.00', 26, 22, 0, 8, 7, 13, 0, 0),
+(20, 'demo item', '123', 0, 1, '400.00', 0, 0, 45, 3, 0, 0, 40, 0);
 
 -- --------------------------------------------------------
 
@@ -246,6 +403,20 @@ CREATE TABLE `item_discounts` (
   `discount` decimal(15,2) DEFAULT NULL,
   `company_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `item_discounts`
+--
+
+INSERT INTO `item_discounts` (`id`, `customer_ledger_id`, `item_id`, `discount`, `company_id`) VALUES
+(1, 53, 1, '20.00', 1),
+(2, 55, 1, NULL, 1),
+(3, 53, 4, NULL, 1),
+(4, 55, 4, '10.00', 1),
+(5, 53, 3, NULL, 1),
+(6, 55, 3, '5.00', 1),
+(7, 53, 6, NULL, 1),
+(8, 55, 6, '2.00', 1);
 
 -- --------------------------------------------------------
 
@@ -302,7 +473,10 @@ INSERT INTO `ledgers` (`id`, `name`, `accounting_group_id`, `freeze`, `company_i
 (45, '5% IGST', 30, 0, 1, 0, 0, '5.00', 'IGST'),
 (46, '12% IGST', 30, 0, 1, 0, 0, '12.00', 'IGST'),
 (47, '18% IGST', 30, 0, 1, 0, 0, '18.00', 'IGST'),
-(48, '28% IGST', 30, 0, 1, 0, 0, '28.00', 'IGST');
+(48, '28% IGST', 30, 0, 1, 0, 0, '28.00', 'IGST'),
+(53, 'customer1', 22, 0, 1, 0, 1, '0.00', NULL),
+(54, 'supplier1', 25, 0, 1, 1, 0, '0.00', NULL),
+(55, 'customer2', 22, 0, 1, 0, 2, '0.00', NULL);
 
 -- --------------------------------------------------------
 
@@ -339,11 +513,20 @@ CREATE TABLE `purchase_invoices` (
   `base_amount` decimal(15,2) NOT NULL,
   `total_cgst` decimal(15,2) NOT NULL,
   `total_sgst` decimal(15,2) NOT NULL,
+  `total_igst` decimal(15,2) NOT NULL,
   `total` decimal(15,2) NOT NULL,
   `purchase_ledger_id` int(15) NOT NULL,
   `company_id` int(15) NOT NULL,
   `status` int(5) NOT NULL COMMENT '0==not delete, 1==delete'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `purchase_invoices`
+--
+
+INSERT INTO `purchase_invoices` (`id`, `transaction_date`, `invoice_no`, `supplier_ledger_id`, `base_amount`, `total_cgst`, `total_sgst`, `total_igst`, `total`, `purchase_ledger_id`, `company_id`, `status`) VALUES
+(2, '2017-08-28', 123, 54, '300.00', '230.00', '220.00', '250.00', '1000.00', 3, 1, 0),
+(3, '2017-08-29', 123456, 54, '510.00', '170.00', '170.00', '650.00', '1500.00', 3, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -354,13 +537,25 @@ CREATE TABLE `purchase_invoices` (
 CREATE TABLE `purchase_invoice_rows` (
   `id` int(11) NOT NULL,
   `cgst_ledger_id` int(15) NOT NULL,
-  `cgst_amount` decimal(15,2) NOT NULL,
+  `cgst_amount` decimal(15,2) DEFAULT NULL,
   `sgst_ledger_id` int(15) NOT NULL,
-  `sgst_amount` decimal(15,2) NOT NULL,
+  `sgst_amount` decimal(15,2) DEFAULT NULL,
   `igst_ledger_id` int(11) NOT NULL,
-  `igst_amount` decimal(15,2) NOT NULL,
+  `igst_amount` decimal(15,2) DEFAULT NULL,
   `purchase_invoice_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `purchase_invoice_rows`
+--
+
+INSERT INTO `purchase_invoice_rows` (`id`, `cgst_ledger_id`, `cgst_amount`, `sgst_ledger_id`, `sgst_amount`, `igst_ledger_id`, `igst_amount`, `purchase_invoice_id`) VALUES
+(3, 6, '200.00', 12, '200.00', 41, '150.00', 2),
+(4, 5, '20.00', 10, '20.00', 39, NULL, 2),
+(5, 8, '10.00', 9, NULL, 43, '100.00', 2),
+(8, 6, '120.00', 12, '120.00', 42, '200.00', 3),
+(9, 7, '50.00', 13, '50.00', 43, '300.00', 3),
+(10, 4, NULL, 9, NULL, 42, '150.00', 3);
 
 -- --------------------------------------------------------
 
@@ -384,6 +579,13 @@ CREATE TABLE `purchase_vouchers` (
   `company_id` int(10) NOT NULL,
   `status` int(5) NOT NULL COMMENT '0==not delete, 1=delete'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `purchase_vouchers`
+--
+
+INSERT INTO `purchase_vouchers` (`id`, `voucher_no`, `reference_no`, `supplier_ledger_id`, `purchase_ledger_id`, `transaction_date`, `narration`, `total_amount_before_tax`, `total_cgst`, `total_sgst`, `total_igst`, `total_amount_after_tax`, `company_id`, `status`) VALUES
+(1, 1, '123', 54, 3, '2017-08-26', '', '6186.44', '556.78', '556.78', '0.00', '7300.00', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -409,6 +611,15 @@ CREATE TABLE `purchase_voucher_rows` (
   `total` decimal(15,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `purchase_voucher_rows`
+--
+
+INSERT INTO `purchase_voucher_rows` (`id`, `purchase_voucher_id`, `item_id`, `quantity`, `rate_per`, `discount_amount`, `amount`, `taxable_value`, `cgst_ledger_id`, `cgst_amount`, `sgst_ledger_id`, `sgst_amount`, `igst_ledger_id`, `igst_amount`, `total`) VALUES
+(3, 1, 2, '10.00', '169.49', NULL, '1694.92', 1694, 7, '152.54', 13, '152.54', 39, '0.00', '2000.00'),
+(4, 1, 3, '15.00', '282.49', NULL, '4237.29', 4237, 7, '381.36', 13, '381.36', 39, '0.00', '5000.00'),
+(5, 1, 6, '1.00', '254.24', NULL, '254.24', 254, 7, '22.88', 13, '22.88', 0, '0.00', '300.00');
+
 -- --------------------------------------------------------
 
 --
@@ -427,6 +638,13 @@ CREATE TABLE `suppliers` (
   `gstno` varchar(100) NOT NULL,
   `status` int(5) NOT NULL COMMENT '0==not delete, 1==delete'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `suppliers`
+--
+
+INSERT INTO `suppliers` (`id`, `name`, `mobile`, `email`, `address`, `state`, `freezed`, `company_id`, `gstno`, `status`) VALUES
+(1, 'supplier1', '4564848148', 'supplier1@gmail.com', 'gajbfsd', 'gujarat', 0, 1, 'gst123', 0);
 
 -- --------------------------------------------------------
 
@@ -512,7 +730,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `password`, `company_id`, `mobile_no`, `email`, `otp`, `status`) VALUES
-(2, 'Abhilash Lohar', 'hello', '$2y$10$5lD5bEZOEf6Gv5s50XEEYu352BwMCw2BrLIh.dIBV5uDcSLGghV4a', 1, '0', '', '', 0),
+(2, 'phppoets', 'hello', '$2y$10$5lD5bEZOEf6Gv5s50XEEYu352BwMCw2BrLIh.dIBV5uDcSLGghV4a', 1, '9549993335', 'ankit@phppoets.com', '931126', 0),
 (4, 'hello', 'admin', '$2y$10$5lD5bEZOEf6Gv5s50XEEYu352BwMCw2BrLIh.dIBV5uDcSLGghV4a', 2, '0', '', '', 0);
 
 --
@@ -635,7 +853,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `accounting_entries`
 --
 ALTER TABLE `accounting_entries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
 --
 -- AUTO_INCREMENT for table `accounting_groups`
 --
@@ -650,32 +868,32 @@ ALTER TABLE `companies`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `invoices`
 --
 ALTER TABLE `invoices`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `invoice_rows`
 --
 ALTER TABLE `invoice_rows`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `item_discounts`
 --
 ALTER TABLE `item_discounts`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `ledgers`
 --
 ALTER TABLE `ledgers`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 --
 -- AUTO_INCREMENT for table `nature_of_groups`
 --
@@ -685,27 +903,27 @@ ALTER TABLE `nature_of_groups`
 -- AUTO_INCREMENT for table `purchase_invoices`
 --
 ALTER TABLE `purchase_invoices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `purchase_invoice_rows`
 --
 ALTER TABLE `purchase_invoice_rows`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `purchase_vouchers`
 --
 ALTER TABLE `purchase_vouchers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `purchase_voucher_rows`
 --
 ALTER TABLE `purchase_voucher_rows`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `suppliers`
 --
 ALTER TABLE `suppliers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `tax_types`
 --
@@ -720,7 +938,7 @@ ALTER TABLE `tax_type_rows`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;COMMIT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
