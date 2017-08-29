@@ -200,13 +200,14 @@ p{
 				$paisa_text=' and ' . h(ucwords($this->NumberWords->convert_number_to_words($paisa))) .' Paisa';
 			}else{ $paisa_text=""; }
 		?>
+		
 		<!--Convert Rupees ito Word- End-->
 		<table width="100%" class="tbl total">
 			<tbody>
 				<tr>
 					<td style="text-align:left;border-left: none;border-top: none;" rowspan="5" width="70%" valign="top">
 						<p><b>Amount in words : </b>
-						<?php  h(ucwords($this->NumberWords->convert_number_to_words($rupees))) ?> Rupees<?= h($paisa_text)  ?>
+						<?=  h(ucwords($this->NumberWords->convert_number_to_words($rupees))) ?> Rupees<?= h($paisa_text)  ?>
 						</p>
 					</td>
 					<td style="text-align:right;border-top: none;"><b>Base Amount before Tax</b></td>
