@@ -103,6 +103,10 @@ class InvoicesController extends AppController
             'contain' => ['CustomerLedgers'=>['Customers'], 'SalesLedgers', 'InvoiceRows'=>['Items','TaxCGST','TaxSGST','TaxIGST']]
         ]);
 		
+		
+		
+		
+		
 		$companies = $this->Invoices->Companies->find()->where(['id' => $company_id]);
 		//pr($invoice->toArray());exit;
         
@@ -261,6 +265,155 @@ class InvoicesController extends AppController
         $this->set('_serialize', ['invoice']);
 		$this->set('active_menu', 'Invoices.Add');
     }
+	
+	
+	
+	// addcash invoice start
+	public function addcashinvoice()
+    {
+		$this->viewBuilder()->layout('index_layout');
+        $invoice = $this->Invoices->newEntity();
+		$company_id=$this->Auth->User('company_id');
+        if ($this->request->is('post')) {
+            $invoice = $this->Invoices->patchEntity($invoice, $this->request->getData());
+			
+			//Invoice Number Increment
+			$last_invoice=$this->Invoices->find()->select(['invoice_no'])->where(['company_id'=>$company_id])->order(['invoice_no' => 'DESC'])->first();
+			if($last_invoice){
+				$invoice->invoice_no=$last_invoice->invoice_no+1;
+			}else{
+				$invoice->invoice_no=1;
+			} 
+			$invoice->transaction_date = date('Y-m-d',strtotime($invoice->transaction_date));
+			$invoice->company_id=$company_id;
+			if ($this->Invoices->save($invoice)) {
+				
+				if($invoice->invoicetype == 'Cash')
+				{
+					if($invoice->total_amount_after_tax !=0)
+					{		
+						$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
+						$Accounting_entries->ledger_id = 29;
+						$Accounting_entries->debit = $invoice->total_amount_after_tax;
+						$Accounting_entries->credit = 0;
+						$Accounting_entries->transaction_date = $invoice->transaction_date;
+						$Accounting_entries->company_id=$company_id;
+						$Accounting_entries->invoice_id = $invoice->id;
+						$this->Invoices->AccountingEntries->save($Accounting_entries);				
+					}					
+				}
+				else
+				{
+					if($invoice->total_amount_after_tax !=0)
+					{		
+						$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
+						$Accounting_entries->ledger_id = $invoice->customer_ledger_id;
+						$Accounting_entries->debit = $invoice->total_amount_after_tax;
+						$Accounting_entries->credit = 0;
+						$Accounting_entries->transaction_date = $invoice->transaction_date;
+						$Accounting_entries->company_id=$company_id;
+						$Accounting_entries->invoice_id = $invoice->id;
+						$this->Invoices->AccountingEntries->save($Accounting_entries);				
+					}					
+				}
+				
+				if($invoice->total_amount_before_tax !=0)
+				{		
+					$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $invoice->sales_ledger_id;
+					$Accounting_entries->debit = 0;
+					$Accounting_entries->credit = $invoice->total_amount_before_tax;
+					$Accounting_entries->transaction_date = $invoice->transaction_date;
+					$Accounting_entries->company_id=$company_id;
+					$Accounting_entries->invoice_id = $invoice->id;
+					$this->Invoices->AccountingEntries->save($Accounting_entries);				
+				}				
+				
+				
+				foreach($invoice->invoice_rows as $invoice_row)
+				{
+					$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $invoice_row->cgst_rate;
+					$Accounting_entries->debit = 0;
+					$Accounting_entries->credit = $invoice_row->cgst_amount;
+					$Accounting_entries->transaction_date = $invoice->transaction_date;
+					$Accounting_entries->company_id=$company_id;
+					$Accounting_entries->invoice_id = $invoice->id;
+					$this->Invoices->AccountingEntries->save($Accounting_entries);
+
+					$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $invoice_row->sgst_rate;
+					$Accounting_entries->debit = 0;
+					$Accounting_entries->credit = $invoice_row->sgst_amount;
+					$Accounting_entries->transaction_date = $invoice->transaction_date;
+					$Accounting_entries->company_id=$company_id;
+					$Accounting_entries->invoice_id = $invoice->id;
+					$this->Invoices->AccountingEntries->save($Accounting_entries);
+					
+					$Accounting_entries = $this->Invoices->AccountingEntries->newEntity();
+					$Accounting_entries->ledger_id = $invoice_row->igst_ledger_id;
+					$Accounting_entries->debit = 0;
+					$Accounting_entries->credit = $invoice_row->igst_amount;
+					$Accounting_entries->transaction_date = $invoice->transaction_date;
+					$Accounting_entries->company_id=$company_id;
+					$Accounting_entries->invoice_id = $invoice->id;
+					$this->Invoices->AccountingEntries->save($Accounting_entries);
+					
+				}
+				
+				
+                $this->Flash->success(__('The invoice has been saved.'));
+
+                return $this->redirect(['action' => 'view/'.$invoice->id]);
+            }
+            $this->Flash->error(__('The invoice could not be saved. Please, try again.'));
+        }
+        $customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22,'freeze'=>0,'company_id'=>$company_id]);
+        $salesLedgers = $this->Invoices->SalesLedgers->find('list')->where(['accounting_group_id'=>14,'freeze'=>0,'company_id'=>$company_id]);
+        $items_datas = $this->Invoices->InvoiceRows->Items->find()->where(['freezed'=>0,'company_id'=>$company_id]);
+        $customer_discounts = $this->Invoices->InvoiceRows->Items->find()->where(['company_id'=>$company_id]);
+	
+		$tax_CGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'CGST','company_id'=>$company_id]);
+		
+		foreach($tax_CGSTS as $tax_CGST)
+		{
+			$taxs_CGST[]=['value'=>$tax_CGST->id,'text'=>$tax_CGST->name,'tax_rate'=>$tax_CGST->tax_percentage];
+		}		
+		
+		$tax_SGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'SGST','company_id'=>$company_id]);
+		
+		foreach($tax_SGSTS as $tax_SGST)
+		{
+			$taxs_SGST[]=['value'=>$tax_SGST->id,'text'=>$tax_SGST->name,'tax_rate'=>$tax_SGST->tax_percentage];
+		}		
+		
+		foreach($items_datas as $items_data)
+		{
+			$items[]=['value'=>$items_data->id,'hsncode'=>$items_data->hsn_code,'text'=>$items_data->name,'rate'=>$items_data->price,'cgst_ledger_id'=>$items_data->cgst_ledger_id,'sgst_ledger_id'=>$items_data->sgst_ledger_id,'igst_ledger_id'=>$items_data->igst_ledger_id];
+		}
+
+		
+		$last_invoice=$this->Invoices->find()->where(['company_id'=>$company_id])->select(['invoice_no'])->order(['invoice_no' => 'DESC'])->first();
+		if($last_invoice){
+				$invoice_no=$last_invoice->invoice_no+1;
+		}else{
+				$invoice_no=1;
+		} 
+
+		$tax_IGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'IGST','company_id'=>$company_id]);
+		
+		foreach($tax_IGSTS as $tax_IGST)
+		{
+			$taxs_IGST[]=['value'=>$tax_IGST->id,'text'=>$tax_IGST->name,'tax_rate'=>$tax_IGST->tax_percentage];
+		}		
+		
+        $this->set(compact('invoice', 'customerLedgers', 'salesLedgers', 'items','taxs_CGST','taxs_SGST','invoice_no','taxs_IGST'));
+        $this->set('_serialize', ['invoice']);
+		$this->set('active_menu', 'Invoices.CashAddInvoice');
+    }
+	// addcash invoice end
+	
+	
 	
 	
 	function CustomerDiscount($customer_id,$item_id){

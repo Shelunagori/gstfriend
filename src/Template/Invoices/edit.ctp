@@ -34,10 +34,10 @@ p{
 							<td><div>&nbsp;:&nbsp;</div></br></td>
 							<td>
 							<div class="radio-list">
-								<label class="radio-inline">
-								<div class="radio" id="uniform-optionsRadios26"><span class="checked"><input type="radio" name="invoicetype" id="invoicetype" value="Credit" <?php if($invoice->invoicetype == 'Credit') { echo  'checked'; } ?> ></span></div> Credit </label>
+								<label class="radio-inline"  id="cashhide1">
+								<div class="radio " id="uniform-optionsRadios26 "><span class="checked"><input type="radio" name="invoicetype" id="invoicetype" value="Credit" <?php if($invoice->invoicetype == 'Credit') { echo  'checked'; } ?> ></span></div> Credit </label>
 								
-								<label class="radio-inline">
+								<label class="radio-inline" id="cash">
 								<div class="radio" id="uniform-optionsRadios25"><span class=""><input type="radio" name="invoicetype" id="invoicetype" value="Cash" <?php if($invoice->invoicetype == 'Cash') { echo  'checked'; } ?>></span></div> Cash </label>
 							</div></br>
 							</td>
@@ -62,7 +62,7 @@ p{
 						<tr id='cashhide'>
 							<td><b>Name</b></td>
 							<td>&nbsp;:&nbsp;</td>
-							<td><?php echo $this->Form->control('customer_ledger_id',['label'=>false,'class'=>'form-control cstmr input-sm']); ?></td>
+							<td><?php echo $this->Form->control('customer_ledger_id',['label'=>false,'class'=>'form-control cstmr input-sm select2me']); ?></td>
 						</tr>
 						<tr id='cashshow' class="hide">
 							<td><b>Name</b></td>
@@ -202,8 +202,11 @@ $(document).ready(function() {
 	
 	var radioValue = $("input[name='invoicetype']:checked").val();
 	if(radioValue == 'Cash'){
+		$('#cashhide1').addClass('hide');
 		$('#cashhide').addClass('hide');
-	}else{ $('#cashhide').removeClass('hide'); }	
+	}else{ $('#cashhide').removeClass('hide');
+			$('#cash').addClass('hide');
+		}	
 	
 	rename_rows();
 	$('.addrow').live("click",function() {

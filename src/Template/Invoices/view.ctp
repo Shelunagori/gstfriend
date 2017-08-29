@@ -158,8 +158,9 @@ p{
 				</tr>
 			</thead>
 			<tbody>
-			<?php $i=0; if(!empty($invoice->invoice_rows)) {
-			foreach($invoice->invoice_rows as $invoice_row){  ?>
+			<?php $i=0;	if(!empty($invoice->invoice_rows)) {
+			foreach($invoice->invoice_rows as $invoice_row){ 
+					?>
 				<tr>
 					<td style="text-align:center;border-left: none;"><?= ++$i ?></td>
 					<td><?= h($invoice_row->item->name) ?></td>
@@ -171,32 +172,34 @@ p{
 					<td style="text-align:right;"><?= $invoice_row->taxable_value ?></td>
 					<td style="text-align:right;">
 
-					<?php 
+					<?php  if(is_array($invoice_row->igst)) {
 						if($invoice_row->cgst->tax_percentage!= 0)
 						{
 							echo $invoice_row->cgst->tax_percentage;
 						}
-						else{ echo 0; }
-					?>%</td>		
+					}
+						else{ echo '0%'; }
+					?></td>		
 					<td style="text-align:right;"><?= $invoice_row->cgst_amount ?></td>
 					<td style="text-align:right;">
-					<?php 
+					<?php if(is_array($invoice_row->igst)) {
 						if($invoice_row->sgst->tax_percentage!= 0)
 						{
 							echo $invoice_row->sgst->tax_percentage;
 						}
-						else{ echo 0; }
+					}
+						else{ echo '0%'; }
 						 
-					?>%</td>
+					?></td>
 					<td style="text-align:right;"><?= $invoice_row->sgst_amount ?></td>
 					<td style="text-align:right;">
-					<?php 
-						if($invoice_row->igst->tax_percentage!= 0)
+					<?php if(is_array($invoice_row->igst)) { 
+						if($invoice_row->igst->tax_percentage != 0)
 						{
 							echo $invoice_row->igst->tax_percentage;
 						}
-						else{ echo 0; }
-					?>%</td>
+					 }else{ echo '0%'; }
+					?></td>
 					<td style="text-align:right;"><?= $invoice_row->igst_amount ?></td>
 					<td style="text-align:right;border-right: none;"><?= $invoice_row->total ?></td>
 				</tr>
@@ -217,7 +220,7 @@ p{
 		<table width="100%" class="tbl">
 			<tbody>
 				<tr>
-					<td style="text-align:left;border-left: none;border-top: none;" rowspan="4" width="70%" valign="top">
+					<td style="text-align:left;border-left: none;border-top: none;" rowspan="5" width="70%" valign="top">
 						<p><b>Amount in words : </b>
 						<?= h(ucwords($this->NumberWords->convert_number_to_words($rupees))) ?> Rupees<?= h($paisa_text) ?>
 						</p>

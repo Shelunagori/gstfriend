@@ -49,6 +49,7 @@
 					<tr>
 						<th scope="col">Sr.</th>
 						<th scope="col">Invoice No</th>
+						<th scope="col">Invoice Type</th>
 						<th scope="col">Invoice Date</th>
 						<th scope="col">Customer</th>
 						<th scope="col">Base Amount</th>
@@ -67,6 +68,7 @@
 						<td>
 							<?php $in_no='#'.str_pad($invoice->invoice_no, 4, '0', STR_PAD_LEFT);  ?>
 							<?= $this->Html->link(__($in_no), ['action' => 'view', $invoice->id],['target'=>'_blank']) ?></td>
+						<td><?= h($invoice->invoicetype) ?></td>
 						<td><?= h($invoice->transaction_date) ?></td>
 						<td><?php 
 								if($invoice->invoicetype!='Cash')

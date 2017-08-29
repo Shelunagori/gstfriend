@@ -3,6 +3,7 @@ foreach ($filterdatas as $filterdata): $i++;   ?>
 <tr class="main_tr">
 	<td><?php echo  $i; ?></td>
 	<td><?= h($filterdata->invoice_no) ?></td>
+	<td><?= h($filterdata->invoicetype) ?></td>
 	<td><?= h($filterdata->transaction_date) ?></td>
 	<td><?php echo $filterdata->customer_name; ?></td>
 	<td align="right"><?= $this->Number->format($filterdata->total_amount_before_tax) ?></td>

@@ -35,7 +35,7 @@ p{
 							<td>
 								<div class="radio-list">
 									<label class="radio-inline">
-									<div class="radio" id="uniform-optionsRadios26"><span class="checked"><input type="radio" name="invoicetype" id="invoicetype" value="Credit" checked></span></div> Credit </label>
+									<div class="radio" id="uniform-optionsRadios25"><span class="checked"><input type="radio" name="invoicetype" id="invoicetype" value="Cash"checked></span></div> Cash </label>
 								</div></br>
 							</td>
 							
@@ -61,12 +61,8 @@ p{
 							<td style='padding-bottom: 5px;'><b> <?php echo $invoice_no; ?> </b></td>
 						</tr>
 						
-						<tr id='cashhide'>
-							<td style='width: 21%;'><b>Bill to Party Name</b></td>
-							<td>&nbsp;:&nbsp;</td>
-							<td class="form-group"><?php echo $this->Form->control('customer_ledger_id',['empty' => "---Select---",'option'=>$customerLedgers,'label'=>false,'class'=>'form-control input-sm cstmr']); ?></td>
-						</tr>
-						<tr id='cashshow' class="hide">
+						
+						<tr id='cashshow' class="">
 							<td style='width: 21%;'><b>Bill to Party Name</b></td>
 							<td>&nbsp;:&nbsp;</td>
 							<td class="form-group"><?php echo $this->Form->control('customer_name',['label'=>false,'class'=>'form-control input-sm ']); ?></td>
@@ -440,7 +436,6 @@ $(document).ready(function() {
 				
 		}
 		else{ 
-			
 			$("#customer-name").val("");
 			$('.item').die().live("change",function() {  
 				

@@ -14,6 +14,9 @@ echo $this->Html->tag('li', $this->Html->link('<i class="icon-home"></i> '.__('D
 $activeClass = (($active_menu == 'Invoices.Add')?['class' => 'active']:[]);
 echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-list-alt"></i> '.__('Tax Invoice'), ['controller' => 'Invoices', 'action' => 'Add'], ['escape' => false]), $activeClass);
 
+$activeClass = (($active_menu == 'Invoices.AddCashInvoice')?['class' => 'active']:[]);
+echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-list-alt"></i> '.__('Tax Invoice Cash'), ['controller' => 'Invoices', 'action' => 'addcashinvoice'], ['escape' => false]), $activeClass);
+
 $activeClass = (($active_menu == 'PurchaseVouchers.Add')?['class' => 'active']:[]);
 echo $this->Html->tag('li', $this->Html->link('<i class="fa fa-list-alt"></i> '.__('Purchase Voucher'), ['controller' => 'PurchaseVouchers', 'action' => 'Add'], ['escape' => false]), $activeClass); 
 

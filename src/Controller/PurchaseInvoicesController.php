@@ -147,38 +147,38 @@ class PurchaseInvoicesController extends AppController
 				foreach($purchaseInvoice->purchase_invoice_rows as $purchase_invoice_row)
 				{
 					$query_insert = $this->PurchaseInvoices->AccountingEntries->query();
-					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_voucher_id','company_id'])
+					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_invoice_id','company_id'])
 					->values([
 						'ledger_id'=>$purchase_invoice_row['cgst_ledger_id'],
 						'debit'=>$purchase_invoice_row['cgst_amount'],
 						'credit'=>0,
 						'transaction_date'=>$purchaseInvoice->transaction_date,
-						'purchase_voucher_id'=>$purchaseInvoice->id,
+						'purchase_invoice_id'=>$purchaseInvoice->id,
 						'company_id'=>$company_id
 					]);
 					$query_insert->execute();	
 
 					$query_insert = $this->PurchaseInvoices->AccountingEntries->query();
-					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_voucher_id','company_id'])
+					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_invoice_id','company_id'])
 					->values([
 						'ledger_id'=>$purchase_invoice_row['sgst_ledger_id'],
 						'debit'=>$purchase_invoice_row['sgst_amount'],
 						'credit'=>0,
 						'transaction_date'=>$purchaseInvoice->transaction_date,
-						'purchase_voucher_id'=>$purchaseInvoice->id,
+						'purchase_invoice_id'=>$purchaseInvoice->id,
 						'company_id'=>$company_id
 					]);
 					$query_insert->execute();		
 						
 				
 					$query_insert = $this->PurchaseInvoices->AccountingEntries->query();
-					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_voucher_id','company_id'])
+					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_invoice_id','company_id'])
 					->values([
 						'ledger_id'=>$purchase_invoice_row['igst_ledger_id'],
 						'debit'=>$purchase_invoice_row['igst_amount'],
 						'credit'=>0,
 						'transaction_date'=>$purchaseInvoice->transaction_date,
-						'purchase_voucher_id'=>$purchaseInvoice->id,
+						'purchase_invoice_id'=>$purchaseInvoice->id,
 						'company_id'=>$company_id
 					]);
 					$query_insert->execute();
@@ -187,13 +187,13 @@ class PurchaseInvoicesController extends AppController
 				if($purchaseInvoice->total !=0)
 				{		
 					$query_insert = $this->PurchaseInvoices->AccountingEntries->query();
-					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_voucher_id','company_id'])
+					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_invoice_id','company_id'])
 					->values([
 						'ledger_id'=>$purchaseInvoice->supplier_ledger_id,
 						'debit'=>0,
 						'credit'=>$purchaseInvoice->total,
 						'transaction_date'=>$purchaseInvoice->transaction_date,
-						'purchase_voucher_id'=>$purchaseInvoice->id,
+						'purchase_invoice_id'=>$purchaseInvoice->id,
 						'company_id'=>$company_id
 					]);
 					$query_insert->execute();							
@@ -204,13 +204,13 @@ class PurchaseInvoicesController extends AppController
 				if($purchaseInvoice->base_amount !=0)
 				{		
 					$query_insert = $this->PurchaseInvoices->AccountingEntries->query();
-					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_voucher_id','company_id'])
+					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_invoice_id','company_id'])
 					->values([
 						'ledger_id'=>$purchaseInvoice->purchase_ledger_id,
 						'debit'=>$purchaseInvoice->base_amount,
 						'credit'=>0,
 						'transaction_date'=>$purchaseInvoice->transaction_date,
-						'purchase_voucher_id'=>$purchaseInvoice->id,
+						'purchase_invoice_id'=>$purchaseInvoice->id,
 						'company_id'=>$company_id
 					]);
 					$query_insert->execute();	
@@ -267,44 +267,44 @@ class PurchaseInvoicesController extends AppController
 			//pr($purchaseInvoice->purchase_invoice_rows);  exit;
 			 if ($this->PurchaseInvoices->save($purchaseInvoice)) {
 				 
-				// $query = $this->PurchaseInvoices->AccountingEntries->query();
-				//$query->delete()->where(['purchase_invoice_id'=> $id])->execute();
+				$query = $this->PurchaseInvoices->AccountingEntries->query();
+				$query->delete()->where(['purchase_invoice_id'=> $id])->execute();
 			
 					foreach($purchaseInvoice->purchase_invoice_rows as $purchase_invoice_row)
 				{
 					$query_insert = $this->PurchaseInvoices->AccountingEntries->query();
-					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_voucher_id','company_id'])
+					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_invoice_id','company_id'])
 					->values([
 						'ledger_id'=>$purchase_invoice_row['cgst_ledger_id'],
 						'debit'=>$purchase_invoice_row['cgst_amount'],
 						'credit'=>0,
 						'transaction_date'=>$purchaseInvoice->transaction_date,
-						'purchase_voucher_id'=>$purchaseInvoice->id,
+						'purchase_invoice_id'=>$purchaseInvoice->id,
 						'company_id'=>$company_id
 					]);
 					$query_insert->execute();	
 
 					$query_insert = $this->PurchaseInvoices->AccountingEntries->query();
-					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_voucher_id','company_id'])
+					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_invoice_id','company_id'])
 					->values([
 						'ledger_id'=>$purchase_invoice_row['sgst_ledger_id'],
 						'debit'=>$purchase_invoice_row['sgst_amount'],
 						'credit'=>0,
 						'transaction_date'=>$purchaseInvoice->transaction_date,
-						'purchase_voucher_id'=>$purchaseInvoice->id,
+						'purchase_invoice_id'=>$purchaseInvoice->id,
 						'company_id'=>$company_id
 					]);
 					$query_insert->execute();		
 						
 				
 					$query_insert = $this->PurchaseInvoices->AccountingEntries->query();
-					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_voucher_id','company_id'])
+					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_invoice_id','company_id'])
 					->values([
 						'ledger_id'=>$purchase_invoice_row['igst_ledger_id'],
 						'debit'=>$purchase_invoice_row['igst_amount'],
 						'credit'=>0,
 						'transaction_date'=>$purchaseInvoice->transaction_date,
-						'purchase_voucher_id'=>$purchaseInvoice->id,
+						'purchase_invoice_id'=>$purchaseInvoice->id,
 						'company_id'=>$company_id
 					]);
 					$query_insert->execute();
@@ -313,13 +313,13 @@ class PurchaseInvoicesController extends AppController
 				if($purchaseInvoice->total !=0)
 				{		
 					$query_insert = $this->PurchaseInvoices->AccountingEntries->query();
-					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_voucher_id','company_id'])
+					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_invoice_id','company_id'])
 					->values([
 						'ledger_id'=>$purchaseInvoice->supplier_ledger_id,
 						'debit'=>0,
 						'credit'=>$purchaseInvoice->total,
 						'transaction_date'=>$purchaseInvoice->transaction_date,
-						'purchase_voucher_id'=>$purchaseInvoice->id,
+						'purchase_invoice_id'=>$purchaseInvoice->id,
 						'company_id'=>$company_id
 					]);
 					$query_insert->execute();							
@@ -330,13 +330,13 @@ class PurchaseInvoicesController extends AppController
 				if($purchaseInvoice->base_amount !=0)
 				{		
 					$query_insert = $this->PurchaseInvoices->AccountingEntries->query();
-					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_voucher_id','company_id'])
+					$query_insert->insert(['ledger_id','debit','credit','transaction_date','purchase_invoice_id','company_id'])
 					->values([
 						'ledger_id'=>$purchaseInvoice->purchase_ledger_id,
 						'debit'=>$purchaseInvoice->base_amount,
 						'credit'=>0,
 						'transaction_date'=>$purchaseInvoice->transaction_date,
-						'purchase_voucher_id'=>$purchaseInvoice->id,
+						'purchase_invoice_id'=>$purchaseInvoice->id,
 						'company_id'=>$company_id
 					]);
 					$query_insert->execute();	
