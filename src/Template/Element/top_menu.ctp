@@ -13,8 +13,9 @@
 				<?php echo $this->Html->tag('li', $this->Html->link('<i class="icon-home"></i> '.__('Add New Supplier'), ['controller' => 'Suppliers', 'action' => 'Add'], ['escape' => false])); ?>
 				<?php echo $this->Html->tag('li', $this->Html->link('<i class="icon-home"></i> '.__('List Suppliers'), ['controller' => 'Suppliers', 'action' => 'Index'], ['escape' => false])); ?>
 				<?php echo $this->Html->tag('li', $this->Html->link('<i class="icon-home"></i> '.__('Discount Screen'), ['controller' => 'ItemDiscounts', 'action' => 'Add'], ['escape' => false])); ?>
-				<?php echo $this->Html->tag('li', $this->Html->link('<i class="icon-home"></i> '.__('Add User'), ['controller' => 'Users', 'action' => 'Add'], ['escape' => false])); ?>
-				<?php echo $this->Html->tag('li', $this->Html->link('<i class="icon-home"></i> '.__('Edit User'), ['controller' => 'Users', 'action' => 'index'], ['escape' => false])); ?>
+				<?php echo $this->Html->tag('li', $this->Html->link('<i class="icon-home"></i> '.__('Add Company'), ['controller' => 'Companies', 'action' => 'Add'], ['escape' => false])); ?>
+				<?php echo $this->Html->tag('li', $this->Html->link('<i class="icon-home"></i> '.__('List Company'), ['controller' => 'Companies', 'action' => 'Index'], ['escape' => false])); ?>
+				
 			</ul>
 		</li>
 	</ul>

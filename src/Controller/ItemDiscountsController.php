@@ -89,7 +89,7 @@ class ItemDiscountsController extends AppController
             $this->Flash->error(__('The item discount could not be saved. Please, try again.'));
         }
 
-        $items_datas = $this->ItemDiscounts->Items->find()->where(['freezed'=>0,'company_id'=>$company_id]);
+        $items_datas = $this->ItemDiscounts->Items->find()->where(['freezed'=>0,'company_id'=>$company_id,'status'=>0]);
 			foreach($items_datas as $items_data)
 			{
 				$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->price];
@@ -104,7 +104,8 @@ class ItemDiscountsController extends AppController
 	function getItemDiscount($item_id){
 		$company_id=$this->Auth->User('company_id');
 		$customerLedgers = $this->ItemDiscounts->CustomerLedgers->find()->where(['accounting_group_id'=>22,'freeze'=>0,'company_id'=>$company_id]);
-		$itemDiscounts = $this->ItemDiscounts->find()->where(['item_id'=>$item_id,'company_id'=>$company_id]);
+		
+		$itemDiscounts = $this->ItemDiscounts->find()->where(['item_id'=>$item_id,'company_id'=>$company_id,'status'=>0]);
 		$discount=[];
 		foreach($itemDiscounts as $itemDiscount){
 			$discount[$itemDiscount->customer_ledger_id]=$itemDiscount->discount;
@@ -141,7 +142,7 @@ class ItemDiscountsController extends AppController
         }
         $customerLedgers = $this->ItemDiscounts->CustomerLedgers->find()->where(['accounting_group_id'=>22,'freezed'=>0,'company_id'=>$company_id]);
 		
-        $items = $this->ItemDiscounts->Items->find('list')->where(['freezed'=>0,'company_id'=>$company_id]);
+        $items = $this->ItemDiscounts->Items->find('list')->where(['freezed'=>0,'company_id'=>$company_id,'status'=>0]);
         $this->set(compact('itemDiscount', 'customerLedgers', 'items'));
         $this->set('_serialize', ['itemDiscount']);
     }

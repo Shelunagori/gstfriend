@@ -57,7 +57,7 @@ p{
 <div style="width:80%;margin:auto;border:solid 1px;font-family: serif;background-color: #FFF;margin-top:2%" class="maindiv">
 	<table width="100%">
 		<tr>
-			<td width="30%" style="padding:5px;"><?php echo $this->Html->image('/img/viewlogo.png', ['height' => '100px']); ?></td>
+			<td width="30%" style="padding:5px;"><?php echo $this->Html->image('/img/logo.jpg', ['height' => '100px']); ?></td>
 			<td>
 				<div align="center" style="color: #c4151c;"><b>
 					<?php foreach($companies as $company) {?>
@@ -65,7 +65,7 @@ p{
 					<span style="color: #4a4c4c;"><?= $company->address ?></span><br/>
 					<span style="color: #4a4c4c;"><?= $company->district ?>&nbsp,&nbsp<?= $company->state ?></span><br/>
 					<span style="color: #4a4c4c;"><?= $company->phone_no ?></span><br/>
-					<span style="color: #4a4c4c;">GSTIN: 08BICPD5795A1ZG</span></b>
+					<span style="color: #4a4c4c;"><?= $company->gstno ?></span></b>
 				<?php } ?>	
 				</div>
 			</td>

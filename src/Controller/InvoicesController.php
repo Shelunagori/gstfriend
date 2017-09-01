@@ -370,7 +370,7 @@ class InvoicesController extends AppController
         }
         $customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22,'freeze'=>0,'company_id'=>$company_id]);
         $salesLedgers = $this->Invoices->SalesLedgers->find('list')->where(['accounting_group_id'=>14,'freeze'=>0,'company_id'=>$company_id]);
-        $items_datas = $this->Invoices->InvoiceRows->Items->find()->where(['freezed'=>0,'company_id'=>$company_id]);
+        $items_datas = $this->Invoices->InvoiceRows->Items->find()->where(['freezed'=>0,'company_id'=>$company_id,'status'=>0]);
         $customer_discounts = $this->Invoices->InvoiceRows->Items->find()->where(['company_id'=>$company_id]);
 	
 		$tax_CGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'CGST','company_id'=>$company_id]);
