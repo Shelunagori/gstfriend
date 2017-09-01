@@ -416,8 +416,7 @@ $(document).ready(function() {
 			if(!total){ total=0; }
 			
 			total_amount_before_tax=total_amount_before_tax+taxable_value;
-			total_amount_after_tax=total_amount_after_tax+total;
-			alert(total_amount_after_tax);			
+			total_amount_after_tax=total_amount_after_tax+total;		
 		});
 		$('input[name="total_amount_before_tax"]').val(total_amount_before_tax.toFixed(2));
 		$('input[name="total_cgst"]').val(total_cgst.toFixed(2));

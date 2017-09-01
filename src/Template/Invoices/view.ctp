@@ -53,7 +53,7 @@ p{
 	<table width="100%">
 		<tr>
 			<td width="30%" style="padding:5px;"><?php echo $this->Html->image('/img/logo.jpg', ['height' => '100px']); ?></td>
-			<td>
+			<td width="70%">
 				<div align="center" style="color: #c4151c;"><b>
 				<?php foreach($companies as $company) {?>
 					<span style="font-size:30px;color: #c4151c !important;" style=""><?= $company->name ?></span><br/>
@@ -121,9 +121,19 @@ p{
 							<td width="50"><b>Type</b></td>
 							<td>Cash</td>
 						</tr>-->
+						<tr>
+							<td width="50"><b>Consumer No.</b></td>
+							<td><?php echo $invoice->consumerno; ?></td>
+							<td><b>Phone No.</b></td>
+							<td><?php echo $invoice->mobile_no;?></td>
+						</tr>
 						<tr>		
 							<td width="60"><b>Name</b></td>
 							<td><?php echo $invoice->customer_name; ?></td>
+						</tr>
+						<tr>		
+							<td width="60"><b>Address</b></td>
+							<td><?php echo $invoice->address; ?></td>
 						</tr>
 					</table>	
 					<?php } ?>
@@ -159,8 +169,8 @@ p{
 			</thead>
 			<tbody>
 			<?php $i=0;	if(!empty($invoice->invoice_rows)) {
-			foreach($invoice->invoice_rows as $invoice_row){ 
-					?>
+					foreach($invoice->invoice_rows as $invoice_row){  //pr($invoice_row);
+			?>
 				<tr>
 					<td style="text-align:center;border-left: none;"><?= ++$i ?></td>
 					<td><?= h($invoice_row->item->name) ?></td>
@@ -172,20 +182,20 @@ p{
 					<td style="text-align:right;"><?= $invoice_row->taxable_value ?></td>
 					<td style="text-align:right;">
 
-					<?php  if(is_array($invoice_row->igst)) {
+					<?php  if($invoice_row->cgst) {
 						if($invoice_row->cgst->tax_percentage!= 0)
 						{
-							echo $invoice_row->cgst->tax_percentage;
+							echo $invoice_row->cgst->tax_percentage.'%';
 						}
 					}
 						else{ echo '0%'; }
 					?></td>		
 					<td style="text-align:right;"><?= $invoice_row->cgst_amount ?></td>
 					<td style="text-align:right;">
-					<?php if(is_array($invoice_row->igst)) {
+					<?php if($invoice_row->sgst) {
 						if($invoice_row->sgst->tax_percentage!= 0)
 						{
-							echo $invoice_row->sgst->tax_percentage;
+							echo $invoice_row->sgst->tax_percentage.'%';
 						}
 					}
 						else{ echo '0%'; }
@@ -193,10 +203,10 @@ p{
 					?></td>
 					<td style="text-align:right;"><?= $invoice_row->sgst_amount ?></td>
 					<td style="text-align:right;">
-					<?php if(is_array($invoice_row->igst)) { 
+					<?php if($invoice_row->igst) { 
 						if($invoice_row->igst->tax_percentage != 0)
 						{
-							echo $invoice_row->igst->tax_percentage;
+							echo $invoice_row->igst->tax_percentage.'%';
 						}
 					 }else{ echo '0%'; }
 					?></td>

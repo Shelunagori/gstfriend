@@ -42,6 +42,11 @@ p{
 							</td>
 						</tr>
 						<tr>
+							<td style='padding-bottom: 5px;'><b> Invoice No : </b></td>
+							<td style='padding-bottom: 5px;'>&nbsp;:&nbsp;</td>
+							<td style='padding-bottom: 5px;'><b> <?php echo $invoice_no; ?> </b></td>
+						</tr>
+						<tr>
 							<td><b>Invoice Date</b></td>
 							<td>&nbsp;:&nbsp;</td>
 							<td><?php echo $this->Form->control('transaction_date',['label'=>false,'placeholder'=>'dd-mm-yyyy','type'=>'text','class'=>'date-picker form-control input-sm','data-date-format'=>'dd-mm-yyyy','value'=>date('d-m-Y')]); ?></td>
@@ -55,17 +60,24 @@ p{
 				</td>
 				<td style="padding:5px;" >
 					<table width="100%">
-						<tr>
-							<td style='width: 21%;padding-bottom: 5px;'><b> Invoice No : </b></td>
+						
+						<tr id='cashshow'>
+							<td style='padding-bottom: 5px;'><b>Bill to Party Name</b></td>
 							<td style='padding-bottom: 5px;'>&nbsp;:&nbsp;</td>
-							<td style='padding-bottom: 5px;'><b> <?php echo $invoice_no; ?> </b></td>
+							<td class="form-group" style='padding-bottom: 5px;'><?php echo $this->Form->control('customer_name',['label'=>false,'class'=>'form-control input-sm ']); ?></td>
 						</tr>
-						
-						
-						<tr id='cashshow' class="">
-							<td style='width: 21%;'><b>Bill to Party Name</b></td>
-							<td>&nbsp;:&nbsp;</td>
-							<td class="form-group"><?php echo $this->Form->control('customer_name',['label'=>false,'class'=>'form-control input-sm ']); ?></td>
+						<tr id='cashshow' >
+							<td style='padding-bottom: 5px;'><b>Consumer No.</b></td>
+							<td style='padding-bottom: 5px;'>&nbsp;:&nbsp;</td>
+							<td class="form-group" style='padding-bottom: 5px;'><?php echo $this->Form->control('consumerno',['type'=>'text','label'=>false,'class'=>'form-control input-sm']); ?></td>
+							<td style='padding-bottom: 5px;'><b>Mobile No.</b></td>
+							<td style='padding-bottom: 5px;'>&nbsp;:&nbsp;</td>
+							<td class="form-group" style='padding-bottom: 5px;'><?php echo $this->Form->control('mobile_no',['label'=>false,'class'=>'form-control input-sm']); ?></td>
+						</tr>
+						<tr id='cashshow'>
+							<td style='padding-bottom: 5px;'><b>Address</b></td>
+							<td style='padding-bottom: 5px;'>&nbsp;:&nbsp;</td>
+							<td class="form-group" style='padding-bottom: 5px;'><?php echo $this->Form->control('address',['label'=>false,'class'=>'form-control input-sm']); ?></td>
 						</tr>
 					</table>
 				</td>

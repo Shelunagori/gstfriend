@@ -40,10 +40,12 @@ $(document).ready(function() {
 		var obj=$(this);
 		var url="<?php echo $this->Url->build(['controller'=>'ItemDiscounts','action'=>'getItemDiscount']);?>";
 		url=url+'/'+item_id,
+		
 		$.ajax({ 
 			url: url,
 			type: 'GET',
 		}).done(function(response) {
+		
 			$(".main_table").html(response);
 			
 			var rate = obj.find('option:selected').attr('rate');

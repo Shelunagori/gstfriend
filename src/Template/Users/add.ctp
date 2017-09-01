@@ -29,6 +29,11 @@ $this->set('title', 'Add');
 							<label class="control-label">Email</label>
 							<?php echo $this->Form->control('email', ['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Email']); ?>
 						</div>
+						<div class="form-group">
+						
+							<label class="control-label">Under Company</label>
+							<?php echo $this->Form->control('company_id', ['label' => false,'options' =>$company,'empty'=>'--Select--','class' => 'form-control input-sm firstupercase']); ?>
+						</div>
 						
 					</div>
 				</div> 

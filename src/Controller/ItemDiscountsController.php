@@ -102,12 +102,16 @@ class ItemDiscountsController extends AppController
     }
 	
 	function getItemDiscount($item_id){
+		
 		$company_id=$this->Auth->User('company_id');
 		$customerLedgers = $this->ItemDiscounts->CustomerLedgers->find()->where(['accounting_group_id'=>22,'freeze'=>0,'company_id'=>$company_id]);
 		
-		$itemDiscounts = $this->ItemDiscounts->find()->where(['item_id'=>$item_id,'company_id'=>$company_id,'status'=>0]);
+		$itemDiscounts = $this->ItemDiscounts->find()->where(['item_id'=>$item_id,'company_id'=>$company_id]);
+		
 		$discount=[];
-		foreach($itemDiscounts as $itemDiscount){
+		foreach($itemDiscounts as $itemDiscount)
+		{
+			
 			$discount[$itemDiscount->customer_ledger_id]=$itemDiscount->discount;
 		}
 		

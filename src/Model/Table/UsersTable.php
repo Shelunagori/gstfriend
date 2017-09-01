@@ -33,6 +33,7 @@ class UsersTable extends Table
 		
 		$this->belongsTo('Invoices');
 		$this->belongsTo('PurchaseInvoices');
+		$this->belongsTo('Companies');
 
         $this->setTable('users');
         $this->setDisplayField('name');

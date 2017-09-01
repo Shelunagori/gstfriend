@@ -177,17 +177,20 @@ class UsersController extends AppController
 		
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
-			$user->company_id=$company_id;
-			
-			
-            if ($this->Users->save($user)) {
+			if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
                 return $this->redirect(['action' => 'add']);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $this->set(compact('user'));
+		$companies=$this->Users->Companies->find()->where (['freezed'=>0]);
+		$company=[];
+		foreach($companies as $companie)
+			{
+				$company[]=['value'=>$companie->id,'text'=>$companie->name];
+			}
+        $this->set(compact('user','company'));
         $this->set('_serialize', ['user']);
     }
 

@@ -58,7 +58,7 @@ p{
 	<table width="100%">
 		<tr>
 			<td width="30%" style="padding:5px;"><?php echo $this->Html->image('/img/logo.jpg', ['height' => '100px']); ?></td>
-			<td>
+			<td width="70%">
 				<div align="center" style="color: #c4151c;"><b>
 					<?php foreach($companies as $company) {?>
 					<span style="font-size:30px;color: #c4151c !important;" style=""><?= $company->name ?></span><br/>

@@ -67,7 +67,7 @@ License: You must have a valid license purchased only from themeforest(the above
 			<div class="page-header-inner">
 				<!-- BEGIN LOGO -->
 				<div class="page-logo">
-					<?php echo $this->Html->image('/img/viewlogo.png', ['style'=>'height: 41px;margin-top: 2px;']); ?>
+					<?php echo $this->Html->image('/img/logo.jpg', ['style'=>'height: 41px;margin-top: 2px;']); ?>
 					<div class="menu-toggler sidebar-toggler hide">
 						<!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
 					</div>

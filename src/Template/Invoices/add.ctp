@@ -62,10 +62,11 @@ p{
 						</tr>
 						
 						<tr id='cashhide'>
-							<td style='width: 21%;'><b>Bill to Party Name</b></td>
-							<td>&nbsp;:&nbsp;</td>
-							<td class="form-group"><?php echo $this->Form->control('customer_ledger_id',['empty' => "---Select---",'option'=>$customerLedgers,'label'=>false,'class'=>'form-control input-sm cstmr']); ?></td>
+							<td style='padding-bottom: 5px;'><b>Bill to Party Name</b></td>
+							<td style='padding-bottom: 5px;'>&nbsp;:&nbsp;</td>
+							<td class="form-group" style='padding-bottom: 5px;'><?php echo $this->Form->control('customer_ledger_id',['empty' => "---Select---",'option'=>$customerLedgers,'label'=>false,'class'=>'form-control input-sm cstmr changecustomer']); ?></td>
 						</tr>
+						
 						<tr id='cashshow' class="hide">
 							<td style='width: 21%;'><b>Bill to Party Name</b></td>
 							<td>&nbsp;:&nbsp;</td>
@@ -382,8 +383,13 @@ $(document).ready(function() {
 	});
 	//change value on change quantity end
 	
-
-	
+	$('.changecustomer').die().live("change",function() { 
+			var hsncode = $(this).find('option:selected').attr('hsncode');
+			var rate = $(this).find('option:selected').attr('rate');
+			var cgst_ledger_id = $(this).find('option:selected').attr('cgst_ledger_id');
+			var sgst_ledger_id = $(this).find('option:selected').attr('sgst_ledger_id');
+			var igst_ledger_id = $(this).find('option:selected').attr('igst_ledger_id');
+	});
 	
 	//$('input[name="party_name"]').focus();
 
