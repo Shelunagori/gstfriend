@@ -6,19 +6,47 @@
 $this->set('title', 'List');
 ?>
 <style>
+.maindiv{
+		font-family: sans-serif !important; font-size:12px !important;
+		margin: 0 20px 0 0px;  /* this affects the margin in the printer settings */
+	}
+	
+	
+@media print{
+	.maindiv{
+		width:100% !important;font-family: sans-serif;
+		
+	}	
+	
+	.hidden-print{
+		display:none;
+	}
+	body {
+      -webkit-print-color-adjust: exact;
+   }
+  
+}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 5px !important;
+	font-family:Lato !important;
+}
+@page {
+    size: auto;   /* auto is the initial value */
+    margin: 0 0px 0 0px;  /* this affects the margin in the printer settings */
+}
 .hide { display:none; }
 </style>
-<div class="portlet light bordered" >
-	<div class="portlet-title">
+<div class="portlet light bordered">
+	<div class="portlet-title ">
 		<div class="caption">
 			<i class="icon-cursor font-purple-intense"></i>
 			<span class="caption-subject font-purple-intense ">Purchase Invoice List</span>
 		</div>
-		<div class="actions">
-			
+		<div class="actions ">
+			<a class="btn  blue hidden-print  hide  print" onclick="javascript:window.print();" id="printcustomer">Print <i class="fa fa-print"></i></a>
 		</div>
 	</div>
-	<div class="row filterhide">
+	<div class="row filterhide  hidden-print">
 		<div class="form-group col-md-8 ">
 			<div class="form-group col-md-3">
 				<label class="control-label">Supplier Name</label>
@@ -42,45 +70,123 @@ $this->set('title', 'List');
 	<div class="portlet-body-form"  >
 		<div class="form-body">
 			
-			<table id="example1" class="table table-bordered table-striped hidetable main_table">
+			<table id="example1" class="table table-bordered  hidetable maindiv">
 				<thead style="text-align:center;">
-					<tr >
-						<th scope="col" >Sr. No.</th>
-						<th scope="col" >Date</th>
-						<th scope="col" >Supplier</th>
-						<th scope="col" >Invoice No.</th>
-						<th scope="col" >Base Amount</th>
-						<th scope="col" >CGST Amount</th>
-						<th scope="col" >SGST Amount</th>
-						<th scope="col" >IGST Amount</th>
-						<th scope="col" >Total</th>
-						<th scope="col" class="actions" ><?= __('Actions') ?></th>
+					<tr>
+						<th scope="col">Sr. No.</th>
+						<th scope="col">Transaction Date</th>
+						<th scope="col">Invoice No.</th>
+						<th scope="col">Base Amount</th>
+						<th scope="col">CGST Percentage</th>
+						<th scope="col">CGST Amount</th>
+						<th scope="col">SGST Percentage</th>
+						<th scope="col">SGST Amount</th>
+						<th scope="col">IGST Percentage</th>
+						<th scope="col">IGST Amount</th>							
+						<th scope="col">Total</th>
+						<th scope="col">Action</th>
 					</tr>
 				</thead>
 				<tbody class="main_tbody">
-					<?php 	$i=0; foreach ($purchaseInvoices as $purchaseInvoice): 
-							$i++;
-					?>
+				<?php 	$i=0; 
+						$cgstamount=0;     $sgstamount=0;     $igstamount=0;
+						$baseamount=0;     $totalamount=0;
+						foreach ($purchaseInvoices as $purchaseInvoice): 
+						$i++;
+				?>
 					<tr class="main_tr">
-						<td><?= $this->Number->format($i) ?></td>
+						<td><?php echo $i; ?></td>
 						<td><?= h($purchaseInvoice->transaction_date) ?></td>
-						<td><?= h($purchaseInvoice->supplier_ledger->supplier->name) ?></td>
-						<td><?= $this->Number->format($purchaseInvoice->invoice_no) ?></td>
-						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->base_amount) ?></td>
-						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->total_cgst) ?></td>
-						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->total_sgst) ?></td>
-						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->total_igst) ?></td>
-						<td style="text-align:right"><?= $this->Number->format($purchaseInvoice->total) ?></td>
-						<td class="actions">
-							<?= $this->Html->link(__('View'), ['action' => 'view', $purchaseInvoice->id]) ?>
-							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $purchaseInvoice->id]) ?>
+						<td><?php echo $purchaseInvoice->invoice_no; ?></td>
+						<td style="text-align:right"><?php echo $purchaseInvoice->base_amount; ?></td>
+						
+						<td colspan="6" style="text-align:right">
+							<table class="table table-bordered table-hover">
+								<?php 		
+								
+								foreach($purchaseInvoice->purchase_invoice_rows as $purchase_invoice_row):
+								
+								?>
+								<tr>
+									<td style="width:80px">
+									<?php
+										if(!empty($purchase_invoice_row->cgst_ledger)) 
+										{
+											echo $purchase_invoice_row->cgst_ledger->name; 
+										}else
+										{ 
+											echo '0';
+										}?>
+									</td>
+									<td style="text-align:right;width:80px">
+									<?php 
+										echo $purchase_invoice_row->cgst_amount;
+										$cgstamount = $cgstamount + $purchase_invoice_row->cgst_amount; 
+									?>
+									</td>
+									<td style="width:80px">
+									<?php if(!empty($purchase_invoice_row->sgst_ledger)) 
+										{
+											echo $purchase_invoice_row->sgst_ledger->name; 
+										}else
+										{ 
+											echo '0';
+										} ?>
+									</td>
+									<td style="text-align:right;width:70px">
+									<?php 
+										echo $purchase_invoice_row->sgst_amount;
+										$sgstamount = $sgstamount + $purchase_invoice_row->sgst_amount;
+									?>
+									</td>
+									<td style="width:80px">
+									<?php 
+										if(!empty($purchase_invoice_row->igst_ledger)) 
+										{
+											echo $purchase_invoice_row->igst_ledger->name; 
+										}else
+										{ 
+											echo '0';
+										}
+										?>
+									</td>
+									<td style="text-align:right;width:70px"><?php echo $purchase_invoice_row->igst_amount; 
+									$igstamount = $igstamount + $purchase_invoice_row->igst_amount;
+										
+									?>
+									</td>
+								</tr>
+								<?php  	endforeach;
+										
+								?>
+							</table>		
+						</td>
+					
+						<td style="text-align:right"><?php echo $purchaseInvoice->total; ?></td>
+						<td><?= $this->Html->link(__('Edit'), ['action' => 'edit', $purchaseInvoice->id]) ?>
 							<?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $purchaseInvoice->id], ['confirm' => __('Are you sure you want to delete # {0}?', $purchaseInvoice->id)]) ?>
 						</td>
 					</tr>
-					<?php endforeach;  ?>
+					<?php 
+						  
+						$baseamount = $baseamount + $purchaseInvoice->base_amount;
+						$totalamount = $totalamount + $purchaseInvoice->total;
+						endforeach;
+					?>
+				
 				</tbody>
-			</table>
-			<div class="form-body hide reportshow" >
+				<tfoot>
+					<tr>
+						<td colspan="3" style="text-align:right"><b>TOTAL </b></td>
+						<td class="totalbase" style="text-align:right"><b><?php  echo $baseamount; ?></b></td>
+						<td class="totalcgst" colspan="2" style="text-align:right"><b><?php echo $cgstamount; ?></b></td>
+						<td class="totalsgst" colspan="2" style="text-align:right"><b><?php echo $sgstamount; ?></b></td>
+						<td class="totalsgst" colspan="2" style="text-align:right"><b><?php echo $igstamount; ?></b></td>
+						<td class="totalamount" style="text-align:right"><b><?php echo $totalamount; ?></b></td>
+					</tr>
+				</tfoot>
+			</table> 	
+			<div class="form-body hide reportshow hidden-print" >
 				<div class="row">
 					<div class="form-group col-md-9">
 						<div class="form-group col-md-4">
@@ -104,7 +210,7 @@ $this->set('title', 'List');
 				</div>
 			</div>
 
-			<div class="paginator">
+			<div class="paginator hidden-print">
 				<ul class="pagination">
 					<?= $this->Paginator->first('<< ' . __('first')) ?>
 					<?= $this->Paginator->prev('< ' . __('previous')) ?>
@@ -155,6 +261,7 @@ $(document).ready(function() {
 		$('.paginator').addClass('hide');
 		$('.filterhide').addClass('hide');
 		$('.reportshow').removeClass('hide');
+		$('.print').removeClass('hide');
     });
 	
 	

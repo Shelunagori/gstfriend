@@ -36,11 +36,12 @@ $this->set('title', 'List');
 						<td><?= h($company->address) ?></td>
 						<td><?= h($company->district) ?></td>
 						<td><?= h($company->state) ?></td>
-						<td><?= $this->Number->format($company->phone_no) ?></td>
+						<td><?= h($company->phone_no) ?></td>
 						<td><?= h($company->logo) ?></td>
 						<td><?php if(@$item->freezed==0){ echo "Unfreezed";  } else {   echo "Freezed"; } ?></td>
 						<td class="actions">
 							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $company->id]) ?>
+							<?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $company->id], ['confirm' => __('Are you sure you want to delete # {0}?', $company->id)]) ?>
 						</td>
 					</tr>
 					<?php endforeach;  ?>

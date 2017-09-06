@@ -9,7 +9,7 @@
 			<span class="caption-subject font-purple-intense ">Invoices</span>
 		</div>
 		<div class="actions">
-			
+			<a class="btn  blue hidden-print  hide  print" onclick="javascript:window.print();" id="printcustomer">Print <i class="fa fa-print"></i></a>
 		</div>
 	</div>
 	<div class="row filterhide">
@@ -247,6 +247,7 @@ $(document).ready(function() {
 		$('.paginator').addClass('hide');
 		$('.filterhide').addClass('hide');
 		$('.reportshow').removeClass('hide');
+		$('.print').removeClass('hide');
     });
 	
 	

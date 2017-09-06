@@ -1,5 +1,33 @@
 <?php $this->set('title', 'GST Report'); ?>
 <style>
+.maindiv{
+		font-family: sans-serif !important; font-size:12px !important;
+		margin: 0 20px 0 0px;  /* this affects the margin in the printer settings */
+	}
+	
+	
+@media print{
+	.maindiv{
+		width:100% !important;font-family: sans-serif;
+		
+	}	
+	
+	.hidden-print{
+		display:none;
+	}
+	body {
+      -webkit-print-color-adjust: exact;
+   }
+  
+}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 5px !important;
+	font-family:Lato !important;
+}
+@page {
+    size: auto;   /* auto is the initial value */
+    margin: 0 0px 0 0px;  /* this affects the margin in the printer settings */
+}
 .hide { display:none; }
 </style>
 <div class="portlet light bordered" >
@@ -8,13 +36,13 @@
 			<i class="icon-cursor font-purple-intense"></i>
 			<span class="caption-subject font-purple-intense ">GST Report</span>
 		</div>
-		<div class="actions">
-			
+		<div class="actions  hidden-print">
+			<a class="btn  blue hidden-print " onclick="javascript:window.print();" id="printcustomer">Print <i class="fa fa-print"></i></a>
 		</div>
 	</div>
 	<div class="portlet-body-form">
 		<div class="form-body">
-			<div class="form-body reportshow">
+			<div class="form-body reportshow  hidden-print">
 				<div class="row">
 					<?= $this->Form->create($accountingEntries) ?>
 					<div class="form-group col-md-9">
@@ -34,7 +62,7 @@
 					<?= $this->Form->end() ?>
 				</div>
 			</div>
-			<div class='row'>
+			<div class='row   maindiv'>
 				<div class='col-md-12'>
 			<?php  
 			if($this->request->is('post'))
@@ -207,15 +235,14 @@
 											}
 											?>
 										</td>
-										<td style="text-align:right;width:70px"><?php echo $purchase_invoice_row->igst_amount;?>
+										<td style="text-align:right;width:70px"><?php echo $purchase_invoice_row->igst_amount;
+										$igstamount = $igstamount + $purchase_invoice_row->igst_amount;
+										?>
 										</td>
 									</tr>
 									<?php  endforeach;?>
 								</table>		
 							</td>
-						<?php 
-							$igstamount = $igstamount + $purchase_invoice_row->igst_amount;
-						?>
 							<td style="text-align:right"><?php echo $PurchaseInvoice->total; ?></td>
 						</tr>
 						<?php 

@@ -117,9 +117,7 @@ class PurchaseVouchersTable extends Table
             ->date('transaction_date')
              ->allowEmpty('transaction_date');
 
-        $validator
-            ->requirePresence('narration', 'create')
-            ->allowEmpty('narration');
+      
 
         return $validator;
     }

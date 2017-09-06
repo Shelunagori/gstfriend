@@ -1,18 +1,47 @@
 <?php $this->set('title', 'Purchase Voucher List'); ?>
 <style>
+.maindiv{
+		font-family: sans-serif !important; font-size:12px !important;
+		margin: 0 20px 0 0px;  /* this affects the margin in the printer settings */
+	}
+	
+	
+@media print{
+	.maindiv{
+		width:100% !important;font-family: sans-serif;
+		
+	}	
+	
+	.hidden-print{
+		display:none;
+	}
+	body {
+      -webkit-print-color-adjust: exact;
+   }
+  
+}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 5px !important;
+	font-family:Lato !important;
+}
+@page {
+    size: auto;   /* auto is the initial value */
+    margin: 0 0px 0 0px;  /* this affects the margin in the printer settings */
+}
 .hide { display:none; }
+
 </style>
 <div class="portlet light bordered">
-	<div class="portlet-title">
+	<div class="portlet-title  ">
 		<div class="caption">
 			<i class="icon-cursor font-purple-intense"></i>
 			<span class="caption-subject font-purple-intense ">Purchase Vouchers List</span>
 		</div>
-		<div class="actions">
-			
+		<div class="actions  hidden-print">
+			<a class="btn  blue hidden-print hide  print" onclick="javascript:window.print();" id="printcustomer">Print <i class="fa fa-print"></i></a>
 		</div>
 	</div>
-	<div class="row filterhide">
+	<div class="row filterhide  hidden-print">
 		<div class="form-group col-md-8 ">
 			<div class="form-group col-md-3">
 				<label class="control-label">Supplier Name</label>
@@ -33,7 +62,7 @@
 		</div >
 		<div align='right' ><button class="btn btn-success  showdata" ><b>Purchase Voucher Report</b>&nbsp; &nbsp;</div>
 	</div>
-	<div class="portlet-body">
+	<div class="portlet-body maindiv">
 		<div class="form-body">
 		<?php $page_no=$this->Paginator->current('purchaseVouchers'); $page_no=($page_no-1)*20; ?>
 			<table id="example1" class="table table-bordered table-striped  hidetable main_table">
@@ -79,8 +108,8 @@
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-			<div class="form-body hide reportshow" >
-				<div class="row">
+			<div class="form-body hide reportshow  " >
+				<div class="row  hidden-print">
 					<div class="form-group col-md-9">
 						<div class="form-group col-md-4">
 							<label class="control-label">Date From</label>
@@ -196,6 +225,7 @@ $(document).ready(function() {
 		$('.paginator').addClass('hide');
 		$('.filterhide').addClass('hide');
 		$('.reportshow').removeClass('hide');
+		$('.print').removeClass('hide');
     });
 	
 	

@@ -38,8 +38,6 @@ p{
 									<div class="radio" id="uniform-optionsRadios25"><span class="checked"><input type="radio" name="invoicetype" id="invoicetype" value="Cash"checked></span></div> Cash </label>
 								</div></br>
 							</td>
-							
-							</td>
 						</tr>
 						<tr>
 							<td style='padding-bottom: 5px;'><b> Invoice No : </b></td>
@@ -52,6 +50,22 @@ p{
 							<td><?php echo $this->Form->control('transaction_date',['label'=>false,'placeholder'=>'dd-mm-yyyy','type'=>'text','class'=>'date-picker form-control input-sm','data-date-format'=>'dd-mm-yyyy','value'=>date('d-m-Y')]); ?></td>
 						</tr>
 						<tr>
+							<td ><b>Reference No.</b></td>
+							<td style="padding:5px;">&nbsp;:&nbsp;</td>
+							<td style="padding:5px;"><?php echo $this->Form->control('reference_no',['label'=>false,'placeholder'=>'Reference no','class'=>'form-control input-sm']); ?></td>
+							<td><b>Delievery Date</b></td>
+							<td>&nbsp;:&nbsp;</td>
+							<td><?php echo $this->Form->control('delievery_date',['label'=>false,'placeholder'=>'dd-mm-yyyy','type'=>'text','class'=>'date-picker form-control input-sm','data-date-format'=>'dd-mm-yyyy','value'=>date('d-m-Y')]); ?></td>
+						</tr>
+						<tr>
+							<td ><b>State</b></td>
+							<td style="padding:5px;">&nbsp;:&nbsp;</td>
+							<td style="padding:5px;"><?php echo $this->Form->control('state',['label'=>false,'placeholder'=>'State ','class'=>'form-control input-sm']); ?></td>
+							<td ><b>Code</b></td>
+							<td style="padding:5px;">&nbsp;:&nbsp;</td>
+							<td style="padding:5px;"><?php echo $this->Form->control('state_code',['label'=>false,'placeholder'=>'code ','class'=>'form-control input-sm']); ?></td>
+						</tr>
+						<tr >
 							<td> <span class='hide'> <b>Sales Account</b> </span> </td>
 							<td><span class='hide'>&nbsp;:&nbsp; </span></td>
 							<td><?php echo $this->Form->control('sales_ledger_id',['label'=>false,'autofocus','class'=>'form-control input-sm hide','options'=>$salesLedgers]); ?></td>
@@ -65,19 +79,23 @@ p{
 							<td style='padding-bottom: 5px;'><b>Bill to Party Name</b></td>
 							<td style='padding-bottom: 5px;'>&nbsp;:&nbsp;</td>
 							<td class="form-group" style='padding-bottom: 5px;'><?php echo $this->Form->control('customer_name',['label'=>false,'class'=>'form-control input-sm ']); ?></td>
+							<td style='padding-bottom: 5px;'><b>Mobile No.</b></td>
+							<td style='padding-bottom: 5px;'>&nbsp;:&nbsp;</td>
+							<td class="form-group" style='padding-bottom: 5px;'><?php echo $this->Form->control('mobile_no',['label'=>false,'class'=>'form-control input-sm']); ?></td>
 						</tr>
 						<tr id='cashshow' >
 							<td style='padding-bottom: 5px;'><b>Consumer No.</b></td>
 							<td style='padding-bottom: 5px;'>&nbsp;:&nbsp;</td>
 							<td class="form-group" style='padding-bottom: 5px;'><?php echo $this->Form->control('consumerno',['type'=>'text','label'=>false,'class'=>'form-control input-sm']); ?></td>
-							<td style='padding-bottom: 5px;'><b>Mobile No.</b></td>
+							<td style='padding-bottom: 5px;'><b>SV No.</b></td>
 							<td style='padding-bottom: 5px;'>&nbsp;:&nbsp;</td>
-							<td class="form-group" style='padding-bottom: 5px;'><?php echo $this->Form->control('mobile_no',['label'=>false,'class'=>'form-control input-sm']); ?></td>
+							<td class="form-group" style='padding-bottom: 5px;'><?php echo $this->Form->control('su_no',['label'=>false,'class'=>'form-control input-sm']); ?></td>
+							
 						</tr>
 						<tr id='cashshow'>
 							<td style='padding-bottom: 5px;'><b>Address</b></td>
 							<td style='padding-bottom: 5px;'>&nbsp;:&nbsp;</td>
-							<td class="form-group" style='padding-bottom: 5px;'><?php echo $this->Form->control('address',['label'=>false,'class'=>'form-control input-sm']); ?></td>
+							<td class="form-group" style='padding-bottom: 5px;' colspan="4"><?php echo $this->Form->control('address',['label'=>false,'class'=>'form-control input-sm']); ?></td>
 						</tr>
 					</table>
 				</td>

@@ -139,6 +139,7 @@ class InvoicesController extends AppController
 				$invoice->invoice_no=1;
 			} 
 			$invoice->transaction_date = date('Y-m-d',strtotime($invoice->transaction_date));
+			$invoice->delievery_date = date('Y-m-d',strtotime($invoice->delievery_date));
 			$invoice->company_id=$company_id;
 			if ($this->Invoices->save($invoice)) {
 				
@@ -216,14 +217,14 @@ class InvoicesController extends AppController
 				}
 				
 				
-                $this->Flash->success(__('The invoice has been saved.'));
+                //$this->Flash->success(__('The invoice has been saved.'));
 
                 return $this->redirect(['action' => 'view/'.$invoice->id]);
             }
             $this->Flash->error(__('The invoice could not be saved. Please, try again.'));
         }
         $customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22,'freeze'=>0,'company_id'=>$company_id]);
-			
+	
         $salesLedgers = $this->Invoices->SalesLedgers->find('list')->where(['accounting_group_id'=>14,'freeze'=>0,'company_id'=>$company_id]);
         $items_datas = $this->Invoices->InvoiceRows->Items->find()->where(['freezed'=>0,'company_id'=>$company_id]);
         $customer_discounts = $this->Invoices->InvoiceRows->Items->find()->where(['company_id'=>$company_id]);
@@ -286,6 +287,7 @@ class InvoicesController extends AppController
 				$invoice->invoice_no=1;
 			} 
 			$invoice->transaction_date = date('Y-m-d',strtotime($invoice->transaction_date));
+			$invoice->delievery_date = date('Y-m-d',strtotime($invoice->delievery_date));
 			$invoice->company_id=$company_id;
 			if ($this->Invoices->save($invoice)) {
 				
@@ -465,6 +467,7 @@ class InvoicesController extends AppController
 					$invoice->invoice_no=1;
 				} 
 				$invoice->transaction_date = date('Y-m-d',strtotime($invoice->transaction_date));
+				$invoice->delievery_date = date('Y-m-d',strtotime($invoice->delievery_date));
 				
 			if ($this->Invoices->save($invoice)) {
 				

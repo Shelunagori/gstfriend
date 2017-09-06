@@ -211,8 +211,8 @@ p{
 				<tbody>
 					<tr>
 						<td style="border-top: none;" width="200" colspan="7" rowspan="5" class="form-group">
-							<label class="control-label" >Narration</label>
-							<?php echo $this->Form->control('narration',['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Narration']); ?> 
+							
+							
 						</td>
 						<td style="text-align:right;border-top: none;" width="35" colspan="4"><b>Total Amount before Tax</b></td>
 						<td style="text-align:right;border-right: none;border-top: none;" width="55" >
@@ -482,13 +482,13 @@ $(document).ready(function() {
 			var igst_amount = taxable_value * (igst_per/100);
 			$(this).find("td:nth-child(13) input").val(igst_amount.toFixed(2));
 			total_igst=parseFloat(total_igst)+parseFloat(igst_amount);
-			var total=parseFloat(sgst_per)+parseFloat(cgst_per)+parseFloat(igst_per)+parseFloat(taxable_value);
+			var total=parseFloat(cgst_amount)+parseFloat(sgst_amount)+parseFloat(igst_amount)+parseFloat(taxable_value);
 			parseFloat($(this).find("td:nth-child(14) input").val(total.toFixed(2)));
 			if(!total){ total=0; }
 			
 			total_amount_before_tax=total_amount_before_tax+taxable_value;
 			total_amount_after_tax=total_amount_after_tax+total;
-			alert(total_amount_after_tax);			
+				
 		});
 		$('input[name="total_amount_after_tax"]').val(total_amount_after_tax.toFixed(2));
 		$('input[name="total_cgst"]').val(total_cgst.toFixed(2));

@@ -23,10 +23,11 @@ class PurchaseInvoicesController extends AppController
 		$this->viewBuilder()->layout('index_layout');
 		$company_id=$this->Auth->User('company_id');
 		$purchaseInvoices = $this->PurchaseInvoices->find()
-		->contain(['Companies','SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers']])
+		->contain(['PurchaseInvoiceRows'=>['CgstLedger','SgstLedger','IgstLedger'],'Companies','SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers']])
 		->where(['PurchaseInvoices.status' => 0,'PurchaseInvoices.company_id'=>$company_id])->order(['PurchaseInvoices.id'=>'DESC']);
+		
 		$purchaseInvoices = $this->paginate($purchaseInvoices);
-       
+      
 		$SupplierLedger = $this->PurchaseInvoices->SupplierLedger->find('list')->where(['accounting_group_id'=>25,'freeze'=>0,'company_id'=>$company_id]);
         $this->set(compact('purchaseInvoices','SupplierLedger'));
         $this->set('_serialize', ['purchaseInvoices']);
