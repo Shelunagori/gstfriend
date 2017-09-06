@@ -72,7 +72,7 @@ p{
 	<label style="margin-left:80%">Distributor Copy</label>
 	<table width="100%">
 		<tr><?php foreach($companies as $company) {?>
-			<td width="30%" style="padding:5px;"><?php echo $this->Html->image('/company_logo/'$company->logo, ['height' => '100px']); ?></td>
+			<td width="30%" style="padding:5px;"><?php echo $this->Html->image('/company_logo/'.$company->logo, ['height' => '100px']); ?></td>
 			<td width="70%">
 				<div align="center" style="color: #c4151c;"><b>
 				
