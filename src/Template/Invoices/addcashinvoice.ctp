@@ -81,7 +81,7 @@ p{
 							<td class="form-group" style='padding-bottom: 5px;'><?php echo $this->Form->control('customer_name',['label'=>false,'class'=>'form-control input-sm ']); ?></td>
 							<td style='padding-bottom: 5px;'><b>Mobile No.</b></td>
 							<td style='padding-bottom: 5px;'>&nbsp;:&nbsp;</td>
-							<td class="form-group" style='padding-bottom: 5px;'><?php echo $this->Form->control('mobile_no',['label'=>false,'class'=>'form-control input-sm']); ?></td>
+							<td class="form-group" style='padding-bottom: 5px;'><?php echo $this->Form->control('mobile_no',['type'=>'text','label'=>false,'class'=>'form-control input-sm']); ?></td>
 						</tr>
 						<tr id='cashshow' >
 							<td style='padding-bottom: 5px;'><b>Consumer No.</b></td>

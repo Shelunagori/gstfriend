@@ -38,7 +38,7 @@
 			<span class="caption-subject font-purple-intense ">Purchase Vouchers List</span>
 		</div>
 		<div class="actions  hidden-print">
-			<a class="btn  blue hidden-print hide  print" onclick="javascript:window.print();" id="printcustomer">Print <i class="fa fa-print"></i></a>
+			<a class="btn  blue hidden-print   print" onclick="javascript:window.print();" id="printcustomer">Print <i class="fa fa-print"></i></a>
 		</div>
 	</div>
 	<div class="row filterhide  hidden-print">
@@ -65,48 +65,136 @@
 	<div class="portlet-body maindiv">
 		<div class="form-body">
 		<?php $page_no=$this->Paginator->current('purchaseVouchers'); $page_no=($page_no-1)*20; ?>
-			<table id="example1" class="table table-bordered table-striped  hidetable main_table">
-				<thead>
+			<table id="example1" class="table table-bordered  hidetable maindiv">
+				<thead style="text-align:center;">
 					<tr>
-						<th scope="col">Sr.</th>
-						<th scope="col">Voucher No</th>
-						<th scope="col">Date</th>
-						<th scope="col">Supplier</th>
-						<th scope="col">Base Amount</th>
+						<th scope="col">Sr. No.</th>
+						<th scope="col">Transaction Date</th>
+						<th scope="col">Invoice No.</th>
+						<th scope="col">Item Name</th>
+						<th scope="col">HSN Code</th>
+						<th scope="col">CGST Percentage</th>
 						<th scope="col">CGST Amount</th>
+						<th scope="col">SGST Percentage</th>
 						<th scope="col">SGST Amount</th>
+						<th scope="col">IGST Percentage</th>
 						<th scope="col">IGST Amount</th>
-						<th scope="col">Total Amount</th>
-						<th scope="col" class="actions"><?= __('Actions') ?></th>
+						<th scope="col">Base Amount</th>							
+						<th scope="col">Total</th>
+						<th scope="col" class="hidden-print">Action</th>
 					</tr>
 				</thead>
-				<tbody class="filter_div main_tbody">
-					<?php  
-						$i=0; 
-						foreach ($purchaseVouchers as $purchaseVoucher):
+				<tbody class="main_tbody">
+				<?php 	$i=0; 
+						$cgstamount=0;     $sgstamount=0;     $igstamount=0;
+						$baseamount=0;     $totalamount=0;
+						foreach ($purchaseVouchers as $purchaseVoucher): 
 						$i++;
-					?>
+				?>
 					<tr class="main_tr">
-						<td><?= $this->Number->format($i) ?></td>
-						<td>
-						<?php $in_no='#'.str_pad($purchaseVoucher->voucher_no, 4, '0', STR_PAD_LEFT);  ?>
-						<?= $this->Html->link(__($in_no), ['action' => 'view', $purchaseVoucher->id],['target'=>'_blank']) ?></td>
+						<td><?php echo $i; ?></td>
 						<td><?= h($purchaseVoucher->transaction_date) ?></td>
-						<td><?= h($purchaseVoucher->supplier_ledger->supplier->name) ?></td>
-						<td><?= h($purchaseVoucher->total_amount_before_tax) ?></td>
-						<td><?= h($purchaseVoucher->total_cgst) ?></td>
-						<td><?= h($purchaseVoucher->total_sgst) ?></td>
-						<td><?= h($purchaseVoucher->total_igst) ?></td>
-						<td><?= h($purchaseVoucher->total_amount_after_tax) ?></td>
-						<td class="actions">
-							<?= $this->Html->link(__('View'), ['action' => 'view', $purchaseVoucher->id]) ?>
-							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $purchaseVoucher->id]) ?>
+						<td><?php echo $purchaseVoucher->voucher_no; ?></td>
+						<td colspan="8" style="text-align:right">
+							<table class="table table-bordered table-hover">
+								<?php 		
+								
+								foreach($purchaseVoucher->purchase_voucher_rows as $purchase_voucher_row):
+								
+								?>
+								<tr>
+									<td style="width:50px;text-align:left">
+									<?php
+										if(!empty($purchase_voucher_row->item_id)) 
+										{
+											echo $purchase_voucher_row->item->name; 
+										}else
+										{ 
+											echo '0';
+										}?>
+									</td>
+									<td style="width:50px;text-align:left">
+									<?php
+											echo $purchase_voucher_row->item->hsn_code; 
+									?>
+									</td>
+									<td style="width:80px">
+									<?php
+										if(!empty($purchase_voucher_row->cgst_ledger)) 
+										{
+											echo $purchase_voucher_row->cgst_ledger->name; 
+										}else
+										{ 
+											echo '0';
+										}?>
+									</td>
+									<td style="text-align:right;width:80px">
+									<?php 
+										echo $purchase_voucher_row->cgst_amount;
+										$cgstamount = $cgstamount + $purchase_voucher_row->cgst_amount; 
+									?>
+									</td>
+									<td style="width:80px">
+									<?php if(!empty($purchase_voucher_row->sgst_ledger)) 
+										{
+											echo $purchase_voucher_row->sgst_ledger->name; 
+										}else
+										{ 
+											echo '0';
+										} ?>
+									</td>
+									<td style="text-align:right;width:70px">
+									<?php 
+										echo $purchase_voucher_row->sgst_amount;
+										$sgstamount = $sgstamount + $purchase_voucher_row->sgst_amount;
+									?>
+									</td>
+									<td style="width:80px">
+									<?php 
+										if(!empty($purchase_voucher_row->igst_ledger)) 
+										{
+											echo $purchase_voucher_row->igst_ledger->name; 
+										}else
+										{ 
+											echo '0';
+										}
+										?>
+									</td>
+									<td style="text-align:right;width:70px"><?php echo $purchase_voucher_row->igst_amount; 
+									$igstamount = $igstamount + $purchase_voucher_row->igst_amount;
+										
+									?>
+									</td>
+								</tr>
+								<?php  	endforeach;
+										
+								?>
+							</table>		
+						</td>
+						<td style="text-align:right"><?php echo $purchaseVoucher->total_amount_before_tax; ?></td>
+						<td style="text-align:right"><?php echo $purchaseVoucher->total_amount_after_tax; ?></td>
+						<td class="hidden-print"><?= $this->Html->link(__('Edit'), ['action' => 'edit', $purchaseVoucher->id]) ?>
 							<?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $purchaseVoucher->id], ['confirm' => __('Are you sure you want to delete # {0}?', $purchaseVoucher->id)]) ?>
-							
 						</td>
 					</tr>
-					<?php endforeach; ?>
+					<?php 
+						  
+						$baseamount = $baseamount + $purchaseVoucher->total_amount_before_tax;
+						$totalamount = $totalamount + $purchaseVoucher->total_amount_after_tax;
+						endforeach;
+					?>
+				
 				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="5" style="text-align:right"><b>TOTAL </b></td>
+						<td class="totalcgst" colspan="2" style="text-align:right"><b><?php echo $cgstamount; ?></b></td>
+						<td class="totalsgst" colspan="2" style="text-align:right"><b><?php echo $sgstamount; ?></b></td>
+						<td class="totalsgst" colspan="2" style="text-align:right"><b><?php echo $igstamount; ?></b></td>
+						<td class="totalbase" style="text-align:right"><b><?php  echo $baseamount; ?></b></td>
+						<td class="totalamount" style="text-align:right"><b><?php echo $totalamount; ?></b></td>
+					</tr>
+				</tfoot>
 			</table>
 			<div class="form-body hide reportshow  " >
 				<div class="row  hidden-print">
@@ -132,7 +220,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="paginator">
+		<div class="paginator  hidden-print">
 			<ul class="pagination">
 				<?= $this->Paginator->first('<< ' . __('first')) ?>
 				<?= $this->Paginator->prev('< ' . __('previous')) ?>

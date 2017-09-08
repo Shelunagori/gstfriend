@@ -28,15 +28,8 @@ class AccountingEntriesController extends AppController
 		$StartDate =  date('Y-m-d',strtotime($this->request->data['start']));
 		$EndDate =  date('Y-m-d',strtotime($this->request->data['end']));
 			
-		$accountingEntries['PurchaseInvoices'] = $this->AccountingEntries->PurchaseInvoices->find()
-		->contain(['PurchaseInvoiceRows'=>['CgstLedger','SgstLedger','IgstLedger']])
-		->where(['PurchaseInvoices.transaction_date BETWEEN :start AND :end','company_id'=>$company_id ])
-		->bind(':start', $StartDate, 'date')
-		->bind(':end',   $EndDate, 'date')
-		->order(['PurchaseInvoices.id'=>'DESC']);
-
 		$accountingEntries['PurchaseVouchers'] = $this->AccountingEntries->PurchaseVouchers->find()
-		->contain(['PurchaseVoucherRows'=>['CgstLedger','SgstLedger','IgstLedger']])
+		->contain(['PurchaseVoucherRows'=>['CgstLedger','SgstLedger','IgstLedger','Items']])
 		->where(['PurchaseVouchers.transaction_date BETWEEN :start AND :end' ,'company_id'=>$company_id])
 		->bind(':start', $StartDate, 'date')
 		->bind(':end',   $EndDate, 'date')
@@ -44,7 +37,7 @@ class AccountingEntriesController extends AppController
 		
 		
 		$accountingEntries['Invoices'] = $this->AccountingEntries->Invoices->find()
-		->contain(['InvoiceRows'=>['TaxCGST','TaxSGST','TaxIGST']])
+		->contain(['InvoiceRows'=>['TaxCGST','TaxSGST','TaxIGST','Items']])
 		->where(['Invoices.transaction_date BETWEEN :start AND :end','company_id'=>$company_id ])
 		->bind(':start', $StartDate, 'date')
 		->bind(':end',   $EndDate, 'date')

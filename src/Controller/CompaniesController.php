@@ -100,18 +100,29 @@ class CompaniesController extends AppController
         $company = $this->Companies->get($id, [
             'contain' => []
         ]);
+		$oldlogo=$company->logo;
+		$company_id=$company->id;
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $company = $this->Companies->patchEntity($company, $this->request->getData());
-			
 			$file = $this->request->data['logo'];
+			$file_name=$file['name'];
 			$ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
-			$arr_ext = array('png'); //set allowed extensions
-			$setNewFileName = uniqid();
+			$arr_ext = array('jpg'); //set allowed extensions
+			$setNewFileName = $this->request->data['gstno'].$company_id;
 			
-			$company->logo=$setNewFileName. '.' . $ext;
+			$new_file_name=$setNewFileName. '.' . $ext;
 			if (in_array($ext, $arr_ext)) {
 				move_uploaded_file($file['tmp_name'], WWW_ROOT . '/company_logo/' . $setNewFileName . '.' . $ext);
 			}
+			if(!empty($file_name))
+			{
+				$this->request->data['logo']=$new_file_name;
+			}if(empty($file_name))
+			{
+				$this->request->data['logo']=$oldlogo;
+			}
+            $company = $this->Companies->patchEntity($company, $this->request->getData());
+			
+			
 			
             if ($this->Companies->save($company)) {
                 $this->Flash->success(__('The company has been saved.'));
@@ -120,6 +131,7 @@ class CompaniesController extends AppController
             }
             $this->Flash->error(__('The company could not be saved. Please, try again.'));
         }
+		
         $this->set(compact('company'));
         $this->set('_serialize', ['company']);
     }

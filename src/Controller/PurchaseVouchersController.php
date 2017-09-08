@@ -23,7 +23,7 @@ class PurchaseVouchersController extends AppController
 		$this->viewBuilder()->layout('index_layout');
 		$company_id=$this->Auth->User('company_id');
 		$purchaseVoucher = $this->PurchaseVouchers->find()
-		->contain(['Companies','SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers']])
+		->contain(['Companies','SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers'],'PurchaseVoucherRows'=>['CgstLedger','SgstLedger','IgstLedger','Items']])
 		->where(['PurchaseVouchers.status' => 0,'PurchaseVouchers.company_id'=>$company_id])->order(['PurchaseVouchers.id'=>'DESC']);
      
         $purchaseVouchers = $this->paginate($purchaseVoucher);

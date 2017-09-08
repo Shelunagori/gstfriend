@@ -23,7 +23,7 @@ class InvoicesController extends AppController
 		$this->viewBuilder()->layout('index_layout');
 		$company_id=$this->Auth->User('company_id');
 		
-        $invoices = $this->paginate($this->Invoices->find()->where(['Invoices.company_id'=>$company_id,'status' => 0])->order(['Invoices.id'=>'DESC'])->contain(['CustomerLedgers']));
+        $invoices = $this->paginate($this->Invoices->find()->where(['Invoices.company_id'=>$company_id,'status' => 0])->order(['Invoices.id'=>'DESC'])->contain(['CustomerLedgers','InvoiceRows'=>['TaxCGST','TaxSGST','TaxIGST','Items']]));
 		$customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22,'freeze'=>0,'company_id'=>$company_id]);
 		
         $this->set(compact('invoices','customerLedgers'));

@@ -37,7 +37,7 @@ $this->set('title', 'List');
 						<td><?= h($company->district) ?></td>
 						<td><?= h($company->state) ?></td>
 						<td><?= h($company->phone_no) ?></td>
-						<td><?= h($company->logo) ?></td>
+						<td><?php echo $this->Html->image('/company_logo/'.$company->logo, ['height' => '50px']); ?></td>
 						<td><?php if(@$item->freezed==0){ echo "Unfreezed";  } else {   echo "Freezed"; } ?></td>
 						<td class="actions">
 							<?= $this->Html->link(__('Edit'), ['action' => 'edit', $company->id]) ?>

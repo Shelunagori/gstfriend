@@ -36,6 +36,7 @@ $this->set('title', 'Edit');
 						<div class="form-group">
 							<label class="control-label">Upload Image</label>
 							<?php echo $this->Form->input('logo', ['type' => 'file','label' => false]);?>
+							<div><?php echo $this->Html->image('/company_logo/'.$company->logo, ['height' => '50px']); ?></div>
 							<span class="help-block">Only JPG format is allowed </span>
 						</div>
 						<div class="form-group">
