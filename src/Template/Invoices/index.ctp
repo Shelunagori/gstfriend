@@ -66,7 +66,7 @@
 			</div>
 			<div class="form-group col-md-1">
 				<label class="control-label"></label>
-				<button class="filtergo btn btn-success" name="go">Go
+				<button class="filtergo btn btn-success " name="go">Go
 			</div>		
 		</div >
 	<div align='right' class="hidden-print" ><button class="btn btn-success  showdata" ><b>Invoice Report</b>&nbsp; &nbsp;</div><br>
@@ -74,7 +74,7 @@
 	<div class="portlet-body">
 		<div class="table-scrollable hidetable ">
 		<?php $page_no=$this->Paginator->current('Invoices'); $page_no=($page_no-1)*20; ?>
-			<table id="example1" class="table table-bordered  hidetable maindiv">
+			<table id="example1" class="table table-bordered  hidetable maindiv  main_table">
 				<thead style="text-align:center;"  class="maindiv">
 					<tr>
 						<th scope="col">Sr.</th>
@@ -83,6 +83,8 @@
 						<th scope="col">Invoice Type</th>
 						<th scope="col">Item Name</th>
 						<th scope="col">HSN Code</th>
+						<th scope="col">Qty</th>
+						<th scope="col">Rate</th>
 						<th scope="col">CGST %</th>
 						<th scope="col">CGST Amount</th>
 						<th scope="col">SGST %</th>
@@ -105,8 +107,7 @@
 						<td style="width:5px;"><?php echo $i; ?></td>
 						<td style="width:5px;"><?= h($invoice->transaction_date) ?></td>
 						<td><?php echo $invoice->invoice_no; ?></td>
-						<td><?= h($invoice->invoicetype) ?></td>
-						<td colspan="8" style="text-align:right">
+						<td colspan="10" style="text-align:right">
 							<table class="table table-bordered table-hover">
 								<?php 		
 								
@@ -127,6 +128,16 @@
 									<td style="width:50px;text-align:left">
 									<?php
 											echo $invoice_row->item->hsn_code; 
+									?>
+									</td>
+									<td style="width:50px;text-align:left">
+									<?php
+											echo $invoice_row->quantity; 
+									?>
+									</td>
+									<td style="width:50px;text-align:left">
+									<?php
+											echo $invoice_row->item->rate; 
 									?>
 									</td>
 									<td style="width:60px">
@@ -302,10 +313,10 @@ $(document).ready(function() {
 		var radioValue = $("input[name='invoicetype']:checked").val();
 		var cstmr = document.getElementById('custmor');	
 		var cstmrUser = cstmr.options[cstmr.selectedIndex].value;	
-       
 		if(startfilterdate <= endfilterdate || !empty(radioValue))
 		{	
 			if(radioValue=='Cash'){  
+			
 				var startdatefrom = $('.filter_date_from').val();
 				var startdateto = $('.filter_date_to').val();
 				var customername = $('.filter_customer').val();
@@ -320,7 +331,7 @@ $(document).ready(function() {
 					url: url,
 					type: 'GET',
 				}).done(function(response) 
-				{	
+				{	alert(response);
 					$('.main_table tbody.main_tbody tr').addClass('hide');
 					$('.paginator').addClass('hide');
 					$(".main_table tbody.main_tbody").html(response);
@@ -341,7 +352,7 @@ $(document).ready(function() {
 					url: url,
 					type: 'GET',
 				}).done(function(response) 
-				{	
+				{	alert(response);
 					$('.main_table tbody.main_tbody tr').addClass('hide');
 					$('.paginator').addClass('hide');
 					$(".main_table tbody.main_tbody").html(response);

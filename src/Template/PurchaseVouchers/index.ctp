@@ -57,7 +57,7 @@
 			</div>
 			<div class="form-group col-md-1">
 				<label class="control-label"></label>
-				<button class="filtergo btn btn-success" name="go">Go
+				<button class="filtergo btn btn-success " name="go">Go
 			</div>		
 		</div >
 		<div align='right' ><button class="btn btn-success  showdata" ><b>Purchase Voucher Report</b>&nbsp; &nbsp;</div>
@@ -287,7 +287,7 @@ $(document).ready(function() {
 				var obj=$(this);
 				var url="<?php echo $this->Url->build(['controller'=>'PurchaseVouchers','action'=>'filterreportsupplier']);?>";
 				url=url+'/'+startdatefrom+'/'+startdateto+'/'+supplierfilter,
-				
+				alert(url);
 				$.ajax({ 
 					url: url,
 					type: 'GET',
