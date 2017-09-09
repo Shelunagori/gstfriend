@@ -80,7 +80,7 @@
 						<th scope="col">Sr.</th>
 						<th scope="col">Trans. Date</th>
 						<th scope="col">Inv. No.</th>
-						<th scope="col">Invoice Type</th>
+						<th scope="col">Customer</th>
 						<th scope="col">Item Name</th>
 						<th scope="col">HSN Code</th>
 						<th scope="col">Qty</th>
