@@ -47,7 +47,7 @@
 			<div class="form-body reportshow  hidden-print">
 				<div class="row">
 					<?= $this->Form->create($accountingEntries) ?>
-					<div class="form-group col-md-10">
+					<div class="form-group col-md-7">
 						<div class="form-group col-md-3">
 							<label class="control-label">Date From</label>
 							<?php echo $this->Form->input('start', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker datefrom firstdate' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y"),'required']); ?>
@@ -60,7 +60,11 @@
 							<label class="control-label"></label>
 							<button class="go btn btn-success" name="go">Go
 						</div>	
-						<div class="form-group col-md-2"> 
+							
+					</div>
+					<?= $this->Form->end() ?>
+					<div class="form-group col-md-5">
+						<div class="form-group col-md-4"> 
 							<?php   foreach($items as $item){?>
 							<label class="control-label">Item Name</label>
 							<?php echo $this->Form->control('item_id',['empty' => "---Select---",'option'=>$item,'label'=>false,'class'=>'form-control input-sm  select2me itemwise','label' => false,'id'=>'itemwise']); ?>
@@ -69,19 +73,18 @@
 						<div class="form-group col-md-1">
 							<label class="control-label"></label>
 							<button class="itemfilter btn btn-success " name="go">Go
-						</div>		
+						</div>	
 					</div>
-					<?= $this->Form->end() ?>
 				</div>
 			</div>
-			<div class='row   maindiv'>
+			<div class='row   maindiv  main_div'>
 				<?php echo $this->Html->link( '<i class="fa fa-file-excel-o"></i> Excel', '/AccountingEntries/Export-Excel/'.$start.'/'.$end.'',['class' =>'btn btn-sm green tooltips pull-right Export-Excel','target'=>'_blank','escape'=>false,'data-original-title'=>'Download as excel']); ?>
 			<div class='col-md-12'>
 			<?php  
 			if($this->request->is('post'))
 			{ ?>
 			
-			<div class='col-md-12'>
+			<div class='col-md-12 olddiv'>
 			<?php if(!empty($accountingEntries['Invoices']->toArray()))
 			{ ?> 
 
@@ -250,8 +253,6 @@
 							<td class="totaligst  hide" colspan="2" style="text-align:right"><b><?php echo $igstamount_invoices; ?></b></td>
 							<td class="totalbase" style="text-align:right"><b><?php  echo $baseamount_invoices; ?></b></td>
 							<td class="totalamount" style="text-align:right"><b><?php echo $totalamount_invoices; ?></b></td>
-							<td class="recieveamount" style="text-align:right"><b><?php echo $recieveamount; ?></b></td>
-							<td class="dueamountamount" style="text-align:right"><b><?php echo $dueamountamount; ?></b></td>
 						</tr>
 					</tfoot>
 				</table> 
@@ -447,14 +448,14 @@ $(document).ready(function() {
 				var obj=$(this);
 				var url="<?php echo $this->Url->build(['controller'=>'AccountingEntries','action'=>'itemfilter']);?>";
 				url=url+'/'+itemwise,
-				
 				$.ajax({ 
 					url: url,
 					type: 'GET',
 				}).done(function(response) 
 				{	
 					$('.Export-Excel').addClass('hide');
-					$(".maindiv ").html(response);
+					$('.olddiv').addClass('hide');
+					$(".main_div").html(response);
 				});
 			
 		};

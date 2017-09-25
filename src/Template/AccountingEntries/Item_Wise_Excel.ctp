@@ -1,5 +1,21 @@
+<?php 
+
+	$date= date("d-m-Y"); 
+	$time=date('h:i:a',time());
+
+	$filename="Item_Wise_Excel_".$date.'_'.$time;
+
+	header ("Expires: 0");
+	header ("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
+	header ("Cache-Control: no-cache, must-revalidate");
+	header ("Pragma: no-cache");
+	header ("Content-type: application/vnd.ms-excel");
+	header ("Content-Disposition: attachment; filename=".$filename.".xls");
+	header ("Content-Description: Generated Report" );
+
+?>
+	
 <div class='row   maindiv'>
-	<?php echo $this->Html->link( '<i class="fa fa-file-excel-o"></i> Excel', '/AccountingEntries/Item-Wise-Excel/'.$itemwise.'',['class' =>'btn btn-sm green tooltips pull-right ','target'=>'_blank','escape'=>false,'data-original-title'=>'Download as excel']); ?>
 	<div class='col-md-12'>
 
 
@@ -11,8 +27,8 @@
 	<table id="example1" class="table table-bordered  hidetable maindiv  main_table">
 	<?php if(!empty($Invoices))
 			{	?>
-		<thead style="text-align:center;"  class="maindiv">
-			<tr>
+		<thead style="text-align:center;border:1px solid"  class="maindiv">
+			<tr style="border:1px solid">
 				<th scope="col">Sr.</th>
 				<th scope="col">Trans. Date</th>
 				<th scope="col">Inv. No.</th>
@@ -34,12 +50,12 @@
 		<tbody class="main_tbody">
 			<?php $i=0;
 			$cgstamount=0;     $sgstamount=0;     $basevalue=0;     $totalvalue=0;
-			$baseamount=0;     $totalamountinvoice=0;    $totalquantity=0;
+			$baseamount=0;     $totalamount=0;    $totalquantity=0;
 			//pr($filterdatasitem->toarray());    exit;
 			foreach ($Invoices as $invoice): $i++; 
 				if(sizeof($invoice->invoice_rows)>0){ 
 				?>
-			<tr class="main_tr">
+			<tr class="main_tr" style="border:1px solid">
 				<td style="width:5px;"><?php echo $i; ?></td>
 				<td style="width:5px;"><?= h($invoice->transaction_date) ?></td>
 				<td><?php echo $invoice->invoice_no; ?></td>
@@ -48,9 +64,9 @@
 				}else{
 				echo $invoice->customer_name; }?></td>
 				<td colspan="9" style="text-align:right">
-					<table class="table table-bordered table-hover">
+					<table class="table table-bordered table-hover" style="border:1px solid">
 						<?php  foreach ($invoice->invoice_rows as $invoice_row):?>
-						<tr>
+						<tr style="border:1px solid">
 							<td style="width:60px;text-align:left">
 							<?php
 								if(!empty($invoice_row->item_id)) 
@@ -120,7 +136,7 @@
 						</tr>
 						<?php   $basevalue=$totalvalue-$invoice_row->discount_amount-$invoice_row->cgst_amount-$invoice_row->sgst_amount;
 								$baseamount = $baseamount + $basevalue;
-								$totalamountinvoice = $totalamountinvoice + $totalvalue;
+								$totalamount = $totalamount + $totalvalue;
 								endforeach;  ?>
 					</table>		
 				</td>
@@ -138,14 +154,14 @@
 			?>
 		</tbody>				
 		<tfoot >
-			<tr>
+			<tr style="border:1px solid">
 				<td colspan="6" style="text-align:right"><b>TOTAL Qty</b></td>
 				<td class="totalcgst" style="text-align:right"><b><?php echo $totalquantity; ?></b></td>
 				<td colspan="3"  style="text-align:right"><b>TOTAL Amount</b></td>
 				<td class="totalcgst"  style="text-align:right"><b><?php echo $cgstamount; ?></b></td>
 				<td class="totalsgst" colspan="2" style="text-align:right"><b><?php echo $sgstamount; ?></b></td>
 				<td class="totalbase" style="text-align:right"><b><?php  echo $baseamount; ?></b></td>
-				<td class="totalamount" style="text-align:right"><b><?php echo $totalamountinvoice; ?></b></td>
+				<td class="totalamount" style="text-align:right"><b><?php echo $totalamount; ?></b></td>
 				<td></td>
 				
 			</tr>
@@ -164,7 +180,7 @@
 	<?php if(!empty($PurchaseVouchers))
 		{	?>
 	<thead style="text-align:center;"  class="maindiv">
-		<tr>
+		<tr style="border:1px solid">
 			<th scope="col">Sr.</th>
 			<th scope="col">Trans. Date</th>
 			<th scope="col">Inv. No.</th>
@@ -192,7 +208,7 @@
 		foreach ($PurchaseVouchers as $purchasevoucher): $i++; 
 		if(sizeof($purchasevoucher->purchase_voucher_rows)>0){
 			?>
-		<tr class="main_tr">
+		<tr class="main_tr" style="border:1px solid">
 			<td style="width:5px;"><?php echo $i; ?></td>
 			<td style="width:5px;"><?= h($purchasevoucher->transaction_date) ?></td>
 			<td><?php echo $purchasevoucher->voucher_no; ?></td>
@@ -202,7 +218,7 @@
 			<td colspan="9" style="text-align:right">
 				<table class="table table-bordered table-hover">
 					<?php  foreach ($purchasevoucher->purchase_voucher_rows as $invoice_row):?>
-					<tr>
+					<tr style="border:1px solid">
 						<td style="width:60px;text-align:left">
 						<?php
 							if(!empty($invoice_row->item_id)) 
@@ -286,7 +302,7 @@
 		?>
 	</tbody>				
 	<tfoot >
-		<tr>
+		<tr style="border:1px solid">
 			<td colspan="7" style="text-align:right"><b>TOTAL Qty</b></td>
 			<td class="totalcgst" style="text-align:right"><b><?php echo $totalquantity; ?></b></td>
 			<td colspan="3"  style="text-align:right"><b>TOTAL Amount</b></td>
@@ -310,10 +326,10 @@
 	<div class='col-md-12'>
 		<div class='col-md-offset-4 col-md-4'>
 			<table class='table'>
-				<tr>
+				<tr style="border:1px solid">
 					<td style="text-align:right"><b>Net Payable : </b></td>
 					<td style="text-align:right"> 
-						<?php echo @$totalamountinvoice -  @$totalamount ?>
+						<?php echo @$totalvalue -  @$totalamount ?>
 					</td>
 				</tr>
 			</table>

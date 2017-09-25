@@ -61,38 +61,57 @@ class AccountingEntriesController extends AppController
 	//item wise filter start
 	function itemfilter($itemwise)
 	{  
-		
 		$url=$this->request->here();
 		$url=parse_url($url,PHP_URL_QUERY);
-		$this->viewBuilder()->layout('index_layout');
 		$company_id=$this->Auth->User('company_id');
-		
-		$accountingEntries['PurchaseVouchers'] = $this->AccountingEntries->PurchaseVouchers->find()
+		 $PurchaseVouchers = $this->AccountingEntries->PurchaseVouchers->find()
 		->contain(['SupplierLedger'=>['Suppliers'],'PurchaseVoucherRows'=>function($q) use($itemwise){   
 				return $q->where(['PurchaseVoucherRows.item_id'=>$itemwise])->contain(['CgstLedger','SgstLedger','IgstLedger','Items']);
 				}])
 					->where(['PurchaseVouchers.company_id'=>$company_id,'PurchaseVouchers.status' => 0])
-					->order(['PurchaseVouchers.id'=>'DESC'])
 					->toArray();	
 		
-		 pr($accountingEntries['PurchaseVouchers']);   exit;
-		$accountingEntries['Invoices'] = $this->AccountingEntries->Invoices->find()
+		  
+		$Invoices = $this->AccountingEntries->Invoices->find()
 		->contain(['CustomerLedgers'=>['Customers'],'InvoiceRows'=>function($q) use($itemwise){   
 			return $q->where(['InvoiceRows.item_id'=>$itemwise])->contain(['TaxCGST','TaxSGST','TaxIGST','Items']);
 			}])
 				->where(['Invoices.company_id'=>$company_id,'Invoices.status' => 0])
-				->order(['Invoices.id'=>'DESC'])
+				
 				->toArray();
 											
 		
 		
-        $this->set(compact('accountingEntries','url','itemwise'));
+        $this->set(compact('PurchaseVouchers','Invoices','url','itemwise'));
 		
 	}
 	
 	//item wise filter end
 	
-	
+	//generate excel item wise start
+	 public function itemWiseExcel($itemwise)
+    {   
+		$company_id=$this->Auth->User('company_id');
+		 $PurchaseVouchers = $this->AccountingEntries->PurchaseVouchers->find()
+		->contain(['SupplierLedger'=>['Suppliers'],'PurchaseVoucherRows'=>function($q) use($itemwise){   
+				return $q->where(['PurchaseVoucherRows.item_id'=>$itemwise])->contain(['CgstLedger','SgstLedger','IgstLedger','Items']);
+				}])
+					->where(['PurchaseVouchers.company_id'=>$company_id,'PurchaseVouchers.status' => 0])
+					->toArray();	
+		
+		  
+		$Invoices = $this->AccountingEntries->Invoices->find()
+		->contain(['CustomerLedgers'=>['Customers'],'InvoiceRows'=>function($q) use($itemwise){   
+			return $q->where(['InvoiceRows.item_id'=>$itemwise])->contain(['TaxCGST','TaxSGST','TaxIGST','Items']);
+			}])
+				->where(['Invoices.company_id'=>$company_id,'Invoices.status' => 0])
+				
+				->toArray();
+											
+		
+		
+        $this->set(compact('PurchaseVouchers','Invoices','url','itemwise'));
+	}
 	
 	
 	
