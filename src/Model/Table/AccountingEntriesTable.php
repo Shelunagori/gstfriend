@@ -61,6 +61,10 @@ class AccountingEntriesTable extends Table
             'foreignKey' => 'invoice_id',
             'joinType' => 'INNER'
         ]);
+         $this->belongsTo('Items', [
+            'foreignKey' => 'item_id',
+            'joinType' => 'INNER'
+        ]);
     }
 
     /**

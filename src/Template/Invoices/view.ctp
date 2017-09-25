@@ -22,6 +22,7 @@
 	.maindiv #b { 
 		display: block; 
 	}
+	
 	body {
       -webkit-print-color-adjust: exact;
    }
@@ -73,7 +74,7 @@ p{
 	<div align="left" >
 		<span style="color: #4a4c4c;"><b>DSO LIC. No.</b>:&nbsp;<?= $company->dso_lic_no ?></span>&nbsp;&nbsp;&nbsp;&nbsp;
 		<span style="color: #4a4c4c;"><b>Exclusive LIC.NO.</b>:&nbsp;<?= $company->exclusive_lic_no ?></span>
-		<span style="color: #4a4c4c;margin-left:35%"><b>Customer Copy</b></span><br/>
+		<span style="color: #4a4c4c;margin-left:30%"><b>Customer Copy</b></span><br/>
 	</div>
 	
 	<table width="100%">
@@ -102,23 +103,23 @@ p{
 				<td style="border-right:1px solid;" width="40%" valign="top">
 					<table style="margin-left:0px">
 						<tr  style="border-bottom:1px solid;">
-							<td width="110"><b style="margin-left: 8px;">Invoice No.</b></td>
+							<td width="160"><b style="margin-left: 8px;">Invoice No.</b></td>
 							<td width="20">:</td>
 							<td width="300"><?= h('#'.str_pad($invoice->invoice_no, 4, '0', STR_PAD_LEFT)) ?></td>
 						</tr>
 						<tr style="border-bottom:1px solid;">	
-							<td width="110"><b style="margin-left: 8px;">Invoice Date</b></td>
+							<td width="160"><b style="margin-left: 8px;">Invoice Date</b></td>
 							<td>:</td>
 							<td ><?= $invoice->transaction_date ?></td>
 						</tr>
 						
 						<tr  style="border-bottom:1px solid">
-							<td width="110"><b style="margin-left: 8px;">vehicle No.</b></td>
+							<td width="160"><b style="margin-left: 8px;">vehicle No.</b></td>
 							<td>:</td>
 							<td ><?= $invoice->reference_no ?></td>
 						</tr>
 						<tr style="border-bottom:1px solid;">	
-							<td width="110"><b style="margin-left: 8px;">Delievery Date</b></td>
+							<td width="160"><b style="margin-left: 8px;">Delievery Date</b></td>
 							<td>:</td>
 							<td><?= $invoice->delievery_date ?></td>
 						</tr>
@@ -220,7 +221,7 @@ p{
 					foreach($invoice->invoice_rows as $invoice_row){  //pr($invoice_row);
 			?>
 				<tr>
-					<td style="text-align:center;border-left: none;"><?= ++$i ?></td>
+					<td style="text-align:center;border-left: none;height:30px"><?= ++$i ?></td>
 					<td><?= h($invoice_row->item->name) ?></td>
 					<td><?= $invoice_row->item->hsn_code ?></td>
 					<td style="text-align:center;"><?= $invoice_row->quantity ?></td>
@@ -278,14 +279,14 @@ p{
 		<table width="100%" class="tbl">
 			<tbody>
 				<tr>
-					<td style="text-align:left;border-left: none;border-top: none;" rowspan="4" width="70%" valign="top">
+					<td style="text-align:left;border-left: none;border-top: none;" rowspan="4" width="520px" valign="top">
 						<p><b>Amount in words : </b>
 						<?=  h(ucwords($this->NumberWords->convert_number_to_words($rupees))) ?>
 						Rupees<?= h($paisa_text)  ?>
 						</p>
 					</td>
 					<td style="text-align:right;border-top: none;"><b>Total Amount before Tax</b></td>
-					<td style="text-align:right;border-right: none;border-top: none;" width="80"><?= $invoice->total_amount_before_tax ?></td>
+					<td style="text-align:right;border-right: none;border-top: none;" width="30"><?= $invoice->total_amount_before_tax ?></td>
 				</tr>
 				<tr>
 					<td style="text-align:right;"><b>Total CGST</b></td>
@@ -337,7 +338,7 @@ p{
 	<div align="left" >
 		<span style="color: #4a4c4c;"><b>DSO LIC. No.</b>:&nbsp;<?= $company->dso_lic_no ?></span>&nbsp;&nbsp;&nbsp;&nbsp;
 		<span style="color: #4a4c4c;"><b>Exclusive LIC.NO.</b>:&nbsp;<?= $company->exclusive_lic_no ?></span>
-		<span style="color: #4a4c4c;margin-left:35%"><b>Supplier Copy</b></span><br/>
+		<span style="color: #4a4c4c;margin-left:30%"><b>Supplier Copy</b></span><br/>
 	</div>
 	
 	<table width="100%">
@@ -366,23 +367,23 @@ p{
 				<td style="border-right:1px solid;" width="40%" valign="top">
 					<table style="margin-left:0px">
 						<tr  style="border-bottom:1px solid;">
-							<td width="110"><b style="margin-left: 8px;">Invoice No.</b></td>
+							<td width="160"><b style="margin-left: 8px;">Invoice No.</b></td>
 							<td width="20">:</td>
 							<td width="300"><?= h('#'.str_pad($invoice->invoice_no, 4, '0', STR_PAD_LEFT)) ?></td>
 						</tr>
 						<tr style="border-bottom:1px solid;">	
-							<td width="110"><b style="margin-left: 8px;">Invoice Date</b></td>
+							<td width="160"><b style="margin-left: 8px;">Invoice Date</b></td>
 							<td>:</td>
 							<td ><?= $invoice->transaction_date ?></td>
 						</tr>
 						
 						<tr  style="border-bottom:1px solid">
-							<td width="110"><b style="margin-left: 8px;">vehicle No.</b></td>
+							<td width="160"><b style="margin-left: 8px;">vehicle No.</b></td>
 							<td>:</td>
 							<td ><?= $invoice->reference_no ?></td>
 						</tr>
 						<tr style="border-bottom:1px solid;">	
-							<td width="110"><b style="margin-left: 8px;">Delievery Date</b></td>
+							<td width="160"><b style="margin-left: 8px;">Delievery Date</b></td>
 							<td>:</td>
 							<td><?= $invoice->delievery_date ?></td>
 						</tr>
@@ -542,13 +543,13 @@ p{
 		<table width="100%" class="tbl">
 			<tbody>
 				<tr>
-					<td style="text-align:left;border-left: none;border-top: none;" rowspan="4" width="70%" valign="top">
+					<td style="text-align:left;border-left: none;border-top: none;" rowspan="4" width="520px" valign="top">
 						<p><b>Amount in words : </b>
 						<?=  h(ucwords($this->NumberWords->convert_number_to_words($rupees))) ?>Rupees<?= h($paisa_text)  ?>
 						</p>
 					</td>
 					<td style="text-align:right;border-top: none;"><b>Total Amount before Tax</b></td>
-					<td style="text-align:right;border-right: none;border-top: none;" width="80"><?= $invoice->total_amount_before_tax ?></td>
+					<td style="text-align:right;border-right: none;border-top: none;" width="30"><?= $invoice->total_amount_before_tax ?></td>
 				</tr>
 				<tr>
 					<td style="text-align:right;"><b>Total CGST</b></td>

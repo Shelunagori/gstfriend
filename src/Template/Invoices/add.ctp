@@ -38,15 +38,16 @@ p{
 									<div class="radio" id="uniform-optionsRadios26"><span class="checked"><input type="radio" name="invoicetype" id="invoicetype" value="Credit" checked></span></div> Credit </label>
 								</div></br>
 							</td>
+							<td ><b>Vehicle No.</b></td>
+							<td  style="padding:5px;">&nbsp;:&nbsp;</td>
+							<td  style="padding:5px;"><?php echo $this->Form->control('reference_no',['label'=>false,'placeholder'=>'vEHICLE no','class'=>'form-control input-sm']); ?></td>
 						</tr>
 						<tr>
 							<td><b>Invoice Date</b></td>
 							<td>&nbsp;:&nbsp;</td>
 							<td><?php echo $this->Form->control('transaction_date',['label'=>false,'placeholder'=>'dd-mm-yyyy','type'=>'text','class'=>'date-picker form-control input-sm','data-date-format'=>'dd-mm-yyyy','value'=>date('d-m-Y')]); ?></td>
 					
-							<td class="hide"><b>Vehicle No.</b></td>
-							<td class="hide" style="padding:5px;">&nbsp;:&nbsp;</td>
-							<td class="hide" style="padding:5px;"><?php echo $this->Form->control('reference_no',['label'=>false,'placeholder'=>'Reference no','class'=>'form-control input-sm']); ?></td>
+							
 							<td><b>Delievery Date</b></td>
 							<td>&nbsp;:&nbsp;</td>
 							<td><?php echo $this->Form->control('delievery_date',['label'=>false,'placeholder'=>'dd-mm-yyyy','type'=>'text','class'=>'date-picker form-control input-sm','data-date-format'=>'dd-mm-yyyy','value'=>date('d-m-Y')]); ?></td>

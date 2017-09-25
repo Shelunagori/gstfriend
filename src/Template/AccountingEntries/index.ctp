@@ -47,18 +47,28 @@
 			<div class="form-body reportshow  hidden-print">
 				<div class="row">
 					<?= $this->Form->create($accountingEntries) ?>
-					<div class="form-group col-md-9">
-						<div class="form-group col-md-4">
+					<div class="form-group col-md-10">
+						<div class="form-group col-md-3">
 							<label class="control-label">Date From</label>
 							<?php echo $this->Form->input('start', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker datefrom firstdate' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y"),'required']); ?>
 						</div>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-3">
 							<label class="control-label">Date To</label>
 							<?php echo $this->Form->input('end', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker dateto lastdate' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y"),'required']); ?>
 						</div>
 						<div class="form-group col-md-1">
 							<label class="control-label"></label>
 							<button class="go btn btn-success" name="go">Go
+						</div>	
+						<div class="form-group col-md-2"> 
+							<?php   foreach($items as $item){?>
+							<label class="control-label">Item Name</label>
+							<?php echo $this->Form->control('item_id',['empty' => "---Select---",'option'=>$item,'label'=>false,'class'=>'form-control input-sm  select2me itemwise','label' => false,'id'=>'itemwise']); ?>
+							<?php } ?>
+						</div>
+						<div class="form-group col-md-1">
+							<label class="control-label"></label>
+							<button class="itemfilter btn btn-success " name="go">Go
 						</div>		
 					</div>
 					<?= $this->Form->end() ?>
@@ -66,7 +76,7 @@
 			</div>
 			<div class='row   maindiv'>
 				<?php echo $this->Html->link( '<i class="fa fa-file-excel-o"></i> Excel', '/AccountingEntries/Export-Excel/'.$start.'/'.$end.'',['class' =>'btn btn-sm green tooltips pull-right Export-Excel','target'=>'_blank','escape'=>false,'data-original-title'=>'Download as excel']); ?>
-				<div class='col-md-12'>
+			<div class='col-md-12'>
 			<?php  
 			if($this->request->is('post'))
 			{ ?>
@@ -124,7 +134,7 @@
 						else{
 							echo 'Not Gst No.';
 						}?></td>
-						<td colspan="11" style="text-align:right">
+						<td colspan="9" style="text-align:right">
 							<table class="table table-bordered table-hover">
 								<?php 		
 								
@@ -284,7 +294,7 @@
 						<td><?= h($purchaseVoucher->transaction_date) ?></td>
 						<td><?php echo $purchaseVoucher->voucher_no; ?></td>
 						<td><?php echo $purchaseVoucher->reference_no; ?></td>
-						<td colspan="11" style="text-align:right">
+						<td colspan="9" style="text-align:right">
 							<table class="table table-bordered table-hover">
 								<?php 		
 								
@@ -423,6 +433,36 @@
 
 <script>
 $(document).ready(function() { 
+
+	//filter report item vise start
+		$(".itemfilter").on('click',function() {  
+			$('#maindiv').html('<i class="fa fa-refresh fa-spin fa-1x fa-fw"></i><b> Loading... </b>');
+			var itemwise = document.getElementById('itemwise');	
+			var itemwise = itemwise.options[itemwise.selectedIndex].value;
+			
+			if(itemwise!='')
+			{ 
+				var itemwise = document.getElementById('itemwise');	
+				var itemwise = itemwise.options[itemwise.selectedIndex].value;
+				var obj=$(this);
+				var url="<?php echo $this->Url->build(['controller'=>'AccountingEntries','action'=>'itemfilter']);?>";
+				url=url+'/'+itemwise,
+				
+				$.ajax({ 
+					url: url,
+					type: 'GET',
+				}).done(function(response) 
+				{	
+					$('.Export-Excel').addClass('hide');
+					$(".maindiv ").html(response);
+				});
+			
+		};
+		});
+		//filter report item vise end
+
+
+
 });
 </script>
 
@@ -451,6 +491,9 @@ $(document).ready(function() {
 <script>
 	jQuery(document).ready(function() {
 		// initiate layout and plugins
+		
+		
+		
 		
 		ComponentsPickers.init();
 	});   

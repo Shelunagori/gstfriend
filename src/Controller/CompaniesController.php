@@ -70,7 +70,7 @@ class CompaniesController extends AppController
 			
 			$file = $this->request->data['logo'];
 			$ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
-			$arr_ext = array('png'); //set allowed extensions
+			$arr_ext = array('jpg'); //set allowed extensions
 			$setNewFileName = uniqid();
 			
 			$company->logo=$setNewFileName. '.' . $ext;

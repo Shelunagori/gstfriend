@@ -49,12 +49,53 @@ class AccountingEntriesController extends AppController
 		->order(['Invoices.id'=>'DESC']);
 		
 		}
-		
+		$items = $this->AccountingEntries->Items->find('list')->where(['freezed'=>0,'company_id'=>$company_id,'status'=>0]);
 		//pr($end);   
 		//pr($accountingEntries['PurchaseVouchers']->toArray());exit;
-        $this->set(compact('accountingEntries','url','start','end'));
+        $this->set(compact('accountingEntries','url','start','end','items'));
         $this->set('_serialize', ['accountingEntries']);
     }
+	
+	
+	
+	//item wise filter start
+	function itemfilter($itemwise)
+	{  
+		
+		$url=$this->request->here();
+		$url=parse_url($url,PHP_URL_QUERY);
+		$this->viewBuilder()->layout('index_layout');
+		$company_id=$this->Auth->User('company_id');
+		
+		$accountingEntries['PurchaseVouchers'] = $this->AccountingEntries->PurchaseVouchers->find()
+		->contain(['SupplierLedger'=>['Suppliers'],'PurchaseVoucherRows'=>function($q) use($itemwise){   
+				return $q->where(['PurchaseVoucherRows.item_id'=>$itemwise])->contain(['CgstLedger','SgstLedger','IgstLedger','Items']);
+				}])
+					->where(['PurchaseVouchers.company_id'=>$company_id,'PurchaseVouchers.status' => 0])
+					->order(['PurchaseVouchers.id'=>'DESC'])
+					->toArray();	
+		
+		 pr($accountingEntries['PurchaseVouchers']);   exit;
+		$accountingEntries['Invoices'] = $this->AccountingEntries->Invoices->find()
+		->contain(['CustomerLedgers'=>['Customers'],'InvoiceRows'=>function($q) use($itemwise){   
+			return $q->where(['InvoiceRows.item_id'=>$itemwise])->contain(['TaxCGST','TaxSGST','TaxIGST','Items']);
+			}])
+				->where(['Invoices.company_id'=>$company_id,'Invoices.status' => 0])
+				->order(['Invoices.id'=>'DESC'])
+				->toArray();
+											
+		
+		
+        $this->set(compact('accountingEntries','url','itemwise'));
+		
+	}
+	
+	//item wise filter end
+	
+	
+	
+	
+	
 	
 	
 	//generate index excel start
