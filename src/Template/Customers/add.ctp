@@ -14,6 +14,10 @@ $this->set('title', 'Add');
 							<?php echo $this->Form->control('name' , ['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Customer Name']); ?>
 						</div>
 						<div class="form-group">
+							<label class="control-label">Consumer No.</label>
+							<?php echo $this->Form->control('consumer_no' , ['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Consumer No.']); ?>
+						</div>
+						<div class="form-group">
 							<label class="control-label">Mobile No.</label>
 							<?php echo $this->Form->control('mobile',['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Mobile No.']); ?> 
 						</div>

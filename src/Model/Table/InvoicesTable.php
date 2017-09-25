@@ -77,7 +77,11 @@ class InvoicesTable extends Table
         ]);
 		
 		
+		
+		
 		$this->belongsTo('Companies');		
+		
+		$this->belongsTo('Items');
 		
         $this->hasMany('InvoiceRows', [
             'foreignKey' => 'invoice_id',

@@ -30,9 +30,21 @@ $this->set('title', 'Edit');
 							<?php echo $this->Form->control('phone_no' ,['type'=>'text','label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Phone No.']); ?>
 						</div>
 						<div class="form-group">
+							<label class="control-label">Mobile No. </label>
+							<?php echo $this->Form->control('mobile_no' ,['type'=>'text','label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Phone No.']); ?>
+						</div>	
+						<div class="form-group">
 							<label class="control-label">GST No. </label>
 							<?php echo $this->Form->control('gstno' ,['type'=>'text','label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter GST No.']); ?>
 						</div>
+						<div class="form-group">
+							<label class="control-label">Exclusive LIC. No. </label>
+							<?php echo $this->Form->control('exclusive_lic_no' ,['type'=>'text','label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Exc. LIC No.']); ?>
+						</div>
+						<div class="form-group">
+							<label class="control-label">DSO LIC. No. </label>
+							<?php echo $this->Form->control('dso_lic_no' ,['type'=>'text','label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter DSO LIC No.']); ?>
+						</div>	
 						<div class="form-group">
 							<label class="control-label">Upload Image</label>
 							<?php echo $this->Form->input('logo', ['type' => 'file','label' => false]);?>

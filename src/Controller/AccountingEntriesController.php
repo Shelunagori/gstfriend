@@ -20,34 +20,76 @@ class AccountingEntriesController extends AppController
      */
     public function index()
     {
+		$url=$this->request->here();
+		$url=parse_url($url,PHP_URL_QUERY);
 		$this->viewBuilder()->layout('index_layout');
 		$company_id=$this->Auth->User('company_id');
 		$accountingEntries = $this->AccountingEntries->newEntity();
-        if ($this->request->is('post')) {
+        $start= $this->request->data('start');
+        $end= $this->request->data('end');
+        //pr($start);
+		if ($this->request->is('post')) {
 
-		$StartDate =  date('Y-m-d',strtotime($this->request->data['start']));
-		$EndDate =  date('Y-m-d',strtotime($this->request->data['end']));
+		$StartDate =  date('Y-m-d',strtotime($start));
+		$EndDate =  date('Y-m-d',strtotime($end));
 			
 		$accountingEntries['PurchaseVouchers'] = $this->AccountingEntries->PurchaseVouchers->find()
 		->contain(['PurchaseVoucherRows'=>['CgstLedger','SgstLedger','IgstLedger','Items']])
-		->where(['PurchaseVouchers.transaction_date BETWEEN :start AND :end' ,'company_id'=>$company_id])
+		->where(['PurchaseVouchers.transaction_date BETWEEN :start AND :end' ,'PurchaseVouchers.company_id'=>$company_id])
 		->bind(':start', $StartDate, 'date')
 		->bind(':end',   $EndDate, 'date')
 		->order(['PurchaseVouchers.id'=>'DESC']);		
 		
 		
 		$accountingEntries['Invoices'] = $this->AccountingEntries->Invoices->find()
-		->contain(['InvoiceRows'=>['TaxCGST','TaxSGST','TaxIGST','Items']])
-		->where(['Invoices.transaction_date BETWEEN :start AND :end','company_id'=>$company_id ])
+		->contain(['InvoiceRows'=>['TaxCGST','TaxSGST','TaxIGST','Items'],'CustomerLedgers'=>['Customers']])
+		->where(['Invoices.transaction_date BETWEEN :start AND :end','Invoices.company_id'=>$company_id ])
 		->bind(':start', $StartDate, 'date')
 		->bind(':end',   $EndDate, 'date')
 		->order(['Invoices.id'=>'DESC']);
 		
 		}
+		
+		//pr($end);   
+		//pr($accountingEntries['PurchaseVouchers']->toArray());exit;
+        $this->set(compact('accountingEntries','url','start','end'));
+        $this->set('_serialize', ['accountingEntries']);
+    }
+	
+	
+	//generate index excel start
+	 public function exportExcel($start,$end)
+    {
+		$this->viewBuilder()->layout('');
+		$company_id=$this->Auth->User('company_id');
+		
+		$StartDate =  date('Y-m-d',strtotime($start));
+		$EndDate =  date('Y-m-d',strtotime($end));
+			$accountingEntries['PurchaseVouchers'] = $this->AccountingEntries->PurchaseVouchers->find()
+			->contain(['PurchaseVoucherRows'=>['CgstLedger','SgstLedger','IgstLedger','Items']])
+			->where(['PurchaseVouchers.transaction_date BETWEEN :start AND :end' ,'PurchaseVouchers.company_id'=>$company_id])
+			->bind(':start', $StartDate, 'date')
+			->bind(':end',   $EndDate, 'date')
+			->order(['PurchaseVouchers.id'=>'DESC']);		
+			
+			
+			$accountingEntries['Invoices'] = $this->AccountingEntries->Invoices->find()
+			->contain(['InvoiceRows'=>['TaxCGST','TaxSGST','TaxIGST','Items'],'CustomerLedgers'=>['Customers']])
+			->where(['Invoices.transaction_date BETWEEN :start AND :end','Invoices.company_id'=>$company_id ])
+			->bind(':start', $StartDate, 'date')
+			->bind(':end',   $EndDate, 'date')
+			->order(['Invoices.id'=>'DESC']);
+		
 		//pr($accountingEntries['PurchaseVouchers']->toArray());exit;
         $this->set(compact('accountingEntries'));
         $this->set('_serialize', ['accountingEntries']);
-    }
+	}
+	//generate index excel end
+	
+	
+	
+	
+	
 
     /**
      * View method

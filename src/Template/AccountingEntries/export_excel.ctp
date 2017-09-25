@@ -1,77 +1,21 @@
-<?php $this->set('title', 'GST Report'); ?>
-<?php $url_excel="/?".$url; ?>
-<style>
-.maindiv{
-		font-family: sans-serif !important; font-size:12px !important;
-		margin: 0 20px 0 0px;  /* this affects the margin in the printer settings */
-	}
-	
-	
-@media print{
-	.maindiv{
-		width:100% !important;font-family: sans-serif;
-		
-	}	
-	
-	.hidden-print{
-		display:none;
-	}
-	body {
-      -webkit-print-color-adjust: exact;
-   }
-  
-}
-.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
-    padding: 5px !important;
-	font-family:Lato !important;
-}
-@page {
-    size: auto;   /* auto is the initial value */
-    margin: 0 0px 0 0px;  /* this affects the margin in the printer settings */
-}
-.hide { display:none; }
-</style>
-<div class="portlet light bordered" >
-	<div class="portlet-title">
-		<div class="caption">
-			<i class="icon-cursor font-purple-intense"></i>
-			<span class="caption-subject font-purple-intense ">GST Report</span>
-		</div>
-		<div class="actions  hidden-print">
-			<a class="btn  blue hidden-print " onclick="javascript:window.print();" id="printcustomer">Print <i class="fa fa-print"></i></a>
-			
-		</div>
-	</div>
-	<div class="portlet-body-form">
-		<div class="form-body">
-			<div class="form-body reportshow  hidden-print">
-				<div class="row">
-					<?= $this->Form->create($accountingEntries) ?>
-					<div class="form-group col-md-9">
-						<div class="form-group col-md-4">
-							<label class="control-label">Date From</label>
-							<?php echo $this->Form->input('start', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker datefrom firstdate' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y"),'required']); ?>
-						</div>
-						<div class="form-group col-md-4">
-							<label class="control-label">Date To</label>
-							<?php echo $this->Form->input('end', ['type' =>'text','label' => false,'class' => 'form-control input-sm date-picker dateto lastdate' , 'data-date-format'=>'dd-mm-yyyy','placeholder'=>'dd-mm-yyy','value'=>date("d-m-Y"),'required']); ?>
-						</div>
-						<div class="form-group col-md-1">
-							<label class="control-label"></label>
-							<button class="go btn btn-success" name="go">Go
-						</div>		
-					</div>
-					<?= $this->Form->end() ?>
-				</div>
-			</div>
-			<div class='row   maindiv'>
-				<?php echo $this->Html->link( '<i class="fa fa-file-excel-o"></i> Excel', '/AccountingEntries/Export-Excel/'.$start.'/'.$end.'',['class' =>'btn btn-sm green tooltips pull-right Export-Excel','target'=>'_blank','escape'=>false,'data-original-title'=>'Download as excel']); ?>
-				<div class='col-md-12'>
-			<?php  
-			if($this->request->is('post'))
-			{ ?>
-			
-			<div class='col-md-12'>
+<?php 
+
+	$date= date("d-m-Y"); 
+	$time=date('h:i:a',time());
+
+	$filename="Sale_Invoice_Excel".$date.'_'.$time;
+
+	header ("Expires: 0");
+	header ("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
+	header ("Cache-Control: no-cache, must-revalidate");
+	header ("Pragma: no-cache");
+	header ("Content-type: application/vnd.ms-excel");
+	header ("Content-Disposition: attachment; filename=".$filename.".xls");
+	header ("Content-Description: Generated Report" );
+
+?>
+
+		<div class='col-md-12'>
 			<?php if(!empty($accountingEntries['Invoices']->toArray()))
 			{ ?> 
 
@@ -397,61 +341,16 @@
 				</table> 			
 			<?php }  else { echo 'No Data Found in Purchase Invoices (Input GST)'; } ?>
 			</div>
-			
-			</div>
-				
-				<div class='col-md-12'>
-					<div class='col-md-offset-4 col-md-4'>
-						<table class='table'>
-							<tr>
-								<td style="text-align:right"><b>Net Payable : </b></td>
-								<td style="text-align:right"> 
-									<?php echo @$totalamount_invoices -  @$totalamount_item ?>
-								</td>
-							</tr>
-						</table>
-					</div>
+			<div class='col-md-12'>
+				<div class='col-md-offset-4 col-md-4'>
+					<table class='table'>
+						<tr>
+							<td style="text-align:right"><b>Net Payable : </b></td>
+							<td style="text-align:right"> 
+								<?php echo @$totalamount_invoices -  @$totalamount_item ?>
+							</td>
+						</tr>
+					</table>
 				</div>
-		<?php } ?>	
-				
 			</div>
-		</div>
-	</div>
-</div>	
-
-<?php echo $this->Html->script('/assets/global/plugins/jquery.min.js'); ?>
-
-<script>
-$(document).ready(function() { 
-});
-</script>
-
-<!-- BEGIN PAGE LEVEL STYLES -->
-
-<?php echo $this->Html->css('/assets/global/plugins/bootstrap-datepicker/css/datepicker3.css', ['block' => 'cssComponentsPickers']); ?>
-<?php echo $this->Html->css('/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css', ['block' => 'cssComponentsPickers']); ?>
-<?php echo $this->Html->css('/assets/global/plugins/bootstrap-colorpicker/css/colorpicker.css', ['block' => 'cssComponentsPickers']); ?>
-<?php echo $this->Html->css('/assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css', ['block' => 'cssComponentsPickers']); ?>
-<?php echo $this->Html->css('/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css', ['block' => 'cssComponentsPickers']); ?>
-
-<!-- END PAGE LEVEL STYLES -->
-
-<!-- BEGIN PAGE LEVEL PLUGINS -->
-<?php echo $this->Html->script('/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsPickers']); ?>
-<?php echo $this->Html->script('/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsPickers']); ?>
-<?php echo $this->Html->script('/assets/global/plugins/clockface/js/clockface.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsPickers']); ?>
-<?php echo $this->Html->script('/assets/global/plugins/bootstrap-daterangepicker/moment.min.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsPickers']); ?>
-<?php echo $this->Html->script('/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsPickers']); ?>
-<?php echo $this->Html->script('/assets/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsPickers']); ?>
-<?php echo $this->Html->script('/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js', ['block' => 'PAGE_LEVEL_PLUGINS_ComponentsPickers']); ?>
-<?php echo $this->Html->script('/assets/admin/pages/scripts/components-pickers.js', ['block' => 'PAGE_LEVEL_SCRIPTS_ComponentsPickers']); ?>
-<?php echo $this->Html->script('/assets/admin/pages/scripts/components-dropdowns.js', ['block' => 'PAGE_LEVEL_SCRIPTS_ComponentsDropdowns']); ?>
-
-
-<script>
-	jQuery(document).ready(function() {
-		// initiate layout and plugins
 		
-		ComponentsPickers.init();
-	});   
-</script>

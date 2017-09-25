@@ -1,11 +1,24 @@
-<div  class="main_div" style="border:none">
-		<?php echo $this->Html->link( '<i class="fa fa-file-excel-o"></i> Excel', '/Invoices/Customer-date-wise/'.$startdatefrom.'/'.$startdateto.'/'.$customername.'/'.$radioValue.'',['class' =>'btn btn-sm green tooltips pull-right Item-Wise-Excel','target'=>'_blank','escape'=>false,'data-original-title'=>'Download as excel']); ?>
-	
-<table id="example1" class="table table-bordered  hidetable maindiv  main_table">
-	<?php if(!empty($filterdatas))
+<?php 
+
+	$date= date("d-m-Y"); 
+	$time=date('h:i:a',time());
+
+	$filename="Item_Wise_Excel_".$date.'_'.$time;
+
+	header ("Expires: 0");
+	header ("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
+	header ("Cache-Control: no-cache, must-revalidate");
+	header ("Pragma: no-cache");
+	header ("Content-type: application/vnd.ms-excel");
+	header ("Content-Disposition: attachment; filename=".$filename.".xls");
+	header ("Content-Description: Generated Report" );
+
+?>
+<table id="example1" class="table table-bordered  hidetable maindiv  main_table"  style="border:1px solid">
+	<?php if(!empty($filterdatasitem))
 		{	?>
 	<thead style="text-align:center;"  class="maindiv">
-		<tr>
+		<tr style="border:1px solid">
 			<th scope="col">Sr.</th>
 			<th scope="col">Trans. Date</th>
 			<th scope="col">Inv. No.</th>
@@ -14,38 +27,36 @@
 			<th scope="col">HSN Code</th>
 			<th scope="col" style="width:30px;">Qty</th>
 			<th scope="col" style="width:50px;">Rate</th>
-			<th scope="col">Discount</th>
+			<th scope="col" >Discount</th>
 			<th scope="col">CGST %</th>
 			<th scope="col">CGST Amount</th>
 			<th scope="col">SGST %</th>
 			<th scope="col">SGST Amount</th>
 			<th scope="col">Base Amount</th>							
 			<th scope="col">Total</th>
-			<th scope="col">Rec.Amt</th>
-			<th scope="col">Due Amt</th>
-			<th scope="col" class="hidden-print">Action</th>
 		</tr>
 	</thead>
-	<tbody class="main_tbody">
+	<tbody class="main_tbody" style="border:1px solid">
 		<?php $i=0;
-		$cgstamount=0;     $sgstamount=0;    
-		$baseamount=0;     $totalamount=0;    $dueamountamount=0;
-		$recieveamount=0;   $totalquantity=0;
-		foreach ($filterdatas as $filterdata): $i++;  ?>
-		<tr class="main_tr">
+		$cgstamount=0;     $sgstamount=0;     $basevalue=0;     $totalvalue=0;
+		$baseamount=0;     $totalamount=0;    $totalquantity=0;
+		//pr($filterdatasitem->toarray());    exit;
+		foreach ($filterdatasitem as $invoice): $i++; 
+			if(sizeof($invoice->invoice_rows)>0){ 
+			?>
+		<tr class="main_tr"  style="border:1px solid">
 			<td style="width:5px;"><?php echo $i; ?></td>
-			<td style="width:5px;"><?= h($filterdata->transaction_date) ?></td>
-			<td><?php echo $filterdata->invoice_no; ?></td>
-			<td><?php echo $filterdata->customer_name; ?></td>
+			<td style="width:5px;"><?= h($invoice->transaction_date) ?></td>
+			<td><?php echo $invoice->invoice_no; ?></td>
+			<td><?php if($invoice->customer_ledger_id !=''){
+				echo $invoice->customer_ledgers->name;
+			}else{
+			echo $invoice->customer_name; }?></td>
 			<td colspan="9" style="text-align:right">
 				<table class="table table-bordered table-hover">
-					<?php 		
-					
-					foreach($filterdata->invoice_rows as $invoice_row):
-					
-					?>
+					<?php  foreach ($invoice->invoice_rows as $invoice_row):?>
 					<tr>
-						<td style="width:65px;text-align:left">
+						<td style="width:60px;text-align:left">
 						<?php
 							if(!empty($invoice_row->item_id)) 
 							{
@@ -63,17 +74,20 @@
 						<td style="width:30px;text-align:left">
 						<?php
 								echo $invoice_row->quantity; 
-						$totalquantity=$totalquantity+$invoice_row->quantity;
+								$totalquantity=$totalquantity+$invoice_row->quantity;
+								
 						?>
 						</td>
 						<td style="width:50px;text-align:left">
 						<?php
 								echo $invoice_row->rate; 
+								$totalvalue=$invoice_row->rate*$invoice_row->quantity;
 						?>
 						</td>
 						<td style="width:50px;text-align:left">
 						<?php
 								echo $invoice_row->discount_amount; 
+								
 						?>
 						</td>
 						<td style="width:60px">
@@ -109,45 +123,36 @@
 						</td>
 						
 					</tr>
-					<?php  	endforeach;
-							
-					?>
+					<?php   $basevalue=$totalvalue-$invoice_row->discount_amount-$invoice_row->cgst_amount-$invoice_row->sgst_amount;
+							$baseamount = $baseamount + $basevalue;
+							$totalamount = $totalamount + $totalvalue;
+							endforeach;  ?>
 				</table>		
 			</td>
-			<td style="text-align:right"><?php echo $filterdata->total_amount_before_tax; ?></td>
-			<td style="text-align:right"><?php echo $filterdata->total_amount_after_tax; ?></td>
-			<td style="text-align:right"><?php echo $filterdata->recieveamount; ?></td>
-			<td style="text-align:right"><?php echo $filterdata->dueamountamount; ?></td>
-			<td class="hidden-print"><?= $this->Html->link(__('Edit'), ['action' => 'edit', $filterdata->id]) ?>
-			<?= $this->Html->link(__('View'), ['action' => 'view', $filterdata->id]) ?>
-				<?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $filterdata->id], ['confirm' => __('Are you sure you want to delete # {0}?', $filterdata->id)]) ?>
-			</td>
+			<td style="text-align:right"><?php echo $basevalue; ?></td>
+			<td style="text-align:right"><?php echo $totalvalue; ?></td>
+			
 		</tr>
 		<?php 
-			$baseamount = $baseamount + $filterdata->total_amount_before_tax;
-			$totalamount = $totalamount + $filterdata->total_amount_after_tax;
-			$recieveamount = $recieveamount + $filterdata->recieveamount;
-			$dueamountamount = $dueamountamount + $filterdata->dueamountamount;
+			}
+			
 			endforeach;
 		?>
 	</tbody>				
 	<tfoot >
-		<tr>
+		<tr  style="border:1px solid">
 			<td colspan="6" style="text-align:right"><b>TOTAL Qty</b></td>
 			<td class="totalcgst" style="text-align:right"><b><?php echo $totalquantity; ?></b></td>
 			<td colspan="3"  style="text-align:right"><b>TOTAL Amount</b></td>
-			<td class="totalcgst" style="text-align:right"><b><?php echo $cgstamount; ?></b></td>
+			<td class="totalcgst"  style="text-align:right"><b><?php echo $cgstamount; ?></b></td>
 			<td class="totalsgst" colspan="2" style="text-align:right"><b><?php echo $sgstamount; ?></b></td>
 			<td class="totalbase" style="text-align:right"><b><?php  echo $baseamount; ?></b></td>
 			<td class="totalamount" style="text-align:right"><b><?php echo $totalamount; ?></b></td>
-			<td class="recieveamount" style="text-align:right"><b><?php echo $recieveamount; ?></b></td>
-			<td class="dueamountamount" style="text-align:right"><b><?php echo $dueamountamount; ?></b></td>
 			<td></td>
 			
 		</tr>
 	</tfoot>
-		<?php } else{
+	<?php } else{
 			echo 'No Data Found';
 		}?>
-</table>
-</div>
+</table>		

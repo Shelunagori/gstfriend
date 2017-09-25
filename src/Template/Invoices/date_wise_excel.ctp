@@ -1,9 +1,22 @@
-<div  class="main_div maindiv" style="border:1px solid">
-	<?php echo $this->Html->link( '<i class="fa fa-file-excel-o"></i> Excel', '/Invoices/Date-Wise-Excel/'.$datefrom.'/'.$dateto.'',['class' =>'btn btn-sm green tooltips pull-right ','target'=>'_blank','escape'=>false,'data-original-title'=>'Download as excel']); ?>
+<?php 
 
-<table class=" table table-bordered table-hover" id='main_tbl'  >
+	$date= date("d-m-Y"); 
+	$time=date('h:i:a',time());
+
+	$filename="Date_wise_Excel_".$date.'_'.$time;
+
+	header ("Expires: 0");
+	header ("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
+	header ("Cache-Control: no-cache, must-revalidate");
+	header ("Pragma: no-cache");
+	header ("Content-type: application/vnd.ms-excel");
+	header ("Content-Disposition: attachment; filename=".$filename.".xls");
+	header ("Content-Description: Generated Report" );
+
+?>
+<table class=" table table-bordered table-hover"  style="border:1px solid" id='main_tbl' >
 	<thead >
-		<tr>
+		<tr style="border:1px solid">
 			<th scope="col" >Sr. No.</th>
 			<th scope="col" >Date</th>
 			<th scope="col" >Invoice No.</th>
@@ -22,7 +35,7 @@
 				foreach ($reportdatas as $reportdata): 
 				$i++;
 		?>
-		<tr>
+		<tr style="border:1px solid">
 			<td><?php echo $i; ?></td>
 			<td><?= h($reportdata->transaction_date) ?></td>
 			<td><?php echo $reportdata->invoice_no; ?></td>
@@ -44,7 +57,7 @@
 		?>
 	</tbody>
 	<tfoot>
-		<tr>
+		<tr style="border:1px solid">
 			<td colspan="3" style="text-align:right"><b>TOTAL </b></td>
 			<td class="totalbase" style="text-align:right"><b><?php  echo $baseamount; ?></b></td>
 			<td class="totalcgst" style="text-align:right"><b><?php echo $cgstamount; ?></b></td>
@@ -54,5 +67,4 @@
 			<td class="dewamount" style="text-align:right"><b><?php echo $dewamount; ?></b></td>
 		</tr>
 	</tfoot>
-</table>
-</div>
+</table> 

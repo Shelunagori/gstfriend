@@ -27,7 +27,7 @@
 					
 				</div>
 				<div class="desc">
-					 Invoice Report
+					 Sale Invoice Report
 				</div>
 			</div>
 			

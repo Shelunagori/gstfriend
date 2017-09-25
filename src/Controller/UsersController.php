@@ -16,7 +16,7 @@ class UsersController extends AppController
 	public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow([ 'logout', 'add','edit' ,'sendotpmobile','varifymobile','changepass']);
+        $this->Auth->allow([ 'logout','add','edit' ,'sendotpmobile','varifymobile','changepass']);
     }
 
 	public function logout()
@@ -177,6 +177,7 @@ class UsersController extends AppController
 		
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
+			
 			if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
@@ -184,7 +185,11 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-		$companies=$this->Users->Companies->find()->where (['freezed'=>0]);
+		if($company_id==5){
+			$companies=$this->Users->Companies->find()->where (['freezed'=>0]);
+		}else{
+			$companies=$this->Users->Companies->find()->where (['Companies.id'=>$company_id,'freezed'=>0]);
+		}	
 		$company=[];
 		foreach($companies as $companie)
 			{

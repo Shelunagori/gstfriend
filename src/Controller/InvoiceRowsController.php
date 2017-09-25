@@ -29,6 +29,12 @@ class InvoiceRowsController extends AppController
         $this->set('_serialize', ['invoiceRows']);
     }
 
+	
+	
+	
+	
+	
+	
     /**
      * View method
      *

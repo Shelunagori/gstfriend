@@ -19,7 +19,8 @@ $this->set('title', 'List');
 						<th scope="col" >Sr. No.</th>
 						<th scope="col" >Name</th>
 						<th scope="col" >HSN Code</th>
-						<th scope="col" >Price</th>
+						<th scope="col" >Sale Price</th>
+						<th scope="col" >Purchase Price</th>
 						<th scope="col" >CGST</th>
 						<th scope="col" >SGST</th>
 						<th scope="col" >IGST</th>
@@ -36,6 +37,7 @@ $this->set('title', 'List');
 						<td><?= h($item->name) ?></td>
 						<td><?= h($item->hsn_code) ?></td>
 						<td><?= $this->Number->format($item->price) ?></td>
+						<td><?= $this->Number->format($item->purchase_price) ?></td>
 						<td><?php echo @$item->cgst_ledger->name; ?></td>
 						<td><?php echo @$item->sgst_ledger->name; ?></td>
 						<td><?php echo @$item->igst_ledger->name; ?></td>

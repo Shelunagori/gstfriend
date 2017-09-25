@@ -83,7 +83,7 @@ class CustomersController extends AppController
             } 
             $this->Flash->error(__('The customer could not be saved. Please, try again.'));
         }
-        $companies = $this->Customers->Companies->find('list')->where(['company_id'=>$company_id]);
+        $companies = $this->Customers->Companies->find()->where(['id'=>$company_id]);
         $this->set(compact('customer', 'companies'));
         $this->set('_serialize', ['customer']);
 		$this->set('active_menu', 'Customers.Add');
@@ -132,7 +132,7 @@ class CustomersController extends AppController
             }
             $this->Flash->error(__('The customer could not be saved. Please, try again.'));
         }
-        $companies = $this->Customers->Companies->find('list');
+        $companies = $this->Customers->Companies->find();
         $this->set(compact('customer', 'companies'));
         $this->set('_serialize', ['customer']);
     }

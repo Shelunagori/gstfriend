@@ -69,27 +69,33 @@ p{
 	</div>	
 </div>
 <div style="width:80%;margin:auto;border:solid 1px;font-family: serif;background-color: #FFF; margin-top:2%" class="maindiv" id="a">
-	<label style="margin-left:80%">Distributor Copy</label>
+	<?php foreach($companies as $company) {?>
+	<div align="left" >
+		<span style="color: #4a4c4c;"><b>DSO LIC. No.</b>:&nbsp;<?= $company->dso_lic_no ?></span>&nbsp;&nbsp;&nbsp;&nbsp;
+		<span style="color: #4a4c4c;"><b>Exclusive LIC.NO.</b>:&nbsp;<?= $company->exclusive_lic_no ?></span>
+		<span style="color: #4a4c4c;margin-left:35%"><b>Customer Copy</b></span><br/>
+	</div>
+	
 	<table width="100%">
-		<tr><?php foreach($companies as $company) {?>
-			<td width="30%" style="padding:5px;"><?php echo $this->Html->image('/company_logo/'.$company->logo, ['height' => '100px']); ?></td>
-			<td width="70%">
+		<tr>
+			<td width="40%" style="padding:5px;"><?php echo $this->Html->image('/company_logo/'.$company->logo, ['height' => '100px']); ?></td>
+			<td width="60%">
 				<div align="center" style="color: #c4151c;"><b>
 				
 					<span style="font-size:30px;color: #c4151c !important;" style=""><?= $company->name ?></span><br/>
 					<span style="color: #4a4c4c;"><?= $company->address ?></span><br/>
 					<span style="color: #4a4c4c;"><?= $company->district ?>&nbsp;&nbsp;
 					<?= $company->state ?></span><br/>
-					<span style="color: #4a4c4c;"><?= $company->phone_no ?></span><br/>
+					<span style="color: #4a4c4c;">Ph.<?= $company->phone_no ?>,<?= $company->mobile_no ?></span><br/>
 					<span style="color: #4a4c4c;">GSTIN:<?= $company->gstno ?></span></b>
-				<?php } ?>	
+					
 				</div>
 			</td>
 			<td width="30%"></td>
 		</tr>
 	</table>
-	
-	<div align="center" style="padding: 5px 0px;border-top: solid 1px;border-bottom: solid 1px;background-color : #c4151c !important;font-size:18px;color: #FFF !important;"><b style="color: #FFF !important;">TAX INVOICE</b></div>
+	<?php } ?>
+	<div align="center" style="padding: 5px 0px;border-top: solid 1px;border-bottom: solid 1px;background-color: #e4e3e3 !important;border-color : black !important;font-size:18px;color: #FFF !important;"><b style="color: black !important;">TAX INVOICE</b></div>
 	<div>
 		<table width="100%">
 			<tr>
@@ -98,37 +104,25 @@ p{
 						<tr  style="border-bottom:1px solid;">
 							<td width="110"><b style="margin-left: 8px;">Invoice No.</b></td>
 							<td width="20">:</td>
-							<td colspan="4"><?= h('#'.str_pad($invoice->invoice_no, 4, '0', STR_PAD_LEFT)) ?></td>
+							<td width="300"><?= h('#'.str_pad($invoice->invoice_no, 4, '0', STR_PAD_LEFT)) ?></td>
 						</tr>
 						<tr style="border-bottom:1px solid;">	
 							<td width="110"><b style="margin-left: 8px;">Invoice Date</b></td>
 							<td>:</td>
-							<td colspan="4"><?= $invoice->transaction_date ?></td>
+							<td ><?= $invoice->transaction_date ?></td>
 						</tr>
 						
 						<tr  style="border-bottom:1px solid">
-							<td width="110"><b style="margin-left: 8px;">Reference No.</b></td>
+							<td width="110"><b style="margin-left: 8px;">vehicle No.</b></td>
 							<td>:</td>
-							<td colspan="4"></td>
+							<td ><?= $invoice->reference_no ?></td>
 						</tr>
 						<tr style="border-bottom:1px solid;">	
 							<td width="110"><b style="margin-left: 8px;">Delievery Date</b></td>
 							<td>:</td>
-							<td colspan="4"><?= $invoice->delievery_date ?></td>
+							<td><?= $invoice->delievery_date ?></td>
 						</tr>
-						<tr style="border-bottom:1px solid">
-							<td width="110"><b style="margin-left: 8px;">GSTIN No.</b></td>
-							<td>:</td>
-							<td colspan="4"></td>
-						</tr>
-						<tr>
-							<td width="90"><b style="margin-left: 8px;">State</b></td>
-							<td>:</td>
-							<td width="110"></td>
-							<td width="60"><b>Code</b></td>
-							<td>:</td>
-							<td width="90"></td>
-						</tr>
+						
 					</table>
 				</td>
 				<td valign="top">
@@ -139,8 +133,8 @@ p{
 					<table width="100%">
 						<tr style="border-bottom:1px solid;">
 							<td width="100" ><b style="margin-left: 8px;">Consumer No.  :</b></td>
-							<td width="130"><?php echo $invoice->consumerno; ?></td>
-							<td width="90"><b>SU No.  :</b></td>
+							<td width="130"><?php echo $invoice->customer_ledgers->customer->consumer_no;; ?></td>
+							<td width="90"><b>SV No.  :</b></td>
 							<td><?php echo $invoice->su_no;?></td>
 						</tr>
 						<tr style="border-bottom:1px solid;">
@@ -171,7 +165,7 @@ p{
 						<tr style="border-bottom:1px solid;">
 							<td width="100" ><b style="margin-left: 8px;">Consumer No.  :</b></td>
 							<td ><?php echo $invoice->consumerno; ?></td>
-							<td><b>SU No.  :</b></td>
+							<td><b>SV No.  :</b></td>
 							<td><?php echo $invoice->su_no;?></td>
 						</tr>
 						<tr style="border-bottom:1px solid;"> 		
@@ -209,7 +203,7 @@ p{
 					<th rowspan="2">Taxable Value</th>
 					<th colspan="2">CGST</th>
 					<th colspan="2">SGST</th>
-					<th colspan="2">IGST</th>
+					<th colspan="2" class="hide">IGST</th>
 					<th rowspan="2" style="border-right: none;">Total</th>
 				</tr>
 				<tr style="background-color: #e4e3e3 !important;">
@@ -217,8 +211,8 @@ p{
 					<th>Amount</th>
 					<th>Rate</th>
 					<th>Amount</th>
-					<th>Rate</th>
-					<th>Amount</th>
+					<th class="hide">Rate</th>
+					<th class="hide">Amount</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -256,7 +250,7 @@ p{
 						 
 					?></td>
 					<td style="text-align:right;"><?= $invoice_row->sgst_amount ?></td>
-					<td style="text-align:right;">
+					<td style="text-align:right;" class="hide">
 					<?php if($invoice_row->igst) { 
 						if($invoice_row->igst->tax_percentage != 0)
 						{
@@ -264,7 +258,7 @@ p{
 						}
 					 }else{ echo '0%'; }
 					?></td>
-					<td style="text-align:right;"><?= $invoice_row->igst_amount ?></td>
+					<td style="text-align:right;"  class="hide"><?= $invoice_row->igst_amount ?></td>
 					<td style="text-align:right;border-right: none;"><?= $invoice_row->total ?></td>
 				</tr>
 			<?php } } ?>
@@ -284,7 +278,7 @@ p{
 		<table width="100%" class="tbl">
 			<tbody>
 				<tr>
-					<td style="text-align:left;border-left: none;border-top: none;" rowspan="5" width="70%" valign="top">
+					<td style="text-align:left;border-left: none;border-top: none;" rowspan="4" width="70%" valign="top">
 						<p><b>Amount in words : </b>
 						<?=  h(ucwords($this->NumberWords->convert_number_to_words($rupees))) ?>
 						Rupees<?= h($paisa_text)  ?>
@@ -301,9 +295,9 @@ p{
 					<td style="text-align:right;"><b>Total SGST</b></td>
 					<td style="text-align:right;border-right: none;"><?= $invoice->total_sgst ?></td>
 				</tr>
-				<tr>
-					<td style="text-align:right;"><b>Total IGST</b></td>
-					<td style="text-align:right;border-right: none;"><?= $invoice->total_igst ?></td>
+				<tr class="hide">
+					<td style="text-align:right;" class="hide"><b>Total IGST</b></td>
+					<td style="text-align:right;border-right: none;" class="hide"><?= $invoice->total_igst ?></td>
 				</tr>
 				<tr>
 					<td style="text-align:right;"><b>Total Amount after Tax</b></td>
@@ -338,28 +332,34 @@ p{
 		</table>
 	</div>
 </div>
-<div style="width:80%;margin:auto;border:solid 1px;font-family: serif;background-color: #FFF; margin-top:2%; " class="maindiv1 customercopy" id="b">
-	<label style="margin-left:80%">Customer Copy</label>
+<div style="width:80%;margin:auto;border:solid 1px;font-family: serif;background-color: #FFF; margin-top:40px !important; " class="maindiv1 customercopy" id="b">
+	<?php foreach($companies as $company) {?>
+	<div align="left" >
+		<span style="color: #4a4c4c;"><b>DSO LIC. No.</b>:&nbsp;<?= $company->dso_lic_no ?></span>&nbsp;&nbsp;&nbsp;&nbsp;
+		<span style="color: #4a4c4c;"><b>Exclusive LIC.NO.</b>:&nbsp;<?= $company->exclusive_lic_no ?></span>
+		<span style="color: #4a4c4c;margin-left:35%"><b>Supplier Copy</b></span><br/>
+	</div>
+	
 	<table width="100%">
 		<tr>
-			<td width="30%" style="padding:5px;"><?php echo $this->Html->image('/img/logo.jpg', ['height' => '100px']); ?></td>
-			<td width="70%">
+			<td width="40%" style="padding:5px;"><?php echo $this->Html->image('/company_logo/'.$company->logo, ['height' => '100px']); ?></td>
+			<td width="60%">
 				<div align="center" style="color: #c4151c;"><b>
-				<?php foreach($companies as $company) {?>
+				
 					<span style="font-size:30px;color: #c4151c !important;" style=""><?= $company->name ?></span><br/>
 					<span style="color: #4a4c4c;"><?= $company->address ?></span><br/>
 					<span style="color: #4a4c4c;"><?= $company->district ?>&nbsp;&nbsp;
 					<?= $company->state ?></span><br/>
-					<span style="color: #4a4c4c;"><?= $company->phone_no ?></span><br/>
+					<span style="color: #4a4c4c;">Ph.<?= $company->phone_no ?>,<?= $company->mobile_no ?></span><br/>
 					<span style="color: #4a4c4c;">GSTIN:<?= $company->gstno ?></span></b>
-				<?php } ?>	
+					
 				</div>
 			</td>
 			<td width="30%"></td>
 		</tr>
 	</table>
-	
-	<div align="center" style="padding: 5px 0px;border-top: solid 1px;border-bottom: solid 1px;background-color : #c4151c !important;font-size:18px;color: #FFF !important;"><b style="color: #FFF !important;">TAX INVOICE</b></div>
+	<?php }?>
+	<div align="center" style="padding: 5px 0px;border-top: solid 1px;background-color: #e4e3e3 !important;border-bottom: solid 1px;font-size:18px;"><b style="color:black !important;">TAX INVOICE</b></div>
 	<div>
 		<table width="100%">
 			<tr>
@@ -368,37 +368,25 @@ p{
 						<tr  style="border-bottom:1px solid;">
 							<td width="110"><b style="margin-left: 8px;">Invoice No.</b></td>
 							<td width="20">:</td>
-							<td colspan="4"><?= h('#'.str_pad($invoice->invoice_no, 4, '0', STR_PAD_LEFT)) ?></td>
+							<td width="300"><?= h('#'.str_pad($invoice->invoice_no, 4, '0', STR_PAD_LEFT)) ?></td>
 						</tr>
 						<tr style="border-bottom:1px solid;">	
 							<td width="110"><b style="margin-left: 8px;">Invoice Date</b></td>
 							<td>:</td>
-							<td colspan="4"><?= $invoice->transaction_date ?></td>
+							<td ><?= $invoice->transaction_date ?></td>
 						</tr>
 						
 						<tr  style="border-bottom:1px solid">
-							<td width="110"><b style="margin-left: 8px;">Reference No.</b></td>
+							<td width="110"><b style="margin-left: 8px;">vehicle No.</b></td>
 							<td>:</td>
-							<td colspan="4"></td>
+							<td ><?= $invoice->reference_no ?></td>
 						</tr>
 						<tr style="border-bottom:1px solid;">	
 							<td width="110"><b style="margin-left: 8px;">Delievery Date</b></td>
 							<td>:</td>
-							<td colspan="4"><?= $invoice->delievery_date ?></td>
+							<td><?= $invoice->delievery_date ?></td>
 						</tr>
-						<tr style="border-bottom:1px solid">
-							<td width="110"><b style="margin-left: 8px;">GSTIN No.</b></td>
-							<td>:</td>
-							<td colspan="4"></td>
-						</tr>
-						<tr>
-							<td width="90"><b style="margin-left: 8px;">State</b></td>
-							<td>:</td>
-							<td width="110"></td>
-							<td width="60"><b>Code</b></td>
-							<td>:</td>
-							<td width="90"></td>
-						</tr>
+						
 					</table>
 				</td>
 				<td valign="top">
@@ -410,7 +398,7 @@ p{
 						<tr style="border-bottom:1px solid;">
 							<td width="100" ><b style="margin-left: 8px;">Consumer No.  :</b></td>
 							<td width="130"><?php echo $invoice->consumerno; ?></td>
-							<td width="90"><b>SU No.  :</b></td>
+							<td width="90"><b>SV No.  :</b></td>
 							<td><?php echo $invoice->su_no;?></td>
 						</tr>
 						<tr style="border-bottom:1px solid;">
@@ -441,7 +429,7 @@ p{
 						<tr style="border-bottom:1px solid;">
 							<td width="100" ><b style="margin-left: 8px;">Consumer No.</b></td>
 							<td ><?php echo $invoice->consumerno; ?></td>
-							<td><b>SU No.</b></td>
+							<td><b>SV No.</b></td>
 							<td><?php echo $invoice->su_no;?></td>
 						</tr>
 						<tr style="border-bottom:1px solid;"> 		
@@ -479,7 +467,7 @@ p{
 					<th rowspan="2">Taxable Value</th>
 					<th colspan="2">CGST</th>
 					<th colspan="2">SGST</th>
-					<th colspan="2">IGST</th>
+					<th colspan="2" class="hide">IGST</th>
 					<th rowspan="2" style="border-right: none;">Total</th>
 				</tr>
 				<tr style="background-color: #e4e3e3 !important;">
@@ -487,8 +475,8 @@ p{
 					<th>Amount</th>
 					<th>Rate</th>
 					<th>Amount</th>
-					<th>Rate</th>
-					<th>Amount</th>
+					<th class="hide">Rate</th>
+					<th class="hide">Amount</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -526,7 +514,7 @@ p{
 						 
 					?></td>
 					<td style="text-align:right;"><?= $invoice_row->sgst_amount ?></td>
-					<td style="text-align:right;">
+					<td style="text-align:right;" class="hide">
 					<?php if($invoice_row->igst) { 
 						if($invoice_row->igst->tax_percentage != 0)
 						{
@@ -534,7 +522,7 @@ p{
 						}
 					 }else{ echo '0%'; }
 					?></td>
-					<td style="text-align:right;"><?= $invoice_row->igst_amount ?></td>
+					<td style="text-align:right;" class="hide"><?= $invoice_row->igst_amount ?></td>
 					<td style="text-align:right;border-right: none;"><?= $invoice_row->total ?></td>
 				</tr>
 			<?php } } ?>
@@ -554,7 +542,7 @@ p{
 		<table width="100%" class="tbl">
 			<tbody>
 				<tr>
-					<td style="text-align:left;border-left: none;border-top: none;" rowspan="5" width="70%" valign="top">
+					<td style="text-align:left;border-left: none;border-top: none;" rowspan="4" width="70%" valign="top">
 						<p><b>Amount in words : </b>
 						<?=  h(ucwords($this->NumberWords->convert_number_to_words($rupees))) ?>Rupees<?= h($paisa_text)  ?>
 						</p>
@@ -570,9 +558,9 @@ p{
 					<td style="text-align:right;"><b>Total SGST</b></td>
 					<td style="text-align:right;border-right: none;"><?= $invoice->total_sgst ?></td>
 				</tr>
-				<tr>
-					<td style="text-align:right;"><b>Total IGST</b></td>
-					<td style="text-align:right;border-right: none;"><?= $invoice->total_igst ?></td>
+				<tr class="hide">
+					<td style="text-align:right;" class="hide"><b>Total IGST</b></td>
+					<td style="text-align:right;border-right: none;" class="hide"><?= $invoice->total_igst ?></td>
 				</tr>
 				<tr>
 					<td style="text-align:right;"><b>Total Amount after Tax</b></td>

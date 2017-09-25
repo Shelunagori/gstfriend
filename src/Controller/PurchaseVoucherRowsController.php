@@ -30,6 +30,11 @@ class PurchaseVoucherRowsController extends AppController
         $this->set('_serialize', ['purchaseVoucherRows']);
     }
 
+	
+	
+	
+	
+	
     /**
      * View method
      *

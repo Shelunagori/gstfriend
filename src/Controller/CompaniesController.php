@@ -22,7 +22,11 @@ class CompaniesController extends AppController
     {
 		$this->viewBuilder()->layout('index_layout');
 		$company_id=$this->Auth->User('company_id');
-        $companies = $this->paginate($this->Companies);
+		if($company_id==5){
+			$companies = $this->paginate($this->Companies);
+		}else{
+			$companies = $this->paginate($this->Companies->find()->where(['Companies.freezed'=>0,'Companies.id'=>$company_id]));
+		}
 
         $this->set(compact('companies'));
         $this->set('_serialize', ['companies']);

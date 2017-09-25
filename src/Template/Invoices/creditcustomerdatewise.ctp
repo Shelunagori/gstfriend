@@ -1,6 +1,19 @@
-<div  class="main_div" style="border:none">
-		<?php echo $this->Html->link( '<i class="fa fa-file-excel-o"></i> Excel', '/Invoices/Customer-date-wise/'.$startdatefrom.'/'.$startdateto.'/'.$customername.'/'.$radioValue.'',['class' =>'btn btn-sm green tooltips pull-right Item-Wise-Excel','target'=>'_blank','escape'=>false,'data-original-title'=>'Download as excel']); ?>
-	
+<?php 
+
+	$date= date("d-m-Y"); 
+	$time=date('h:i:a',time());
+
+	$filename="Credit_customer_date_wise".$date.'_'.$time;
+/* 
+	header ("Expires: 0");
+	header ("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
+	header ("Cache-Control: no-cache, must-revalidate");
+	header ("Pragma: no-cache");
+	header ("Content-type: application/vnd.ms-excel");
+	header ("Content-Disposition: attachment; filename=".$filename.".xls");
+	header ("Content-Description: Generated Report" ); */
+
+?>
 <table id="example1" class="table table-bordered  hidetable maindiv  main_table">
 	<?php if(!empty($filterdatas))
 		{	?>
@@ -14,7 +27,7 @@
 			<th scope="col">HSN Code</th>
 			<th scope="col" style="width:30px;">Qty</th>
 			<th scope="col" style="width:50px;">Rate</th>
-			<th scope="col">Discount</th>
+			<th scope="col">Discoount</th>
 			<th scope="col">CGST %</th>
 			<th scope="col">CGST Amount</th>
 			<th scope="col">SGST %</th>
@@ -23,20 +36,19 @@
 			<th scope="col">Total</th>
 			<th scope="col">Rec.Amt</th>
 			<th scope="col">Due Amt</th>
-			<th scope="col" class="hidden-print">Action</th>
 		</tr>
 	</thead>
 	<tbody class="main_tbody">
 		<?php $i=0;
-		$cgstamount=0;     $sgstamount=0;    
+		$cgstamount=0;     $sgstamount=0;     
 		$baseamount=0;     $totalamount=0;    $dueamountamount=0;
-		$recieveamount=0;   $totalquantity=0;
-		foreach ($filterdatas as $filterdata): $i++;  ?>
+		$recieveamount=0;	$totalquantity=0;
+		foreach ($filterdatas as $filterdata): $i++;   ?>
 		<tr class="main_tr">
 			<td style="width:5px;"><?php echo $i; ?></td>
 			<td style="width:5px;"><?= h($filterdata->transaction_date) ?></td>
 			<td><?php echo $filterdata->invoice_no; ?></td>
-			<td><?php echo $filterdata->customer_name; ?></td>
+			<td><?php echo $filterdata->customer_ledgers->name; ?></td>
 			<td colspan="9" style="text-align:right">
 				<table class="table table-bordered table-hover">
 					<?php 		
@@ -118,10 +130,7 @@
 			<td style="text-align:right"><?php echo $filterdata->total_amount_after_tax; ?></td>
 			<td style="text-align:right"><?php echo $filterdata->recieveamount; ?></td>
 			<td style="text-align:right"><?php echo $filterdata->dueamountamount; ?></td>
-			<td class="hidden-print"><?= $this->Html->link(__('Edit'), ['action' => 'edit', $filterdata->id]) ?>
-			<?= $this->Html->link(__('View'), ['action' => 'view', $filterdata->id]) ?>
-				<?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $filterdata->id], ['confirm' => __('Are you sure you want to delete # {0}?', $filterdata->id)]) ?>
-			</td>
+			
 		</tr>
 		<?php 
 			$baseamount = $baseamount + $filterdata->total_amount_before_tax;
@@ -136,7 +145,7 @@
 			<td colspan="6" style="text-align:right"><b>TOTAL Qty</b></td>
 			<td class="totalcgst" style="text-align:right"><b><?php echo $totalquantity; ?></b></td>
 			<td colspan="3"  style="text-align:right"><b>TOTAL Amount</b></td>
-			<td class="totalcgst" style="text-align:right"><b><?php echo $cgstamount; ?></b></td>
+			<td class="totalcgst"  style="text-align:right"><b><?php echo $cgstamount; ?></b></td>
 			<td class="totalsgst" colspan="2" style="text-align:right"><b><?php echo $sgstamount; ?></b></td>
 			<td class="totalbase" style="text-align:right"><b><?php  echo $baseamount; ?></b></td>
 			<td class="totalamount" style="text-align:right"><b><?php echo $totalamount; ?></b></td>
@@ -146,8 +155,7 @@
 			
 		</tr>
 	</tfoot>
-		<?php } else{
+	<?php } else{
 			echo 'No Data Found';
 		}?>
 </table>
-</div>

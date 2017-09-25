@@ -18,6 +18,7 @@ $this->set('title', 'List');
 					<tr>
 						<th scope="col">Sr.No.</th>
 						<th scope="col">Name</th>
+						<th scope="col">Consumer No</th>
 						<th scope="col">Mobile No.</th>
 						<th scope="col">Email</th>
 						<th scope="col">State</th>
@@ -31,6 +32,7 @@ $this->set('title', 'List');
 					<tr>
 						<td><?= $this->Number->format($i) ?></td>
 						<td><?= h($customer->name) ?></td>
+						<td><?= h($customer->consumer_no) ?></td>
 						<td><?= h($customer->mobile) ?></td>
 						<td><?= h($customer->email) ?></td>
 						<td><?= h($customer->state) ?></td>

@@ -65,7 +65,10 @@ class ItemsTable extends Table
         ]);
 		
 		
-		$this->belongsTo('ItemDiscounts');
+		$this->hasMany('ItemDiscounts', [
+            'foreignKey' => 'item_id',
+            'joinType' => 'INNER'
+        ]);
 		$this->belongsTo('TaxTypes');
 		
 		$this->belongsTo('PurchaseVouchers', [

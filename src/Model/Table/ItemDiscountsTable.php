@@ -42,10 +42,10 @@ class ItemDiscountsTable extends Table
             'foreignKey' =>'customer_ledger_id',
 			'propertyName' => 'customer_ledger',
         ]);
-        $this->belongsTo('Items', [
-            'foreignKey' => 'item_id',
-            'joinType' => 'INNER',
+        $this->belongsTo('Items',[
+			'foreignKey' =>'item_id' 
 		]);
+		
     }
 
     /**

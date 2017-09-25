@@ -88,7 +88,7 @@ p{
 					<th rowspan="2" width="80">Taxable Value</th>
 					<th colspan="2">CGST</th>
 					<th colspan="2">SGST</th>
-					<th colspan="2">IGST</th>
+					<th colspan="2" class="hide">IGST</th>
 					<th rowspan="2" style="border-right: none;" width="80">Total</th>
 				</tr>
 				<tr style="background-color: #e4e3e3;">
@@ -96,8 +96,8 @@ p{
 					<th width="80">Amount</th>
 					<th width="80">Rate</th>
 					<th width="80">Amount</th>
-					<th width="80">Rate</th>
-					<th width="80">Amount</th>
+					<th width="80" class="hide">Rate</th>
+					<th width="80" class="hide">Amount</th>
 				</tr>
 			</thead>
 			<tbody id="mainTbody">
@@ -125,6 +125,7 @@ p{
 					</td>
 					<td style="text-align:right;">
 						<?php echo $this->Form->control('discount_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','class'=>'form-control discount input-sm','value'=>$invoice_row->discount_amount]); ?>
+						<?php echo $this->Form->control('dicountvalue',['label'=>false,'placeholder'=>'0.00','type'=>'hidden','style'=>'width: 100%;text-align: right;border: none;','class'=>'form-control discountvalue input-sm']); ?>
 					</td>
 					<td style="text-align:right;">
 						<?php echo $this->Form->control('taxable_value',['label'=>false,'placeholder'=>'Taxable Value','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm','value'=>$invoice_row->taxable_value]); ?>
@@ -141,10 +142,10 @@ p{
 					<td style="text-align:right;">
 						<?php echo $this->Form->control('sgst_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm gst','value'=>$invoice_row->sgst_amount]); ?>
 					</td>
-					<td style="text-align:right;" class="form-group">
+					<td style="text-align:right;" class="form-group hide">
 						<?php echo $this->Form->control('igst_rate',['label'=>false,'class'=>'form-control input-sm igst igst_rate','style'=>'width: 80px;border: none;text-align: right;','options'=>$taxs_IGST,'value'=>$invoice_row->igst_ledger_id]); ?>
 					</td>
-					<td style="text-align:right;" class="form-group">
+					<td style="text-align:right;" class="form-group hide">
 						<?php echo $this->Form->control('igst_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control igst input-sm','value'=>$invoice_row->igst_amount]); ?>
 					</td>
 					<td style="text-align:right;border-right: none;">
@@ -157,7 +158,7 @@ p{
 		<table width="100%" class="tbl">
 			<tbody>
 				<tr>
-					<td rowspan="5" style="border-left: none;border-top: none;border-bottom: none;" width="70%" valign="top">
+					<td rowspan="6" style="border-left: none;border-top: none;border-bottom: none;" width="70%" valign="top">
 						<button type="button" class="btn blue-hoki  btn-xs addrow"><i class="fa fa-plus"></i> Add row</button>
 					</td>
 					<td style="text-align:right;border-top: none;"><b>Total Amount before Tax</b></td>
@@ -177,16 +178,28 @@ p{
 						<?php echo $this->Form->control('total_sgst',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 80px;border: none;text-align: right;','tabindex'=>'-1']); ?>
 					</td>
 				</tr>
-				<tr>
-					<td style="text-align:right;"><b>Total IGST</b></td>
-					<td style="text-align:right;border-right: none;">
+				<tr class="hide">
+					<td style="text-align:right;" class="hide"><b>Total IGST</b></td>
+					<td style="text-align:right;border-right: none;" class="hide">
 						<?php echo $this->Form->control('total_igst',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 80px;border: none;text-align: right;','tabindex'=>'-1']); ?>
 					</td>
 				</tr>
 				<tr>
 					<td style="text-align:right;border-bottom: none;"><b>Total Amount after Tax</b></td>
+					<td style="text-align:right;border-right: none;">
+						<?php echo $this->Form->control('total_amount_after_tax',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 80px;text-align: right;border: none;','tabindex'=>'-1','class'=>'totalamount']); ?>	
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align:right;border-bottom: none;"><b>Recieve amount</b></td>
+					<td style="text-align:right;border-right: none;">
+						<?php echo $this->Form->control('recieveamount',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 80px;text-align: right;border: none;','tabindex'=>'-1','class'=>'recamt  recieveamt']); ?>	
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align:right;border-bottom: none;"><b>Due amount</b></td>
 					<td style="text-align:right;border-right: none;border-bottom: none;">
-						<?php echo $this->Form->control('total_amount_after_tax',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 80px;text-align: right;border: none;','tabindex'=>'-1']); ?>	
+						<?php echo $this->Form->control('dueamountamount',['label'=>false,'type'=>'tax','placeholder'=>'0.00','style'=>'width: 80px;text-align: right;border: none;','class'=>' dueamt  ']); ?>	
 					</td>
 				</tr>
 			</tbody>
@@ -216,6 +229,7 @@ $(document).ready(function() {
 	$('.viewThisResult').live("click",function() {
 		$(this).closest("tr").remove();
 		rename_rows();
+		calculation();
 	});
 	
 	function add_row(){
@@ -223,6 +237,7 @@ $(document).ready(function() {
 		$("#mainTbl tbody#mainTbody").append(tr);
 		$("#mainTbl tbody#mainTbody tr.mainTr:last").find('td:eq(1) input').focus();
 		rename_rows();
+		calculation();
 	}
 	
 	function rename_rows(){
@@ -256,7 +271,8 @@ $(document).ready(function() {
 	$('#mainTbl input').die().live("keyup","blur",function() { 
 		calculation();
 	});	
-
+	
+	
 	$('#mainTbl select').die().live("change","blur",function() { 
 		calculation();
 	});		
@@ -269,33 +285,36 @@ $(document).ready(function() {
 		var total_igst=0;
 		var total_amount_after_tax=0;
 		$("#mainTbl tbody#mainTbody tr.mainTr").each(function(){ 
-			var total=parseFloat($(this).find("td:eq(14) input").val());
+			var quantity=parseFloat($(this).find("td:eq(3) input").val());
+			if(!quantity){ quantity=0; }
+			var rate=parseFloat($(this).find("td:eq(4) input").val());
+			if(!rate){ rate=0; }
+			var amount1 = rate * quantity;
+		
+			var amount=parseFloat($(this).find("td:eq(5) input").val(amount1.toFixed(2)));
+			var discount_amount=parseFloat($(this).find("td:eq(6) input").val());
+			if(!discount_amount){ discount_amount=0; }
+			var totalvalue=amount1-discount_amount;
+			var total=parseFloat($(this).find("td:eq(14) input").val(totalvalue.toFixed(2)));
 			if(!total){ total=0; }
-			
-			total_amount_after_tax=total_amount_after_tax+total
+			total_amount_after_tax=total_amount_after_tax+totalvalue;
 			
 			
 			var sgst_rate=parseFloat($(this).find("td:eq(10) option:selected").attr('tax_rate'));
 			if(!sgst_rate){ sgst_rate=0; }
 			var sgst_per=parseFloat(sgst_rate);
 			
-			
 			var cgst_rate=parseFloat($(this).find("td:eq(8) option:selected").attr('tax_rate'));
 			if(!cgst_rate){ cgst_rate=0; }
 			var cgst_per=parseFloat(cgst_rate);
 			
-			
-			var igst_rate=parseFloat($(this).find("td:eq(12) option:selected").attr('tax_rate'));
-			if(!igst_rate){ igst_rate=0; }
-			
-			var igst_per=parseFloat(igst_rate);
-			
-			
+			var igst_ledger_id=parseFloat($(this).find("td:eq(12) option:selected").attr('tax_rate'));
+			if(!igst_ledger_id){ igst_ledger_id=0; }
+			var igst_per=parseFloat(igst_ledger_id);
 			
 			var total_tax=parseFloat(sgst_per)+parseFloat(cgst_per)+parseFloat(igst_per);
-			
 			//tax value calculate start
-			var taxable_value =  (total/((total_tax)+100))*100;
+			var taxable_value =  (totalvalue/((total_tax)+100))*100;
 			
 			$(this).find("td:eq(7) input").val(taxable_value.toFixed(2));
 			var cgst_amount = taxable_value * (cgst_per/100);
@@ -306,23 +325,9 @@ $(document).ready(function() {
 			$(this).find("td:eq(11) input").val(sgst_amount.toFixed(2));
 			total_sgst=parseFloat(total_sgst)+parseFloat(sgst_amount);
 			
-			
-
-
 			var igst_amount = taxable_value * (igst_per/100);
 			$(this).find("td:eq(13) input").val(igst_amount.toFixed(2));
-			total_igst=parseFloat(total_igst)+parseFloat(igst_amount);
-			
-		
-				
-			var discount_amount=parseFloat($(this).find("td:eq(6) input").val());
-			if(!discount_amount){ discount_amount=0; }
-			var amount = taxable_value+discount_amount;
-			$(this).find("td:eq(5) input").val(amount.toFixed(2));
-			var quantity=parseFloat($(this).find("td:eq(3) input").val());
-			if(!quantity){ quantity=0; }
-			var rate = amount/ quantity;
-			$(this).find("td:eq(4) input").val(rate.toFixed(2));
+			total_igst=parseFloat(total_igst)+parseFloat(igst_amount);	
 			
 			total_amount_before_tax=total_amount_before_tax+taxable_value;			
 		});
@@ -334,23 +339,35 @@ $(document).ready(function() {
 	}
 	
 	
+	$('.recamt').die().live("keyup","blur",function() { 
+		
+			var recamt=parseFloat($('.recieveamt').val());
+			var total=parseFloat($('.totalamount').val());
+			var dueamount=total-recamt;
+			
+			$('.dueamt').val(dueamount.toFixed(2));
+			
+	});	
+
+	
+	
+	
+	
 	//change value on change quantity start
 	$(".change_qty").live('keyup',function(){ 
+		
 		$("#mainTbl tbody#mainTbody tr.mainTr").each(function(){  
-			var rate = $(this).find('option:selected').attr('rate');
-			var discount = parseFloat($(this).find("td:eq(6) input").val());
+			var discount = $(this).closest('tr').find("td:eq(6) .discountvalue").val();
 			if(!discount){ discount=0; }
 			var quantity=parseFloat($(this).find("td:eq(3) input").val());
-			
-			var total=rate*quantity;
+			if(!quantity){ quantity=0; }
 			var discount=discount*quantity;
 			
-			$(this).find("td:eq(14) input").val(total.toFixed(2));
-			$(this).find("td:eq(6) input").val(discount.toFixed(2));
+			$(this).closest('tr').find("td:eq(6) .discount").val(discount.toFixed(2));
 		});
 		calculation();
+
 	});
-	//change value on change quantity end
 	
 	
 	
@@ -515,6 +532,7 @@ $(document).ready(function() {
 							type:"GET",
 						}).done(function(response){
 							obj.closest('tr').find('td .discount').val(response);
+							obj.closest('tr').find('td .discountvalue').val(response);
 							calculation();
 						});
 				}
@@ -557,6 +575,7 @@ $(document).ready(function() {
 			</td>
 			<td style="text-align:right;" class="form-group">
 				<?php echo $this->Form->control('discount_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','class'=>'form-control discount input-sm']); ?>
+				<?php echo $this->Form->control('dicountvalue',['label'=>false,'placeholder'=>'0.00','type'=>'hidden','style'=>'width: 100%;text-align: right;border: none;','class'=>'form-control discountvalue input-sm']); ?>
 			</td>
 			<td style="text-align:right;" class="form-group">
 				<?php echo $this->Form->control('taxable_value',['label'=>false,'placeholder'=>'Taxable Value','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
@@ -573,14 +592,14 @@ $(document).ready(function() {
 			<td style="text-align:right;" class="form-group ">
 				<?php echo $this->Form->control('sgst_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control gst input-sm']); ?>
 			</td>
-			<td style="text-align:right;" class="form-group">
+			<td style="text-align:right;" class="form-group hide">
 				<?php echo $this->Form->control('igst_ledger_id',['empty' => "---Select---",'label'=>false,'class'=>'form-control input-sm igst igst_rate','style'=>'width: 80px;border: none;text-align: right;','options'=>$taxs_IGST]); ?>
 			</td>
-			<td style="text-align:right;" class="form-group">
+			<td style="text-align:right;" class="form-group hide">
 				<?php echo $this->Form->control('igst_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control igst input-sm']); ?>
 			</td>
 			<td style="text-align:right;border-right: none;">
-				<?php echo $this->Form->control('total',['label'=>false,'placeholder'=>'Total','style'=>'width: 100%;text-align: right;','class'=>'revCalculate','class'=>'form-control rate input-sm']); ?>
+				<?php echo $this->Form->control('total',['label'=>false,'placeholder'=>'Total','style'=>'width: 100%;text-align: right;','class'=>'revCalculate','class'=>'form-control  input-sm']); ?>
 			</td>
 		</tr>
 	</tbody>

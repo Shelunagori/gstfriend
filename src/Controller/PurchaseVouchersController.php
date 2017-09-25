@@ -12,7 +12,7 @@ use App\Controller\AppController;
  */
 class PurchaseVouchersController extends AppController
 {
-
+	
     /**
      * Index method
      *
@@ -20,19 +20,92 @@ class PurchaseVouchersController extends AppController
      */
     public function index()
     {
+		$url=$this->request->here();
+		$url=parse_url($url,PHP_URL_QUERY);
 		$this->viewBuilder()->layout('index_layout');
 		$company_id=$this->Auth->User('company_id');
 		$purchaseVoucher = $this->PurchaseVouchers->find()
 		->contain(['Companies','SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers'],'PurchaseVoucherRows'=>['CgstLedger','SgstLedger','IgstLedger','Items']])
 		->where(['PurchaseVouchers.status' => 0,'PurchaseVouchers.company_id'=>$company_id])->order(['PurchaseVouchers.id'=>'DESC']);
-     
+		$items = $this->PurchaseVouchers->Items->find('list')->where(['freezed'=>0,'company_id'=>$company_id,'status'=>0]);
         $purchaseVouchers = $this->paginate($purchaseVoucher);
 		$SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find('list')->where(['accounting_group_id'=>25,'freeze'=>0,'company_id'=>$company_id]);
-		$this->set(compact('purchaseVouchers','SupplierLedger'));
+		$this->set(compact('purchaseVouchers','SupplierLedger','items','url'));
         $this->set('_serialize', ['purchaseVouchers']);
 		$this->set('active_menu', 'PurchaseVouchers.Index');
     }
 
+	
+	
+	
+	
+	//generate index excel start
+	 public function exportExcel()
+    {
+		$this->viewBuilder()->layout('');
+		$company_id=$this->Auth->User('company_id');
+		$purchaseVoucher = $this->PurchaseVouchers->find()
+		->contain(['Companies','SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers'],'PurchaseVoucherRows'=>['CgstLedger','SgstLedger','IgstLedger','Items']])
+		->where(['PurchaseVouchers.status' => 0,'PurchaseVouchers.company_id'=>$company_id])->order(['PurchaseVouchers.id'=>'DESC']);
+		$items = $this->PurchaseVouchers->Items->find('list')->where(['freezed'=>0,'company_id'=>$company_id,'status'=>0]);
+        $purchaseVouchers = $this->paginate($purchaseVoucher);
+		$SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find('list')->where(['accounting_group_id'=>25,'freeze'=>0,'company_id'=>$company_id]);
+		$this->set(compact('purchaseVouchers','SupplierLedger','items'));
+        $this->set('_serialize', ['purchaseVouchers']);
+		$this->set('active_menu', 'PurchaseVouchers.Index');
+	}
+	//generate index excel end
+	
+	
+	
+	
+	//item wise filter start
+	function itemfilter($itemwise)
+	{  
+			$company_id=$this->Auth->User('company_id');
+			$filterdatasitem = $this->PurchaseVouchers->find()
+			->contain(['SupplierLedger'=>['Suppliers'],'PurchaseVoucherRows'=>function($q) use($itemwise){   
+				return $q->where(['PurchaseVoucherRows.item_id'=>$itemwise])->contain(['CgstLedger','SgstLedger','IgstLedger','Items']);
+				}])
+					->where(['PurchaseVouchers.company_id'=>$company_id,'PurchaseVouchers.status' => 0])
+					->order(['PurchaseVouchers.id'=>'DESC'])
+					->toArray();
+			
+		//pr($filterdatasitem);   exit;	
+		$this->set(compact('filterdatasitem','itemwise'));
+		
+	}
+	
+	//item wise filter end
+	
+	//generate excel item wise start
+	 public function itemWiseExcel($itemwise)
+    {   
+		
+		$company_id=$this->Auth->User('company_id');
+		$filterdatasitem = $this->PurchaseVouchers->find()
+			->contain(['SupplierLedger'=>['Suppliers'],'PurchaseVoucherRows'=>function($q) use($itemwise){   
+				return $q->where(['PurchaseVoucherRows.item_id'=>$itemwise])->contain(['CgstLedger','SgstLedger','IgstLedger','Items']);
+				}])
+					->where(['PurchaseVouchers.company_id'=>$company_id,'PurchaseVouchers.status' => 0])
+					->order(['PurchaseVouchers.id'=>'DESC'])
+					->toArray();
+			
+		//pr($filterdatasitem);   exit;	
+		$this->set(compact('filterdatasitem'));
+		
+	}
+	
+	//generate excel item wise  end
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	function datewisereport($datefrom,$dateto)
 	{
@@ -46,8 +119,33 @@ class PurchaseVouchersController extends AppController
 		->bind(':end',   $EndDate, 'date')
 		->order(['PurchaseVouchers.id'=>'DESC']);
 		
-		$this->set(compact('reportdatas'));
+		$this->set(compact('reportdatas','datefrom','dateto'));
 	}
+	
+	//generate excel date wise start
+	 public function datewiseexcel($datefrom,$dateto)
+    {   
+		
+		$company_id=$this->Auth->User('company_id');
+		$StartDate = date('Y-m-d',strtotime($datefrom));
+		$EndDate = date('Y-m-d', strtotime($dateto));
+
+		$reportdatas = $this->PurchaseVouchers->find()
+		->where(['PurchaseVouchers.transaction_date BETWEEN :start AND :end','company_id'=>$company_id])
+		->bind(':start', $StartDate, 'date')
+		->bind(':end',   $EndDate, 'date')
+		->order(['PurchaseVouchers.id'=>'DESC']);
+		
+		$this->set(compact('reportdatas'));
+		
+	}
+	
+	//generate excel date wise  end
+	
+	
+	
+	
+	
 	
 	
 	
@@ -64,14 +162,39 @@ class PurchaseVouchersController extends AppController
 			->where(['PurchaseVouchers.transaction_date BETWEEN :start AND :end','supplier_ledger_id'=>$supplierfilter,'PurchaseVouchers.company_id'=>$company_id,'PurchaseVouchers.status' => 0])
 			->bind(':start', $StartfilterDate, 'date')
 			->bind(':end',   $EndfilterDate, 'date')
-			->contain(['SupplierLedger'=>['Suppliers']])
+			->contain(['SupplierLedger'=>['Suppliers'],'PurchaseVoucherRows'=>['CgstLedger','SgstLedger','IgstLedger','Items']])
 			->order(['PurchaseVouchers.id'=>'DESC']);
-			
+		
+		$SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find()->where(['accounting_group_id'=>25,'freeze'=>0,'company_id'=>$company_id]);
+		
+		$this->set(compact('filterdatas','SupplierLedger','startdatefrom','startdateto','supplierfilter'));
+		
+	}
+	
+	
+	//Download excel customer wise start
+	 public function supplierDateWise($startdatefrom,$startdateto,$supplierfilter)
+    { 
+		$this->viewBuilder()->layout('');
+		$company_id=$this->Auth->User('company_id');
+		$StartfilterDate = date('Y-m-d',strtotime($startdatefrom));
+		$EndfilterDate = date('Y-m-d', strtotime($startdateto));
+		
+			$filterdatas = $this->PurchaseVouchers->find()
+			->where(['PurchaseVouchers.transaction_date BETWEEN :start AND :end','supplier_ledger_id'=>$supplierfilter,'PurchaseVouchers.company_id'=>$company_id,'PurchaseVouchers.status' => 0])
+			->bind(':start', $StartfilterDate, 'date')
+			->bind(':end',   $EndfilterDate, 'date')
+			->contain(['SupplierLedger'=>['Suppliers'],'PurchaseVoucherRows'=>['CgstLedger','SgstLedger','IgstLedger','Items']])
+			->order(['PurchaseVouchers.id'=>'DESC']);
+		
 		$SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find()->where(['accounting_group_id'=>25,'freeze'=>0,'company_id'=>$company_id]);
 		
 		$this->set(compact('filterdatas','SupplierLedger'));
-		
 	}
+	//Download excel customer wise end
+	
+	
+	
 	
 	
 	
@@ -216,7 +339,7 @@ class PurchaseVouchersController extends AppController
 		
 		foreach($items_datas as $items_data)
 		{
-			$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->price,'cgst_ledger_id'=>$items_data->input_cgst_ledger_id,'sgst_ledger_id'=>$items_data->input_sgst_ledger_id,'igst_ledger_id'=>$items_data->input_igst_ledger_id];
+			$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->purchase_price,'cgst_ledger_id'=>$items_data->input_cgst_ledger_id,'sgst_ledger_id'=>$items_data->input_sgst_ledger_id,'igst_ledger_id'=>$items_data->input_igst_ledger_id];
 		}
 		
 		
@@ -331,7 +454,7 @@ class PurchaseVouchersController extends AppController
 		
 		foreach($items_datas as $items_data)
 		{
-			$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->price,'cgst_ledger_id'=>$items_data->input_cgst_ledger_id,'sgst_ledger_id'=>$items_data->input_sgst_ledger_id,'igst_ledger_id'=>$items_data->input_igst_ledger_id];
+			$items[]=['value'=>$items_data->id,'text'=>$items_data->name,'rate'=>$items_data->purchase_price,'cgst_ledger_id'=>$items_data->input_cgst_ledger_id,'sgst_ledger_id'=>$items_data->input_sgst_ledger_id,'igst_ledger_id'=>$items_data->input_igst_ledger_id];
 		}
 		$SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find('list')->where(['accounting_group_id'=>25,'freeze'=>0,'company_id'=>$company_id]);
         $PurchaseLedger = $this->PurchaseVouchers->PurchaseLedger->find('list')->where(['accounting_group_id'=>13,'freeze'=>0,'company_id'=>$company_id]);
@@ -373,4 +496,5 @@ class PurchaseVouchersController extends AppController
 		}
         return $this->redirect(['action' => 'index']);
     }
+	
 }

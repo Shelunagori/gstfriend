@@ -42,6 +42,7 @@ class AppController extends Controller
     {
         parent::initialize();
 
+		
 		FrozenTime::setToStringFormat('dd-MM-yyyy hh:mm a');  // For any immutable DateTime
 		FrozenDate::setToStringFormat('dd-MM-yyyy');  // For any immutable Date
         $this->loadComponent('RequestHandler');
@@ -62,7 +63,20 @@ class AppController extends Controller
             ],
 			'unauthorizedRedirect' => $this->referer(),
         ]);
-
+		
+		$company_id=$this->Auth->User('company_id');
+                $this->loadModel('Companies');
+		$companies = $this->Companies->find()->where(['Companies.id'=>$company_id]);
+		        $this->set(compact('companies'));
+		
+		
+		
+			
+		
+		//company image set index end
+		
+		
+		
         /*
          * Enable the following components for recommended CakePHP security settings.
          * see http://book.cakephp.org/3.0/en/controllers/components/security.html

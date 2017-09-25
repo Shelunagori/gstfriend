@@ -19,8 +19,10 @@ $this->set('title', 'Add');
 							<?php echo $this->Form->control('hsn_code',['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter HSN No.']); ?> 
 						</div>
 						<div class="form-group">
-							<label class="control-label">Item Price </label>
-							<?php echo $this->Form->control('price',['label' => false,'type'=>'text','class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Price']); ?> 
+							<label class="control-label">Sale Price </label>
+							<?php echo $this->Form->control('price',['label' => false,'type'=>'text','class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Sale Price']); ?>
+							<label class="control-label">Purchase Price </label>
+							<?php echo $this->Form->control('purchase_price',['label' => false,'type'=>'text','class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Purchase Price']); ?>		
 						</div>
 						<div class="form-group">
 							<label class="control-label">GST Type</label>
