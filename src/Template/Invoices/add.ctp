@@ -72,10 +72,8 @@ p{
 						<tr>
 							<td style='width: 21%;padding-bottom: 5px;'><b> Last Invoice No : </b></td>
 							<td style='padding-bottom: 5px;'>&nbsp;:&nbsp;</td>
-							<td style='padding-bottom: 5px;'><b> <?php echo $invoice_no['invoice_no']; ?> </b></td>
-							<td style='width: 21%;padding-bottom: 5px;'><b> Invoice No : </b></td>
-							<td style='padding-bottom: 5px;'>&nbsp;:&nbsp;</td>
-							<td style='padding-bottom: 5px;'><?php echo $this->Form->control('invoice_no',['label'=>false,'class'=>'form-control input-sm ','type'=>'text','placeholder'=>'Enter Invoice no.']); ?></td>
+							<td style='padding-bottom: 5px;'><b> <?php echo $invoice_no; ?> </b></td>
+							
 						</tr>
 						<tr >
 							<td style='padding-bottom: 5px;'><b>Bill to Party Name</b></td>
@@ -534,8 +532,10 @@ $(document).ready(function() {
 <table id="sampleTbl" style="display:none;">
 	<tbody>
 		<tr class="mainTr">
+			
 			<td style="text-align:center;border-left: none;">
 				<span class="sr"></span>
+				<?php echo $this->Form->control('dicountvalue',['label'=>false,'placeholder'=>'0.00','type'=>'hidden','style'=>'width: 100%;text-align: right;border: none;','class'=>'form-control discountvalue input-sm']); ?>
 				<button type="button" class="btn btn-xs red viewThisResult" role="button"><i class="fa fa-times"></i></button>
 			</td>
 			<td class="form-group">
@@ -555,7 +555,7 @@ $(document).ready(function() {
 			</td>
 			<td style="text-align:right;" class="form-group">
 				<?php echo $this->Form->control('discount_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','class'=>'form-control discount input-sm']); ?>
-				<?php echo $this->Form->control('dicountvalue',['label'=>false,'placeholder'=>'0.00','type'=>'hidden','style'=>'width: 100%;text-align: right;border: none;','class'=>'form-control discountvalue input-sm']); ?>
+				
 			</td>
 			<td style="text-align:right;" class="form-group">
 				<?php echo $this->Form->control('taxable_value',['label'=>false,'placeholder'=>'Taxable Value','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>

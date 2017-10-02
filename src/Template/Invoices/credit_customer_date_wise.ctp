@@ -14,10 +14,27 @@
 	header ("Content-Description: Generated Report" );
 
 ?>
+<div style="border:1px solid">
+	<table>
+		<tr style="border:1px solid">
+			<th colspan=2 style="border:1px solid">Customer Name :- </th>
+			<td colspan=2><?php foreach($customerLedgers as $customerLedger){
+							echo $customerLedger->name; ?>
+			</td>
+			<th colspan=2 style="border:1px solid">Customer GST No. :- </th>
+			<td colspan=2><?php echo $customerLedger->customer->gstno; }?>
+			</td>
+		</tr>
+		<tr>
+		</tr>	
+	</table>
+</div>
 <table id="example1" class="table table-bordered  hidetable maindiv  main_table"  style="border:1px solid">
 	<?php if(!empty($filterdatas))
 		{	?>
+		
 	<thead style="text-align:center;"  class="maindiv">
+		
 		<tr style="border:1px solid">
 			<th scope="col">Sr.</th>
 			<th scope="col">Trans. Date</th>
@@ -56,7 +73,7 @@
 					foreach($filterdata->invoice_rows as $invoice_row):
 					
 					?>
-					<tr>
+					<tr style="border:1px solid">
 						<td style="width:65px;text-align:left">
 						<?php
 							if(!empty($invoice_row->item_id)) 

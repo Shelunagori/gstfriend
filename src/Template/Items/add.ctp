@@ -19,11 +19,11 @@ $this->set('title', 'Add');
 							<?php echo $this->Form->control('hsn_code',['label' => false,'class' => 'form-control input-sm firstupercase','placeholder'=>'Enter HSN No.']); ?> 
 						</div>
 						<div class="form-group">
-							<label class="control-label">Sale Price </label>
-							<?php echo $this->Form->control('price',['label' => false,'type'=>'text','class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Sale Price']); ?>
 							<label class="control-label">Purchase Price </label>
-							<?php echo $this->Form->control('purchase_price',['label' => false,'type'=>'text','class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Purchase Price']); ?>		
-						</div>
+							<?php echo $this->Form->control('purchase_price',['label' => false,'type'=>'text','class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Purchase Price']); ?>
+							<label class="control-label">Sale Price </label>
+							<?php echo $this->Form->control('price',['label' => false,'type'=>'text','class' => 'form-control input-sm firstupercase','placeholder'=>'Enter Sale Price']); ?>		
+							</div>
 						<div class="form-group">
 							<label class="control-label">GST Type</label>
 							<?php echo $this->Form->control('tax_type_id', ['options' => $taxtypes,'label' => false,'class' => 'form-control input-sm select2me','placeholder'=>'Enter Item Name']); ?>

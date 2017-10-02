@@ -14,10 +14,16 @@
 	header ("Content-Description: Generated Report" );
 
 ?>
+<div>
+	<label>Customer Name :- </label>
+	<?php echo $customername;  ?>
+</div>
 <table id="example1" class="table table-bordered  hidetable maindiv  main_table"  style="border:1px solid">
 	<?php if(!empty($filterdatas))
 		{	?>
+
 	<thead style="text-align:center;"  class="maindiv">
+		
 		<tr style="border:1px solid">
 			<th scope="col">Sr.</th>
 			<th scope="col">Trans. Date</th>
@@ -56,7 +62,7 @@
 					foreach($filterdata->invoice_rows as $invoice_row):
 					
 					?>
-					<tr>
+					<tr style="border:1px solid">
 						<td style="width:65px;text-align:left">
 						<?php
 							if(!empty($invoice_row->item_id)) 

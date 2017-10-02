@@ -26,7 +26,7 @@ class InvoicesController extends AppController
 		$company_id=$this->Auth->User('company_id');
 		
         $invoices = $this->paginate($this->Invoices->find()->where(['Invoices.company_id'=>$company_id,'Invoices.status' => 0])->order(['Invoices.id'=>'DESC'])->contain(['CustomerLedgers'=>['Customers'],'InvoiceRows'=>['TaxCGST','TaxSGST','TaxIGST','Items']]));
-		$customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22,'freeze'=>0,'company_id'=>$company_id]);
+		$customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22,'freeze'=>0,'company_id'=>$company_id,'status'=>0]);
 		$items = $this->Invoices->Items->find('list')->where(['freezed'=>0,'company_id'=>$company_id,'status'=>0]);
         //pr($customerLedgers->toArray());   exit;
 		$this->set(compact('invoices','customerLedgers','items','url'));
@@ -43,7 +43,7 @@ class InvoicesController extends AppController
 		$company_id=$this->Auth->User('company_id');
 		
         $invoices = $this->paginate($this->Invoices->find()->where(['Invoices.company_id'=>$company_id,'Invoices.status' => 0])->order(['Invoices.id'=>'DESC'])->contain(['CustomerLedgers'=>['Customers'],'InvoiceRows'=>['TaxCGST','TaxSGST','TaxIGST','Items']]));
-		$customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22,'freeze'=>0,'company_id'=>$company_id]);
+		$customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22,'freeze'=>0,'company_id'=>$company_id,'status'=>0]);
 		$items = $this->Invoices->Items->find('list')->where(['freezed'=>0,'company_id'=>$company_id,'status'=>0]);
         //pr($customerLedgers->toArray());   exit;
 		$this->set(compact('invoices','customerLedgers','items'));
@@ -58,22 +58,26 @@ class InvoicesController extends AppController
 	
 	
 	//item wise filter start
-	function itemfilter($itemwise)
+	function itemfilter($itemwise,$datefrom,$dateto)
 	{   
 		
 		$company_id=$this->Auth->User('company_id');
+		$StartDate = date('Y-m-d',strtotime($datefrom));
+		$EndDate = date('Y-m-d', strtotime($dateto));
 		$filterdatasitem = $this->Invoices->find()
 		->contain(['CustomerLedgers'=>['Customers'],'InvoiceRows'=>function($q) use($itemwise){   
 			return $q->where(['InvoiceRows.item_id'=>$itemwise])->contain(['TaxCGST','TaxSGST','TaxIGST','Items']);
 			}])
-				->where(['Invoices.company_id'=>$company_id,'Invoices.status' => 0])
+				->where(['Invoices.company_id'=>$company_id,'Invoices.status' => 0,'Invoices.transaction_date BETWEEN :start AND :end'])
+				->bind(':start', $StartDate, 'date')
+				->bind(':end',   $EndDate, 'date')
 				->order(['Invoices.id'=>'DESC'])
 				->toArray();
 																	
 			json_encode($filterdatasitem);																							
 			//pr($filterdatasitem);    exit;
 			
-		$this->set(compact('filterdatasitem','url','itemwise'));
+		$this->set(compact('filterdatasitem','url','itemwise','datefrom','dateto'));
 		
 	}
 	
@@ -82,15 +86,19 @@ class InvoicesController extends AppController
 	
 	
 	//generate excel item wise start
-	 public function itemWiseExcel($itemwise)
+	 public function itemWiseExcel($itemwise,$datefrom,$dateto)
     {   
 		$this->viewBuilder()->layout('');
 		$company_id=$this->Auth->User('company_id');
+		$StartDate = date('Y-m-d',strtotime($datefrom));
+		$EndDate = date('Y-m-d', strtotime($dateto));
 		$filterdatasitem = $this->Invoices->find()
 		->contain(['CustomerLedgers'=>['Customers'],'InvoiceRows'=>function($q) use($itemwise){   
 			return $q->where(['InvoiceRows.item_id'=>$itemwise])->contain(['TaxCGST','TaxSGST','TaxIGST','Items']);
 			}])
-				->where(['Invoices.company_id'=>$company_id,'Invoices.status' => 0])
+				->where(['Invoices.company_id'=>$company_id,'Invoices.status' => 0,'Invoices.transaction_date BETWEEN :start AND :end'])
+				->bind(':start', $StartDate, 'date')
+				->bind(':end',   $EndDate, 'date')
 				->order(['Invoices.id'=>'DESC'])
 				->toArray();
 																		
@@ -185,7 +193,7 @@ class InvoicesController extends AppController
 			->contain(['CustomerLedgers'=>['Customers'],'InvoiceRows'=>['Items','TaxCGST','TaxSGST','TaxIGST']])
 			->order(['Invoices.id'=>'DESC']);
 		
-		$this->set(compact('filterdatas'));
+		$this->set(compact('filterdatas','customername'));
 	}
 	//Download excel customer wise end
 	
@@ -214,7 +222,7 @@ class InvoicesController extends AppController
 			->bind(':end',   $EndfilterDate, 'date')
 			->contain(['CustomerLedgers'=>['Customers'],'InvoiceRows'=>['Items','TaxCGST','TaxSGST','TaxIGST']])
 			->order(['Invoices.id'=>'DESC']);
-		$customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22,'freeze'=>0,'company_id'=>$company_id]);
+		$customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22,'freeze'=>0,'company_id'=>$company_id,'status'=>0]);
 		
 		$this->set(compact('filterdatas','customerLedgers','startdatefrom','startdateto','radioValue','cstmrUser'));
 		
@@ -224,7 +232,7 @@ class InvoicesController extends AppController
 	
 	//Download excel customer wise start
 	 public function creditCustomerDateWise($startdatefrom,$startdateto,$radioValue,$cstmrUser)
-    { 
+    {    
 		$this->viewBuilder()->layout('');
 		$company_id=$this->Auth->User('company_id');
 		$StartfilterDate = date('Y-m-d',strtotime($startdatefrom));
@@ -238,8 +246,9 @@ class InvoicesController extends AppController
 			->contain(['CustomerLedgers'=>['Customers'],'InvoiceRows'=>['Items','TaxCGST','TaxSGST','TaxIGST']])
 			->order(['Invoices.id'=>'DESC']);
 				
-		$customerLedgers = $this->Invoices->CustomerLedgers->find('list')->where(['accounting_group_id'=>22,'freeze'=>0,'company_id'=>$company_id]);
-		
+		$customerLedgers = $this->Invoices->CustomerLedgers->find()->where(['CustomerLedgers.id'=>$cstmrUser,'accounting_group_id'=>22,'freeze'=>0,'CustomerLedgers.company_id'=>$company_id,'CustomerLedgers.status'=>0])
+								->contain(['Customers']);
+							
 		$this->set(compact('filterdatas','customerLedgers'));
 	}
 	//Download excel customer wise end
@@ -294,10 +303,14 @@ class InvoicesController extends AppController
         if ($this->request->is('post')) {
             $invoice = $this->Invoices->patchEntity($invoice, $this->request->getData());
 			
+		
 			
-			
-			$invoice->invoice_no=$invoice->invoice_no;
-			
+			$last_invoice=$this->Invoices->find()->select(['invoice_no'])->where(['company_id'=>$company_id])->order(['invoice_no' => 'DESC'])->first();
+			if($last_invoice){
+				$invoice->invoice_no=$last_invoice->invoice_no+1;
+			}else{
+				$invoice->invoice_no=1;
+			} 
 			$invoice->transaction_date = date('Y-m-d',strtotime($invoice->transaction_date));
 			$invoice->delievery_date = date('Y-m-d',strtotime($invoice->delievery_date));
 			$invoice->company_id=$company_id;
@@ -409,8 +422,12 @@ class InvoicesController extends AppController
 		}
 
 		
-		$invoice_no=$this->Invoices->find()->where(['company_id'=>$company_id])->select(['invoice_no'])->order(['invoice_no' => 'DESC'])->first();
-		
+		$last_invoice=$this->Invoices->find()->where(['company_id'=>$company_id])->select(['invoice_no'])->order(['invoice_no' => 'DESC'])->first();
+		if($last_invoice){
+				$invoice_no=$last_invoice->invoice_no+1;
+		}else{
+				$invoice_no=1;
+		} 
 
 		$tax_IGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'IGST','company_id'=>$company_id]);
 		
@@ -437,7 +454,12 @@ class InvoicesController extends AppController
 			
 			//Invoice Number Increment
 			
-			$invoice->invoice_no=$invoice->invoice_no+1;
+			$last_invoice=$this->Invoices->find()->select(['invoice_no'])->where(['company_id'=>$company_id])->order(['invoice_no' => 'DESC'])->first();
+			if($last_invoice){
+				$invoice->invoice_no=$last_invoice->invoice_no+1;
+			}else{
+				$invoice->invoice_no=1;
+			} 
 			
 			$invoice->transaction_date = date('Y-m-d',strtotime($invoice->transaction_date));
 			$invoice->delievery_date = date('Y-m-d',strtotime($invoice->delievery_date));
@@ -549,9 +571,12 @@ class InvoicesController extends AppController
 		}
 
 		
-		$invoice_no=$this->Invoices->find()->where(['company_id'=>$company_id])->select(['invoice_no'])->order(['invoice_no' => 'DESC'])->first();
-		
-
+		$last_invoice=$this->Invoices->find()->where(['company_id'=>$company_id])->select(['invoice_no'])->order(['invoice_no' => 'DESC'])->first();
+		if($last_invoice){
+				$invoice_no=$last_invoice->invoice_no+1;
+		}else{
+				$invoice_no=1;
+		} 
 		$tax_IGSTS = $this->Invoices->SalesLedgers->find()->where(['accounting_group_id'=>30,'gst_type'=>'IGST','company_id'=>$company_id]);
 		
 		foreach($tax_IGSTS as $tax_IGST)
@@ -608,7 +633,7 @@ class InvoicesController extends AppController
 		
         if ($this->request->is(['patch', 'post', 'put'])) {
             $invoice = $this->Invoices->patchEntity($invoice, $this->request->getData());
-          
+				
 				$invoice->invoice_no=$invoice->invoice_no;
 				
 				$invoice->transaction_date = date('Y-m-d',strtotime($invoice->transaction_date));

@@ -279,14 +279,14 @@ p{
 		<table width="100%" class="tbl">
 			<tbody>
 				<tr>
-					<td style="text-align:left;border-left: none;border-top: none;" rowspan="4" width="520px" valign="top">
+					<td style="text-align:left;border-left: none;border-top: none;" rowspan="4" width="503px" valign="top">
 						<p><b>Amount in words : </b>
 						<?=  h(ucwords($this->NumberWords->convert_number_to_words($rupees))) ?>
 						Rupees<?= h($paisa_text)  ?>
 						</p>
 					</td>
 					<td style="text-align:right;border-top: none;"><b>Total Amount before Tax</b></td>
-					<td style="text-align:right;border-right: none;border-top: none;" width="30"><?= $invoice->total_amount_before_tax ?></td>
+					<td style="text-align:right;border-right: none;border-top: none;" width="32"><?= $invoice->total_amount_before_tax ?></td>
 				</tr>
 				<tr>
 					<td style="text-align:right;"><b>Total CGST</b></td>

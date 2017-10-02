@@ -46,8 +46,10 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- BEGIN BODY -->
 <body class="login">
 	<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+	
 	<div class="menu-toggler sidebar-toggler"></div>
 	<!-- END SIDEBAR TOGGLER BUTTON -->
+	<div style="background-color:#5995bb;align:center;height:50%;width:30%;margin-top:5%;margin-left:35%">
 	<!-- BEGIN LOGO -->
 	<div class="logo">
 		<?php echo $this->Html->image('/img/viewlogo.png', ['height' => '100px']); ?>
@@ -59,6 +61,7 @@ License: You must have a valid license purchased only from themeforest(the above
 	</div>
 	<div class="copyright ">
 		 2017 © Php poets it solution.
+	</div>
 	</div>
 	<!-- END LOGIN -->
 	<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->

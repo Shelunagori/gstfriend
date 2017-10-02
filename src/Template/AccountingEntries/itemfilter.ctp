@@ -1,5 +1,5 @@
 <div class='row   maindiv'>
-	<?php echo $this->Html->link( '<i class="fa fa-file-excel-o"></i> Excel', '/AccountingEntries/Item-Wise-Excel/'.$itemwise.'',['class' =>'btn btn-sm green tooltips pull-right ','target'=>'_blank','escape'=>false,'data-original-title'=>'Download as excel']); ?>
+	<?php echo $this->Html->link( '<i class="fa fa-file-excel-o"></i> Excel', '/AccountingEntries/Item-Wise-Excel/'.$itemwise.'/'.$start.'/'.$end.'',['class' =>'btn btn-sm green tooltips pull-right ','target'=>'_blank','escape'=>false,'data-original-title'=>'Download as excel']); ?>
 	<div class='col-md-12'>
 
 
@@ -76,13 +76,13 @@
 							<td style="width:50px;text-align:left">
 							<?php
 									echo $invoice_row->rate; 
-									$totalvalue=$invoice_row->rate*$invoice_row->quantity;
+									$totalvalues=$invoice_row->rate*$invoice_row->quantity;
 							?>
 							</td>
 							<td style="width:50px;text-align:left">
 							<?php
 									echo $invoice_row->discount_amount; 
-									
+									$totalvalue=$totalvalues-$invoice_row->discount_amount;
 							?>
 							</td>
 							<td style="width:60px">
@@ -118,7 +118,8 @@
 							</td>
 							
 						</tr>
-						<?php   $basevalue=$totalvalue-$invoice_row->discount_amount-$invoice_row->cgst_amount-$invoice_row->sgst_amount;
+						<?php        
+						$basevalue=$totalvalue-$invoice_row->cgst_amount-$invoice_row->sgst_amount;
 								$baseamount = $baseamount + $basevalue;
 								$totalamountinvoice = $totalamountinvoice + $totalvalue;
 								endforeach;  ?>
@@ -227,12 +228,13 @@
 						<td style="width:40px;text-align:left">
 						<?php
 								echo $invoice_row->rate_per; 
-								$totalvalue=$invoice_row->rate_per*$invoice_row->quantity;
+								$totalvalues=$invoice_row->rate_per*$invoice_row->quantity;
 						?>
 						</td>
 						<td style="width:40px;text-align:left">
 						<?php
 								echo $invoice_row->discount_amount; 
+								$totalvalue=$totalvalues-$invoice_row->discount_amount;
 						?>
 						</td>
 						<td style="width:60px">
@@ -268,7 +270,7 @@
 						</td>
 						
 					</tr>
-					<?php  	$totalbase=$totalvalue-$invoice_row->discount_amount-$invoice_row->cgst_amount-$invoice_row->sgst_amount;
+					<?php  	$totalbase=$totalvalue-$invoice_row->cgst_amount-$invoice_row->sgst_amount;
 							$baseamount = $baseamount + $totalbase;
 							$totalamount = $totalamount + $totalvalue;
 							endforeach;      ?>

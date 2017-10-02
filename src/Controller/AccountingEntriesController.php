@@ -35,7 +35,7 @@ class AccountingEntriesController extends AppController
 			
 		$accountingEntries['PurchaseVouchers'] = $this->AccountingEntries->PurchaseVouchers->find()
 		->contain(['PurchaseVoucherRows'=>['CgstLedger','SgstLedger','IgstLedger','Items']])
-		->where(['PurchaseVouchers.transaction_date BETWEEN :start AND :end' ,'PurchaseVouchers.company_id'=>$company_id])
+		->where(['PurchaseVouchers.transaction_date BETWEEN :start AND :end' ,'PurchaseVouchers.company_id'=>$company_id,'PurchaseVouchers.status'=>0])
 		->bind(':start', $StartDate, 'date')
 		->bind(':end',   $EndDate, 'date')
 		->order(['PurchaseVouchers.id'=>'DESC']);		
@@ -43,7 +43,7 @@ class AccountingEntriesController extends AppController
 		
 		$accountingEntries['Invoices'] = $this->AccountingEntries->Invoices->find()
 		->contain(['InvoiceRows'=>['TaxCGST','TaxSGST','TaxIGST','Items'],'CustomerLedgers'=>['Customers']])
-		->where(['Invoices.transaction_date BETWEEN :start AND :end','Invoices.company_id'=>$company_id ])
+		->where(['Invoices.transaction_date BETWEEN :start AND :end','Invoices.company_id'=>$company_id ,'Invoices.status'=>0])
 		->bind(':start', $StartDate, 'date')
 		->bind(':end',   $EndDate, 'date')
 		->order(['Invoices.id'=>'DESC']);
@@ -59,16 +59,21 @@ class AccountingEntriesController extends AppController
 	
 	
 	//item wise filter start
-	function itemfilter($itemwise)
+	function itemfilter($itemwise,$start,$end)
 	{  
 		$url=$this->request->here();
 		$url=parse_url($url,PHP_URL_QUERY);
 		$company_id=$this->Auth->User('company_id');
+		$StartDate =  date('Y-m-d',strtotime($start));
+		$EndDate =  date('Y-m-d',strtotime($end));
 		 $PurchaseVouchers = $this->AccountingEntries->PurchaseVouchers->find()
 		->contain(['SupplierLedger'=>['Suppliers'],'PurchaseVoucherRows'=>function($q) use($itemwise){   
 				return $q->where(['PurchaseVoucherRows.item_id'=>$itemwise])->contain(['CgstLedger','SgstLedger','IgstLedger','Items']);
 				}])
-					->where(['PurchaseVouchers.company_id'=>$company_id,'PurchaseVouchers.status' => 0])
+					->where(['PurchaseVouchers.company_id'=>$company_id,'PurchaseVouchers.status' => 0,'PurchaseVouchers.transaction_date BETWEEN :start AND :end'])
+					->bind(':start', $StartDate, 'date')
+					->bind(':end',   $EndDate, 'date')
+					->order(['PurchaseVouchers.id'=>'DESC'])
 					->toArray();	
 		
 		  
@@ -76,27 +81,34 @@ class AccountingEntriesController extends AppController
 		->contain(['CustomerLedgers'=>['Customers'],'InvoiceRows'=>function($q) use($itemwise){   
 			return $q->where(['InvoiceRows.item_id'=>$itemwise])->contain(['TaxCGST','TaxSGST','TaxIGST','Items']);
 			}])
-				->where(['Invoices.company_id'=>$company_id,'Invoices.status' => 0])
-				
+				->where(['Invoices.transaction_date BETWEEN :start AND :end','Invoices.company_id'=>$company_id,'Invoices.status' => 0])
+				->bind(':start', $StartDate, 'date')
+				->bind(':end',   $EndDate, 'date')
+				->order(['Invoices.id'=>'DESC'])
 				->toArray();
 											
 		
 		
-        $this->set(compact('PurchaseVouchers','Invoices','url','itemwise'));
+        $this->set(compact('PurchaseVouchers','Invoices','url','itemwise','start','end'));
 		
 	}
 	
 	//item wise filter end
 	
 	//generate excel item wise start
-	 public function itemWiseExcel($itemwise)
+	 public function itemWiseExcel($itemwise,$start,$end)
     {   
 		$company_id=$this->Auth->User('company_id');
+		$StartDate =  date('Y-m-d',strtotime($start));
+		$EndDate =  date('Y-m-d',strtotime($end));
 		 $PurchaseVouchers = $this->AccountingEntries->PurchaseVouchers->find()
 		->contain(['SupplierLedger'=>['Suppliers'],'PurchaseVoucherRows'=>function($q) use($itemwise){   
 				return $q->where(['PurchaseVoucherRows.item_id'=>$itemwise])->contain(['CgstLedger','SgstLedger','IgstLedger','Items']);
 				}])
-					->where(['PurchaseVouchers.company_id'=>$company_id,'PurchaseVouchers.status' => 0])
+					->where(['PurchaseVouchers.company_id'=>$company_id,'PurchaseVouchers.status' => 0,'PurchaseVouchers.transaction_date BETWEEN :start AND :end'])
+					->bind(':start', $StartDate, 'date')
+					->bind(':end',   $EndDate, 'date')
+					->order(['PurchaseVouchers.id'=>'DESC'])
 					->toArray();	
 		
 		  
@@ -104,8 +116,10 @@ class AccountingEntriesController extends AppController
 		->contain(['CustomerLedgers'=>['Customers'],'InvoiceRows'=>function($q) use($itemwise){   
 			return $q->where(['InvoiceRows.item_id'=>$itemwise])->contain(['TaxCGST','TaxSGST','TaxIGST','Items']);
 			}])
-				->where(['Invoices.company_id'=>$company_id,'Invoices.status' => 0])
-				
+				->where(['Invoices.transaction_date BETWEEN :start AND :end','Invoices.company_id'=>$company_id,'Invoices.status' => 0])
+				->bind(':start', $StartDate, 'date')
+				->bind(':end',   $EndDate, 'date')
+				->order(['Invoices.id'=>'DESC'])
 				->toArray();
 											
 		
@@ -127,7 +141,7 @@ class AccountingEntriesController extends AppController
 		$EndDate =  date('Y-m-d',strtotime($end));
 			$accountingEntries['PurchaseVouchers'] = $this->AccountingEntries->PurchaseVouchers->find()
 			->contain(['PurchaseVoucherRows'=>['CgstLedger','SgstLedger','IgstLedger','Items']])
-			->where(['PurchaseVouchers.transaction_date BETWEEN :start AND :end' ,'PurchaseVouchers.company_id'=>$company_id])
+			->where(['PurchaseVouchers.transaction_date BETWEEN :start AND :end' ,'PurchaseVouchers.company_id'=>$company_id,'PurchaseVouchers.status'=>0])
 			->bind(':start', $StartDate, 'date')
 			->bind(':end',   $EndDate, 'date')
 			->order(['PurchaseVouchers.id'=>'DESC']);		
@@ -135,7 +149,7 @@ class AccountingEntriesController extends AppController
 			
 			$accountingEntries['Invoices'] = $this->AccountingEntries->Invoices->find()
 			->contain(['InvoiceRows'=>['TaxCGST','TaxSGST','TaxIGST','Items'],'CustomerLedgers'=>['Customers']])
-			->where(['Invoices.transaction_date BETWEEN :start AND :end','Invoices.company_id'=>$company_id ])
+			->where(['Invoices.transaction_date BETWEEN :start AND :end','Invoices.company_id'=>$company_id ,'Invoices.status'=> 0])
 			->bind(':start', $StartDate, 'date')
 			->bind(':end',   $EndDate, 'date')
 			->order(['Invoices.id'=>'DESC']);

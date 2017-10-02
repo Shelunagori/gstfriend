@@ -250,7 +250,7 @@
 						</div>
 						<div class="form-group col-md-1">
 							<label class="control-label"></label>
-							<button class="go btn btn-success" name="go">Go
+							<button class="datego btn btn-success" name="go">Go
 						</div>		
 					</div >
 				</div>
@@ -278,7 +278,7 @@
 <script>
 $(document).ready(function() { 
 
-		$(".go").on('click',function() { 
+		$(".datego ").on('click',function() { 
 		$('#main_table_div').html('<i class="fa fa-refresh fa-spin fa-1x fa-fw"></i><b> Loading... </b>');
 		var startdate = $('.firstdate').val();
 		var enddate = $('.lastdate').val();	
@@ -310,16 +310,20 @@ $(document).ready(function() {
 	//filter report item vise start
 		$(".itemfilter").on('click',function() {  
 			$('#main_table_div').html('<i class="fa fa-refresh fa-spin fa-1x fa-fw"></i><b> Loading... </b>');
+			var startfilterdate = $('.filter_date_from').val();
+			var endfilterdate = $('.filter_date_to').val();	
 			var itemwise = document.getElementById('itemwise');	
 			var itemwise = itemwise.options[itemwise.selectedIndex].value;
 			
 			if(itemwise!='')
 			{ 
+				var startdatefrom = $('.filter_date_from').val();
+				var startdateto = $('.filter_date_to').val();
 				var itemwise = document.getElementById('itemwise');	
 				var itemwise = itemwise.options[itemwise.selectedIndex].value;
 				var obj=$(this);
 				var url="<?php echo $this->Url->build(['controller'=>'PurchaseVouchers','action'=>'itemfilter']);?>";
-				url=url+'/'+itemwise,
+				url=url+'/'+itemwise+'/'+startdatefrom+'/'+startdateto,
 				
 				$.ajax({ 
 					url: url,

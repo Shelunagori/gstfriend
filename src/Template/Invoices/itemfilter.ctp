@@ -1,6 +1,5 @@
-
 	<div  class="main_div" style="border:none">
-		<?php echo $this->Html->link( '<i class="fa fa-file-excel-o"></i> Excel', '/Invoices/Item-Wise-Excel/'.$itemwise.'',['class' =>'btn btn-sm green tooltips pull-right Item-Wise-Excel','target'=>'_blank','escape'=>false,'data-original-title'=>'Download as excel']); ?>
+		<?php echo $this->Html->link( '<i class="fa fa-file-excel-o"></i> Excel', '/Invoices/Item-Wise-Excel/'.$itemwise.'/'.$datefrom.'/'.$dateto.'',['class' =>'btn btn-sm green tooltips pull-right Item-Wise-Excel','target'=>'_blank','escape'=>false,'data-original-title'=>'Download as excel']); ?>
 	
 	<table id="example1" class="table table-bordered  hidetable maindiv  main_table">
 	<?php if(!empty($filterdatasitem))
@@ -70,13 +69,13 @@
 							<td style="width:50px;text-align:left">
 							<?php
 									echo $invoice_row->rate; 
-									$totalvalue=$invoice_row->rate*$invoice_row->quantity;
+									$totalvalues=$invoice_row->rate*$invoice_row->quantity;
 							?>
 							</td>
 							<td style="width:50px;text-align:left">
 							<?php
 									echo $invoice_row->discount_amount; 
-									
+									$totalvalue=$totalvalues-$invoice_row->discount_amount;
 							?>
 							</td>
 							<td style="width:60px">
@@ -112,7 +111,7 @@
 							</td>
 							
 						</tr>
-						<?php   $basevalue=$totalvalue-$invoice_row->discount_amount-$invoice_row->cgst_amount-$invoice_row->sgst_amount;
+						<?php   $basevalue=$totalvalue-$invoice_row->cgst_amount-$invoice_row->sgst_amount;
 								$baseamount = $baseamount + $basevalue;
 								$totalamount = $totalamount + $totalvalue;
 								endforeach;  ?>

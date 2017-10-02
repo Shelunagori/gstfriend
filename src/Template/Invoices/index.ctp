@@ -96,11 +96,11 @@
 						<th scope="col">Trans. Date</th>
 						<th scope="col">Inv. No.</th>
 						<th scope="col">Customer</th>
-						<th scope="col">Item Name</th>
-						<th scope="col">HSN Code</th>
-						<th scope="col" style="width:30px;">Qty</th>
-						<th scope="col" style="width:50px;">Rate</th>
-						<th scope="col">Discount</th>
+						<th scope="col" style="width:11% ! important;">Item Name</th>
+						<th scope="col" >HSN Code</th>
+						<th scope="col" >Qty</th>
+						<th scope="col" >Rate</th>
+						<th scope="col" style="width:6% ! important;">Discount</th>
 						<th scope="col">CGST %</th>
 						<th scope="col">CGST Amount</th>
 						<th scope="col">SGST %</th>
@@ -122,7 +122,7 @@
 				?>
 					<tr class="main_tr">
 						<td style="width:5px;"><?php echo $i; ?></td>
-						<td style="width:5px;"><?= h($invoice->transaction_date) ?></td>
+						<td ><?= h($invoice->transaction_date) ?></td>
 						<td><?php echo $invoice->invoice_no; ?></td>
 						<td><?php if(!empty($invoice->customer_ledger_id)){
 							echo $invoice->customer_ledgers->name;
@@ -137,7 +137,7 @@
 								
 								?>
 								<tr>
-									<td style="width:60px;text-align:left">
+									<td style="width:20% ! important;text-align:left">
 									<?php
 										if(!empty($invoice_row->item_id)) 
 										{
@@ -147,28 +147,28 @@
 											echo '0';
 										}?>
 									</td>
-									<td style="width:60px;text-align:left">
+									<td style="text-align:left;width:10% ! important;">
 									<?php
 											echo $invoice_row->item->hsn_code; 
 									?>
 									</td>
-									<td style="width:30px;text-align:left">
+									<td style="text-align:left;width:6% ! important;">
 									<?php
 											echo $invoice_row->quantity; 
 										$totalquantity=$totalquantity+$invoice_row->quantity;
 									?>
 									</td>
-									<td style="width:40px;text-align:left">
+									<td style="text-align:left;width:6% ! important;">
 									<?php
 											echo $invoice_row->rate; 
 									?>
 									</td>
-									<td style="width:40px;text-align:left">
+									<td style="text-align:left;width:10% ! important;">
 									<?php
 											echo $invoice_row->discount_amount; 
 									?>
 									</td>
-									<td style="width:60px">
+									<td style="width:12% ! important;">
 									<?php
 										if(!empty($invoice_row->cgst)) 
 										{
@@ -178,13 +178,13 @@
 											echo '0';
 										}?>
 									</td>
-									<td style="text-align:right;width:80px">
+									<td style="text-align:right;width:10% ! important;">
 									<?php 
 										echo $invoice_row->cgst_amount;
 										$cgstamount = $cgstamount + $invoice_row->cgst_amount; 
 									?>
 									</td>
-									<td style="width:60px">
+									<td style="width:12% ! important;">
 									<?php if(!empty($invoice_row->sgst)) 
 										{
 											echo $invoice_row->sgst->name; 
@@ -193,7 +193,7 @@
 											echo '0';
 										} ?>
 									</td>
-									<td style="text-align:right;width:80px">
+									<td style="text-align:right;width:10% ! important;">
 									<?php 
 										echo $invoice_row->sgst_amount;
 										$sgstamount = $sgstamount + $invoice_row->sgst_amount;
@@ -305,7 +305,6 @@ $(document).ready(function() {
 		if(startdate <= enddate)
 		{
 			var datefrom = $('.datefrom').val();
-			
 			var dateto = $('.dateto').val();
 			var obj=$(this);
 			var url="<?php echo $this->Url->build(['controller'=>'Invoices','action'=>'datewiseinvoicereport']);?>";
@@ -331,16 +330,20 @@ $(document).ready(function() {
 		//filter report item vise start
 		$(".itemfilter").on('click',function() {  
 			$('#main_table_div').html('<i class="fa fa-refresh fa-spin fa-1x fa-fw"></i><b> Loading... </b>');
+			var startfilterdate = $('.filter_date_from').val();
+			var endfilterdate = $('.filter_date_to').val();	
 			var itemwise = document.getElementById('itemwise');	
 			var itemwise = itemwise.options[itemwise.selectedIndex].value;
 			
 			if(itemwise!='')
 			{ 
+				var startdatefrom = $('.filter_date_from').val();
+				var startdateto = $('.filter_date_to').val();
 				var itemwise = document.getElementById('itemwise');	
 				var itemwise = itemwise.options[itemwise.selectedIndex].value;
 				var obj=$(this);
 				var url="<?php echo $this->Url->build(['controller'=>'Invoices','action'=>'itemfilter']);?>";
-				url=url+'/'+itemwise,
+				url=url+'/'+itemwise+'/'+startdatefrom+'/'+startdateto,
 				
 				$.ajax({ 
 					url: url,

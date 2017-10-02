@@ -91,9 +91,9 @@ p{
 								<td><br/></td>
 								<td><br/></td>
 							</tr>
-							<tr>
-								<td width="30%"><b>Purchase Ledger </b></td>
-								<td class="form-group"><?php echo $this->Form->control('purchase_ledger_id',['options'=>$PurchaseLedger,'label' => false,'class' => 'form-control input-sm select2me','required']); ?> </td>
+							<tr class="hide">
+								<td width="30%" class="hide"><b>Purchase Ledger </b></td>
+								<td class="form-group hide"><?php echo $this->Form->control('purchase_ledger_id',['options'=>$PurchaseLedger,'label' => false,'class' => 'form-control input-sm select2me','required']); ?> </td>
 							</tr>
 							
 						</table>

@@ -109,7 +109,7 @@ p{
 						<button type="button" class="btn btn-xs red viewThisResult" role="button"><i class="fa fa-times"></i></button>
 					</td>
 					<td>
-						<?php echo $this->Form->control('item_id',['empty' => "---Select---",'options'=>$items,'label'=>false,'style'=>'width: 100%;resize: none;','class'=>'form-control input-sm item','value'=>$invoice_row->item_id]); ?>
+						<?php echo $this->Form->control('item_id',['empty' => "---Select---",'options'=>$items,'label'=>false,'style'=>'width: 100%;resize: none;','class'=>'form-control input-sm item item_id','value'=>$invoice_row->item_id]); ?>
 					</td>
 					<td class="hide">
 						<?php echo $this->Form->control('hsn_code',['label'=>false,'placeholder'=>'HSN code','style'=>'width: 100%;','class'=>'form-control input-sm']); ?>
@@ -125,8 +125,7 @@ p{
 					</td>
 					<td style="text-align:right;">
 						<?php echo $this->Form->control('discount_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','class'=>'form-control discount input-sm','value'=>$invoice_row->discount_amount]); ?>
-						<?php echo $this->Form->control('dicountvalue',['label'=>false,'placeholder'=>'0.00','type'=>'hidden','style'=>'width: 100%;text-align: right;border: none;','class'=>'form-control discountvalue input-sm']); ?>
-					</td>
+										</td>
 					<td style="text-align:right;">
 						<?php echo $this->Form->control('taxable_value',['label'=>false,'placeholder'=>'Taxable Value','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm','value'=>$invoice_row->taxable_value]); ?>
 					</td>
@@ -150,6 +149,10 @@ p{
 					</td>
 					<td style="text-align:right;border-right: none;">
 						<?php echo $this->Form->control('total',['label'=>false,'placeholder'=>'Total','style'=>'width: 100%;text-align: right;','class'=>'revCalculate','class'=>'form-control input-sm rate','value'=>$invoice_row->total]); ?>
+					</td>
+					<td class="hide">
+					<?php echo $this->Form->control('dicountvalue',['label'=>false,'placeholder'=>'0.00','type'=>'hidden','style'=>'width: 100%;text-align: right;border: none;','class'=>'form-control discountvalue input-sm']); ?>
+	
 					</td>
 				</tr>
 				<?php } ?>				
@@ -240,6 +243,8 @@ $(document).ready(function() {
 		calculation();
 	}
 	
+	calculation();
+	
 	function rename_rows(){
 		var i=0;
 		$("#mainTbl tbody#mainTbody tr.mainTr").each(function(){
@@ -259,9 +264,11 @@ $(document).ready(function() {
 			$(this).find("td:eq(12) select").attr({name:"invoice_rows["+i+"][igst_ledger_id]", id:"invoice_rows-"+i+"-igst_ledger_id"});
 			$(this).find("td:eq(13) input").attr({name:"invoice_rows["+i+"][igst_amount]", id:"invoice_rows-"+i+"-igst_amount"});
 			$(this).find("td:eq(14) input").attr({name:"invoice_rows["+i+"][total]", id:"invoice_rows-"+i+"-total"});
+			$(this).find("td:eq(15) input").attr({name:"invoice_rows["+i+"][dicountvalue]", id:"invoice_rows-"+i+"-dicountvalue"});
 		i++;
 		});
 		calculation();
+		discountvalue();
 	}
 	
 	$('.calculate').live("keyup",function() {
@@ -348,23 +355,49 @@ $(document).ready(function() {
 			$('.dueamt').val(dueamount.toFixed(2));
 			
 	});	
+   
+	
+	
+	
+	//discount value add start
+	
+	function discountvalue(){
+		$("#mainTbl tbody#mainTbody tr.mainTr").each(function(){
+			var item_id = $(this).find("td:eq(1) select").val();
+			
+			var customer_id = $('.cstmr').val();
+			var obj = $(this);
+			var url="<?php echo $this->Url->build(['controller'=>'Invoices','action'=>'CustomerDiscount']);?>";
+				url=url+'/'+customer_id+'/'+item_id;
+				
+				$.ajax({ 
+						url:url,
+							
+						type:"GET",
+					}).done(function(response){
+						obj.find('td:eq(15) .discountvalue').val(response);
+						
+						calculation();
+					});
+		
+		});
+	}
 
-	
-	
+	//discount value add end
 	
 	
 	//change value on change quantity start
 	$(".change_qty").live('keyup',function(){ 
 		
-		$("#mainTbl tbody#mainTbody tr.mainTr").each(function(){  
-			var discount = $(this).closest('tr').find("td:eq(6) .discountvalue").val();
+		  
+			var discount = $(this).closest("tr").find('td:eq(15) .discountvalue').val();
+			
 			if(!discount){ discount=0; }
-			var quantity=parseFloat($(this).find("td:eq(3) input").val());
+			var quantity=parseFloat($(this).val());
 			if(!quantity){ quantity=0; }
 			var discount=discount*quantity;
-			
-			$(this).closest('tr').find("td:eq(6) .discount").val(discount.toFixed(2));
-		});
+			$(this).closest("tr").find("td:eq(6) .discount").val(discount.toFixed(2));
+		
 		calculation();
 
 	});
@@ -533,6 +566,7 @@ $(document).ready(function() {
 						}).done(function(response){
 							obj.closest('tr').find('td .discount').val(response);
 							obj.closest('tr').find('td .discountvalue').val(response);
+							
 							calculation();
 						});
 				}
@@ -557,6 +591,7 @@ $(document).ready(function() {
 			<td style="text-align:center;border-left: none;">
 				<span class="sr"></span>
 				<button type="button" class="btn btn-xs red viewThisResult" role="button"><i class="fa fa-times"></i></button>
+				
 			</td>
 			<td class="form-group">
 				<?php echo $this->Form->control('item_id',['empty'=>"----select----",'options'=>$items,'label'=>false,'style'=>'width: 100%;resize: none;','class'=>'form-control input-sm item ']); ?>
@@ -575,7 +610,6 @@ $(document).ready(function() {
 			</td>
 			<td style="text-align:right;" class="form-group">
 				<?php echo $this->Form->control('discount_amount',['label'=>false,'placeholder'=>'0.00','style'=>'width: 100%;text-align: right;border: none;','class'=>'form-control discount input-sm']); ?>
-				<?php echo $this->Form->control('dicountvalue',['label'=>false,'placeholder'=>'0.00','type'=>'hidden','style'=>'width: 100%;text-align: right;border: none;','class'=>'form-control discountvalue input-sm']); ?>
 			</td>
 			<td style="text-align:right;" class="form-group">
 				<?php echo $this->Form->control('taxable_value',['label'=>false,'placeholder'=>'Taxable Value','style'=>'width: 100%;text-align: right;border: none;','tabindex'=>'-1','class'=>'form-control input-sm']); ?>
@@ -600,6 +634,8 @@ $(document).ready(function() {
 			</td>
 			<td style="text-align:right;border-right: none;">
 				<?php echo $this->Form->control('total',['label'=>false,'placeholder'=>'Total','style'=>'width: 100%;text-align: right;','class'=>'revCalculate','class'=>'form-control  input-sm']); ?>
+			</td>
+			<td class="hide"><?php echo $this->Form->control('dicountvalue',['label'=>false,'placeholder'=>'0.00','type'=>'hidden','style'=>'width: 100%;text-align: right;border: none;','class'=>'form-control discountvalue input-sm']); ?>
 			</td>
 		</tr>
 	</tbody>

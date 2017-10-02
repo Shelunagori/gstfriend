@@ -42,10 +42,7 @@ p{
 						<tr>
 							<td style='width: 21%;padding-bottom: 5px;'><b> Last Invoice No : </b></td>
 							<td style='padding-bottom: 5px;'>&nbsp;:&nbsp;</td>
-							<td style='padding-bottom: 5px;'><b> <?php echo $invoice_no['invoice_no']; ?> </b></td>
-							<td style='width: 21%;padding-bottom: 5px;'><b> Invoice No : </b></td>
-							<td style='padding-bottom: 5px;'>&nbsp;:&nbsp;</td>
-							<td style='padding-bottom: 5px;'><?php echo $this->Form->control('invoice_no',['label'=>false,'class'=>'form-control input-sm ','type'=>'text','placeholder'=>'Enter Invoice no.']); ?></td>
+							<td style='padding-bottom: 5px;'><b> <?php echo $invoice_no; ?> </b></td>
 						</tr>
 						<tr>
 							<td><b>Invoice Date</b></td>

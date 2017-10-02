@@ -55,7 +55,7 @@
 			<td colspan="9" style="text-align:right">
 				<table class="table table-bordered table-hover">
 					<?php  foreach ($invoice->invoice_rows as $invoice_row):?>
-					<tr>
+					<tr style="border:1px solid">
 						<td style="width:60px;text-align:left">
 						<?php
 							if(!empty($invoice_row->item_id)) 
@@ -81,13 +81,13 @@
 						<td style="width:50px;text-align:left">
 						<?php
 								echo $invoice_row->rate; 
-								$totalvalue=$invoice_row->rate*$invoice_row->quantity;
+								$totalvalues=$invoice_row->rate*$invoice_row->quantity;
 						?>
 						</td>
 						<td style="width:50px;text-align:left">
 						<?php
 								echo $invoice_row->discount_amount; 
-								
+								$totalvalue=$totalvalues-$invoice_row->discount_amount;
 						?>
 						</td>
 						<td style="width:60px">
@@ -123,7 +123,7 @@
 						</td>
 						
 					</tr>
-					<?php   $basevalue=$totalvalue-$invoice_row->discount_amount-$invoice_row->cgst_amount-$invoice_row->sgst_amount;
+					<?php   $basevalue=$totalvalue-$invoice_row->cgst_amount-$invoice_row->sgst_amount;
 							$baseamount = $baseamount + $basevalue;
 							$totalamount = $totalamount + $totalvalue;
 							endforeach;  ?>

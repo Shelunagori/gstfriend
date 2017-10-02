@@ -147,7 +147,11 @@ class SuppliersController extends AppController
 					->where(['id' => $id,'company_id'=>$company_id])
 					->execute();
 			if ($this->Suppliers->save($supplier)) {
-				
+				$query = $this->Suppliers->Ledgers->query();
+					$query->update()
+						->set(['status' => 1])
+						->where(['supplier_id' => $id,'company_id'=>$company_id])
+						->execute();
 				$this->Flash->success(__('The supplier has been deleted.'));
 			} else {
 				$this->Flash->error(__('The supplier could not be deleted. Please, try again.'));

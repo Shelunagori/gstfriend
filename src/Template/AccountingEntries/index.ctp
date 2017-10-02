@@ -95,23 +95,23 @@
 							<th scope="col">Sr.</th>
 							<th scope="col">Trans. Date</th>
 							<th scope="col">Inv. No.</th>
-							<th scope="col">Customer</th>
-							<th scope="col">Gst No.</th>
-							<th scope="col">Item Name</th>
-							<th scope="col">HSN Code</th>
-							<th scope="col">Qty</th>
-							<th scope="col">Rate</th>
-							<th scope="col">Discount</th>
-							<th scope="col">CGST %</th>
-							<th scope="col">CGST Amount</th>
-							<th scope="col">SGST %</th>
-							<th scope="col">SGST Amount</th>
-							<th scope="col" class="hide">IGST %</th>
-							<th scope="col" class="hide">IGST Amount</th>
+							<th scope="col" >Customer</th>
+							<th scope="col" >Gst No.</th>
+							<th scope="col" style="width:23% ! important">Item Name</th>
+							<th scope="col" >HSN Code</th>
+							<th scope="col" >Qty</th>
+							<th scope="col" >Rate</th>
+							<th scope="col" style="width:6% ! important">Discount</th>
+							<th scope="col" >CGST %</th>
+							<th scope="col" >CGST Amount</th>
+							<th scope="col" >SGST %</th>
+							<th scope="col" >SGST Amount</th>
+							<th scope="col"  class="hide">IGST %</th>
+							<th scope="col"  class="hide">IGST Amount</th>
 							<th scope="col">Base Amount</th>							
 							<th scope="col">Total</th>
-							<th scope="col">Rec.Amt</th>
-							<th scope="col">Due Amt</th>
+							<th scope="col" >Rec.Amt</th>
+							<th scope="col" >Due Amt</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -123,21 +123,21 @@
 						?>
 						<tr class="main_tr">
 						<td style="width:5px;"><?php echo $i; ?></td>
-						<td style="width:5px;"><?= h($invoice->transaction_date) ?></td>
+						<td ><?= h($invoice->transaction_date) ?></td>
 						<td><?php echo $invoice->invoice_no; ?></td>
-						<td><?php if(!empty($invoice->customer_ledger_id)){
+						<td ><?php if(!empty($invoice->customer_ledger_id)){
 							echo $invoice->customer_ledgers->name;
 						}
 						else{
 							echo $invoice->customer_name;
 						}?></td>
-						<td><?php if(!empty($invoice->customer_ledger_id)){
+						<td ><?php if(!empty($invoice->customer_ledger_id)){
 							echo $invoice->customer_ledgers->customer->gstno;
 						}
 						else{
 							echo 'Not Gst No.';
 						}?></td>
-						<td colspan="9" style="text-align:right">
+						<td colspan="9" style="text-align:right;">
 							<table class="table table-bordered table-hover">
 								<?php 		
 								
@@ -145,7 +145,7 @@
 								
 								?>
 								<tr>
-									<td style="width:65px;text-align:left">
+									<td style="width:20% ! important;text-align:left">
 									<?php
 										if(!empty($invoice_row->item_id)) 
 										{
@@ -155,28 +155,28 @@
 											echo '0';
 										}?>
 									</td>
-									<td style="width:70px;text-align:left">
+									<td style="text-align:left">
 									<?php
 											echo $invoice_row->item->hsn_code; 
 									?>
 									</td>
-									<td style="width:30px;text-align:left">
+									<td style="text-align:left">
 									<?php
 											echo $invoice_row->quantity; 
 										$totalquantity=$totalquantity+$invoice_row->quantity; 
 									?>
 									</td>
-									<td style="width:30px;text-align:left">
+									<td style="text-align:left">
 									<?php
 											echo $invoice_row->rate; 
 									?>
 									</td>
-									<td style="width:30px;text-align:left">
+									<td style="text-align:left;width:8% ! important">
 									<?php
 											echo $invoice_row->discount_amount; 
 									?>
 									</td>
-									<td style="width:60px">
+									<td style="width:12% ! important;">
 									<?php
 										if(!empty($invoice_row->cgst)) 
 										{
@@ -186,13 +186,13 @@
 											echo '0';
 										}?>
 									</td>
-									<td style="text-align:right;width:90px">
+									<td style="text-align:right;width:10% ! important;">
 									<?php 
 										echo $invoice_row->cgst_amount;
 										$cgstamount_invoices = $cgstamount_invoices + $invoice_row->cgst_amount; 
 									?>
 									</td>
-									<td style="width:60px">
+									<td style="width:12% ! important;">
 									<?php if(!empty($invoice_row->sgst)) 
 										{
 											echo $invoice_row->sgst->name; 
@@ -201,13 +201,13 @@
 											echo '0';
 										} ?>
 									</td>
-									<td style="text-align:right;width:90px">
+									<td style="text-align:right;width:10% ! important;">
 									<?php 
 										echo $invoice_row->sgst_amount;
 										$sgstamount_invoices = $sgstamount_invoices + $invoice_row->sgst_amount;
 									?>
 									</td>
-									<td style="width:50px" class="hide">
+									<td  class="hide">
 									<?php 
 										if(!empty($invoice_row->igst)) 
 										{
@@ -218,7 +218,7 @@
 										}
 										?>
 									</td>
-									<td style="text-align:right;width:80px" class="hide"><?php echo $invoice_row->igst_amount; 
+									<td style="text-align:right;" class="hide"><?php echo $invoice_row->igst_amount; 
 									$igstamount_invoices = $igstamount_invoices + $invoice_row->igst_amount;
 										
 									?>
@@ -269,11 +269,11 @@
 						<th scope="col">Trans. Date</th>
 						<th scope="col">Invoice No.</th>
 						<th scope="col">Reference No.</th>
-						<th scope="col">Item Name</th>
+						<th scope="col" style="width:16% ! important">Item Name</th>
 						<th scope="col">HSN Code</th>
 						<th scope="col">Qty</th>
 						<th scope="col">Rate</th>
-						<th scope="col">Discount</th>
+						<th scope="col" style="width:6% ! important">Discount</th>
 						<th scope="col">CGST %</th>
 						<th scope="col">CGST Amount</th>
 						<th scope="col">SGST %</th>
@@ -303,7 +303,7 @@
 								
 								?>
 								<tr>
-									<td style="width:70px;text-align:left">
+									<td style="width:20% ! important;text-align:left">
 									<?php
 										if(!empty($purchase_voucher_row->item_id)) 
 										{
@@ -329,12 +329,12 @@
 											echo $purchase_voucher_row->rate_per; 
 									?>
 									</td>
-									<td style="width:30px;text-align:left">
+									<td style="width:8% ! important;text-align:left">
 									<?php
 											echo $purchase_voucher_row->discount_amount; 
 									?>
 									</td>
-									<td style="width:80px">
+									<td style="width:12% ! important;">
 									<?php
 										if(!empty($purchase_voucher_row->cgst_ledger)) 
 										{
@@ -344,13 +344,13 @@
 											echo '0';
 										}?>
 									</td>
-									<td style="text-align:right;width:80px">
+									<td style="text-align:right;width:10% ! important;">
 									<?php 
 										echo $purchase_voucher_row->cgst_amount;
 										$cgstamount_item = $cgstamount_item + $purchase_voucher_row->cgst_amount; 
 									?>
 									</td>
-									<td style="width:80px">
+									<td style="width:12% ! important;">
 									<?php if(!empty($purchase_voucher_row->sgst_ledger)) 
 										{
 											echo $purchase_voucher_row->sgst_ledger->name; 
@@ -359,7 +359,7 @@
 											echo '0';
 										} ?>
 									</td>
-									<td style="text-align:right;width:70px">
+									<td style="text-align:right;width:10% ! important;">
 									<?php 
 										echo $purchase_voucher_row->sgst_amount;
 										$sgstamount_item = $sgstamount_item + $purchase_voucher_row->sgst_amount;
@@ -420,6 +420,15 @@
 									<?php echo @$totalamount_invoices -  @$totalamount_item ?>
 								</td>
 							</tr>
+							<tr>
+								<td style="text-align:right"><b>Net Payable GST : </b></td>
+								<td style="text-align:right"> 
+									<?php
+									@$totalcgst=@$cgstamount_invoices + @$sgstamount_invoices;
+									@$totalsgst= @$cgstamount_item + @$sgstamount_item;
+									echo @$totalcgst - @$totalsgst ?>
+								</td>
+							</tr>
 						</table>
 					</div>
 				</div>
@@ -438,16 +447,20 @@ $(document).ready(function() {
 	//filter report item vise start
 		$(".itemfilter").on('click',function() {  
 			$('#maindiv').html('<i class="fa fa-refresh fa-spin fa-1x fa-fw"></i><b> Loading... </b>');
+			var from= $('.datefrom').val();
+			var end= $('.dateto').val();
 			var itemwise = document.getElementById('itemwise');	
 			var itemwise = itemwise.options[itemwise.selectedIndex].value;
 			
 			if(itemwise!='')
 			{ 
+				var from= $('.datefrom').val();
+				var end= $('.dateto').val();	
 				var itemwise = document.getElementById('itemwise');	
 				var itemwise = itemwise.options[itemwise.selectedIndex].value;
 				var obj=$(this);
 				var url="<?php echo $this->Url->build(['controller'=>'AccountingEntries','action'=>'itemfilter']);?>";
-				url=url+'/'+itemwise,
+				url=url+'/'+itemwise+'/'+from+'/'+end,
 				$.ajax({ 
 					url: url,
 					type: 'GET',

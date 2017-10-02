@@ -157,6 +157,11 @@ class CustomersController extends AppController
 					->execute();
 			if ($this->Customers->save($customer)) {
 				
+				$query = $this->Customers->Ledgers->query();
+					$query->update()
+						->set(['status' => 1])
+						->where(['customer_id' => $id,'company_id'=>$company_id])
+						->execute();
 				$this->Flash->success(__('The customer has been deleted.'));
 			} else {
 				$this->Flash->error(__('The customer could not be deleted. Please, try again.'));

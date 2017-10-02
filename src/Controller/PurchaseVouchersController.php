@@ -26,7 +26,7 @@ class PurchaseVouchersController extends AppController
 		$company_id=$this->Auth->User('company_id');
 		$purchaseVoucher = $this->PurchaseVouchers->find()
 		->contain(['Companies','SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers'],'PurchaseVoucherRows'=>['CgstLedger','SgstLedger','IgstLedger','Items']])
-		->where(['PurchaseVouchers.status' => 0,'PurchaseVouchers.company_id'=>$company_id])->order(['PurchaseVouchers.id'=>'DESC']);
+		->where(['PurchaseVouchers.status' => 0,'PurchaseVouchers.company_id'=>$company_id,'PurchaseVouchers.status' => 0])->order(['PurchaseVouchers.id'=>'DESC']);
 		$items = $this->PurchaseVouchers->Items->find('list')->where(['freezed'=>0,'company_id'=>$company_id,'status'=>0]);
         $purchaseVouchers = $this->paginate($purchaseVoucher);
 		$SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find('list')->where(['accounting_group_id'=>25,'freeze'=>0,'company_id'=>$company_id]);
@@ -46,7 +46,7 @@ class PurchaseVouchersController extends AppController
 		$company_id=$this->Auth->User('company_id');
 		$purchaseVoucher = $this->PurchaseVouchers->find()
 		->contain(['Companies','SupplierLedger'=>['Suppliers'],'PurchaseLedger'=>['Customers'],'PurchaseVoucherRows'=>['CgstLedger','SgstLedger','IgstLedger','Items']])
-		->where(['PurchaseVouchers.status' => 0,'PurchaseVouchers.company_id'=>$company_id])->order(['PurchaseVouchers.id'=>'DESC']);
+		->where(['PurchaseVouchers.status' => 0,'PurchaseVouchers.company_id'=>$company_id,'PurchaseVouchers.status' => 0])->order(['PurchaseVouchers.id'=>'DESC']);
 		$items = $this->PurchaseVouchers->Items->find('list')->where(['freezed'=>0,'company_id'=>$company_id,'status'=>0]);
         $purchaseVouchers = $this->paginate($purchaseVoucher);
 		$SupplierLedger = $this->PurchaseVouchers->SupplierLedger->find('list')->where(['accounting_group_id'=>25,'freeze'=>0,'company_id'=>$company_id]);
@@ -60,34 +60,42 @@ class PurchaseVouchersController extends AppController
 	
 	
 	//item wise filter start
-	function itemfilter($itemwise)
+	function itemfilter($itemwise,$startdatefrom,$startdateto)
 	{  
 			$company_id=$this->Auth->User('company_id');
+			$StartfilterDate = date('Y-m-d',strtotime($startdatefrom));
+			$EndfilterDate = date('Y-m-d', strtotime($startdateto));
 			$filterdatasitem = $this->PurchaseVouchers->find()
 			->contain(['SupplierLedger'=>['Suppliers'],'PurchaseVoucherRows'=>function($q) use($itemwise){   
 				return $q->where(['PurchaseVoucherRows.item_id'=>$itemwise])->contain(['CgstLedger','SgstLedger','IgstLedger','Items']);
 				}])
-					->where(['PurchaseVouchers.company_id'=>$company_id,'PurchaseVouchers.status' => 0])
+					->where(['PurchaseVouchers.company_id'=>$company_id,'PurchaseVouchers.status' => 0,'PurchaseVouchers.transaction_date BETWEEN :start AND :end'])
+					->bind(':start', $StartfilterDate, 'date')
+					->bind(':end',   $EndfilterDate, 'date')
 					->order(['PurchaseVouchers.id'=>'DESC'])
 					->toArray();
 			
 		//pr($filterdatasitem);   exit;	
-		$this->set(compact('filterdatasitem','itemwise'));
+		$this->set(compact('filterdatasitem','itemwise','startdatefrom','startdateto'));
 		
 	}
 	
 	//item wise filter end
 	
 	//generate excel item wise start
-	 public function itemWiseExcel($itemwise)
+	 public function itemWiseExcel($itemwise,$startdatefrom,$startdateto)
     {   
 		
 		$company_id=$this->Auth->User('company_id');
+		$StartfilterDate = date('Y-m-d',strtotime($startdatefrom));
+		$EndfilterDate = date('Y-m-d', strtotime($startdateto));
 		$filterdatasitem = $this->PurchaseVouchers->find()
 			->contain(['SupplierLedger'=>['Suppliers'],'PurchaseVoucherRows'=>function($q) use($itemwise){   
 				return $q->where(['PurchaseVoucherRows.item_id'=>$itemwise])->contain(['CgstLedger','SgstLedger','IgstLedger','Items']);
 				}])
-					->where(['PurchaseVouchers.company_id'=>$company_id,'PurchaseVouchers.status' => 0])
+					->where(['PurchaseVouchers.company_id'=>$company_id,'PurchaseVouchers.status' => 0,'PurchaseVouchers.transaction_date BETWEEN :start AND :end'])
+					->bind(':start', $StartfilterDate, 'date')
+					->bind(':end',   $EndfilterDate, 'date')
 					->order(['PurchaseVouchers.id'=>'DESC'])
 					->toArray();
 			
@@ -114,7 +122,7 @@ class PurchaseVouchersController extends AppController
 		$EndDate = date('Y-m-d', strtotime($dateto));
 
 		$reportdatas = $this->PurchaseVouchers->find()
-		->where(['PurchaseVouchers.transaction_date BETWEEN :start AND :end','company_id'=>$company_id])
+		->where(['PurchaseVouchers.transaction_date BETWEEN :start AND :end','company_id'=>$company_id,'status'=>0])
 		->bind(':start', $StartDate, 'date')
 		->bind(':end',   $EndDate, 'date')
 		->order(['PurchaseVouchers.id'=>'DESC']);
@@ -131,7 +139,7 @@ class PurchaseVouchersController extends AppController
 		$EndDate = date('Y-m-d', strtotime($dateto));
 
 		$reportdatas = $this->PurchaseVouchers->find()
-		->where(['PurchaseVouchers.transaction_date BETWEEN :start AND :end','company_id'=>$company_id])
+		->where(['PurchaseVouchers.transaction_date BETWEEN :start AND :end','company_id'=>$company_id,'status' => 0])
 		->bind(':start', $StartDate, 'date')
 		->bind(':end',   $EndDate, 'date')
 		->order(['PurchaseVouchers.id'=>'DESC']);

@@ -4,14 +4,14 @@
 	$time=date('h:i:a',time());
 
 	$filename="Credit_customer_date_wise".$date.'_'.$time;
-/* 
+
 	header ("Expires: 0");
 	header ("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
 	header ("Cache-Control: no-cache, must-revalidate");
 	header ("Pragma: no-cache");
 	header ("Content-type: application/vnd.ms-excel");
 	header ("Content-Disposition: attachment; filename=".$filename.".xls");
-	header ("Content-Description: Generated Report" ); */
+	header ("Content-Description: Generated Report" );
 
 ?>
 <table id="example1" class="table table-bordered  hidetable maindiv  main_table">

@@ -22,7 +22,7 @@
 				<center><h3>OUTPUT GST (Item wise)</h3> </center> <hr>
 				<table class=" table table-bordered table-hover" id='main_tbl' >
 					<thead >
-						<tr>
+						<tr style="border:1px solid">
 							<th scope="col">Sr.</th>
 							<th scope="col">Trans. Date</th>
 							<th scope="col">Inv. No.</th>
@@ -52,7 +52,7 @@
 								foreach ($accountingEntries['Invoices'] as $invoice): 
 								$i++;
 						?>
-						<tr class="main_tr">
+						<tr class="main_tr"  style="border:1px solid">
 						<td style="width:5px;"><?php echo $i; ?></td>
 						<td style="width:5px;"><?= h($invoice->transaction_date) ?></td>
 						<td><?php echo $invoice->invoice_no; ?></td>
@@ -75,7 +75,7 @@
 								foreach($invoice->invoice_rows as $invoice_row):
 								
 								?>
-								<tr>
+								<tr  style="border:1px solid">
 									<td style="width:65px;text-align:left">
 									<?php
 										if(!empty($invoice_row->item_id)) 
@@ -175,7 +175,7 @@
 						?>
 					</tbody>
 					<tfoot>
-						<tr>
+						<tr  style="border:1px solid">
 							<td colspan="7" style="text-align:right"><b>TOTAL Qty</b></td>
 							<td class="totalcgst" style="text-align:right"><b><?php echo $totalquantity; ?></b></td>
 							<td colspan="3"  style="text-align:right"><b>TOTAL Amount</b></td>
@@ -197,7 +197,7 @@
 				<center><h3>INPUT GST (Item wise) </h3> </center> <hr>
 				<table class="table table-bordered table-hover">
 				<thead>
-					<tr>
+					<tr  style="border:1px solid">
 						<th scope="col">Sr. No.</th>
 						<th scope="col">Trans. Date</th>
 						<th scope="col">Invoice No.</th>
@@ -223,7 +223,7 @@
 					foreach($accountingEntries['PurchaseVouchers'] as $purchaseVoucher):
 						$i++;
 				?>
-					<tr>
+					<tr  style="border:1px solid">
 						<td><?php echo $i; ?></td>
 						<td><?= h($purchaseVoucher->transaction_date) ?></td>
 						<td><?php echo $purchaseVoucher->voucher_no; ?></td>
@@ -235,7 +235,7 @@
 								foreach($purchaseVoucher->purchase_voucher_rows as $purchase_voucher_row):
 								
 								?>
-								<tr>
+								<tr  style="border:1px solid">
 									<td style="width:70px;text-align:left">
 									<?php
 										if(!empty($purchase_voucher_row->item_id)) 
@@ -328,7 +328,8 @@
 					?>
 				</tbody>
 					<tfoot>
-						<tr><td colspan="6" style="text-align:right"><b>TOTAL Qty</b></td>
+						<tr  style="border:1px solid">
+						        <td colspan="6" style="text-align:right"><b>TOTAL Qty</b></td>
 							<td class="totalcgst" style="text-align:right"><b><?php echo $totalquantity; ?></b></td>
 							<td colspan="3"  style="text-align:right"><b>TOTAL Amount</b></td>
 							<td class="totalcgst" style="text-align:right"><b><?php echo $cgstamount_item; ?></b></td>
@@ -344,7 +345,7 @@
 			<div class='col-md-12'>
 				<div class='col-md-offset-4 col-md-4'>
 					<table class='table'>
-						<tr>
+						<tr  style="border:1px solid">
 							<td style="text-align:right"><b>Net Payable : </b></td>
 							<td style="text-align:right"> 
 								<?php echo @$totalamount_invoices -  @$totalamount_item ?>
